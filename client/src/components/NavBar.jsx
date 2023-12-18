@@ -6,6 +6,7 @@ import {
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 
 const NavBar = () => {
   return (
@@ -62,19 +63,22 @@ const NavBar = () => {
         </Flex>
 
         <Flex gap={30}>
-          <Button
-            size={'lg'}
-            variant='ghost'
-            transition={"all 1s"}
-            boxShadow="xl"
-            colorScheme='teal'
-            _hover={{
-              bg: useColorModeValue("#f8f8f8"),
-            }}
-            color={"#1c1c1c"}
-          >
-            Login
-          </Button>
+         <Link as={RouterLink} to={'/auth'}>
+            <Button
+              size={'lg'}
+              variant='ghost'
+              transition={"all 1s"}
+              boxShadow="xl"
+              colorScheme='teal'
+              _hover={{
+                bg: useColorModeValue("#f8f8f8"),
+              }}
+              color={"#1c1c1c"}
+            >
+              Login
+            </Button>
+         </Link>
+         <Link as={RouterLink} to={'/auth'}>
           <Button
             transition={"all 1s"}
             bg={"#2970ff"}
@@ -86,6 +90,7 @@ const NavBar = () => {
           >
             Sign up
           </Button>
+         </Link>
         </Flex>
       </Flex>
     </>
