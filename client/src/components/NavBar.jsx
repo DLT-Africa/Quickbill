@@ -7,8 +7,11 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import authScreenAtom from "../atoms/authAtom";
+import { useSetRecoilState } from "recoil";
 
 const NavBar = () => {
+  const setAuthScreen = useSetRecoilState(authScreenAtom)
   return (
     <>
       <Flex
@@ -63,7 +66,7 @@ const NavBar = () => {
         </Flex>
 
         <Flex gap={30}>
-         <Link as={RouterLink} to={'/auth'}>
+         <Link as={RouterLink} to={'/auth'} onClick={() => setAuthScreen("login")}>
             <Button
               size={'lg'}
               variant='ghost'
@@ -78,7 +81,7 @@ const NavBar = () => {
               Login
             </Button>
          </Link>
-         <Link as={RouterLink} to={'/auth'}>
+         <Link as={RouterLink} to={'/auth'} onClick={() => setAuthScreen("signup")}>
           <Button
             transition={"all 1s"}
             bg={"#2970ff"}
