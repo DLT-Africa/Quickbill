@@ -1,4 +1,5 @@
 import { Box, Button, Flex, Image, Img, Text, useColorModeValue } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 const HeroSec = () => {
   return (
@@ -21,20 +22,22 @@ const HeroSec = () => {
             insure, and support your employees with Payoll's all-in-one people
             platform.
           </Text>
-          <Button
-            bg={"#2970FF"}
-            color={"#F6F6F6"}
-            size={'lg'}
-            h={'80px'}
-            w={330}
-            transition={'all 1s'}
-            fontSize={'xl'}
-            _hover={{
-              bg: useColorModeValue("#599cff"),
-            }}
-          >
-            Get started now
-          </Button>
+          <Link to={'/auth'}>
+            <Button
+              bg={"#2970FF"}
+              color={"#F6F6F6"}
+              size={'lg'}
+              h={'80px'}
+              w={330}
+              transition={'all 1s'}
+              fontSize={'xl'}
+              _hover={{
+                bg: useColorModeValue("#599cff"),
+              }}
+            >
+              Get started now
+            </Button>
+          </Link>
         </Flex>
 
         <Image src="/Moneyverse Business Balance.svg" />
