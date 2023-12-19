@@ -3,7 +3,6 @@ import {
   Box,
   Text,
   Button,
-  
   Table,
   Thead,
   Tr,
@@ -18,7 +17,7 @@ import {
   TableCaption,
 } from "@chakra-ui/react";
 import { GoDownload } from "react-icons/go";
-const Invoice = () => {
+const SentInvoice = () => {
   return (
     <>
       <Flex
@@ -37,7 +36,7 @@ const Invoice = () => {
         </Flex>
       </Flex>
 
-      <Box >
+      <Box>
         <Tabs variant="enclosed" float={"right"}>
           <TabList>
             <Tab>All (2)</Tab>
@@ -60,30 +59,33 @@ const Invoice = () => {
         </Tabs>
       </Box>
 
-      <Box p={4} float={'right'} w={'full'} pl={80}
-        pr={10}
-        pt={20}>
-            <Table variant="simple">
-            
-              <Thead >
-                <Tr p={4} borderBottom={'0.5px solid rgba(0, 0, 0, 0.60)'} borderTop={'0.5px solid rgba(0, 0, 0, 0.60)'} bg={'rgba(55, 73, 87, 0.1)'}>
-                  <Th color={'#1c1c1c'} fontSize={'xl'}>
-                  Creation Date
-                  </Th>
-                  <Th color={'#1c1c1c'} fontSize={'xl'}>
-                    Invoice No.
-                  </Th>
-                  <Th color={'#1c1c1c'} fontSize={'xl'}>
-                   Client
-                  </Th>
-                  <Th color={'#1c1c1c'} fontSize={'xl'}>
-                     Amount
-                  </Th>
-                  <Th color={'#1c1c1c'} 
-                  fontSize={'xl'}>Status</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
+      <Box p={4} float={"right"} w={"full"} pl={80} pr={10} pt={20}>
+        <Table variant="simple">
+          <Thead>
+            <Tr
+              p={4}
+              borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
+              borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
+              bg={"rgba(55, 73, 87, 0.1)"}
+            >
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Creation Date
+              </Th>
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Invoice No.
+              </Th>
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Client
+              </Th>
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Amount
+              </Th>
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Status
+              </Th>
+            </Tr>
+          </Thead>
+          <Tbody>
             <Tr>
               <Td>16/12/2023</Td>
               <Td> 001</Td>
@@ -100,11 +102,10 @@ const Invoice = () => {
               <Td color={"red"}> Rejected</Td>
             </Tr>
           </Tbody>
-            </Table>
-          </Box>
-      
+        </Table>
+      </Box>
     </>
   );
 };
 
-export default Invoice;
+export default SentInvoice;

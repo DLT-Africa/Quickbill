@@ -1,11 +1,9 @@
-import { Box } from "@chakra-ui/react";
-
-import Invoice from "../components/Invoice";
+import SentInvoice from "../components/SentInvoice";
 
 const SentInvoices = () => {
   return (
     <>
-      <Invoice />
+      <SentInvoice />
     </>
   );
 };
