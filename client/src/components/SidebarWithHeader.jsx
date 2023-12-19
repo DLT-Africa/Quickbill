@@ -136,7 +136,17 @@ const SidebarContent = ({ onClose, ...rest }) => {
 						<AccordionIcon />
 					</AccordionButton>
 					<AccordionPanel pb={4}>
-						<NavItem pl="12" py="2">
+						<NavItem
+						
+						as={NavLink}
+						to={"/bills"}
+						// _active={{ bg: "white" }}
+						style={({ isActive }) => ({
+							background: isActive ? "#0BC5EA" : "",
+							color: isActive ? "white" : "",
+						})}
+						pl="12" py="2">
+
 							Bills
 						</NavItem>
 						<NavItem pl="12" py="2">
@@ -146,7 +156,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
 				</AccordionItem>
 			</Accordion>
 
-			<NavItem icon={AiFillGift}>InboxMe</NavItem>
+			<NavItem 
+				as={NavLink}
+				to={"/invoice-me"}
+				// _active={{ bg: "white" }}
+				style={({ isActive }) => ({
+					background: isActive ? "#0BC5EA" : "",
+					color: isActive ? "white" : "",
+				})}
+			icon={AiFillGift}>InvoiceMe</NavItem>
+
 			<NavItem icon={BsGearFill}>Employees</NavItem>
 		</Box>
 	);
