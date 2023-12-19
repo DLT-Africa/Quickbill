@@ -28,7 +28,7 @@ export default function SplitScreen() {
     const setAuthScreen = useSetRecoilState(authScreenAtom);
    
   return (
-    <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
+    <Stack minH={"100vh"} direction={{ base: "column", md: "row" }} className="loginSignup">
       <Flex flexDir="column" w={"450px"}>
         <Link>
           <Box>
