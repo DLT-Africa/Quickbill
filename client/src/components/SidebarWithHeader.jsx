@@ -146,6 +146,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 							color: isActive ? "white" : "",
 						})}
 						pl="12" py="2">
+
 							Bills
 						</NavItem>
 						<NavItem pl="12" py="2">
@@ -164,6 +165,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 					color: isActive ? "white" : "",
 				})}
 			icon={AiFillGift}>InvoiceMe</NavItem>
+
 			<NavItem icon={BsGearFill}>Employees</NavItem>
 		</Box>
 	);
