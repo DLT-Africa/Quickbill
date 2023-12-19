@@ -17,11 +17,11 @@ import {
   TableCaption,
 } from "@chakra-ui/react";
 import { GoDownload } from "react-icons/go";
+import SidebarWithHeader from "./SidebarWithHeader";
 const SentInvoice = () => {
   return (
-    <>
+    <SidebarWithHeader>
       <Flex
-        // bg={"#EEEEEE"}
         justifyContent={"space-between"}
         pl={80}
         pr={20}
@@ -104,7 +104,7 @@ const SentInvoice = () => {
           </Tbody>
         </Table>
       </Box>
-    </>
+    </SidebarWithHeader>
   );
 };
 
