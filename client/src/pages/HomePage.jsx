@@ -3,7 +3,7 @@ import HeroSec from '../Components/HeroSec'
 import { Box } from '@chakra-ui/react'
 import PayrollCon from '../Components/PayrollCon'
 import Container from '../Components/Container'
-// import Faq from '../Components/Faq'
+import Faq from '../Components/Faq'
 import Footer from '../Components/Footer'
 
 const HomePage = () => {
