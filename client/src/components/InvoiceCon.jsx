@@ -21,26 +21,29 @@ const InvoiceCon = () => {
   return (
     <>
       <Flex
-        justifyContent={"space-between"}
-        mr={10}
-        gap={10}
-        mt={10}
+        // justifyContent={"space-between"}
+        mx={10}
+        // gap={50}
+        mt={30}
         borderRadius={10}
-        mb={10}
+        // mb={10}
+        className="bill"
+        // maxH={'100vh'}
       >
-        <Flex h={"full"}>
+        {/* <Flex h={"full"}>
           <Image src="/expenses.svg" />
-        </Flex>
+        </Flex> */}
         <Flex
           bg={"#fff"}
-          justifyContent={"space-between"}
+          // justifyContent={"space-between"}
           alignItems={"center"}
           flexDir={"column"}
           px={20}
           py={18}
+          gap={100}
           borderRadius={10}
           boxShadow={"1px -1px 6px 2px rgba(0,0,0,0.75)"}
-          h={700}
+          // h={700}
         >
           <Flex
             justifyContent={"center"}

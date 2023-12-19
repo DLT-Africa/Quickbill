@@ -34,10 +34,10 @@ const BillCon = () => {
   ];
 
   return (
-    <Flex mt={10}>
-      <Flex h={"full"}>
+    <Flex pt={10} className="bill" minH={'100vh'}>
+      {/* <Flex h={"full"}>
         <Image src="/expenses.svg" />
-      </Flex>
+      </Flex> */}
 
       <Box pl={20} w={"full"} pr={70}>
         <Flex justifyContent={"space-between"} alignItems={"center"}>
