@@ -19,7 +19,7 @@ const AboutUsTeam = () => {
         <SimpleGrid spacing={10} templateColumns='repeat(3, minmax(50px, 1fr))' >
   <Card width={250} height={400} px={3} boxShadow={'lg'}>
     <CardHeader>
-      <Image src="/Ola.jpg" width={250} height={250} />
+      <Image src="/Ola.jpg" width={200} height={200} />
     </CardHeader>
    
       <Text fontWeight={600} mt={0}  textAlign={'center'} textColor={'#2970FF'}>Quadir Adesoye</Text>
@@ -30,7 +30,7 @@ const AboutUsTeam = () => {
 
   <Card width={250} height={400} px={3} boxShadow={'lg'}>
     <CardHeader>
-      <Image src="/Rocco.jpg" width={250} height={250} />
+      <Image src="/Rocco.jpg" width={200} height={200} />
     </CardHeader>
    
       <Text fontWeight={600} mt={0}  textAlign={'center'} textColor={'#2970FF'}>Yusuf Roqib</Text>
@@ -41,7 +41,7 @@ const AboutUsTeam = () => {
 
   <Card width={250} height={400} px={3} boxShadow={'lg'}>
     <CardHeader>
-      <Image src="/kenny.jpg" width={250} height={250} />
+      <Image src="/kenny.jpg" width={200} height={200} />
     </CardHeader>
    
       <Text fontWeight={600} mt={0}  textAlign={'center'} textColor={'#2970FF'}>Abiodun Kehinde</Text>
@@ -52,7 +52,7 @@ const AboutUsTeam = () => {
 
   <Card width={250} height={400} px={3} boxShadow={'lg'}>
     <CardHeader>
-      <Image src="/Muhammed.jpg" width={250} height={250} />
+      <Image src="/Muhammed.jpg" width={200} height={200} />
     </CardHeader>
    
       <Text fontWeight={600} mt={0}  textAlign={'center'} textColor={'#2970FF'}>Muhammad Musa</Text>
@@ -63,7 +63,7 @@ const AboutUsTeam = () => {
 
   <Card width={250} height={400} px={3} boxShadow={'lg'}>
     <CardHeader>
-      <Image src="/Mua'z.jpg" width={250} height={250} />
+      <Image src="/Mua'z.jpg" width={200} height={200} />
     </CardHeader>
    
       <Text fontWeight={600} mt={0}  textAlign={'center'} textColor={'#2970FF'}>Mua'z Alimi</Text>
@@ -74,7 +74,7 @@ const AboutUsTeam = () => {
 
   <Card width={250} height={400} px={3} boxShadow={'lg'}>
     <CardHeader>
-      <Image src="/Nasiudeen.jpg" width={250} height={250} />
+      <Image src="/Nasiudeen.jpg" width={200} height={200} />
     </CardHeader>
    
       <Text fontWeight={600} mt={0}  textAlign={'center'} textColor={'#2970FF'}>Nasiudeen Jimoh</Text>
@@ -89,7 +89,7 @@ const AboutUsTeam = () => {
 
   <Card width={250} height={400} px={3} boxShadow={'lg'}>
     <CardHeader>
-      <Image src="/pupsyAlia.jpg" width={250} height={250} />
+      <Image src="/pupsyAlia.jpg" width={200} height={200} />
     </CardHeader>
    
       <Text fontWeight={600} mt={0}  textAlign={'center'} textColor={'#2970FF'}>Jimoh Tajudeen</Text>
@@ -101,7 +101,7 @@ const AboutUsTeam = () => {
 
   <Card width={250} height={400} px={3} boxShadow={'lg'}> 
     <CardHeader>
-      <Image src="/supreme.jpg" width={250} height={250} />
+      <Image src="/supreme.jpg" width={200} height={200} />
     </CardHeader>
    
       <Text fontWeight={600} mt={0}  textAlign={'center'} textColor={'#2970FF'}>Lamidi Olamide</Text>
