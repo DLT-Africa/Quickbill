@@ -26,17 +26,11 @@ const Faq = () => {
                 <>
                   <h2>
                     <AccordionButton>
-                      <Box
-                        flex="1"
-                        textAlign="left"
-                        fontSize={"2xl"}
-                        pr={15}
-                        
-                      >
-                       <Text fontWeight={500}>
+                      <Box flex="1" textAlign="left" fontSize={"2xl"} pr={15}>
+                        <Text fontWeight={500}>
                           How can I set up automated reminders for overdue
                           payments and pending approvals?
-                       </Text>
+                        </Text>
                       </Box>
                       {isExpanded ? (
                         <Box borderRadius={"full"} bg={"#2970FF"}>
@@ -49,10 +43,10 @@ const Faq = () => {
                       )}
                     </AccordionButton>
                   </h2>
-                  <AccordionPanel pb={4} >
-                    <Text as={'p'} fontSize={"xl"}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                      do eiusmod tempor incididunt ut labore et dolore magna
+                  <AccordionPanel pb={4}>
+                    <Text as={"p"} fontSize={"xl"}>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
                       aliqua. Ut enim ad minim veniam, quis nostrud exercitation
                       ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     </Text>
