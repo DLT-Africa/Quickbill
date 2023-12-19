@@ -51,12 +51,13 @@ const Footer = () => {
         as={Stack}
         maxW={'full'}
         py={4}
+       px={20}
         direction={{ base: 'column', md: 'row' }}
         spacing={4}
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }} bg={'#C6D9FE'}>
         <Text> © Copyright 2023. All Rights Reserved.</Text>
-        <Stack direction={'row'} spacing={6}>
+        <Stack direction={'row'} spacing={6} >
           <Box>
           Disclaimer
           </Box>
