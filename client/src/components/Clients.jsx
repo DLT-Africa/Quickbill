@@ -37,14 +37,27 @@ const Clients = () => {
       >
         <Table>
           <Thead>
-            <Tr>
-              <Th>Client Name</Th>
-              <Th>Email Address</Th>
-              <Th>Edit</Th>
-              <Th>Delete</Th>
+            <Tr
+              p={4}
+              borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
+              borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
+              bg={"rgba(55, 73, 87, 0.1)"}
+            >
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Creation Date
+              </Th>
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Email
+              </Th>
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Edit
+              </Th>
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Delete
+              </Th>
             </Tr>
           </Thead>
-          <Tbody fontSize={20}>
+          <Tbody fontSize={"17"} >
             <Tr>
               <Td>Jimoh Kanas</Td>
               <Td> jimohkanas91@gmail.com</Td>
@@ -59,12 +72,10 @@ const Clients = () => {
               <Td>Musa Muhammed</Td>
               <Td> muha_smallkay@gmail.com</Td>
               <Td>
-                
-                <FaEdit  cursor={"pointer"}/>
+                <FaEdit cursor={"pointer"} />
               </Td>
               <Td>
-               
-                <MdDelete cursor={"pointer"} />
+                <MdDelete cursor={"pointer"}  />
               </Td>
             </Tr>
           </Tbody>

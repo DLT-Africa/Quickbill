@@ -3,16 +3,19 @@ import {
   Box,
   Text,
   Button,
-  Divider,
-  Stack,
-  TableContainer,
+  
   Table,
   Thead,
   Tr,
   Th,
   Tbody,
   Td,
- 
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+  Tabs,
+  TableCaption,
 } from "@chakra-ui/react";
 import { GoDownload } from "react-icons/go";
 const Invoice = () => {
@@ -34,61 +37,53 @@ const Invoice = () => {
         </Flex>
       </Flex>
 
-      <Flex>
-        <Stack
-          border="2px"
-          borderColor="black"
-          direction={"row"}
-          h="50"
-          gap={5}
-          mt={10}
-          borderTopRightRadius="10px"
-          borderTopLeftRadius="10px"
-          pos={"relative"}
-          alignItems={"flex-start"}
-          justifyContent={"flex-start"}
-          fontSize={20}
-          ml={1057}
-          // width={10}
-          pl={5}
-          pt={2}
-          pr={3}
-        >
-         
-          <Text>All</Text>
-          <Divider orientation="vertical" />
-          <Text>Paid</Text>
-          <Divider orientation="vertical" />
-          <Text>Awaiting Payment</Text>
-          <Divider orientation="vertical" />
-          <Text>Rejected</Text>
-          <Divider orientation="vertical" />
-          <Text>Overdue</Text> 
-           {/* <Divider orientation="vertical" /> */}
-        </Stack>
-      </Flex>
+      <Box >
+        <Tabs variant="enclosed" float={"right"}>
+          <TabList>
+            <Tab>All (2)</Tab>
+            <Tab>Paid (1)</Tab>
+            <Tab>Awaiting Payment (0)</Tab>
+            <Tab>Rejected (1)</Tab>
+            <Tab>Overdue (0)</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel></TabPanel>
 
-      <Stack border={"1px solid black"} ml={400} mr={20} />
+            <TabPanel></TabPanel>
 
-      <TableContainer
-        pl={80}
-        pr={20}
-        pt={20}
-        fontWeight={500}
-        top={11}
-        left={27}
-      >
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>Creation Date</Th>
-              <Th>InvoiceNumber</Th>
-              <Th>Client</Th>
-              <Th>Amount</Th>
-              <Th>Status</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
+            <TabPanel></TabPanel>
+
+            <TabPanel></TabPanel>
+
+            <TabPanel></TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Box>
+
+      <Box p={4} float={'right'} w={'full'} pl={80}
+        pr={10}
+        pt={20}>
+            <Table variant="simple">
+            
+              <Thead >
+                <Tr p={4} borderBottom={'0.5px solid rgba(0, 0, 0, 0.60)'} borderTop={'0.5px solid rgba(0, 0, 0, 0.60)'} bg={'rgba(55, 73, 87, 0.1)'}>
+                  <Th color={'#1c1c1c'} fontSize={'xl'}>
+                  Creation Date
+                  </Th>
+                  <Th color={'#1c1c1c'} fontSize={'xl'}>
+                    Invoice No.
+                  </Th>
+                  <Th color={'#1c1c1c'} fontSize={'xl'}>
+                   Client
+                  </Th>
+                  <Th color={'#1c1c1c'} fontSize={'xl'}>
+                     Amount
+                  </Th>
+                  <Th color={'#1c1c1c'} 
+                  fontSize={'xl'}>Status</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
             <Tr>
               <Td>16/12/2023</Td>
               <Td> 001</Td>
@@ -105,8 +100,9 @@ const Invoice = () => {
               <Td color={"red"}> Rejected</Td>
             </Tr>
           </Tbody>
-        </Table>
-      </TableContainer>
+            </Table>
+          </Box>
+      
     </>
   );
 };
