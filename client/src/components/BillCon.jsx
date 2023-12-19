@@ -34,7 +34,7 @@ const BillCon = () => {
   ];
 
   return (
-    <Flex pt={10} className="bill" minH={'100vh'}>
+    <Flex pt={10} className="bill" >
       {/* <Flex h={"full"}>
         <Image src="/expenses.svg" />
       </Flex> */}
