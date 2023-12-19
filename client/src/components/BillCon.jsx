@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Image,
   Tab,
@@ -11,9 +10,6 @@ import {
   Table,
   TableCaption,
   Tabs,
-  Tag,
-  TagLabel,
-  TagLeftIcon,
   Tbody,
   Td,
   Text,
