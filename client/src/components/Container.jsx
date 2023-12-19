@@ -27,7 +27,7 @@ const Container = () => {
             bg={"#fff"}
             boxShadow={"0px 4px 4px 0px rgba(28, 28, 28, 0.25);"}
           >
-          <Text fontSize={'3xl'} fontWeight={600}>Accounts <span>Payable</span></Text>
+          <Text fontSize={'3xl'} fontWeight={600}>Accounts <span className="landingPageSpan">Payable</span></Text>
           <Image src="/payable.svg" alt="Payable" />
 
           <Text fontSize={'lg'} textAlign={'center'} fontWeight={400}>Corem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</Text>
@@ -43,7 +43,7 @@ const Container = () => {
            bg={"#fff"}
            boxShadow={"0px 4px 4px 0px rgba(28, 28, 28, 0.25);"}
           >
-          <Text fontSize={'3xl'} fontWeight={600}>Send <span>invoices</span></Text>
+          <Text fontSize={'3xl'} fontWeight={600}>Send <span className="landingPageSpan">invoices</span></Text>
           <Image src="/invoices.svg" alt="Send invoises" />
 
           <Text fontSize={'lg'} textAlign={'center'} fontWeight={400}>Worem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</Text>

@@ -15,7 +15,7 @@ const HeroSec = () => {
       >
         <Flex flexDir={"column"} w={586} gap={5}>
           <Text fontSize={'5xl'} fontWeight={600}>
-            Set your business up with modern <span>payroll</span>, and more
+            Set your business up with modern <span className="landingPageSpan">payroll</span>, and more
           </Text>
           <Text fontSize={'2xl'} fontWeight={400} color={"#434E58"}>
             Behind every successful business is a thriving team. Hire, pay,
