@@ -27,7 +27,7 @@ const NavBar = () => {
       >
         <Heading size={'md'}>
           <Link href="/">
-            <Image src="/short logo 2.png" borderRadius={8} />
+            <Image  bg={"#fff"} src="/short logo 2.png" borderRadius={8} />
           </Link>
         </Heading>
         <Flex
@@ -37,6 +37,7 @@ const NavBar = () => {
           color={"#1c1c1c"}
           fontSize={'xl'}
           fontWeight={400}
+          bg={'#fff'}
         >
           <Link
             _active={{
@@ -65,7 +66,7 @@ const NavBar = () => {
           </Link>
         </Flex>
 
-        <Flex gap={30}>
+        <Flex gap={30} bg={'#fff'}>
          <Link as={RouterLink} to={'/auth'} onClick={() => setAuthScreen("login")}>
             <Button
               size={'lg'}
