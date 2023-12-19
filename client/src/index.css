@@ -6,6 +6,7 @@
   box-sizing: border-box;
   padding: 0;
   text-decoration: none;
+
 }
 
 .landingPageSpan {
@@ -21,7 +22,7 @@
 a.activeSideNav {
   background: cyan;
   color: rgb(68, 0, 255);
-}
+
 
 
 .bill {
