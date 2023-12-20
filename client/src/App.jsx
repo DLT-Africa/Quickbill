@@ -14,10 +14,10 @@ function App() {
 				<Route path="/" element={<HomePage />} />
 				<Route path="/invoice-me" element={<InvoiceMe />} />
 				<Route path="/about" element={<AboutPage />} />
-				<Route path="/sentinvoice" element={<SentInvoice />} />
+				<Route path="/dashboard" element={<Dashboard />} />
+				<Route path="/sent-invoices" element={<SentInvoice />} />
 				<Route path="/clients" element={<Clients />} />
 				<Route path="/bills" element={<BillPage />} />
-				<Route path="/dashboard" element={<Dashboard />} />
 			</Routes>
 		</>
 	);

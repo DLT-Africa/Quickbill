@@ -42,8 +42,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
       bg={"#ECF1F6"}
       boxShadow="1px 0px 2px 1px rgba(0,0,0,0.6)"
       zIndex={99}
-      // borderRight="1px"
-      // borderRightColor={useColorModeValue("gray.200", "gray.700")}
       w={{ base: "full", md: 60 }}
       pos="fixed"
       h="full"
@@ -60,17 +58,15 @@ const SidebarContent = ({ onClose, ...rest }) => {
       <NavItem
         as={NavLink}
         to={"/dashboard"}
-        // _active={{ bg: "white" }}
         style={({ isActive }) => ({
-          background: isActive ? "#0BC5EA" : "",
-          color: isActive ? "white" : "",
+          color: isActive ? "rgb(41, 112, 255)" : "",
         })}
         icon={MdHome}
       >
         Dashboard
       </NavItem>
 
-      <Accordion allowMultiple>
+      <Accordion allowToggle outline={'hidden'}>
         <AccordionItem>
           <AccordionButton>
             <Flex
@@ -90,17 +86,19 @@ const SidebarContent = ({ onClose, ...rest }) => {
             <NavItem
               as={NavLink}
               to={"/"}
-              // _active={{ bg: "white" }}
               style={({ isActive }) => ({
-                background: isActive ? "#0BC5EA" : "",
-                color: isActive ? "white" : "",
+                color: isActive ? "rgb(41, 112, 255)" : "",
               })}
               pl="12"
               py="2"
             >
               Create Invoice
             </NavItem>
-            <NavItem pl="12" py="2">
+            <NavItem   as={NavLink}
+        to={"/sent-invoices"}
+        style={({ isActive }) => ({
+          color: isActive ? "rgb(41, 112, 255)" : "",
+        })} pl="12" py="2">
               Sent Invoices
             </NavItem>
             <NavItem pl="12" py="2">
@@ -130,8 +128,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
               to={"/bills"}
               // _active={{ bg: "white" }}
               style={({ isActive }) => ({
-                background: isActive ? "#0BC5EA" : "",
-                color: isActive ? "white" : "",
+                // background: isActive ? "#0BC5EA" : "",
+                color: isActive ? "rgb(41, 112, 255)" : "",
               })}
               pl="12"
               py="2"
@@ -150,8 +148,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
         to={"/invoice-me"}
         // _active={{ bg: "white" }}
         style={({ isActive }) => ({
-          background: isActive ? "#0BC5EA" : "",
-          color: isActive ? "white" : "",
+          // background: isActive ? "#0BC5EA" : "",
+          color: isActive ? "rgb(41, 112, 255)" : "",
         })}
         icon={AiFillGift}
       >
