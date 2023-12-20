@@ -22,8 +22,8 @@ const AboutUsTeam = () => {
       <Image src="/Ola.jpg" width={200} height={200} />
     </CardHeader>
    
-      <Text fontWeight={600} mt={0}  textAlign={'center'} textColor={'#2970FF'}>Quadir Adesoye</Text>
-      <Text textAlign={'center'} fontWeight={10}>Front-End dev.</Text>
+      <Text fontWeight={600} mt={0}  textAlign={'center'} textColor={'#2970FF'}>Qadir Adesoye</Text>
+      <Text textAlign={'center'} fontWeight={10}>Full-stack dev.</Text>
       <Text textAlign={'center'}>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</Text>
 
   </Card>

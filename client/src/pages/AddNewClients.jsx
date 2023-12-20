@@ -1,13 +1,15 @@
-import React from 'react'
-import Clients from '../components/Clients'
+import React from "react";
+import Clients from "../components/Clients";
+import SidebarWithHeader from "../components/SidebarWithHeader";
 
 const AddNewClients = () => {
   return (
     <>
-        <Clients/>
+      <SidebarWithHeader>
+        <Clients />
+      </SidebarWithHeader>
     </>
-  )
-}
+  );
+};
 
-export default AddNewClients
-
+export default AddNewClients;
