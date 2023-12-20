@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import AboutPage from "./pages/AboutPage";
 
 function App() {
+
   return (
     <>
       <Routes>
