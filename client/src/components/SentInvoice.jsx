@@ -15,6 +15,7 @@ import {
   TabPanel,
   Tabs,
   TableCaption,
+  Container,
 } from "@chakra-ui/react";
 import { GoDownload } from "react-icons/go";
 import SidebarWithHeader from "./SidebarWithHeader";
@@ -23,16 +24,23 @@ const SentInvoice = () => {
     <SidebarWithHeader>
       <Flex
         justifyContent={"space-between"}
-        pl={80}
-        pr={20}
-        pt={20}
+        // pl={80}
+        // pr={20}
+        // pt={20}
+        flexDir={"row"}
       >
-        <Text as={"p"} fontSize={36} fontWeight={600} color={"black"}>
+        <Text as={"p"} fontSize={'4xl'} fontWeight={600} color={"black"}>
           Sent invoices
         </Text>
-        <Flex>
+        <Flex gap={"5"}>
           <Button bg={"#2970FF"}>Create invoice</Button>
-          <GoDownload fontSize={36} fontWeight={400} color={"black"} />
+          <GoDownload
+            // size={'md'}
+            fontSize={36}
+            // fontWeight={400}
+            color={"black"}
+            cursor={"pointer"}
+          />
         </Flex>
       </Flex>
 
@@ -59,8 +67,12 @@ const SentInvoice = () => {
         </Tabs>
       </Box>
 
-      <Box p={4} float={"right"} w={"full"} pl={80} pr={10} pt={20}>
-        <Table variant="simple">
+      <Box
+        p={4}
+        display={["none", "none", "none", "flex", "none", "block"]}
+        mt={10}
+      >
+        <Table variant="simple" size={"lg"}>
           <Thead>
             <Tr
               p={4}
@@ -91,7 +103,7 @@ const SentInvoice = () => {
               <Td> 001</Td>
               <Td> Jimoh Kanas</Td>
               <Td> NGN 10,000</Td>
-              <Td color={"green"}> Paid</Td>
+              <Td color={"green"} fontWeight={700}> Paid</Td>
             </Tr>
 
             <Tr>
@@ -99,7 +111,7 @@ const SentInvoice = () => {
               <Td> 002</Td>
               <Td>Musa Muhammed</Td>
               <Td> NGN 5,000</Td>
-              <Td color={"red"}> Rejected</Td>
+              <Td color={"red"} fontWeight={700}> Rejected</Td>
             </Tr>
           </Tbody>
         </Table>

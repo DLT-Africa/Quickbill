@@ -34,6 +34,7 @@ import { ImArrowDownLeft2, ImArrowUpRight2 } from "react-icons/im";
 import { MdHome } from "react-icons/md";
 
 const SidebarContent = ({ onClose, ...rest }) => {
+
   const integrations = useDisclosure();
 
   return (
