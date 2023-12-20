@@ -7,11 +7,11 @@ import Clients from "./components/Clients";
 import SentInvoice from "./components/SentInvoice";
 import InvoiceMe from "./pages/InvoiceMe";
 import BillPage from "./pages/BillPage";
-
 import Dashboard from "./pages/Dashboard";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import CreateInvoicePage from "./pages/CreateInvoicePage";
+import EmployeesPage from "./pages/EmployeesPage"
 
 function App() {
 
@@ -22,15 +22,15 @@ function App() {
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/login" component={<LoginCard />} />
         <Route path="/signup" component={<SignUpCard />} />
-        <Route path="/invoice-me" element={<InvoiceMe />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/invoice-me" element={<InvoiceMe />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path='/sent-invoices' element={<SentInvoice />} />
-        <Route path='/clients' element={<Clients />} />
-        <Route path='/bills' element={<BillPage />} />
-          				<Route path="/contact" element={<ContactPage />} />
         <Route path="/create-invoice" element={<CreateInvoicePage />} />
-
+        <Route path='/sent-invoices' element={<SentInvoice />} />
+        <Route path='/bills' element={<BillPage />} />
+        <Route path='/clients' element={<Clients />} />
+        <Route path='/employees' element={<EmployeesPage />} />
       </Routes>
     </>
   );
