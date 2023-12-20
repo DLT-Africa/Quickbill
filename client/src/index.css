@@ -6,7 +6,6 @@
   box-sizing: border-box;
   padding: 0;
   text-decoration: none;
-  color: #1c1c1c;
 }
 
 .landingPageSpan {
@@ -14,18 +13,12 @@
   color: #2970ff;
 }
 
-/* a {
-  color: inherit;
-  text-decoration: none;
-} */
-
-a.activeSideNav {
-  background: cyan;
-  color: rgb(68, 0, 255);
-}
-
 
 .bill {
   background-color: #eee;
   color: #1c1c1c;
 }
+
+/* .loginSignup {
+  color: #1c1c1c;
+} */
