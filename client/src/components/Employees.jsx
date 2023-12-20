@@ -25,11 +25,10 @@ const Employees = () => {
       <Flex
         flexDirection={"column"}
         justifyContent={"center"}
-        px={20}
         gap={4}
         alignItems={"center"}
-        h={"100vh"}
-        bg={"#EEE"}
+        m={10}
+        // h={"100vh"}
       >
         <Flex alignItems={"center"} justifyContent={"space-between"} w={"full"}>
           <Text color={"#1c1c1c"} fontSize={"5xl"} fontWeight={500}>
