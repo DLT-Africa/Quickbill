@@ -127,7 +127,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
           <AccordionPanel pb={4}>
             <NavItem
               as={NavLink}
-              to={"/bill"}
+              to={"/bills"}
               // _active={{ bg: "white" }}
               style={({ isActive }) => ({
                 background: isActive ? "#0BC5EA" : "",

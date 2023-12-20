@@ -94,7 +94,7 @@ const BillCon = () => {
 
           <Box p={4} float={'right'} w={'full'}>
             <Table variant="simple">
-              {/* <TableCaption>Bills</TableCaption> */}
+              <TableCaption>Bills</TableCaption>
               <Thead >
                 <Tr p={4} borderBottom={'0.5px solid rgba(0, 0, 0, 0.60)'} borderTop={'0.5px solid rgba(0, 0, 0, 0.60)'} bg={'rgba(55, 73, 87, 0.1)'}>
                   <Th color={'#1c1c1c'} fontSize={'xl'}>
