@@ -149,7 +149,7 @@ function Invoice() {
 
             <Tr>
               <Td >
-              <Input placeholder="Item name or description" width={90} />
+              <Input placeholder="Item name or description" width={300} />
 
                 </Td>
               <Td>
