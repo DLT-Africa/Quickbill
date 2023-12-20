@@ -10,9 +10,9 @@ import BillPage from './pages/BillPage'
 
 import Dashboard from "./pages/Dashboard";
 import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 
 function App() {
-
 
   return (
     <>
@@ -27,6 +27,8 @@ function App() {
         <Route path='/sent-invoices' element={<SentInvoice />} />
         <Route path='/clients' element={<Clients />} />
         <Route path='/bills' element={<BillPage />} />
+          				<Route path="/contact" element={<ContactPage />} />
+
       </Routes>
     </>
   )
