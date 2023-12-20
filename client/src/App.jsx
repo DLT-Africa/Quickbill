@@ -12,6 +12,8 @@ import Dashboard from "./pages/Dashboard";
 import AboutPage from "./pages/AboutPage";
 
 function App() {
+
+
   return (
     <>
       <Routes>
@@ -22,7 +24,7 @@ function App() {
         <Route path='/invoice-me' element={<InvoiceMe />} />
         <Route path='/about' element={<AboutPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path='/sentinvoice' element={<SentInvoice />} />
+        <Route path='/sent-invoices' element={<SentInvoice />} />
         <Route path='/clients' element={<Clients />} />
         <Route path='/bills' element={<BillPage />} />
       </Routes>
