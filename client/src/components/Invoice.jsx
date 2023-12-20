@@ -199,7 +199,6 @@ function Invoice() {
                   <Td  color={'gray'}>0</Td>
                  </Flex>
               </Tr>
-
               <Tr >
                  <Flex justifyContent={'space-between'} color={"gray"} borderBottom={"1px solid black"}>
                   <Td  color={"gray"}>Total: </Td>
@@ -248,7 +247,6 @@ function Invoice() {
             <Divider borderColor={"#1c1c1c"} w={"200px"} />
           </Flex>
         </Flex>
-
         <Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"}>
           <Text>Note/Additional Information</Text>
           <Box>
