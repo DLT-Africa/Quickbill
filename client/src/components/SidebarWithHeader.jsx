@@ -60,6 +60,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 			h="full"
 			color={"#374957"} ///////////////////////////////////////////////////For the sidebar
 			{...rest}
+			
 		>
 			<Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
 				<Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
@@ -111,10 +112,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
 						>
 							Create Invoice
 						</NavItem>
-						<NavItem pl="12" py="2">
+						<NavItem pl="12" py="2" as=
+						{NavLink} to={"/sentinvoice"}>
 							Sent Invoices
 						</NavItem>
-						<NavItem pl="12" py="2">
+						<NavItem pl="12" py="2" to={"/clients"} as={NavLink}>
 							Clients
 						</NavItem>
 					</AccordionPanel>
