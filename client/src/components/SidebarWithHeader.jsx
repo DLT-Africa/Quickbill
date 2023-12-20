@@ -105,11 +105,15 @@ const SidebarContent = ({ onClose, ...rest }) => {
 						>
 							Sent Invoices
 						</NavItem>
-						<NavItem 	as={NavLink}
+						<NavItem
+							as={NavLink}
 							to={"/clients"}
 							style={({ isActive }) => ({
 								color: isActive ? "rgb(41, 112, 255)" : "",
-							})} pl="12" py="2">
+							})}
+							pl="12"
+							py="2"
+						>
 							Clients
 						</NavItem>
 					</AccordionPanel>
@@ -148,7 +152,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
 					</AccordionPanel>
 				</AccordionItem>
 			</Accordion>
-      
 
 			<NavItem
 				as={NavLink}
@@ -160,7 +163,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
 			>
 				InvoiceMe
 			</NavItem>
-			<NavItem icon={BsGearFill}>Employees</NavItem>
+			<NavItem
+				as={NavLink}
+				to={"/employees"}
+				style={({ isActive }) => ({
+					color: isActive ? "rgb(41, 112, 255)" : "",
+				})}
+				icon={BsGearFill}
+			>
+				Employees
+			</NavItem>
 		</Box>
 	);
 };
