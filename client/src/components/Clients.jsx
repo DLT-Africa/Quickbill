@@ -19,17 +19,17 @@ const Clients = () => {
   return (
     <>
       <SidebarWithHeader>
-        <Flex justifyContent={"space-between"}>
+        <Flex px={5} justifyContent={"space-between"}>
           <Text fontSize={36} textAlign={"left"} fontWeight={700}>
             Clients
           </Text>
           <Flex>
-            <Button pos={"relative"} bg={"#2970ff"}>
+            <Button pos={"relative"} bg={"#2970ff"} color={"#f6f6f6"} _hover={{ bg: "#6C73EF" }}>
               Add New Clients
             </Button>
           </Flex>
         </Flex>
-        <TableContainer fontWeight={500} top={11} left={27} mt={20}>
+        <TableContainer px={5} fontWeight={500} top={11} left={27} mt={20}>
           <Table>
             <Thead>
               <Tr
