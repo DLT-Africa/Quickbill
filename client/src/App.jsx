@@ -13,6 +13,7 @@ import ContactPage from "./pages/ContactPage";
 import CreateInvoicePage from "./pages/CreateInvoicePage";
 import EmployeesPage from "./pages/EmployeesPage"
 import NotFoundPage from "./pages/NotFoundPage";
+import PayrollPage from "./pages/PayrollPage";
 
 function App() {
 
@@ -33,6 +34,8 @@ function App() {
         <Route path='/clients' element={<Clients />} />
         <Route path='/employees' element={<EmployeesPage />} />
         <Route path="*" element={<NotFoundPage />} />
+
+        <Route path='/payroll' element={<PayrollPage />} />
       </Routes>
     </>
   );
