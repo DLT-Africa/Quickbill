@@ -44,7 +44,7 @@ const Clients = () => {
               bg={"rgba(55, 73, 87, 0.1)"}
             >
               <Th color={"#1c1c1c"} fontSize={"xl"}>
-                Creation Date
+                Name
               </Th>
               <Th color={"#1c1c1c"} fontSize={"xl"}>
                 Email
