@@ -1,10 +1,10 @@
-import NavBar from '../Components/NavBar'
-import HeroSec from '../Components/HeroSec'
+import NavBar from '../components/NavBar'
+import HeroSec from '../components/HeroSec'
 import { Box } from '@chakra-ui/react'
-import PayrollCon from '../Components/PayrollCon'
-import Container from '../Components/Container'
-import Faq from '../Components/Faq'
-import Footer from '../Components/Footer'
+import PayrollCon from '../components/PayrollCon'
+import Container from '../components/Container'
+import Faq from '../components/Faq'
+import Footer from '../components/Footer'
 
 const HomePage = () => {
   return (
