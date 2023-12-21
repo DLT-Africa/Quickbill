@@ -24,25 +24,14 @@ import {
 	MenuDivider,
 	MenuItem,
 	MenuList,
-	Collapse,
 } from "@chakra-ui/react";
-import {
-
-	FiMenu,
-	FiBell,
-	FiChevronDown,
-} from "react-icons/fi";
+import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 import { AiFillGift } from "react-icons/ai";
 import { BsGearFill } from "react-icons/bs";
 import { ImArrowDownLeft2, ImArrowUpRight2 } from "react-icons/im";
 
-
 import { MdHome } from "react-icons/md";
-
-
-
-
 
 const SidebarContent = ({ onClose, ...rest }) => {
 	const integrations = useDisclosure();
@@ -53,8 +42,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
 			bg={"#ECF1F6"}
 			boxShadow="1px 0px 2px 1px rgba(0,0,0,0.6)"
 			zIndex={99}
-			// borderRight="1px"
-			// borderRightColor={useColorModeValue("gray.200", "gray.700")}
 			w={{ base: "full", md: 60 }}
 			pos="fixed"
 			h="full"
@@ -71,17 +58,15 @@ const SidebarContent = ({ onClose, ...rest }) => {
 			<NavItem
 				as={NavLink}
 				to={"/dashboard"}
-				// _active={{ bg: "white" }}
 				style={({ isActive }) => ({
-					background: isActive ? "#0BC5EA" : "",
-					color: isActive ? "white" : "",
+					color: isActive ? "rgb(41, 112, 255)" : "",
 				})}
 				icon={MdHome}
 			>
 				Dashboard
 			</NavItem>
 
-			<Accordion allowMultiple>
+			<Accordion allowToggle>
 				<AccordionItem>
 					<AccordionButton>
 						<Flex
@@ -100,21 +85,35 @@ const SidebarContent = ({ onClose, ...rest }) => {
 					<AccordionPanel pb={4}>
 						<NavItem
 							as={NavLink}
-							to={"/"}
-							// _active={{ bg: "white" }}
+							to={"/create-invoice"}
 							style={({ isActive }) => ({
-								background: isActive ? "#0BC5EA" : "",
-								color: isActive ? "white" : "",
+								color: isActive ? "rgb(41, 112, 255)" : "",
 							})}
 							pl="12"
 							py="2"
 						>
 							Create Invoice
 						</NavItem>
-						<NavItem pl="12" py="2">
+						<NavItem
+							as={NavLink}
+							to={"/sent-invoices"}
+							style={({ isActive }) => ({
+								color: isActive ? "rgb(41, 112, 255)" : "",
+							})}
+							pl="12"
+							py="2"
+						>
 							Sent Invoices
 						</NavItem>
-						<NavItem pl="12" py="2">
+						<NavItem
+							as={NavLink}
+							to={"/clients"}
+							style={({ isActive }) => ({
+								color: isActive ? "rgb(41, 112, 255)" : "",
+							})}
+							pl="12"
+							py="2"
+						>
 							Clients
 						</NavItem>
 					</AccordionPanel>
@@ -137,16 +136,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
 					</AccordionButton>
 					<AccordionPanel pb={4}>
 						<NavItem
-						
-						as={NavLink}
-						to={"/bills"}
-						// _active={{ bg: "white" }}
-						style={({ isActive }) => ({
-							background: isActive ? "#0BC5EA" : "",
-							color: isActive ? "white" : "",
-						})}
-						pl="12" py="2">
-
+							as={NavLink}
+							to={"/bills"}
+							style={({ isActive }) => ({
+								color: isActive ? "rgb(41, 112, 255)" : "",
+							})}
+							pl="12"
+							py="2"
+						>
 							Bills
 						</NavItem>
 						<NavItem pl="12" py="2">
@@ -156,17 +153,26 @@ const SidebarContent = ({ onClose, ...rest }) => {
 				</AccordionItem>
 			</Accordion>
 
-			<NavItem 
+			<NavItem
 				as={NavLink}
 				to={"/invoice-me"}
-				// _active={{ bg: "white" }}
 				style={({ isActive }) => ({
-					background: isActive ? "#0BC5EA" : "",
-					color: isActive ? "white" : "",
+					color: isActive ? "rgb(41, 112, 255)" : "",
 				})}
-			icon={AiFillGift}>InvoiceMe</NavItem>
-
-			<NavItem icon={BsGearFill}>Employees</NavItem>
+				icon={AiFillGift}
+			>
+				InvoiceMe
+			</NavItem>
+			<NavItem
+				as={NavLink}
+				to={"/employees"}
+				style={({ isActive }) => ({
+					color: isActive ? "rgb(41, 112, 255)" : "",
+				})}
+				icon={BsGearFill}
+			>
+				Employees
+			</NavItem>
 		</Box>
 	);
 };
@@ -302,7 +308,7 @@ const SidebarWithHeader = ({ children }) => {
 	return (
 		<Box
 			minH="100vh"
-			bg={"#EEEEEE"} ///////////////////////////////////////////////////////////For the whole box
+			bg={"#F8F8F8"} ///////////////////////////////////////////////////////////For the whole box
 		>
 			<SidebarContent
 				onClose={() => onClose}
