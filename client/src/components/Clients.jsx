@@ -83,7 +83,7 @@ const Clients = () => {
           </Tbody>
         </Table>
       </TableContainer>
-</SidebarWithHeader>
+    </SidebarWithHeader>
     </>
   );
 };
