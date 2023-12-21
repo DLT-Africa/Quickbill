@@ -13,18 +13,21 @@ import {
 import React from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import SidebarWithHeader from "./SidebarWithHeader";
 
 const Clients = () => {
   return (
     <>
-      <Flex justifyContent={"space-between"} pl={80} pr={20} pt={20}>
-        <Text fontSize={36} textAlign={"left"} fontWeight={700}>
-          Clients
-        </Text>
-        <Flex>
-          <Button pos={"relative"} bg={"#2970ff"}>
-            Add New Clients
-          </Button>
+      <SidebarWithHeader>
+        <Flex px={5} justifyContent={"space-between"}>
+          <Text fontSize={36} textAlign={"left"} fontWeight={700}>
+            Clients
+          </Text>
+          <Flex>
+            <Button pos={"relative"} bg={"#2970ff"} color={"#f6f6f6"} _hover={{ bg: "#6C73EF" }}>
+              Add New Clients
+            </Button>
+          </Flex>
         </Flex>
       </Flex>
       <TableContainer
@@ -81,6 +84,7 @@ const Clients = () => {
           </Tbody>
         </Table>
       </TableContainer>
+
     </>
   );
 };
