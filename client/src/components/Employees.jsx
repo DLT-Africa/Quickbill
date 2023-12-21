@@ -17,22 +17,26 @@ import {
   ModalFooter,
 } from "@chakra-ui/react";
 import { BsFillImageFill } from "react-icons/bs";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from '@chakra-ui/react'
 
 const Employees = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Flex
-        flexDirection={"column"}
-        justifyContent={"center"}
-        gap={4}
-        alignItems={"center"}
-        m={10}
-        // h={"100vh"}
-      >
-        <Flex alignItems={"center"} justifyContent={"space-between"} w={"full"}>
+    <TableContainer p={20}>
+      <Flex alignItems={"center"} justifyContent={"space-between"} w={"full"} mb={10}>
           <Text color={"#1c1c1c"} fontSize={"5xl"} fontWeight={500}>
-            Employees
+            Employees.....
           </Text>
           <Button
             size={"lg"}
@@ -46,87 +50,44 @@ const Employees = () => {
           >
             Add An Employee
           </Button>
-        </Flex>
-
-        <Flex
-          bg={"#ECF1F6"}
-          justifyContent={"space-between"}
-          w={"full"}
-          px={20}
-          py={8}
-          alignItems={"center"}
-          fontSize={"xl"}
-          fontWeight={400}
-        >
-          <Text>Name</Text>
-          <Text>Email</Text>
-          <Text>Category</Text>
-          <Text>Department</Text>
-        </Flex>
-
-        <Flex flexDir={'column'} gap={5} w={'full'}>
-          <Flex
-            bg={"#FFFFFF"}
-            px={10}
-            py={15}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-            w={"full"}
-            fontSize={"xl"}
-            fontWeight={300}
-          >
-            <Text>Abiodun Kennymas</Text>
-            <Text>kennymas4luv@gmail.com</Text>
-            <Text>Project Manager</Text>
-            <Text>Fullstack Developer</Text>
-          </Flex>
-          <Flex
-            bg={"#FFFFFF"}
-            px={10}
-            py={15}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-            w={"full"}
-            fontSize={"xl"}
-            fontWeight={300}
-          >
-            <Text>Jimoh Nasihudeen</Text>
-            <Text>nasihudeen04@gmail.com</Text>
-            <Text>Project Supervisor</Text>
-            <Text>Backend Developer</Text>
-          </Flex>
-          <Flex
-            bg={"#FFFFFF"}
-            px={10}
-            py={15}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-            w={"full"}
-            fontSize={"xl"}
-            fontWeight={300}
-          >
-            <Text>Musa Mohammad</Text>
-            <Text>musamohammad@gmail.com</Text>
-            <Text>Project Lead</Text>
-            <Text>Frontend Developer</Text>
-          </Flex>
-          <Flex
-            bg={"#FFFFFF"}
-            px={10}
-            py={15}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-            w={"full"}
-            fontSize={"xl"}
-            fontWeight={300}
-          >
-            <Text>Yusuf Roqib</Text>
-            <Text>yusufroqib@gmail.com</Text>
-            <Text>Project Manager</Text>
-            <Text>Fullstack Developer</Text>
-          </Flex>
-        </Flex>
       </Flex>
+  <Table variant={'simple'} size={'lg'} >
+    <Thead bg={"rgba(55, 73, 87, 0.1)"} >
+      <Tr>
+        <Th fontSize={'xl'}>Name</Th>
+        <Th fontSize={'xl'}>Email</Th>
+        <Th fontSize={'xl'}>Category</Th>
+        <Th fontSize={'xl'}>Department</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr bg={"#FFFFFF"}>
+        <Td>Abiodun Kennymas</Td>
+        <Td>kennymas4luv@gmail.com</Td>
+        <Td>Project Manager</Td>
+        <Td>Fullstack Developer</Td>
+      </Tr>
+      <Tr bg={"#FFFFFF"}>
+        <Td>Jimoh Nasihudeen</Td>
+        <Td>nasihudeen04@gmail.com</Td>
+        <Td>Project Supervisor</Td>
+        <Td>Backend Developer</Td>
+      </Tr>
+      <Tr bg={"#FFFFFF"}>
+        <Td>Musa Mohammad</Td>
+        <Td>musamohammadolayinka@gmail.com</Td>
+        <Td>Project Lead</Td>
+        <Td>Frontend Developer</Td>
+      </Tr>
+      <Tr bg={"#FFFFFF"}>
+        <Td>Yusuf Roqib</Td>
+        <Td>yusufroqib@gmail.com</Td>
+        <Td>Project Manager</Td>
+        <Td>Fullstack Developer</Td>
+      </Tr>
+    </Tbody>
+  </Table>
+</TableContainer>
 
       <Modal isOpen={isOpen} onClose={onClose} w={"full"}>
         <ModalOverlay />
