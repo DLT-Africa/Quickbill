@@ -12,6 +12,7 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import CreateInvoicePage from "./pages/CreateInvoicePage";
 import EmployeesPage from "./pages/EmployeesPage"
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
         <Route path='/bills' element={<BillPage />} />
         <Route path='/clients' element={<Clients />} />
         <Route path='/employees' element={<EmployeesPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );
