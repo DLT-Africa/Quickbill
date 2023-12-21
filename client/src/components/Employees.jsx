@@ -54,36 +54,36 @@ const Employees = () => {
   <Table variant={'simple'} size={'lg'} >
     <Thead bg={"rgba(55, 73, 87, 0.1)"} >
       <Tr>
-        <Th fontSize={'xl'}>Name</Th>
-        <Th fontSize={'xl'}>Email</Th>
-        <Th fontSize={'xl'}>Category</Th>
-        <Th fontSize={'xl'}>Department</Th>
+        <Th fontSize={'xl'} textAlign={'center'}>Name</Th>
+        <Th fontSize={'xl'} textAlign={'center'}>Email</Th>
+        <Th fontSize={'xl'} textAlign={'center'}>Category</Th>
+        <Th fontSize={'xl'} textAlign={'center'}>Department</Th>
       </Tr>
     </Thead>
     <Tbody>
       <Tr bg={"#FFFFFF"}>
-        <Td>Abiodun Kennymas</Td>
-        <Td>kennymas4luv@gmail.com</Td>
-        <Td>Project Manager</Td>
-        <Td>Fullstack Developer</Td>
+        <Td textAlign={'center'}>Abiodun Kennymas</Td>
+        <Td textAlign={'center'}>kennymas4luv@gmail.com</Td>
+        <Td textAlign={'center'}>Project Manager</Td>
+        <Td textAlign={'center'}>Fullstack Developer</Td>
       </Tr>
       <Tr bg={"#FFFFFF"}>
-        <Td>Jimoh Nasihudeen</Td>
-        <Td>nasihudeen04@gmail.com</Td>
-        <Td>Project Supervisor</Td>
-        <Td>Backend Developer</Td>
+        <Td textAlign={'center'}>Jimoh Nasihudeen</Td>
+        <Td textAlign={'center'}>nasihudeen04@gmail.com</Td>
+        <Td textAlign={'center'}>Project Supervisor</Td>
+        <Td textAlign={'center'}>Backend Developer</Td>
       </Tr>
       <Tr bg={"#FFFFFF"}>
-        <Td>Musa Mohammad</Td>
-        <Td>musamohammadolayinka@gmail.com</Td>
-        <Td>Project Lead</Td>
-        <Td>Frontend Developer</Td>
+        <Td textAlign={'center'}>Musa Mohammad</Td>
+        <Td textAlign={'center'}>musamohammadolayinka@gmail.com</Td>
+        <Td textAlign={'center'}>Project Lead</Td>
+        <Td textAlign={'center'}>Frontend Developer</Td>
       </Tr>
       <Tr bg={"#FFFFFF"}>
-        <Td>Yusuf Roqib</Td>
-        <Td>yusufroqib@gmail.com</Td>
-        <Td>Project Manager</Td>
-        <Td>Fullstack Developer</Td>
+        <Td textAlign={'center'}>Yusuf Roqib</Td>
+        <Td textAlign={'center'}>yusufroqib@gmail.com</Td>
+        <Td textAlign={'center'}>Project Manager</Td>
+        <Td textAlign={'center'}>Fullstack Developer</Td>
       </Tr>
     </Tbody>
   </Table>
