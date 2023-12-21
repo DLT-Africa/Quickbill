@@ -56,7 +56,7 @@ const Employees = () => {
       <Tr>
         <Th fontSize={'xl'} textAlign={'center'}>Name</Th>
         <Th fontSize={'xl'} textAlign={'center'}>Email</Th>
-        <Th fontSize={'xl'} textAlign={'center'}>Category</Th>
+        <Th fontSize={'xl'} textAlign={'center'}>Job Title</Th>
         <Th fontSize={'xl'} textAlign={'center'}>Department</Th>
       </Tr>
     </Thead>
