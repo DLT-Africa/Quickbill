@@ -29,7 +29,6 @@ const Clients = () => {
             </Button>
           </Flex>
         </Flex>
-      </Flex>
       <TableContainer
         pl={80}
         pr={20}
@@ -84,7 +83,7 @@ const Clients = () => {
           </Tbody>
         </Table>
       </TableContainer>
-
+    </SidebarWithHeader>
     </>
   );
 };
