@@ -22,13 +22,12 @@ Contributions to this repository can be made via pull requests on GitHub to the 
 
 
 In the terminal
-- cd server and create a .env file in the root of your server directory.
+- cd server and create a .env file in the root directory of your server directory.
 - Supply the following credentials
 
 ```
-DB_URL = 
-PORT = 5000
-SECRET = 
+MONGO_URI = 
+JWT_SECRET = 
 SMTP_HOST = 
 SMTP_PORT = 
 SMTP_USER = 
