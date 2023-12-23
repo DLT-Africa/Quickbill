@@ -7,9 +7,9 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const signUp = async (req, res) => {
-  const { email, password, name } = req.body;
-
   try {
+    const { email, password, name } = req.body;
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser)
@@ -22,8 +22,8 @@ const signUp = async (req, res) => {
       password: hashedPassword,
       name,
     });
-        await result.save()
-        
+    await result.save();
+
     const token = jwt.sign(
       { email: result.email, id: result._id },
       JWT_SECRET,

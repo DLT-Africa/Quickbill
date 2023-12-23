@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const userRoutes = require("./routes/userRoutes");
 const invoiceRoutes = require ("./routes/invoiceRoutes")
+const employeeRoutes = require("./routes/employeeRoutes")
 dotenv.config();
 
 const app = express();
@@ -16,6 +17,7 @@ app.use(cookieParser());
 
 app.use("/users", userRoutes);
 app.use("/invoices",invoiceRoutes);
+app.use("/employees",employeeRoutes)
 
 
 mongoose
