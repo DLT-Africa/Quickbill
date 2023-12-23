@@ -33,9 +33,8 @@ function App() {
         <Route path='/bills' element={<BillPage />} />
         <Route path='/clients' element={<Clients />} />
         <Route path='/employees' element={<EmployeesPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-
         <Route path='/payroll' element={<PayrollPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );
