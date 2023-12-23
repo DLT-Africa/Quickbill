@@ -59,7 +59,7 @@ const InvoiceCon = () => {
               <Image src="/Rectangle 10213.png" />
             </Box>
             <Text as={"h2"} fontSize={"2xl"} fontWeight={400}>
-              You now can easily share your personal or business information
+              You can now easily share your personal or business information
               with your friends or suppliers, to invoice you easily.
             </Text>
           </Flex>
