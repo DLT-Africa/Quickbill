@@ -26,9 +26,8 @@ In the terminal
 - Supply the following credentials
 
 ```
-DB_URL = 
-PORT = 5000
-SECRET = 
+MONGO_URI = 
+JWT_SECRET = 
 SMTP_HOST = 
 SMTP_PORT = 
 SMTP_USER = 
