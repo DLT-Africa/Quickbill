@@ -4,6 +4,6 @@ const {createEmployee} = require('../controllers/employeeContoller')
 
 const router = express.Router()
 
-router.post("/",createEmployee )
+router.post("/create", createEmployee )
 
 module.exports = router
