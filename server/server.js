@@ -3,8 +3,8 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const userRoutes = require("./routes/userRoutes");
-const invoiceRoutes = require ("./routes/invoiceRoutes")
-const employeeRoutes = require("./routes/employeeRoutes")
+const invoiceRoutes = require("./routes/invoiceRoutes");
+const employeeRoutes = require("./routes/employeeRoutes");
 dotenv.config();
 
 const app = express();
@@ -16,8 +16,8 @@ app.use(express.urlencoded({ extended: true })); // parse form data inside the r
 app.use(cookieParser());
 
 app.use("/users", userRoutes);
-app.use("/invoices",invoiceRoutes);
-app.use("/employees",employeeRoutes)
+app.use("/invoices", invoiceRoutes);
+app.use("/employees", employeeRoutes);
 
 
 mongoose

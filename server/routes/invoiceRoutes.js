@@ -1,9 +1,9 @@
-const express = require ("express")
+const express = require("express");
 
-const {createInvoice} = require ("../controllers/invoiceController")
+const { createInvoice } = require("../controllers/invoiceController");
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/', createInvoice)
+router.post("/", createInvoice);
 
-module.exports = router
+module.exports = router;
