@@ -5,6 +5,9 @@ const cookieParser = require("cookie-parser");
 const userRoutes = require("./routes/userRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
+const clientRoutes = require("./routes/clientRoutes");
+
+
 dotenv.config();
 
 const app = express();
@@ -18,6 +21,7 @@ app.use(cookieParser());
 app.use("/users", userRoutes);
 app.use("/invoices", invoiceRoutes);
 app.use("/employees", employeeRoutes);
+app.use("/clients", clientRoutes)
 
 
 mongoose
