@@ -23,12 +23,11 @@ const invoiceSchema = mongoose.Schema(
 		subTotal: Number,
 		total: Number,
 		notes: String,
-		status: String,
+		InvoiceStatus: String,
 		currency: String,
 		totalAmount: Number,
 		totalAmountReceived: Number,
 		remainingAmount: Number,
-		status: String,
 		paymentRecords: [
 			{
 				amountPaid: Number,

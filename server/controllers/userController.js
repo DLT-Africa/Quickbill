@@ -13,16 +13,15 @@ const signUp = async (req, res) => {
     const existingUser = await User.findOne({ email });
 
     if (existingUser)
-      return res.status(400).json({ message: "User already exist" });
+      return res.status(400).json({ error: "User already exist" });
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const result = new User.create({
+    const newUser = await User.create({
       email,
       password: hashedPassword,
       name,
     });
-    await result.save();
 
     const token = jwt.sign(
       { email: result.email, id: result._id },
@@ -32,7 +31,7 @@ const signUp = async (req, res) => {
       }
     );
 
-    res.status(200).json({ result, userProfile, token });
+    res.status(200).json({ newUser, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -44,7 +43,7 @@ const signIn = async (req, res) => {
     const existingUser = await User.findOne({ email });
 
     if (!existingUser)
-      return res.status(404).json({ message: "User doesn't exist" });
+      return res.status(404).json({ error: "User doesn't exist" });
 
     const correctPassword = await bcrypt.compare(
       password,
@@ -52,7 +51,7 @@ const signIn = async (req, res) => {
     );
 
     if (!correctPassword)
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ error: "Invalid credentials" });
 
     const token = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
@@ -60,7 +59,7 @@ const signIn = async (req, res) => {
       { expiresIn: "30m" }
     );
 
-    res.status(200).json({ result: existingUser, userProfile, token });
+    res.status(200).json({ loggedInUser: existingUser, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
