@@ -30,7 +30,9 @@ const getClient = async (req, res) => {
 
 const getAllClients = async (req, res) => {
   try {
-    const clients = await Client.find();
+    const { clientFor } = req.body;
+
+    const clients = await Client.find({clientFor});
     res.status(200).json(clients);
   } catch (error) {
     console.error(error);

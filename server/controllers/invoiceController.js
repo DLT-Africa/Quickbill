@@ -49,7 +49,8 @@ const createInvoice = async (req, res) => {
 
 const getAllInvoices = async (req, res) => {
   try {
-    const invoices = await Invoice.find();
+    const { creatorId } = req.body;
+    const invoices = await Invoice.find({ creatorId });
     res.status(200).json(invoices);
   } catch (error) {
     console.error(error);
