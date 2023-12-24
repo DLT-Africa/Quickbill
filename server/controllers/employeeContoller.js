@@ -5,6 +5,12 @@ const createEmployee = async (req, res) => {
   try {
     const { employerId, email, name, department, jobTitle } = req.body;
 
+	const employeeAsRegisteredUser = await User.findOne({email})
+
+	if(!employeeAsRegisteredUser){
+		return res.status(404).json({error:"This email is not a registered user"})
+	}
+
     const existingEmployee = await Employee.findOne({ email });
     if (existingEmployee) {
       return res.status(400).json({ error: "Email address already in use" });
@@ -62,7 +68,9 @@ const getEmployee = async (req, res) => {
 
 const getAllEmployees = async (req, res) => {
   try {
-    const employees = await Employee.find();
+	const {employerId} = req.body
+
+    const employees = await Employee.find({employerId});
 
     res.status(200).json(employees);
   } catch (error) {
