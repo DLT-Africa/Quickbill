@@ -52,7 +52,7 @@ app.use(passport.session());
 initializePassport(passport);
 
 app.use("/auth", authRoutes)
-app.use("/users", userRoutes);
+app.use("/account", userRoutes);
 app.use("/invoices", invoiceRoutes);
 app.use("/employees", employeeRoutes);
 app.use("/clients", clientRoutes)

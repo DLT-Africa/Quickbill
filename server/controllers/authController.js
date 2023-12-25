@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
-const generateToken = require("../utils/helper/generateToken");
+const generateToken = require("../utils/generateToken");
 
 // Google authentication callback
 const googleAuthCallback = async (req, res) => {
@@ -106,7 +106,7 @@ const signIn = async (req, res) => {
 			httpOnly: true,
 			secure: true,
 			sameSite: "None",
-			maxAge: 24 * 60 * 60 * 1000,
+			maxAge: 30 * 60 * 1000,
 		});
 
 		res.status(200).json({ loggedInUser: existingUser, token });
@@ -117,4 +117,14 @@ const signIn = async (req, res) => {
 	}
 };
 
-module.exports = { signUp, signIn, googleAuthCallback };
+const signOut = (req, res) => {
+	try {
+		res.cookie("jwt", "", { maxAge: 1 });
+		res.status(200).json({ message: "User logged out successfully" });
+	} catch (err) {
+		res.status(500).json({ error: err.message }); //Internal server error
+		console.log("Error in logout", err.message);
+	}
+};
+
+module.exports = { signUp, signIn, signOut, googleAuthCallback };

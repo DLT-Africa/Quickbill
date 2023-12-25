@@ -12,7 +12,6 @@ const initializePassport = (passport) => {
     const user = {
       googleId: profile.id,
       email: profile.emails[0].value,
-      // Add other necessary profile details
     };
     return done(null, user);
   }));
