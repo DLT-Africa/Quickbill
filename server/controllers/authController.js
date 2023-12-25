@@ -82,7 +82,7 @@ const signIn = async (req, res) => {
 
 	try {
 		// Checking if the user exists in the database
-		const existingUser = await User.findOne({ email }).select("-password");
+		const existingUser = await User.findOne({ email });
 		if (!existingUser)
 			return res.status(404).json({ error: "User doesn't exist" });
 
@@ -112,6 +112,7 @@ const signIn = async (req, res) => {
 		res.status(200).json({ loggedInUser: existingUser, token });
 	} catch (error) {
 		// Handling any errors that occur during the process
+        console.log(error)
 		res.status(500).json({ message: "Something went wrong" });
 	}
 };
