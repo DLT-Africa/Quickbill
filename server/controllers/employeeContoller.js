@@ -3,7 +3,8 @@ const User = require("../models/userModel");
 
 const createEmployee = async (req, res) => {
 	try {
-		const { employerId, email, name, department, jobTitle } = req.body;
+		const { email, name, department, jobTitle } = req.body;
+		const employerId = req.userId
 
 		const employeeAsRegisteredUser = await User.findOne({ email });
 
@@ -70,7 +71,7 @@ const getEmployee = async (req, res) => {
 
 const getAllEmployees = async (req, res) => {
 	try {
-		const { employerId } = req.body;
+		const employerId  = req.userId;
 
 		const employees = await Employee.find({ employerId });
 

@@ -25,7 +25,7 @@ const invoiceSchema = mongoose.Schema(
 		notes: String,
 		InvoiceStatus: {
 			type: String,
-			default: "Awaiting Payment"
+			default: "awaiting_payment"
 		},
 		currency: String,
 		totalAmount: Number,
