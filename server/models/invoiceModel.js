@@ -23,16 +23,21 @@ const invoiceSchema = mongoose.Schema(
 		subTotal: Number,
 		total: Number,
 		notes: String,
-		InvoiceStatus: String,
+		InvoiceStatus: {
+			type: String,
+			default: "Awaiting Payment"
+		},
 		currency: String,
 		totalAmount: Number,
-		totalAmountReceived: Number,
+		totalAmountReceived: {
+			type: Number,
+			default: 0
+		},
 		remainingAmount: Number,
 		paymentRecords: [
 			{
 				amountPaid: Number,
 				paymentDate: Date,
-				paymentMethod: String,
 				note: String,
 				// paidBy: String,
 			},

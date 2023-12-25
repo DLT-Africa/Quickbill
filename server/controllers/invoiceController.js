@@ -2,41 +2,23 @@ const Invoice = require("../models/invoiceModel");
 
 const createInvoice = async (req, res) => {
   try {
-    const {
-      invoiceNumber,
-      creatorId,
-      client,
-      items,
-      issueDate,
-      dueDate,
-      vat,
-      subTotal,
-      total,
-      notes,
-      invoiceStatus,
-      currency,
-      totalAmount,
-      totalAmountReceived,
-      remainingAmount,
-    } = req.body;
+    const invoiceDetails = req.body;
 
-    const newInvoice = await Invoice.create({
-      invoiceNumber,
-      creatorId,
-      client,
-      items,
-      issueDate,
-      dueDate,
-      vat,
-      subTotal,
-      total,
-      notes,
-      invoiceStatus,
-      currency,
-      totalAmount,
-      totalAmountReceived,
-      remainingAmount,
-    });
+    // invoiceNumber,
+    // creatorId,
+    // client,
+    // items,
+    // issueDate,
+    // dueDate,
+    // vat,
+    // subTotal,
+    // total,
+    // notes,
+    // currency,
+    // totalAmount,
+    // remainingAmount,
+    
+    const newInvoice = await Invoice.create(invoiceDetails);
 
     res
       .status(201)
@@ -93,4 +75,44 @@ const deleteInvoice = async (req, res) => {
   }
 };
 
-module.exports = { createInvoice, getAllInvoices, getInvoice, deleteInvoice};
+const payInvoice = async (req, res) => {
+  try {
+    // Extracting the invoice ID from the request parameters
+    const invoiceId = req.params.id;
+
+    // Extracting the amountPaid from the request body
+    const { amountPaid, note } = req.body;
+
+    // Finding the invoice by its ID
+    const invoice = await Invoice.findById(invoiceId);
+    if (!invoice) {
+      // If the invoice is not found, return a 404 error response
+      return res.status(404).json({ error: "Invoice not found" });
+    }
+
+    // Creating paymentDetails object with the amount and payment date
+    const paymentDetails = {
+      amountPaid,
+      note,
+      paymentDate: new Date(),
+    };
+
+    // Updating the invoice with the new payment details and calculate remaining amount
+    invoice.paymentRecords.push(paymentDetails);
+    invoice.remainingAmount = Math.max(invoice.remainingAmount - amountPaid, 0);
+    invoice.invoiceStatus = invoice.remainingAmount === 0 ? 'Paid' : 'Partially Paid';
+    invoice.totalAmountReceived += amountPaid;
+
+    // Saving the updated invoice
+    await invoice.save();
+
+    // Sending a response indicating successful payment
+    res.status(200).json({ message: "Invoice paid successfully" });
+  } catch (error) {
+    // Handling any errors that occur during the process
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+module.exports = { createInvoice, getAllInvoices, getInvoice, deleteInvoice, payInvoice};
