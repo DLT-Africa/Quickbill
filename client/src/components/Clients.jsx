@@ -29,54 +29,61 @@ const Clients = () => {
             </Button>
           </Flex>
         </Flex>
-        <TableContainer px={5} fontWeight={500} top={11} left={27} mt={20}>
-          <Table>
-            <Thead>
-              <Tr
-                p={4}
-                borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
-                borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
-                bg={"rgba(55, 73, 87, 0.1)"}
-              >
-                <Th color={"#1c1c1c"} fontSize={"l"}>
-                  Creation Date
-                </Th>
-                <Th color={"#1c1c1c"} fontSize={"l"}>
-                  Email
-                </Th>
-                <Th color={"#1c1c1c"} fontSize={"l"}>
-                  Edit
-                </Th>
-                <Th color={"#1c1c1c"} fontSize={"l"}>
-                  Delete
-                </Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr>
-                <Td>Jimoh Kanas</Td>
-                <Td> jimohkanas91@gmail.com</Td>
-                <Td>
-                  <FaEdit cursor={"pointer"} fontSize={"20"} />
-                </Td>
-                <Td>
-                  <MdDelete cursor={"pointer"} fontSize={"20"} />
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>Musa Muhammed</Td>
-                <Td> muha_smallkay@gmail.com</Td>
-                <Td>
-                  <FaEdit cursor={"pointer"} fontSize={"20"} />
-                </Td>
-                <Td>
-                  <MdDelete cursor={"pointer"} fontSize={"20"} />
-                </Td>
-              </Tr>
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </SidebarWithHeader>
+      <TableContainer
+        pl={80}
+        pr={20}
+        pt={20}
+        fontWeight={500}
+        top={11}
+        left={27}
+      >
+        <Table>
+          <Thead>
+            <Tr
+              p={4}
+              borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
+              borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
+              bg={"rgba(55, 73, 87, 0.1)"}
+            >
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Name
+              </Th>
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Email
+              </Th>
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Edit
+              </Th>
+              <Th color={"#1c1c1c"} fontSize={"xl"}>
+                Delete
+              </Th>
+            </Tr>
+          </Thead>
+          <Tbody fontSize={"17"} >
+            <Tr>
+              <Td>Jimoh Kanas</Td>
+              <Td> jimohkanas91@gmail.com</Td>
+              <Td>
+                <FaEdit cursor={"pointer"} />
+              </Td>
+              <Td>
+                <MdDelete cursor={"pointer"} />
+              </Td>
+            </Tr>
+            <Tr>
+              <Td>Musa Muhammed</Td>
+              <Td> muha_smallkay@gmail.com</Td>
+              <Td>
+                <FaEdit cursor={"pointer"} />
+              </Td>
+              <Td>
+                <MdDelete cursor={"pointer"}  />
+              </Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </SidebarWithHeader>
     </>
   );
 };
