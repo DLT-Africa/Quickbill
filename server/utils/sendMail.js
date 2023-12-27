@@ -3,22 +3,26 @@ const dotenv = require("dotenv");
 dotenv.config();
 const Mailgen = require("mailgen");
 
-const confirmEmail = ({ email: userEmail, name, token }, res) => {
-	let config = {
-		service: "gmail",
-		auth: {
-			user: process.env.EMAIL,
-			pass: process.env.PASSWORD,
-		},
-	};
-	let transporter = nodemailer.createTransport(config);
-	let MailGenerator = new Mailgen({
-		theme: "default",
-		product: {
-			name: "QuickBill",
-			link: "https://google.com",
-		},
-	});
+let config = {
+	service: "gmail",
+	auth: {
+		user: process.env.EMAIL,
+		pass: process.env.PASSWORD,
+	},
+};
+
+let transporter = nodemailer.createTransport(config);
+let MailGenerator = new Mailgen({
+	theme: "default",
+	product: {
+		name: "QuickBill",
+		link: "https://google.com",
+	},
+});
+
+//********************************************************************************************************************************** */
+
+const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
 
 	let response = {
 		body: {
@@ -29,7 +33,7 @@ const confirmEmail = ({ email: userEmail, name, token }, res) => {
 				button: {
 					color: "#22BC66", // Optional action button color
 					text: "Confirm your account",
-					link: `http://localhost:3000/account/confirm/${token}`,
+					link: `http://localhost:3000/auth/activate-account/${token}`,
 				},
 			},
 			outro:
@@ -65,4 +69,4 @@ const confirmEmail = ({ email: userEmail, name, token }, res) => {
 		});
 };
 
-module.exports = { confirmEmail };
+module.exports = { sendConfirmationMail };

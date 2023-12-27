@@ -1,6 +1,6 @@
 const express = require("express");
 const passport = require('passport');
-const { signUp, signIn, signOut, googleAuthCallback} = require("../controllers/authController");
+const { signUp, signIn, signOut, googleAuthCallback, activateAccount} = require("../controllers/authController");
 
 const router = express.Router();
 
@@ -15,6 +15,7 @@ router.get('/googleauth/callback',
 );
 
 router.post("/signup", signUp);
+router.get("/activate-account/:token", activateAccount);
 router.post("/signin", signIn);
 router.post("/logout", signOut);
 
