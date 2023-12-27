@@ -1,6 +1,9 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
-const generateToken = require("../utils/generateToken");
+const { generateCookieToken } = require("../utils/generateToken");
+const UnconfirmedUser = require("../models/unconfirmedUserModel");
+const crypto = require("crypto");
+const { confirmEmail } = require("../utils/sendMail");
 
 // Google authentication callback
 const googleAuthCallback = async (req, res) => {
@@ -9,7 +12,9 @@ const googleAuthCallback = async (req, res) => {
 		const googleProfile = req.user;
 
 		// Check if the user already exists in your database
-		let user = await User.findOne({ email: googleProfile.email }).select("-password");
+		let user = await User.findOne({ email: googleProfile.email }).select(
+			"-password"
+		);
 
 		// If the user doesn't exist, create a new user in your database
 		if (!user) {
@@ -20,9 +25,9 @@ const googleAuthCallback = async (req, res) => {
 		}
 
 		// Generate JWT token
-		const token = generateToken({ email: user.email, id: user._id });
+		const token = generateCookieToken({ email: user.email, id: user._id });
 
-        res.cookie("jwt", token, {
+		res.cookie("jwt", token, {
 			httpOnly: true,
 			secure: true,
 			sameSite: "None",
@@ -31,7 +36,7 @@ const googleAuthCallback = async (req, res) => {
 
 		// Redirect the user or send a response with the token
 		res.status(200).json({ user, token });
-        console.log({user, token})
+		console.log({ user, token });
 	} catch (error) {
 		res
 			.status(500)
@@ -49,30 +54,26 @@ const signUp = async (req, res) => {
 		if (existingUser)
 			return res.status(400).json({ error: "User already exists" });
 
-		// Hashing the password
 		const hashedPassword = await bcrypt.hash(password, 12);
 
-		// Creating a new user using the provided email, hashed password, and name
-		const newUser = await User.create({
-			email,
-			password: hashedPassword,
-			name,
-		});
-		// Generating a JSON Web Token (JWT) for authentication
+		
+			// Creating a new Unconfirmed user using the provided email, hashed password, and name
+			const token = crypto.randomBytes(32).toString("hex");
+			// const tokenExpiryDate = new Date() + 10 * 60 * 1000; // 10 mins from now
 
-		const token = generateToken({ email: newUser.email, id: newUser._id });
+			const newUnconfirmedUser = await UnconfirmedUser.create({
+				email,
+				password: hashedPassword,
+				name,
+				token,
+				// tokenExpiryDate,
+			});
 
-		res.cookie("jwt", token, {
-			httpOnly: true,
-			secure: true,
-			sameSite: "None",
-			maxAge: 30 * 60 * 1000,
-		});
-
-		// Sending a response with the new user and the generated token
-		res.status(200).json({ newUser, token });
+			confirmEmail(newUnconfirmedUser, res);
+		
 	} catch (error) {
 		// Handling any errors that occur during the process
+		console.log(error);
 		res.status(500).json({ message: "Something went wrong" });
 	}
 };
@@ -96,7 +97,7 @@ const signIn = async (req, res) => {
 
 		// Generating a JSON Web Token (JWT) for authentication
 
-		const token = generateToken({
+		const token = generateCookieToken({
 			email: existingUser.email,
 			id: existingUser._id,
 		});
@@ -112,7 +113,7 @@ const signIn = async (req, res) => {
 		res.status(200).json({ loggedInUser: existingUser, token });
 	} catch (error) {
 		// Handling any errors that occur during the process
-        console.log(error)
+		console.log(error);
 		res.status(500).json({ message: "Something went wrong" });
 	}
 };
