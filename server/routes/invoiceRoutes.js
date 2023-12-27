@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { createInvoice, getAllInvoices, getInvoice, deleteInvoice, payInvoice } = require("../controllers/invoiceController");
+const { createInvoice, getAllInvoices, getInvoice, rejectInvoice, payInvoice } = require("../controllers/invoiceController");
 const {protectedRoute} = require("../middleware/protectedRoute")
 
 const router = express.Router();
@@ -17,8 +17,8 @@ router.get("/:id", protectedRoute, getInvoice);
 // Update a specific invoice by ID to mark it as paid
 router.put("/:id",protectedRoute, payInvoice);
 
-// Delete a specific invoice by ID
-router.delete("/:id", protectedRoute, deleteInvoice);
+// Reject a specific invoice by ID
+router.post("/:id", protectedRoute, rejectInvoice);
 
 
 module.exports = router;

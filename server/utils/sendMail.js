@@ -4,7 +4,7 @@ dotenv.config();
 const Mailgen = require("mailgen");
 
 let config = {
-	service: "gmail",
+	service: "hotmail",
 	auth: {
 		user: process.env.EMAIL,
 		pass: process.env.PASSWORD,
@@ -54,7 +54,7 @@ const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
 			return res
 				.status(200)
 				.send({
-					msg: "You should receive an email from us soon. Click on confirmation link to activate account",
+					msg: "You should receive an email from us soon. If not, check your spam folder. Click on confirmation link to activate account",
 					userEmail,
 					name,
 					token,
