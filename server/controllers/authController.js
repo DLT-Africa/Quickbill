@@ -3,7 +3,7 @@ const User = require("../models/userModel");
 const { generateCookieToken } = require("../utils/generateToken");
 const UnconfirmedUser = require("../models/unconfirmedUserModel");
 const crypto = require("crypto");
-const { confirmEmail } = require("../utils/sendMail");
+const { sendConfirmationMail } = require("../utils/sendMail");
 
 // Google authentication callback
 const googleAuthCallback = async (req, res) => {
@@ -69,7 +69,7 @@ const signUp = async (req, res) => {
 				// tokenExpiryDate,
 			});
 
-			confirmEmail(newUnconfirmedUser, res);
+			sendConfirmationMail(newUnconfirmedUser, res);
 		
 	} catch (error) {
 		// Handling any errors that occur during the process
@@ -77,6 +77,32 @@ const signUp = async (req, res) => {
 		res.status(500).json({ message: "Something went wrong" });
 	}
 };
+
+const activateAccount = async (req, res) => {
+	try {
+		const token = req.params.token;
+
+		console.log(token)
+		
+		const unconfirmedUser = await UnconfirmedUser.findOne({ token });
+		
+		if (!unconfirmedUser) {
+			res.status(400).json({ error: "Invalid activation link or activation link expired" });
+		}
+		
+		const confirmedUser = await User.create({
+				email: unconfirmedUser.email,
+				password: unconfirmedUser.password,
+				name: unconfirmedUser.name,
+		})
+		
+		await UnconfirmedUser.findByIdAndDelete(unconfirmedUser._id);
+		
+		res.status(200).json({ message: "Account activated successfully", confirmedUser });
+	} catch (error) {
+		res.status(500).json({ message: "Something went wrong" });
+	}
+}
 
 const signIn = async (req, res) => {
 	const { email, password } = req.body;
@@ -128,4 +154,4 @@ const signOut = (req, res) => {
 	}
 };
 
-module.exports = { signUp, signIn, signOut, googleAuthCallback };
+module.exports = { signUp, signIn, signOut, googleAuthCallback, activateAccount };
