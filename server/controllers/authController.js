@@ -56,21 +56,19 @@ const signUp = async (req, res) => {
 
 		const hashedPassword = await bcrypt.hash(password, 12);
 
-		
-			// Creating a new Unconfirmed user using the provided email, hashed password, and name
-			const token = crypto.randomBytes(32).toString("hex");
-			// const tokenExpiryDate = new Date() + 10 * 60 * 1000; // 10 mins from now
+		// Creating a new Unconfirmed user using the provided email, hashed password, and name
+		const token = crypto.randomBytes(32).toString("hex");
+		// const tokenExpiryDate = new Date() + 10 * 60 * 1000; // 10 mins from now
 
-			const newUnconfirmedUser = await UnconfirmedUser.create({
-				email,
-				password: hashedPassword,
-				name,
-				token,
-				// tokenExpiryDate,
-			});
+		const newUnconfirmedUser = await UnconfirmedUser.create({
+			email,
+			password: hashedPassword,
+			name,
+			token,
+			// tokenExpiryDate,
+		});
 
-			sendConfirmationMail(newUnconfirmedUser, res);
-		
+		sendConfirmationMail(newUnconfirmedUser, res);
 	} catch (error) {
 		// Handling any errors that occur during the process
 		console.log(error);
@@ -82,27 +80,29 @@ const activateAccount = async (req, res) => {
 	try {
 		const token = req.params.token;
 
-		console.log(token)
-		
 		const unconfirmedUser = await UnconfirmedUser.findOne({ token });
-		
+
 		if (!unconfirmedUser) {
-			res.status(400).json({ error: "Invalid activation link or activation link expired" });
-		}
-		
-		const confirmedUser = await User.create({
+			return res
+				.status(400)
+				.json({ error: "Invalid activation link or activation link expired" });
+		} else {
+			const confirmedUser = await User.create({
 				email: unconfirmedUser.email,
 				password: unconfirmedUser.password,
 				name: unconfirmedUser.name,
-		})
-		
-		await UnconfirmedUser.findByIdAndDelete(unconfirmedUser._id);
-		
-		res.status(200).json({ message: "Account activated successfully", confirmedUser });
+			});
+
+			await UnconfirmedUser.findByIdAndDelete(unconfirmedUser._id);
+
+			return res
+				.status(200)
+				.json({ message: "Account activated successfully", confirmedUser });
+		}
 	} catch (error) {
 		res.status(500).json({ message: "Something went wrong" });
 	}
-}
+};
 
 const signIn = async (req, res) => {
 	const { email, password } = req.body;
@@ -154,4 +154,10 @@ const signOut = (req, res) => {
 	}
 };
 
-module.exports = { signUp, signIn, signOut, googleAuthCallback, activateAccount };
+module.exports = {
+	signUp,
+	signIn,
+	signOut,
+	googleAuthCallback,
+	activateAccount,
+};
