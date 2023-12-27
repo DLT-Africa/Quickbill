@@ -15,10 +15,10 @@ router.get("/", protectedRoute, getAllInvoices);
 router.get("/:id", protectedRoute, getInvoice);
 
 // Update a specific invoice by ID to mark it as paid
-router.put("/:id",protectedRoute, payInvoice);
+router.put("/pay/:id",protectedRoute, payInvoice);
 
 // Reject a specific invoice by ID
-router.post("/:id", protectedRoute, rejectInvoice);
+router.post("/reject/:id", protectedRoute, rejectInvoice);
 
 
 module.exports = router;
