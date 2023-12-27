@@ -20,6 +20,7 @@ const googleAuthCallback = async (req, res) => {
 		if (!user) {
 			user = await User.create({
 				email: googleProfile.email,
+				name: googleProfile.name,
 				// You may want to include additional user details from the Google profile
 			});
 		}

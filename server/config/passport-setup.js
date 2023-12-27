@@ -12,6 +12,7 @@ const initializePassport = (passport) => {
     const user = {
       googleId: profile.id,
       email: profile.emails[0].value,
+      name: profile.displayName,
     };
     return done(null, user);
   }));
