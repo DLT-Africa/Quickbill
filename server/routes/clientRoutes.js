@@ -8,12 +8,14 @@ const {
   deleteClient,
 } = require("../controllers/clientController");
 
+const {protectedRoute} = require("../middleware/protectedRoute")
+
 const router = express.Router()
 
-router.post("/create", createClient)
-router.get("/", getAllClients)
-router.get("/:id", getClient)
-router.put("/:id", updateClient)
-router.delete("/:id", deleteClient)
+router.post("/create", protectedRoute, createClient)
+router.get("/", protectedRoute, getAllClients)
+router.get("/:id", protectedRoute, getClient)
+router.put("/:id", protectedRoute, updateClient)
+router.delete("/:id", protectedRoute, deleteClient)
 
 module.exports = router

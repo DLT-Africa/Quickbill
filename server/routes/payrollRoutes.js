@@ -1,12 +1,18 @@
-const express = require('express');
+const express = require("express");
 
-const { getALlPayroll, getPayroll, createPayroll, voidPayroll } = require('../controllers/payrollController');
+const {
+	getALlPayroll,
+	getPayroll,
+	createPayroll,
+	voidPayroll,
+} = require("../controllers/payrollController");
+const { protectedRoute } = require("../middleware/protectedRoute");
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/', getALlPayroll)
-router.get('/:id', getPayroll)
-router.post('/', createPayroll)
-router.put('/:id', voidPayroll)
+router.get("/", protectedRoute, getALlPayroll);
+router.get("/:id", protectedRoute, getPayroll);
+router.post("/", protectedRoute, createPayroll);
+router.put("/:id", protectedRoute, voidPayroll);
 
-module.exports = router
+module.exports = router;

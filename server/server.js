@@ -28,6 +28,7 @@ app.use(cookieParser());
 const store = new MongoDBStore({
   uri: process.env.MONGO_URI, // Replace with your MongoDB connection string
   collection: 'sessions',
+  expires: 30 * 60 // 30 minutes in seconds
 });
 
 // Use express-session middleware
@@ -52,7 +53,7 @@ app.use(passport.session());
 initializePassport(passport);
 
 app.use("/auth", authRoutes)
-app.use("/users", userRoutes);
+app.use("/account", userRoutes);
 app.use("/invoices", invoiceRoutes);
 app.use("/employees", employeeRoutes);
 app.use("/clients", clientRoutes)

@@ -1,23 +1,23 @@
 const User = require("../models/userModel");
 
-const deleteUser = async (req, res) => {
-	try {
-		const userId = req.params.id;
+// const deleteUser = async (req, res) => {
+// 	try {
+// 		const userId = req.params.id;
 
-		const deletedUser = await User.findByIdAndDelete(userId);
+// 		const deletedUser = await User.findByIdAndDelete(userId);
 
-		if (!deletedUser) {
-			return res.status(404).json({ error: "User not found" });
-		}
+// 		if (!deletedUser) {
+// 			return res.status(404).json({ error: "User not found" });
+// 		}
 
-		res.status(200).json({ message: "User deleted successfully", deletedUser });
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: "Internal server error" });
-	}
-};
+// 		res.status(200).json({ message: "User deleted successfully", deletedUser });
+// 	} catch (error) {
+// 		console.error(error);
+// 		res.status(500).json({ error: "Internal server error" });
+// 	}
+// };
 
-const updateUser = async (req, res) => {
+const updateUserProfile = async (req, res) => {
 	try {
 		const userId = req.userId;
 		const updateData = req.body;
@@ -38,11 +38,11 @@ const updateUser = async (req, res) => {
 	}
 };
 
-const getUser = async (req, res) => {
+const getUserProfile = async (req, res) => {
 	try {
-		const userToGetId = req.params.id;
+		const userId = req.userId;
 
-		const user = await User.findById(userToGetId).select("-password");
+		const user = await User.findById(userId).select("-password");
 
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
@@ -67,8 +67,8 @@ const getAllUsers = async (req, res) => {
 };
 
 module.exports = {
-	deleteUser,
-	updateUser,
-	getUser,
+	// deleteUser,
+	updateUserProfile,
+	getUserProfile,
 	getAllUsers,
 };
