@@ -5,11 +5,10 @@ import jwt_decode from 'jwt-decode';
 
 const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const checkAuthentication = () => {
-      const token = Cookies.get('authToken');
+      const token = Cookies.get('jwt');
 
       if (token) {
         try {
