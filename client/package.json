@@ -12,7 +12,9 @@
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
+    "apexcharts": "^3.45.1",
     "atom": "^1.4.2",
+    "axios": "^1.6.3",
     "npm": "^10.2.5",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
