@@ -13,3 +13,4 @@ const ProtectedRoute = ({ path, element }) => {
     <Navigate to="/login" replace state={{ from: path }} />
   );
 };
+ 
