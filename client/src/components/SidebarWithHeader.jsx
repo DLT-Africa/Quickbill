@@ -29,12 +29,11 @@ import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 import { AiFillGift } from "react-icons/ai";
 import { BsGearFill } from "react-icons/bs";
+import useLogout from "../hooks/useLogout";
 import { ImArrowDownLeft2, ImArrowUpRight2 } from "react-icons/im";
-
 import { MdHome } from "react-icons/md";
 
 const SidebarContent = ({ onClose, ...rest }) => {
-  const integrations = useDisclosure();
 
   return (
     <Box
@@ -215,6 +214,8 @@ const NavItem = ({ icon, children, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  const logout = useLogout();
+
   return (
     <Flex
       pos={"sticky"}
@@ -293,7 +294,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={logout}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

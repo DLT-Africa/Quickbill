@@ -22,8 +22,6 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/login" component={<LoginCard />} />
-        <Route path="/signup" component={<SignUpCard />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/invoice-me" element={<InvoiceMe />} />

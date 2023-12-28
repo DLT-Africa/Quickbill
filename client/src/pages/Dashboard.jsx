@@ -103,7 +103,7 @@ export default function Dashboard() {
             <CgSmileSad size={50} color={"#FF1313"} />
           </Flex>
         </Flex>
-        <Box bg={"white"} height={400} w={800} borderRadius={20}>
+        <Box bg={"white"}  p={5} w={900} borderRadius={20}>
           <BarChart />
         </Box>
       </Flex>

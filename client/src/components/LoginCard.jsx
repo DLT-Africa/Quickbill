@@ -23,7 +23,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useSetRecoilState } from "recoil";
 import authScreenAtom from "../atoms/authAtom";
 import { useState } from "react";
-import axios from "../../api/axios";
+import {axiosInstance} from "../../api/axios";
 
 export default function SplitScreen() {
     const setAuthScreen = useSetRecoilState(authScreenAtom);
@@ -34,13 +34,14 @@ export default function SplitScreen() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-         const response = await axios.post(
+         const response = await axiosInstance.post(
             "/auth/signin",
             JSON.stringify({ email, password })
          );
-         console.log(response.data)
+         const loggedUser = response.data.loggedInUser
+         localStorage.setItem("user-quickBill", JSON.stringify(loggedUser))
         
-         navigate("/dashboard");
+         navigate(state?.from || "/dashboard");
       } catch (error) {
         console.log(error)
       }
@@ -104,12 +105,12 @@ export default function SplitScreen() {
           <Stack spacing={4} w={500}>
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
-              <Input type="email" onChange={(e) => setEmail(e.target.value)} value={email}   border={"1px solid black"} />
+              <Input type="email" onChange={(e) => setEmail(e.target.value)} value={email}   border={"1px solid black"} required/>
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type="password" onChange={(e) => setPassword(e.target.value)} value={password}  placeholder="Enter password"   border={"1px solid black"} />
+                <Input type="password" onChange={(e) => setPassword(e.target.value)} required value={password}  placeholder="Enter password"   border={"1px solid black"} />
                 <InputRightElement h={"full"}>
                   <Button variant={"ghost"}></Button>
                 </InputRightElement>
