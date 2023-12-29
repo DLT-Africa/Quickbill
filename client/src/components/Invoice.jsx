@@ -35,42 +35,48 @@ const rawDueDate = addDays(todayDate, 7);
 
 function Invoice() {
 	const [invoice, setInvoice] = useRecoilState(invoiceAtom);
+	const [invoiceItems, setInvoiceItems] = useState([]);
 	const [user, setUser] = useRecoilState(userAtom);
 	const [currentInvoiceNumber, setcurrentInvoiceNumber] = useState("");
 	const [dueDate, setDueDate] = useState(format(rawDueDate, "PP"));
 	const [tableData, setTableData] = useState([
 		{
-			itemName: <Input placeholder="Item name or description" />,
-			qty: <Input placeholder="0" type="number" />,
-			price: <Input placeholder="0" type="number" />,
-			discount: <Input placeholder="0" type="number" />,
-			amount: <Input placeholder="0" type="number" />,
+			itemName: "",
+			qty: "",
+			price: "",
+			disc: "",
+			amt: "",
 		},
 	]);
+
 	const navigate = useNavigate();
 
 	const addRow = () => {
 		const newRow = {
-    	itemName: <Input placeholder="Item name or description" />,
-			qty: <Input placeholder="0" type="number" />,
-			price: <Input placeholder="0" type="number" />,
-			discount: <Input placeholder="0" type="number" />,
-			amount: <Input placeholder="0" type="number" />,
+			itemName: "",
+			qty: "",
+			price: "",
+			disc: "",
+			amt: "",
 		};
-		setTableData(prevData=> [...prevData, newRow]);
+		setTableData((prevData) => [...prevData, newRow]);
 	};
 
-  const deleteRow = (index) => {
-    const updatedData = [...tableData];
-    updatedData.splice(index, 1);
-    setTableData(updatedData);
-  };
- 
-  useEffect(() => {
-    console.log(tableData)
+	const deleteRow = (index) => {
+		const updatedData = [...tableData];
+		updatedData.splice(index, 1);
+		setTableData(updatedData);
+	};
 
-  }, [tableData])
-  
+  const handleItemsInputChange = (index, columnName, value) => {
+    const updatedData = [...tableData];
+    updatedData[index][columnName] = value;
+    setTableData(updatedData);
+  }
+
+	useEffect(() => {
+		console.log(tableData);
+	}, [tableData]);
 
 	useEffect(() => {
 		const getInvoiceNo = async () => {
@@ -184,13 +190,26 @@ function Invoice() {
 						<Tbody>
 							{tableData.map((row, index) => (
 								<Tr key={index}>
-									<Td>{row.itemName}</Td>
-									<Td>{row.qty}</Td>
-                  <Td>{row.price}</Td>
-                  <Td>{row.discount}</Td>
-                  <Td>{row.amount}</Td>
 									<Td>
-										<DeleteIcon cursor={'pointer'} onClick={() => deleteRow(index)} />
+										<Input placeholder="Item name or description" type="text" value={row.itemName} />
+									</Td>
+									<Td>
+										<Input placeholder="0" type="number" value={row.qty}/>
+									</Td>
+									<Td>
+										<Input placeholder="0" type="number" value={row.price} />
+									</Td>
+									<Td>
+										<Input placeholder="0" type="number" />
+									</Td>
+									<Td>
+										<Input placeholder="0" type="number" />
+									</Td>
+									<Td>
+										<DeleteIcon
+											cursor={"pointer"}
+											onClick={() => deleteRow(index)}
+										/>
 									</Td>
 								</Tr>
 							))}
