@@ -24,11 +24,13 @@ import {
 	Th,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, DeleteIcon } from "@chakra-ui/icons";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import invoiceAtom from "../atoms/invoiceAtom";
 import userAtom from "../atoms/userAtom";
 import { axiosInstance } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
+import AddClientModal from "./AddClientModal";
+import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 
 const todayDate = new Date();
 const rawDueDate = addDays(todayDate, 7);
@@ -56,6 +58,8 @@ function Invoice() {
 	const [subTotal, setSubTotal] = useState(0);
 	const [totalAmtAfterDiscount, setTotalAmtAfterDiscount] = useState(0);
 	const [grandTotal, setGrandTotal] = useState(0);
+	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
+	// const [inviteModalOpen, setInviteModalOpen] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -202,10 +206,23 @@ function Invoice() {
 								Select customer <ChevronDownIcon />
 							</MenuButton>
 							<MenuList>
-								<MenuItem>*New customer</MenuItem>
+								<MenuItem onClick={() => setAddClientModalOpen(true)}>
+									*Add Client
+								</MenuItem>
 							</MenuList>
 						</Menu>
 					</Box>
+
+					<Box>
+						<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
+							Bill To
+						</Text>
+						<Text>Yusuf Roqib</Text>
+						<Text>yusufroqib@gmail.com</Text>
+						<Text>No 3, Oloya street, Onibuore, Ibadan</Text>
+					</Box>
+
+					<AddClientModal />
 
 					<Box>
 						<Text as={"h2"} fontWeight={500} fontSize={"18"}>
