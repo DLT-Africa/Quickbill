@@ -68,11 +68,11 @@ function Invoice() {
 		setTableData(updatedData);
 	};
 
-  const handleItemsInputChange = (index, columnName, value) => {
-    const updatedData = [...tableData];
-    updatedData[index][columnName] = value;
-    setTableData(updatedData);
-  }
+	const handleItemsInputChange = (index, columnName, value) => {
+		const updatedData = [...tableData];
+		updatedData[index][columnName] = value;
+		setTableData(updatedData);
+	};
 
 	useEffect(() => {
 		console.log(tableData);
@@ -191,19 +191,58 @@ function Invoice() {
 							{tableData.map((row, index) => (
 								<Tr key={index}>
 									<Td>
-										<Input placeholder="Item name or description" type="text" value={row.itemName} />
+										<Input
+											placeholder="Item name or description"
+											type="text"
+											value={row.itemName}
+											onChange={(e) =>
+												handleItemsInputChange(
+													index,
+													"itemName",
+													e.target.value
+												)
+											}
+										/>
 									</Td>
 									<Td>
-										<Input placeholder="0" type="number" value={row.qty}/>
+										<Input
+											placeholder="0"
+											type="number"
+											value={row.qty}
+											onChange={(e) =>
+												handleItemsInputChange(index, "qty", e.target.value)
+											}
+										/>
 									</Td>
 									<Td>
-										<Input placeholder="0" type="number" value={row.price} />
+										<Input
+											placeholder="0"
+											type="number"
+											value={row.price}
+											onChange={(e) =>
+												handleItemsInputChange(index, "price", e.target.value)
+											}
+										/>
 									</Td>
 									<Td>
-										<Input placeholder="0" type="number" value={row.disc} />
+										<Input
+											placeholder="0"
+											type="number"
+											value={row.disc}
+											onChange={(e) =>
+												handleItemsInputChange(index, "disc", e.target.value)
+											}
+										/>
 									</Td>
 									<Td>
-										<Input placeholder="0" type="number" value={row.amt} />
+										<Input
+											placeholder="0"
+											type="number"
+											value={row.amt}
+											onChange={(e) =>
+												handleItemsInputChange(index, amt, e.target.value)
+											}
+										/>
 									</Td>
 									<Td>
 										<DeleteIcon
