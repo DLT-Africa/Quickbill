@@ -200,10 +200,10 @@ function Invoice() {
 										<Input placeholder="0" type="number" value={row.price} />
 									</Td>
 									<Td>
-										<Input placeholder="0" type="number" />
+										<Input placeholder="0" type="number" value={row.disc} />
 									</Td>
 									<Td>
-										<Input placeholder="0" type="number" />
+										<Input placeholder="0" type="number" value={row.amt} />
 									</Td>
 									<Td>
 										<DeleteIcon
