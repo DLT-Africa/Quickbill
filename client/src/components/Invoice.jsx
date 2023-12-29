@@ -45,7 +45,7 @@ function Invoice() {
 			qty: "",
 			price: "",
 			disc: "",
-			amtAfterDiscount: "",
+			amtAfterDiscount: (0.00).toFixed(2),
       discValue: '',
       amtBeforeDiscount: ''
 
@@ -91,7 +91,7 @@ function Invoice() {
 			qty: "",
 			price: "",
 			disc: "",
-			amtAfterDiscount: "",
+			amtAfterDiscount: (0.00).toFixed(2),
       discValue: '',
       amtBeforeDiscount: ''
 
@@ -122,7 +122,7 @@ function Invoice() {
 			const discount = Number(updatedData[index].disc) / 100;
 			const valAfterDiscount = valBeforeDiscount * (1 - discount);
 			const discountValue = valBeforeDiscount - valAfterDiscount;
-			updatedData[index].amtAfterDiscount = valAfterDiscount
+			updatedData[index].amtAfterDiscount = valAfterDiscount.toFixed(2)
 			updatedData[index].amtBeforeDiscount = valBeforeDiscount
 			updatedData[index].discValue = discountValue
 			return updatedData;
@@ -320,12 +320,13 @@ function Invoice() {
 					+
 				</Button>
 
-				<Box mt={100} pl={700}>
+				<Flex mt={100} justifyContent={'flex-end'}>
 					<Table
 						variant="striped"
 						fontSize={"20px"}
 						fontWeight={500}
 						color={"gray"}
+            w={'45%'}
 					>
 						<Thead pl={2}>
 							<Tr bg="#F4F4F4">
@@ -356,7 +357,7 @@ function Invoice() {
 							</Tr>
 						</Thead>
 					</Table>
-				</Box>
+				</Flex>
 
 				<Flex
 					p={4}
