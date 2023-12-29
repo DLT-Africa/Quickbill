@@ -45,73 +45,21 @@ function Invoice() {
 			qty: "",
 			price: "",
 			disc: "",
-			amt: "",
+			amtAfterDiscount: "",
+      discValue: '',
+      amtBeforeDiscount: ''
+
 		},
 	]);
-  const [vatRate, setVatRate] = useState(0)
-  const [vatAmt, setVatAmt] = useState(0)
-  const [subtotal, setSubtotal] = useState(0)
-  const [grandTotal, setGrandTotal] = useState(0)
+	const [totalDiscount, setTotalDiscount] = useState(0);
+	const [vatRate, setVatRate] = useState('');
+	const [vatAmt, setVatAmt] = useState(0);
+	const [subTotal, setSubTotal] = useState(0);
+	const [grandTotal, setGrandTotal] = useState(0);
 
 	const navigate = useNavigate();
 
-	const addRow = () => {
-		const newRow = {
-			itemName: "",
-			qty: "",
-			price: "",
-			disc: "",
-			amt: "",
-		};
-		setTableData((prevData) => [...prevData, newRow]);
-	};
-
-	const deleteRow = (index) => {
-		const updatedData = [...tableData];
-		updatedData.splice(index, 1);
-		setTableData(updatedData);
-	};
-
-	const handleItemsInputChange = (index, columnName, value) => {
-		// const updatedData = [...tableData];
-		// updatedData[index][columnName] = value;
-		// setTableData(updatedData);
-		setTableData((prevTableDate) => {
-			const updatedData = [...prevTableDate];
-			updatedData[index] = {
-				...updatedData[index],
-				[columnName]: value,
-			};
-
-      //Perform calculations and update total for the specific row
-      const total =
-        Number(updatedData[index].qty) *
-        Number(updatedData[index].price) *
-        (1 - Number(updatedData[index].disc) / 100);
-      updatedData[index].amt = total;
-
-			return updatedData;
-		});
-			
-	};
-
-	useEffect(() => {
-		console.log(tableData);
-	}, [tableData]);
-
   useEffect(() => {
-    // Calculate Subtotal based on table data
-    const calculatedSubtotal = tableData.reduce((acc, row) => acc + row.amt, 0);
-    setSubtotal(calculatedSubtotal);
-
-    // Calculate Grand Total after removing VAT
-    const vatAmount = (calculatedSubtotal * vatRate) / 100;
-    setVatAmt(vatAmount);
-    const calculatedGrandTotal = calculatedSubtotal - vatAmount;
-    setGrandTotal(calculatedGrandTotal);
-  }, [tableData, vatRate]);
-
-	useEffect(() => {
 		const getInvoiceNo = async () => {
 			try {
 				const response = await axiosInstance.get("/invoices");
@@ -135,6 +83,79 @@ function Invoice() {
 
 		getInvoiceNo();
 	}, []);
+
+	const addRow = () => {
+		const newRow = {
+			itemName: "",
+			qty: "",
+			price: "",
+			disc: "",
+			amtAfterDiscount: "",
+      discValue: '',
+      amtBeforeDiscount: ''
+
+		};
+		setTableData((prevData) => [...prevData, newRow]);
+	};
+
+	const deleteRow = (index) => {
+		const updatedData = [...tableData];
+		updatedData.splice(index, 1);
+		setTableData(updatedData);
+	};
+
+	const handleItemsInputChange = (index, columnName, value) => {
+		// const updatedData = [...tableData];
+		// updatedData[index][columnName] = value;
+		// setTableData(updatedData);
+		setTableData((prevTableDate) => {
+			const updatedData = [...prevTableDate];
+			updatedData[index] = {
+				...updatedData[index],
+				[columnName]: value,
+			};
+
+			//Perform calculations and update total for the specific row
+			const valBeforeDiscount =
+				Number(updatedData[index].qty) * Number(updatedData[index].price);
+			const discount = Number(updatedData[index].disc) / 100;
+			const valAfterDiscount = valBeforeDiscount * (1 - discount);
+			const discountValue = valBeforeDiscount - valAfterDiscount;
+			updatedData[index].amtAfterDiscount = valAfterDiscount
+			updatedData[index].amtBeforeDiscount = valBeforeDiscount
+			updatedData[index].discValue = discountValue
+			return updatedData;
+		});
+	};
+
+	useEffect(() => {
+		console.log(tableData);
+	}, [tableData]);
+
+	useEffect(() => {
+    //Calculate Total Value before Discount
+    const totalBeforeDiscount = tableData.reduce((acc, row) => acc + Number(row.amtBeforeDiscount), 0);
+    setSubTotal(totalBeforeDiscount.toFixed(2));
+
+		// Calculate Subtotal based on table data
+		const totalAfterDiscount = tableData.reduce((acc, row) => acc + Number(row.amtAfterDiscount), 0);
+		// setSubTotal(calculatedSubtotal.toFixed(2));
+
+		// Calculate Grand Total after removing VAT
+		const vatAmount = (totalAfterDiscount * Number(vatRate)) / 100;
+		setVatAmt(vatAmount.toFixed(2));
+
+		const calculatedDiscountValue = tableData.reduce(
+			(acc, row) => acc + Number(row.discValue),
+			0
+		);
+		setTotalDiscount(calculatedDiscountValue.toFixed(2));
+
+		const calculatedGrandTotal = calculatedSubtotal + vatAmount;
+		setGrandTotal(calculatedGrandTotal.toFixed(2));
+	}, [tableData, vatRate]);
+
+
 
 	return (
 		<>
@@ -200,9 +221,10 @@ function Invoice() {
 
 						<Text fontWeight={500}>DUE DATE:</Text>
 						<Text pb={"35"}>{dueDate}</Text>
-						<Text fontSize={"18"} fontWeight={500}>
-							AMOUNT <br /> NGN 0
+						<Text fontSize={"22"} fontWeight={500}>
+							AMOUNT
 						</Text>
+            <Text fontSize={'20'}>USD {grandTotal}</Text>
 					</Box>
 				</Flex>
 				<Flex justifyContent={"space-between"} alignItems={"center"}></Flex>
@@ -272,7 +294,7 @@ function Invoice() {
 										/>
 									</Td>
 									<Td>
-										<Text>{row.amt}</Text>
+										<Text>{row.amtAfterDiscount}</Text>
 									</Td>
 									<Td>
 										<DeleteIcon
@@ -312,11 +334,11 @@ function Invoice() {
 
 							<Tr>
 								<Td color={"gray"}>Sub Total: </Td>
-								<Td color={"gray"}>0</Td>
+								<Td color={"gray"}>{subTotal}</Td>
 							</Tr>
 							<Tr>
-								<Td color={"gray"}>Discount: </Td>
-								<Td color={"gray"}>0</Td>
+								<Td color={"gray"}>Discount (USD): </Td>
+								<Td color={"gray"}>{totalDiscount}</Td>
 							</Tr>
 
 							<Tr>
@@ -325,7 +347,7 @@ function Invoice() {
 							</Tr>
 							<Tr>
 								<Td color={"gray"}>Total: </Td>
-								<Td color={"gray"}>0</Td>
+								<Td color={"gray"}>{grandTotal}</Td>
 							</Tr>
 						</Thead>
 					</Table>
@@ -338,8 +360,14 @@ function Invoice() {
 					px={10}
 				>
 					<Flex flexDir={"column"} gap={2}>
-						<Text color={"gray"}>Tax Rate (%)</Text>
-						<Input placeholder="0" size="md" type="number" />
+						<Text color={"gray"} >Tax Rate (%) </Text>
+						<Input
+							placeholder="0"
+							size="md"
+							type="number"
+							value={vatRate}
+							onChange={(e) => setVatRate((e.target.value))}
+						/>
 					</Flex>
 
 					<Flex flexDir={"column"} gap={2}>
