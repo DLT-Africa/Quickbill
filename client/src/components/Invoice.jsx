@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { format } from 'date-fns';
+
 import {
   ChakraProvider,
   Box,
@@ -21,8 +23,34 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import {  ChevronDownIcon, DeleteIcon } from "@chakra-ui/icons";
+import { useRecoilState } from "recoil";
+import invoiceAtom from "../atoms/invoiceAtom";
+import userAtom from "../atoms/userAtom";
+import { axiosInstance } from "../../api/axios";
 
 function Invoice() {
+  const [invoice, setInvoice] = useRecoilState(invoiceAtom)
+  const [user, setUser] = useRecoilState(userAtom)
+  const [currentInvoiceNumber, setcurrentInvoiceNumber] = useState('')
+
+
+  useEffect(() => {
+    const getInvoiceNo = async () => {
+      try {
+        const response = await axiosInstance.get("/invoices")
+        const data = response.data
+        const totalInvoices = data.length
+        const newInvNo = totalInvoices+1
+        const formattedInvoiceNumber = newInvNo.toString().padStart(3, '0')
+        setcurrentInvoiceNumber(formattedInvoiceNumber)
+      } catch (error) {
+       console.log(error)
+      }
+    }
+
+    getInvoiceNo()
+  }, [])
+  
   return (
     <>
       <Box m={10} py={10} border={"1px solid black"} bg={"#fff"} borderRadius={10}>
@@ -31,7 +59,7 @@ function Invoice() {
             INVOICE{" "}
           </Text>
           <Text fontWeight={400} fontSize={"26px"}>
-            Invoice #: 003
+            Invoice #: {currentInvoiceNumber}
           </Text>
         </Box>
         <Box borderBottom="1px" borderColor="gray" w={"full"}></Box>
@@ -77,7 +105,7 @@ function Invoice() {
             <Text fontWeight={500} fontSize={"18"}>
               DATE:
             </Text>
-            <Text pb={"25"}>Dec, 15th 2023 </Text>
+            <Text pb={"25"}>{format(new Date(), 'PP')} </Text>
 
             <Text fontWeight={500}>DUE DATE:</Text>
             <Text pb={"35"}>Dec, 22nd 2023</Text>
