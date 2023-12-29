@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { addDays, format } from 'date-fns';
+
 import {
   ChakraProvider,
   Box,
@@ -16,66 +18,54 @@ import {
   MenuList,
   Menu,
   Divider,
-  Container,
   Input,
   Select,
   Textarea,
 } from "@chakra-ui/react";
-import { CalendarIcon, ChevronDownIcon, DeleteIcon } from "@chakra-ui/icons";
-import { BsCalendar2Plus } from "react-icons/bs";
+import {  ChevronDownIcon, DeleteIcon } from "@chakra-ui/icons";
+import { useRecoilState } from "recoil";
+import invoiceAtom from "../atoms/invoiceAtom";
+import userAtom from "../atoms/userAtom";
+import { axiosInstance } from "../../api/axios";
 
-// function Invoice() {
-//   return (
-//     <>
-//       <Flex
-//         border={"1px solid black"}
-//         width={"full"}
-//         borderRadius={10}
-//         flexDir={"column"}
-//         justifyContent={"center"}
-//         alignItems={"center"}
-//         // ml="300px"
-//         // mt="141px"
-//         // mb="58px"
-//         bg={"#fff"}
-//       >
-//         <Flex flexDir={"column"} float={"right"}>
-//           <Box as={"h1"} fontSize={"xl"} fontWeight={700}>
-//             INVOICE
-//           </Box>
-//           <Box as={"h3"} fontSize={"sm"} fontWeight={400}>
-//             invoice#: 003
-//           </Box>
-//         </Flex>
-//         <Divider />
-
-//         <Flex alignItems={"flex-start"}>
-//           <Text fontSize={"2xl"} fontWeight={500}>
-//             BILL TO
-//           </Text>
-//           <Box>
-//             <Select>
-//               <option></option>
-//             </Select>
-//           </Box>
-//         </Flex>
-//       </Flex>
-//     </>
-//   );
-// }
-
-// export default Invoice;
+const todayDate = new Date()
+const rawDueDate = addDays(todayDate, 7)
 
 function Invoice() {
+  const [invoice, setInvoice] = useRecoilState(invoiceAtom)
+  const [user, setUser] = useRecoilState(userAtom)
+  const [currentInvoiceNumber, setcurrentInvoiceNumber] = useState('')
+  const [dueDate, setDueDate] = useState( format(rawDueDate, 'PP'))
+
+
+
+  useEffect(() => {
+    const getInvoiceNo = async () => {
+      try {
+        const response = await axiosInstance.get("/invoices")
+        const data = response.data
+        const totalInvoices = data.length
+        const newInvNo = totalInvoices+1
+        const formattedInvoiceNumber = newInvNo.toString().padStart(3, '0')
+        setcurrentInvoiceNumber(formattedInvoiceNumber)
+        setInvoice({...invoice, invoiceNumber: formattedInvoiceNumber})
+      } catch (error) {
+       console.log(error) 
+      }
+    }
+
+    getInvoiceNo()
+  }, [])
+  
   return (
     <>
-      <Box py={10} border={"1px solid black"} bg={"#fff"} borderRadius={10}>
+      <Box m={10} py={10} border={"1px solid black"} bg={"#fff"} borderRadius={10}>
         <Box textAlign={"right"} px={10}>
           <Text fontSize={"36px"} fontWeight={700}>
             INVOICE{" "}
           </Text>
           <Text fontWeight={400} fontSize={"26px"}>
-            Invoice #: 003
+            Invoice #: {currentInvoiceNumber}
           </Text>
         </Box>
         <Box borderBottom="1px" borderColor="gray" w={"full"}></Box>
@@ -121,10 +111,10 @@ function Invoice() {
             <Text fontWeight={500} fontSize={"18"}>
               DATE:
             </Text>
-            <Text pb={"25"}>Dec, 15th 2023 </Text>
+            <Text pb={"25"}>{format(todayDate, 'PP')} </Text>
 
             <Text fontWeight={500}>DUE DATE:</Text>
-            <Text pb={"35"}>Dec, 22nd 2023</Text>
+            <Text pb={"35"}>{dueDate}</Text>
             <Text fontSize={"18"} fontWeight={500}>
               
               AMOUNT <br /> NGN 0
@@ -134,10 +124,10 @@ function Invoice() {
         <Flex justifyContent={"space-between"} alignItems={"center"}></Flex>
 
         <Box mt={8}>
-          <Table variant="striped" colorScheme="gray.600">
+          <Table variant="striped"  colorScheme="gray.600">
             <Thead>
               <Tr bg={"#F4F4F4"}>
-                <Td>Item</Td>
+                <Td w={300}>Item</Td>
 
                 <Td>Qty</Td>
                 <Td>Price</Td>
@@ -149,28 +139,24 @@ function Invoice() {
 
             <Tr>
               <Td >
-              <Input placeholder="Item name or description" width={300} />
+              <Input placeholder="Item name or description"  />
 
                 </Td>
               <Td>
-                {" "}
-                <Input placeholder="0" width={40} />
+                <Input placeholder="0" type="number"/>
               </Td>
               <Td>
-                {" "}
-                <Input placeholder="0" width={40} />
+                <Input placeholder="0" type="number"/>
               </Td>
               <Td>
-                {" "}
-                <Input placeholder="0" width={40} />
+                <Input placeholder="0" type="number"/>
               </Td>
               <Td>
-                {" "}
-                <Input placeholder="0" width={40} />
+                <Input placeholder="0" type="number"/>
               </Td>
-              <Box pt={5} pl={10}>
+              <Td>
                 <DeleteIcon />
-              </Box>
+              </Td>
             </Tr>
           </Table>
         </Box>
@@ -216,36 +202,40 @@ function Invoice() {
           alignItems={"center"}
           px={10}
         >
-          <Flex flexDir={"column"} py={5}>
+          <Flex flexDir={"column"} gap={2}>
             <Text color={"gray"}>Tax Rate (%)</Text>
-            <Text>0</Text>
-            <Divider borderColor={"#1c1c1c"} w={"200px"} />
+            <Input
+                    placeholder="0"
+                    size="md"
+                    type="number"
+                  />
           </Flex>
 
-          <Flex flexDir={"column"} py={5}>
-            <Box>
-              <Flex gap={2} justifyContent={"center"} alignItems={"center"}>
+          
+              <Flex flexDir={'column'} gap={2} >
                 <Text color={"gray"}>
-                  Due Date <br/>
+                  Due Date 
                 </Text>
 
-                <Text>
                   <Input
                     placeholder="Select Date and Time"
                     size="md"
                     type="date"
                   />
-                </Text>
               </Flex>
-            </Box>
+              <Flex flexDir={'column'} gap={2} >
+                <Text color={"gray"}>
+                  Currency
+                </Text>
+                <Select placeholder="Select Currency" size="md" />
 
-            <Divider borderColor={"#1c1c1c"} w={"200px"} />
-          </Flex>
-          <Flex flexDir={"column"} py={5}>
+              </Flex>
+
+          {/* <Flex flexDir={"column"} py={5}>
             <Select placeholder="Select Currency" size="sm" />
 
             <Divider borderColor={"#1c1c1c"} w={"200px"} />
-          </Flex>
+          </Flex> */}
         </Flex>
         <Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"}>
           <Text>Note/Additional Information</Text>

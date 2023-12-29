@@ -5,7 +5,7 @@ import { CgSmileSad } from "react-icons/cg";
 import { IoMdCheckmarkCircleOutline, IoMdHappy } from "react-icons/io";
 import { MdOutlinePending, MdOutlinePayment } from "react-icons/md";
 import SidebarWithHeader from "../components/SidebarWithHeader";
-import DashboardContent from "../components/DashboardContent";
+import BarChart from "../components/BarChart";
 
 export default function Dashboard() {
   return (
@@ -103,8 +103,8 @@ export default function Dashboard() {
             <CgSmileSad size={50} color={"#FF1313"} />
           </Flex>
         </Flex>
-        <Box bg={"white"} height={400} w={800} borderRadius={20}>
-          <DashboardContent />
+        <Box bg={"white"}  p={5} w={900} borderRadius={20}>
+          <BarChart />
         </Box>
       </Flex>
     </SidebarWithHeader>
