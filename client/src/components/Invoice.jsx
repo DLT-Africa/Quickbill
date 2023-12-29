@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 
 import {
   ChakraProvider,
@@ -28,10 +28,15 @@ import invoiceAtom from "../atoms/invoiceAtom";
 import userAtom from "../atoms/userAtom";
 import { axiosInstance } from "../../api/axios";
 
+const todayDate = new Date()
+const rawDueDate = addDays(todayDate, 7)
+
 function Invoice() {
   const [invoice, setInvoice] = useRecoilState(invoiceAtom)
   const [user, setUser] = useRecoilState(userAtom)
   const [currentInvoiceNumber, setcurrentInvoiceNumber] = useState('')
+  const [dueDate, setDueDate] = useState( format(rawDueDate, 'PP'))
+
 
 
   useEffect(() => {
@@ -43,8 +48,9 @@ function Invoice() {
         const newInvNo = totalInvoices+1
         const formattedInvoiceNumber = newInvNo.toString().padStart(3, '0')
         setcurrentInvoiceNumber(formattedInvoiceNumber)
+        setInvoice({...invoice, invoiceNumber: formattedInvoiceNumber})
       } catch (error) {
-       console.log(error)
+       console.log(error) 
       }
     }
 
@@ -105,10 +111,10 @@ function Invoice() {
             <Text fontWeight={500} fontSize={"18"}>
               DATE:
             </Text>
-            <Text pb={"25"}>{format(new Date(), 'PP')} </Text>
+            <Text pb={"25"}>{format(todayDate, 'PP')} </Text>
 
             <Text fontWeight={500}>DUE DATE:</Text>
-            <Text pb={"35"}>Dec, 22nd 2023</Text>
+            <Text pb={"35"}>{dueDate}</Text>
             <Text fontSize={"18"} fontWeight={500}>
               
               AMOUNT <br /> NGN 0
