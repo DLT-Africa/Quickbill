@@ -55,6 +55,7 @@ function Invoice() {
 	const [vatRate, setVatRate] = useState('');
 	const [vatAmt, setVatAmt] = useState(0);
 	const [subTotal, setSubTotal] = useState(0);
+  const [totalAmtAfterDiscount, setTotalAmtAfterDiscount] = useState(0);
 	const [grandTotal, setGrandTotal] = useState(0);
 
 	const navigate = useNavigate();
@@ -139,7 +140,7 @@ function Invoice() {
 
 		// Calculate Subtotal based on table data
 		const totalAfterDiscount = tableData.reduce((acc, row) => acc + Number(row.amtAfterDiscount), 0);
-		// setSubTotal(calculatedSubtotal.toFixed(2));
+    setTotalAmtAfterDiscount(totalAfterDiscount.toFixed(2));
 
 		// Calculate Grand Total after removing VAT
 		const vatAmount = (totalAfterDiscount * Number(vatRate)) / 100;
@@ -151,7 +152,7 @@ function Invoice() {
 		);
 		setTotalDiscount(calculatedDiscountValue.toFixed(2));
 
-		const calculatedGrandTotal = calculatedSubtotal + vatAmount;
+		const calculatedGrandTotal = totalAfterDiscount + vatAmount;
 		setGrandTotal(calculatedGrandTotal.toFixed(2));
 	}, [tableData, vatRate]);
 
@@ -339,6 +340,10 @@ function Invoice() {
 							<Tr>
 								<Td color={"gray"}>Discount (USD): </Td>
 								<Td color={"gray"}>{totalDiscount}</Td>
+							</Tr>
+							<Tr>
+								<Td color={"gray"}>Total after Discount (USD): </Td>
+								<Td color={"gray"}>{totalAmtAfterDiscount}</Td>
 							</Tr>
 
 							<Tr>
