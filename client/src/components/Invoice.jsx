@@ -139,6 +139,10 @@ function Invoice() {
 		console.log(tableData);
 	}, [tableData]);
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+	};
+
 	useEffect(() => {
 		//Calculate Total Value before Discount
 		const totalBeforeDiscount = tableData.reduce(
@@ -251,189 +255,193 @@ function Invoice() {
 						<Text fontSize={"20"}>USD {grandTotal}</Text>
 					</Box>
 				</Flex>
-				<Flex justifyContent={"space-between"} alignItems={"center"}></Flex>
+				{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
 
-				<Box mt={8}>
-					<Table variant="striped" colorScheme="gray.600">
-						<Thead>
-							<Tr bg={"#F4F4F4"}>
-								<Th w={300}>Item</Th>
+				<form onSubmit={handleSubmit}>
+					<Box mt={8}>
+						<Table variant="striped" colorScheme="gray.600">
+							<Thead>
+								<Tr bg={"#F4F4F4"}>
+									<Th w={300}>Item</Th>
 
-								<Th>Qty</Th>
-								<Th>Unit Price</Th>
-								<Th>Discount(%)</Th>
-								<Th>Amount</Th>
-								<Th>Action</Th>
-							</Tr>
-						</Thead>
-						<Tbody>
-							{tableData.map((row, index) => (
-								<Tr key={index}>
-									<Td>
-										<Input
-											placeholder="Item name or description"
-											type="text"
-											required
-											value={row.itemName}
-											onChange={(e) =>
-												handleItemsInputChange(
-													index,
-													"itemName",
-													e.target.value
-												)
-											}
-										/>
-									</Td>
-									<Td>
-										<Input
-											placeholder="0"
-											required
-											type="number"
-											value={row.qty}
-											onChange={(e) =>
-												handleItemsInputChange(index, "qty", e.target.value)
-											}
-										/>
-									</Td>
-									<Td>
-										<Input
-											placeholder="0"
-											required
-											type="number"
-											value={row.price}
-											onChange={(e) =>
-												handleItemsInputChange(index, "price", e.target.value)
-											}
-										/>
-									</Td>
-									<Td>
-										<Input
-											placeholder="0"
-											required
-											type="number"
-											value={row.disc}
-											onChange={(e) =>
-												handleItemsInputChange(index, "disc", e.target.value)
-											}
-										/>
-									</Td>
-									<Td>
-										<Text>{row.amtAfterDiscount}</Text>
-									</Td>
-									<Td>
-										<DeleteIcon
-											cursor={"pointer"}
-											onClick={() => deleteRow(index)}
-										/>
-									</Td>
+									<Th>Qty</Th>
+									<Th>Unit Price</Th>
+									<Th>Discount(%)</Th>
+									<Th>Amount</Th>
+									<Th>Action</Th>
 								</Tr>
-							))}
-						</Tbody>
-					</Table>
-				</Box>
+							</Thead>
+							<Tbody>
+								{tableData.map((row, index) => (
+									<Tr key={index}>
+										<Td>
+											<Input
+												placeholder="Item name or description"
+												type="text"
+												required
+												value={row.itemName}
+												onChange={(e) =>
+													handleItemsInputChange(
+														index,
+														"itemName",
+														e.target.value
+													)
+												}
+											/>
+										</Td>
+										<Td>
+											<Input
+												placeholder="0"
+												required
+												type="number"
+												value={row.qty}
+												onChange={(e) =>
+													handleItemsInputChange(index, "qty", e.target.value)
+												}
+											/>
+										</Td>
+										<Td>
+											<Input
+												placeholder="0"
+												required
+												type="number"
+												value={row.price}
+												onChange={(e) =>
+													handleItemsInputChange(index, "price", e.target.value)
+												}
+											/>
+										</Td>
+										<Td>
+											<Input
+												placeholder="0"
+												type="number"
+												value={row.disc}
+												onChange={(e) =>
+													handleItemsInputChange(index, "disc", e.target.value)
+												}
+											/>
+										</Td>
+										<Td>
+											<Text>{row.amtAfterDiscount}</Text>
+										</Td>
+										<Td>
+											<DeleteIcon
+												cursor={"pointer"}
+												onClick={() => deleteRow(index)}
+											/>
+										</Td>
+									</Tr>
+								))}
+							</Tbody>
+						</Table>
+					</Box>
 
-				<Button
-					onClick={addRow}
-					ml={10}
-					mt={5}
-					bg={"#2970FF"}
-					borderRadius="50%"
-					color={"#fff"}
-				>
-					+
-				</Button>
-
-				<Flex mt={100} justifyContent={"flex-end"}>
-					<Table
-						variant="striped"
-						fontSize={"20px"}
-						fontWeight={500}
-						color={"gray"}
-						w={"45%"}
+					<Button
+						onClick={addRow}
+						ml={10}
+						mt={5}
+						bg={"#2970FF"}
+						borderRadius="50%"
+						color={"#fff"}
 					>
-						<Thead pl={2}>
-							<Tr bg="#F4F4F4">
-								<Td>Invoice Summary </Td>
-								<Td> </Td>
-							</Tr>
+						+
+					</Button>
 
-							<Tr>
-								<Td color={"gray"}>Sub Total: </Td>
-								<Td color={"gray"}>{subTotal}</Td>
-							</Tr>
-							<Tr>
-								<Td color={"gray"}>Discount (USD): </Td>
-								<Td color={"gray"}>{totalDiscount}</Td>
-							</Tr>
-							<Tr>
-								<Td color={"gray"}>Total after Discount (USD): </Td>
-								<Td color={"gray"}>{totalAmtAfterDiscount}</Td>
-							</Tr>
+					<Flex mt={100} justifyContent={"flex-end"}>
+						<Table
+							variant="striped"
+							fontSize={"20px"}
+							fontWeight={500}
+							color={"gray"}
+							w={"45%"}
+						>
+							<Thead pl={2}>
+								<Tr bg="#F4F4F4">
+									<Td>Invoice Summary </Td>
+									<Td> </Td>
+								</Tr>
 
-							<Tr>
-								<Td color={"gray"}>VAT (USD): </Td>
-								<Td color={"gray"}>{vatAmt}</Td>
-							</Tr>
-							<Tr>
-								<Td color={"gray"}>Total: </Td>
-								<Td color={"gray"}>{grandTotal}</Td>
-							</Tr>
-						</Thead>
-					</Table>
-				</Flex>
+								<Tr>
+									<Td color={"gray"}>Sub Total: </Td>
+									<Td color={"gray"}>{subTotal}</Td>
+								</Tr>
+								<Tr>
+									<Td color={"gray"}>Discount (USD): </Td>
+									<Td color={"gray"}>{totalDiscount}</Td>
+								</Tr>
+								<Tr>
+									<Td color={"gray"}>Total after Discount (USD): </Td>
+									<Td color={"gray"}>{totalAmtAfterDiscount}</Td>
+								</Tr>
 
-				<Flex
-					p={4}
-					justifyContent={"space-between"}
-					alignItems={"center"}
-					px={10}
-				>
-					<Flex flexDir={"column"} gap={2}>
-						<Text color={"gray"}>Tax Rate (%) </Text>
-						<Input
-							placeholder="0"
-							size="md"
-							type="number"
-							value={vatRate}
-							onChange={(e) => setVatRate(e.target.value)}
-						/>
+								<Tr>
+									<Td color={"gray"}>VAT (USD): </Td>
+									<Td color={"gray"}>{vatAmt}</Td>
+								</Tr>
+								<Tr>
+									<Td color={"gray"}>Total: </Td>
+									<Td color={"gray"}>{grandTotal}</Td>
+								</Tr>
+							</Thead>
+						</Table>
 					</Flex>
 
-					<Flex flexDir={"column"} gap={2}>
-						<Text color={"gray"}>Due Date</Text>
+					<Flex
+						p={4}
+						justifyContent={"space-between"}
+						alignItems={"center"}
+						px={10}
+						mt={10}
+					>
+						<Flex flexDir={"column"} gap={2}>
+							<Text color={"gray"}>Tax Rate (%) </Text>
+							<Input
+								placeholder="0"
+								size="md"
+								type="number"
+								value={vatRate}
+								onChange={(e) => setVatRate(e.target.value)}
+							/>
+						</Flex>
 
-						<Input
-							placeholder="Select Date and Time"
-							size="md"
-							type="date"
-							value={format(selectedDueDate, "yyyy-MM-dd")}
-							onChange={handleDueDateChange}
-							min={format(addDays(todayDate, 1), "yyyy-MM-dd")}
-						/>
-					</Flex>
-					<Flex flexDir={"column"} gap={2}>
-						<Text color={"gray"}>Currency</Text>
-						<Select placeholder="Select Currency" size="md" />
-					</Flex>
+						<Flex flexDir={"column"} gap={2}>
+							<Text color={"gray"}>Due Date</Text>
 
-					{/* <Flex flexDir={"column"} py={5}>
+							<Input
+								placeholder="Select Date and Time"
+								size="md"
+								type="date"
+								value={format(selectedDueDate, "yyyy-MM-dd")}
+								onChange={handleDueDateChange}
+								min={format(addDays(todayDate, 1), "yyyy-MM-dd")}
+							/>
+						</Flex>
+						<Flex flexDir={"column"} gap={2}>
+							<Text color={"gray"}>Currency</Text>
+							<Select placeholder="Select Currency" size="md" />
+						</Flex>
+
+						{/* <Flex flexDir={"column"} py={5}>
             <Select placeholder="Select Currency" size="sm" />
 
             <Divider borderColor={"#1c1c1c"} w={"200px"} />
           </Flex> */}
-				</Flex>
-				<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"}>
-					<Text>Note/Additional Information</Text>
-					<Box>
-						<Textarea placeholder="Kindly provide additional details or terms of service " />
-					</Box>
-				</Flex>
-
-				<Box mt={8}>
-					<Flex justifyContent="center" pb={5}>
-						<Button bg={"#2970FF"}>Create and send</Button>
 					</Flex>
-				</Box>
+					<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"}>
+						<Text>Note/Additional Information</Text>
+						<Box>
+							<Textarea placeholder="Kindly provide additional details or terms of service " />
+						</Box>
+					</Flex>
+
+					<Box mt={8}>
+						<Flex justifyContent="center" pb={5}>
+							<Button type="submit" bg={"#2970FF"}>
+								Create and send
+							</Button>
+						</Flex>
+					</Box>
+				</form>
 			</Box>
 		</>
 	);

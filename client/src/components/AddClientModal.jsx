@@ -42,9 +42,9 @@ const AddClientModal = () => {
 
 		// Perform email existence check logic here
 		try {
-      const response = await axiosInstance.post("/invoices/create", formData)
-      const data = response.data;
-      console.log(data);
+			const response = await axiosInstance.post("/clients/create", formData);
+			const data = response.data;
+			console.log(data);
 		} catch (error) {
 			console.log(error);
 		}
@@ -71,48 +71,51 @@ const AddClientModal = () => {
 				isOpen={addClientModalOpen}
 				onClose={() => setAddClientModalOpen(false)}
 			>
-				<ModalOverlay />
-				<ModalContent>
-					<ModalHeader>Email Check</ModalHeader>
-					<ModalCloseButton />
-					<ModalBody>
-						<FormControl>
-							<FormLabel>Name</FormLabel>
-							<Input
-								type="text"
-								name="name"
-								value={formData.name}
-								onChange={handleChange}
-								required
-							/>
-						</FormControl>
-						<FormControl mt={4}>
-							<FormLabel>Email</FormLabel>
-							<Input
-								type="email"
-								name="email"
-								value={formData.email}
-								onChange={handleChange}
-								required
-							/>
-						</FormControl>
-						<FormControl mt={4}>
-							<FormLabel>Address</FormLabel>
-							<Input
-								type="text"
-								name="text"
-								value={formData.address}
-								onChange={handleChange}
-							/>
-						</FormControl>
-					</ModalBody>
-					<ModalFooter>
-						<Button colorScheme="blue" mr={3} onClick={handleSubmit}>
-							Check Email
-						</Button>
-						<Button onClick={() => setAddClientModalOpen(false)}>Cancel</Button>
-					</ModalFooter>
-				</ModalContent>
+				<form onSubmit={handleSubmit}>
+					<ModalOverlay />
+					<ModalContent>
+						<ModalHeader>Add Client</ModalHeader>
+						<ModalCloseButton />
+						<ModalBody>
+							<FormControl isRequired>
+								<FormLabel>Name</FormLabel>
+								<Input
+									type="text"
+									name="name"
+									value={formData.name}
+									onChange={handleChange}
+									required
+								/>
+							</FormControl>
+							<FormControl mt={4} isRequired>
+								<FormLabel>Email</FormLabel>
+								<Input
+									type="email"
+									name="email"
+									value={formData.email}
+									onChange={handleChange}
+								/>
+							</FormControl>
+							<FormControl mt={4}>
+								<FormLabel>Address</FormLabel>
+								<Input
+									type="text"
+									name="address"
+									value={formData.address}
+									onChange={handleChange}
+								/>
+							</FormControl>
+						</ModalBody>
+						<ModalFooter>
+							<Button type="submit" colorScheme="blue" mr={3}>
+								Add Client
+							</Button>
+							<Button onClick={() => setAddClientModalOpen(false)}>
+								Cancel
+							</Button>
+						</ModalFooter>
+					</ModalContent>
+				</form>
 			</Modal>
 
 			<Modal
