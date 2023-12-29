@@ -48,6 +48,10 @@ function Invoice() {
 			amt: "",
 		},
 	]);
+  const [vatRate, setVatRate] = useState(0)
+  const [vatAmt, setVatAmt] = useState(0)
+  const [subtotal, setSubtotal] = useState(0)
+  const [grandTotal, setGrandTotal] = useState(0)
 
 	const navigate = useNavigate();
 
@@ -69,14 +73,43 @@ function Invoice() {
 	};
 
 	const handleItemsInputChange = (index, columnName, value) => {
-		const updatedData = [...tableData];
-		updatedData[index][columnName] = value;
-		setTableData(updatedData);
+		// const updatedData = [...tableData];
+		// updatedData[index][columnName] = value;
+		// setTableData(updatedData);
+		setTableData((prevTableDate) => {
+			const updatedData = [...prevTableDate];
+			updatedData[index] = {
+				...updatedData[index],
+				[columnName]: value,
+			};
+
+      //Perform calculations and update total for the specific row
+      const total =
+        Number(updatedData[index].qty) *
+        Number(updatedData[index].price) *
+        (1 - Number(updatedData[index].disc) / 100);
+      updatedData[index].amt = total;
+
+			return updatedData;
+		});
+			
 	};
 
 	useEffect(() => {
 		console.log(tableData);
 	}, [tableData]);
+
+  useEffect(() => {
+    // Calculate Subtotal based on table data
+    const calculatedSubtotal = tableData.reduce((acc, row) => acc + row.amt, 0);
+    setSubtotal(calculatedSubtotal);
+
+    // Calculate Grand Total after removing VAT
+    const vatAmount = (calculatedSubtotal * vatRate) / 100;
+    setVatAmt(vatAmount);
+    const calculatedGrandTotal = calculatedSubtotal - vatAmount;
+    setGrandTotal(calculatedGrandTotal);
+  }, [tableData, vatRate]);
 
 	useEffect(() => {
 		const getInvoiceNo = async () => {
@@ -181,8 +214,8 @@ function Invoice() {
 								<Th w={300}>Item</Th>
 
 								<Th>Qty</Th>
-								<Th>Price</Th>
-								<Th>Disc(%)</Th>
+								<Th>Unit Price</Th>
+								<Th>Discount(%)</Th>
 								<Th>Amount</Th>
 								<Th>Action</Th>
 							</Tr>
@@ -194,6 +227,7 @@ function Invoice() {
 										<Input
 											placeholder="Item name or description"
 											type="text"
+											required
 											value={row.itemName}
 											onChange={(e) =>
 												handleItemsInputChange(
@@ -207,6 +241,7 @@ function Invoice() {
 									<Td>
 										<Input
 											placeholder="0"
+											required
 											type="number"
 											value={row.qty}
 											onChange={(e) =>
@@ -217,6 +252,7 @@ function Invoice() {
 									<Td>
 										<Input
 											placeholder="0"
+											required
 											type="number"
 											value={row.price}
 											onChange={(e) =>
@@ -227,6 +263,7 @@ function Invoice() {
 									<Td>
 										<Input
 											placeholder="0"
+											required
 											type="number"
 											value={row.disc}
 											onChange={(e) =>
@@ -235,14 +272,7 @@ function Invoice() {
 										/>
 									</Td>
 									<Td>
-										<Input
-											placeholder="0"
-											type="number"
-											value={row.amt}
-											onChange={(e) =>
-												handleItemsInputChange(index, amt, e.target.value)
-											}
-										/>
+										<Text>{row.amt}</Text>
 									</Td>
 									<Td>
 										<DeleteIcon
@@ -290,8 +320,8 @@ function Invoice() {
 							</Tr>
 
 							<Tr>
-								<Td color={"gray"}>VAT(%): </Td>
-								<Td color={"gray"}>0</Td>
+								<Td color={"gray"}>VAT (USD): </Td>
+								<Td color={"gray"}>{vatAmt}</Td>
 							</Tr>
 							<Tr>
 								<Td color={"gray"}>Total: </Td>
