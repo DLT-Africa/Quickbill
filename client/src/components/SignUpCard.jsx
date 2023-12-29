@@ -19,18 +19,54 @@ import {
   InputRightElement,
   HStack,
 } from "@chakra-ui/react";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useSetRecoilState } from "recoil";
 import authScreenAtom from "../atoms/authAtom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { axiosInstance } from "../../api/axios";
 
 export default function SplitScreen() {
-  
-  const setAuthScreen = useSetRecoilState(authScreenAtom)
+  const setAuthScreen = useSetRecoilState(authScreenAtom);
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post(
+        "/auth/signup",
+        JSON.stringify({ name, email, password })
+      );
+      const loggedUser = response.data.loggedInUser;
+      localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
+      setUser(loggedUser);
+
+      //  navigate(state?.from || "/dashboard");
+      // Redirect to the originally requested route (or a default route)
+
+      navigate("/auth");
+    } catch (error) {
+      console.log(error);
+    }
+    // if (user === "" || pwd === "") {
+    //    setErrMsg("User and pwd are required");
+    //    return;
+    // }
+  };
+
   return (
-    <Stack minH={"100vh"} direction={{ base: "column", md: "row" }} className="loginSignup">
-      
-      <Flex flexDir="column" w={"450px"} >
+    <Stack
+      minH={"100vh"}
+      direction={{ base: "column", md: "row" }}
+      className="loginSignup"
+    >
+      <Flex flexDir="column" w={"450px"}>
         <Link>
           <Box>
             <Image src="short logo 2.png" alt="short logo" />
@@ -57,10 +93,8 @@ export default function SplitScreen() {
             py={20}
           />
         </Box>
-
-
       </Flex>
-      <Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"} >
+      <Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"}>
         <Stack spacing={4} w={"full"} maxW={"md"} align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
             Create Account
@@ -82,10 +116,13 @@ export default function SplitScreen() {
           <Stack spacing={4}>
             <HStack w={500}>
               <Box>
-                <FormControl id="name">
+                <FormControl isRequired>
                   <FormLabel> Name</FormLabel>
                   <Input
                     type="text"
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="John Doe"
+                    value={name}
                     color={"black"}
                     border={"1px solid black"}
                     w={500}
@@ -93,25 +130,35 @@ export default function SplitScreen() {
                 </FormControl>
               </Box>
             </HStack>
-            <FormControl id="email">
+            <FormControl isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" border={"1px solid black"} />
+              <Input
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="example@mail.com"
+                value={email}
+                border={"1px solid black"}
+              />
             </FormControl>
-            <FormControl id="password">
+            <FormControl isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type="password" border={"1px solid black"} />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  placeholder="Enter your password"
+                  border={"1px solid black"}
+                />
                 <InputRightElement h={"full"}>
-                  <Button variant={"ghost"}></Button>
-                </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <FormControl id="password">
-              <FormLabel>Confirm Password</FormLabel>
-              <InputGroup>
-                <Input type="password" border={"1px solid black"} />
-                <InputRightElement h={"full"}>
-                  <Button variant={"ghost"}></Button>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
                 </InputRightElement>
               </InputGroup>
             </FormControl>
@@ -124,19 +171,23 @@ export default function SplitScreen() {
                 _hover={{
                   bg: "blue.500",
                 }}
+                onClick={handleSubmit}
+                isDisabled={(!name, !email, !password ? true : false)}
               >
                 Sign up
               </Button>
             </Stack>
             <Stack pt={6}>
-            <Text align={"center"}>
-                Already a user? <Link color={"blue.400"} onClick={() => setAuthScreen("login")} >Login</Link>
+              <Text align={"center"}>
+                Already a user?{" "}
+                <Link color={"blue.400"} onClick={() => setAuthScreen("login")}>
+                  Login
+                </Link>
               </Text>
             </Stack>
           </Stack>
         </Stack>
       </Flex>
-
     </Stack>
   );
 }
