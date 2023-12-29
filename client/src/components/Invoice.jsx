@@ -38,29 +38,28 @@ function Invoice() {
 	const [invoiceItems, setInvoiceItems] = useState([]);
 	const [user, setUser] = useRecoilState(userAtom);
 	const [currentInvoiceNumber, setcurrentInvoiceNumber] = useState("");
-	const [dueDate, setDueDate] = useState(format(rawDueDate, "PP"));
+	const [selectedDueDate, setSelectedDueDate] = useState(rawDueDate);
 	const [tableData, setTableData] = useState([
 		{
 			itemName: "",
 			qty: "",
 			price: "",
 			disc: "",
-			amtAfterDiscount: (0.00).toFixed(2),
-      discValue: '',
-      amtBeforeDiscount: ''
-
+			amtAfterDiscount: (0.0).toFixed(2),
+			discValue: "",
+			amtBeforeDiscount: "",
 		},
 	]);
 	const [totalDiscount, setTotalDiscount] = useState(0);
-	const [vatRate, setVatRate] = useState('');
+	const [vatRate, setVatRate] = useState("");
 	const [vatAmt, setVatAmt] = useState(0);
 	const [subTotal, setSubTotal] = useState(0);
-  const [totalAmtAfterDiscount, setTotalAmtAfterDiscount] = useState(0);
+	const [totalAmtAfterDiscount, setTotalAmtAfterDiscount] = useState(0);
 	const [grandTotal, setGrandTotal] = useState(0);
 
 	const navigate = useNavigate();
 
-  useEffect(() => {
+	useEffect(() => {
 		const getInvoiceNo = async () => {
 			try {
 				const response = await axiosInstance.get("/invoices");
@@ -91,10 +90,9 @@ function Invoice() {
 			qty: "",
 			price: "",
 			disc: "",
-			amtAfterDiscount: (0.00).toFixed(2),
-      discValue: '',
-      amtBeforeDiscount: ''
-
+			amtAfterDiscount: (0.0).toFixed(2),
+			discValue: "",
+			amtBeforeDiscount: "",
 		};
 		setTableData((prevData) => [...prevData, newRow]);
 	};
@@ -122,11 +120,15 @@ function Invoice() {
 			const discount = Number(updatedData[index].disc) / 100;
 			const valAfterDiscount = valBeforeDiscount * (1 - discount);
 			const discountValue = valBeforeDiscount - valAfterDiscount;
-			updatedData[index].amtAfterDiscount = valAfterDiscount.toFixed(2)
-			updatedData[index].amtBeforeDiscount = valBeforeDiscount
-			updatedData[index].discValue = discountValue
+			updatedData[index].amtAfterDiscount = valAfterDiscount.toFixed(2);
+			updatedData[index].amtBeforeDiscount = valBeforeDiscount;
+			updatedData[index].discValue = discountValue;
 			return updatedData;
 		});
+	};
+
+	const handleDueDateChange = (e) => {
+		setSelectedDueDate(new Date(e.target.value));
 	};
 
 	useEffect(() => {
@@ -134,13 +136,19 @@ function Invoice() {
 	}, [tableData]);
 
 	useEffect(() => {
-    //Calculate Total Value before Discount
-    const totalBeforeDiscount = tableData.reduce((acc, row) => acc + Number(row.amtBeforeDiscount), 0);
-    setSubTotal(totalBeforeDiscount.toFixed(2));
+		//Calculate Total Value before Discount
+		const totalBeforeDiscount = tableData.reduce(
+			(acc, row) => acc + Number(row.amtBeforeDiscount),
+			0
+		);
+		setSubTotal(totalBeforeDiscount.toFixed(2));
 
 		// Calculate Subtotal based on table data
-		const totalAfterDiscount = tableData.reduce((acc, row) => acc + Number(row.amtAfterDiscount), 0);
-    setTotalAmtAfterDiscount(totalAfterDiscount.toFixed(2));
+		const totalAfterDiscount = tableData.reduce(
+			(acc, row) => acc + Number(row.amtAfterDiscount),
+			0
+		);
+		setTotalAmtAfterDiscount(totalAfterDiscount.toFixed(2));
 
 		// Calculate Grand Total after removing VAT
 		const vatAmount = (totalAfterDiscount * Number(vatRate)) / 100;
@@ -155,8 +163,6 @@ function Invoice() {
 		const calculatedGrandTotal = totalAfterDiscount + vatAmount;
 		setGrandTotal(calculatedGrandTotal.toFixed(2));
 	}, [tableData, vatRate]);
-
-
 
 	return (
 		<>
@@ -221,11 +227,11 @@ function Invoice() {
 						<Text pb={"25"}>{format(todayDate, "PP")} </Text>
 
 						<Text fontWeight={500}>DUE DATE:</Text>
-						<Text pb={"35"}>{dueDate}</Text>
+						<Text pb={"35"}>{format(selectedDueDate, "PP")}</Text>
 						<Text fontSize={"22"} fontWeight={500}>
 							AMOUNT
 						</Text>
-            <Text fontSize={'20'}>USD {grandTotal}</Text>
+						<Text fontSize={"20"}>USD {grandTotal}</Text>
 					</Box>
 				</Flex>
 				<Flex justifyContent={"space-between"} alignItems={"center"}></Flex>
@@ -320,13 +326,13 @@ function Invoice() {
 					+
 				</Button>
 
-				<Flex mt={100} justifyContent={'flex-end'}>
+				<Flex mt={100} justifyContent={"flex-end"}>
 					<Table
 						variant="striped"
 						fontSize={"20px"}
 						fontWeight={500}
 						color={"gray"}
-            w={'45%'}
+						w={"45%"}
 					>
 						<Thead pl={2}>
 							<Tr bg="#F4F4F4">
@@ -366,20 +372,27 @@ function Invoice() {
 					px={10}
 				>
 					<Flex flexDir={"column"} gap={2}>
-						<Text color={"gray"} >Tax Rate (%) </Text>
+						<Text color={"gray"}>Tax Rate (%) </Text>
 						<Input
 							placeholder="0"
 							size="md"
 							type="number"
 							value={vatRate}
-							onChange={(e) => setVatRate((e.target.value))}
+							onChange={(e) => setVatRate(e.target.value)}
 						/>
 					</Flex>
 
 					<Flex flexDir={"column"} gap={2}>
 						<Text color={"gray"}>Due Date</Text>
 
-						<Input placeholder="Select Date and Time" size="md" type="date" />
+						<Input
+							placeholder="Select Date and Time"
+							size="md"
+							type="date"
+							value={format(selectedDueDate, "yyyy-MM-dd")}
+							onChange={handleDueDateChange}
+							min={format(addDays(todayDate, 1), "yyyy-MM-dd")}
+						/>
 					</Flex>
 					<Flex flexDir={"column"} gap={2}>
 						<Text color={"gray"}>Currency</Text>
