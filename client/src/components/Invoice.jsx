@@ -457,8 +457,8 @@ function Invoice() {
 									<Td color={"gray"}>{vatAmt}</Td>
 								</Tr>
 								<Tr>
-									<Td color={"gray"}>Total: </Td>
-									<Td color={"gray"}>{grandTotal}</Td>
+									<Td color={"black"} flexWrap={900}  fontSize={'2xl'}>Total: </Td>
+									<Td color={"black"} fontWeight={900} fontSize={'2xl'}>{grandTotal}</Td>
 								</Tr>
 							</Thead>
 						</Table>
