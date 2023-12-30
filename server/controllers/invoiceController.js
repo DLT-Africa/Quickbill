@@ -20,6 +20,7 @@ const createInvoice = async (req, res) => {
 
 		const newInvoice = await Invoice.create({
 			invoiceNumber,
+			creatorId,
 			client,
 			items,
 			issueDate,
@@ -31,7 +32,6 @@ const createInvoice = async (req, res) => {
 			currency,
 			totalAmount,
 			remainingAmount,
-			creatorId,
 		});
 
 		res

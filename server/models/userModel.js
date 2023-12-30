@@ -10,34 +10,34 @@ const userSchema = mongoose.Schema(
 		businessName: String,
 		contactAddress: String,
 		paymentDetails: String,
-		invoices: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "Invoice",
-				default: [],
-			},
-		],
-		clients: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "Client",
-				default: [],
-			},
-		],
-		employees: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "Employee",
-				default: [],
-			},
-		],
-		payrolls: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "Payroll",
-				default: [],
-			},
-		],
+		// invoices: [
+		// 	{
+		// 		type: mongoose.Schema.Types.ObjectId,
+		// 		ref: "Invoice",
+		// 		default: [],
+		// 	},
+		// ],
+		// clients: [
+		// 	{
+		// 		type: mongoose.Schema.Types.ObjectId,
+		// 		ref: "Client",
+		// 		default: [],
+		// 	},
+		// ],
+		// employees: [
+		// 	{
+		// 		type: mongoose.Schema.Types.ObjectId,
+		// 		ref: "Employee",
+		// 		default: [],
+		// 	},
+		// ],
+		// payrolls: [
+		// 	{
+		// 		type: mongoose.Schema.Types.ObjectId,
+		// 		ref: "Payroll",
+		// 		default: [],
+		// 	},
+		// ],
 	},
 	{
 		timestamps: true,

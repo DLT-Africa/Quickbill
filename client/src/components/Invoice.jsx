@@ -266,9 +266,7 @@ function Invoice() {
 							</Flex>
 						)}
 					</Box>
-
 				
-
 					<AddClientModal />
 
 					<Box>

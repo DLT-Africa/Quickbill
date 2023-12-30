@@ -55,10 +55,7 @@ const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
 				.status(200)
 				.send({
 					msg: "You should receive an email from us soon. If not, check your spam folder. Click on confirmation link to activate account",
-					userEmail,
-					name,
-					token,
-					// tokenExpiryDate
+					
 				});
 		})
 		.catch((error) => {
@@ -69,4 +66,48 @@ const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
 		});
 };
 
-module.exports = { sendConfirmationMail };
+const sendClientInvitationMail = ({inviterEmail, inviterName, clientEmail}, res) => {
+	let response = {
+		body: {
+			intro: `${inviterName} with email address (${inviterEmail})  has invited you to Quickbill to enjoy seamless payroll and invoicing system`,
+			action: {
+				instructions: "To get started with Quickbill, please click on the button below to register in less than 3 minutes:",
+				button: {
+					color: "#22BC66", // Optional action button color
+					text: "Accept Invitation",
+					link: `http://localhost:5173/auth/`,
+				},
+			},
+			outro:
+				"Need help, or have questions? Just reply to this email, we'd love to help.",
+		},
+	};
+
+	let mail = MailGenerator.generate(response);
+
+	let message = {
+		from: process.env.EMAIL,
+		to: clientEmail,
+		subject: `${inviterName} invited you to Quickbill`,
+		html: mail,
+	};
+
+	transporter
+		.sendMail(message)
+		.then(() => {
+			return res
+				.status(200)
+				.send({
+					message: "Invitation mail sent",
+					
+				});
+		})
+		.catch((error) => {
+			console.log(error);
+			return res
+				.status(500)
+				.send({ msg: "An error occured while sending the email." });
+		});
+}
+
+module.exports = { sendConfirmationMail, sendClientInvitationMail };
