@@ -1,9 +1,41 @@
 const Client = require("../models/clientModel");
+const User = require("../models/userModel");
+const { sendClientInvitationMail } = require("../utils/sendMail");
 
 const createClient = async (req, res) => {
   try {
-    const clientData = req.body;
-    const newClient = new Client(clientData);
+    const {name, email, address} = req.body;
+    const clientFor = req.userId
+    const userEmail = req.userEmail
+    
+    if(email === userEmail) {
+      return res.status(400).json({ message: "You cannot register yourself as a client" });
+    }
+
+    const clientAsRegisteredUser = await User.findOne({ email });
+    
+    if (!clientAsRegisteredUser) {
+			return res
+				.status(404)
+				.json({ error: "This email is not a registered user" });
+		}
+
+
+
+    //If client is already a client of the employer, return an error
+    const existingClient = await Client.findOne({ email, clientFor });
+    if (existingClient) {
+      return res.status(400).json({ message: "You have registered this client already" });
+    }
+
+    const newClient = new Client({
+      name,
+      email,
+      address,
+      clientFor
+    });
+
+
     await newClient.save();
     res.status(201).json(newClient);
   } catch (error) {
@@ -11,6 +43,21 @@ const createClient = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+const inviteUnregisteredUser = async (req, res) => {
+  try {
+    const clientEmail = req.body.email;
+    const inviterId = req.userId;
+    const inviter = await User.findById(inviterId);
+    const inviterEmail = inviter.email;
+    const inviterName = inviter.name;
+    sendClientInvitationMail({inviterEmail, inviterName, clientEmail}, res)
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+
+}
 
 const getClient = async (req, res) => {
   try {
@@ -85,4 +132,5 @@ module.exports = {
   getClient,
   updateClient,
   deleteClient,
+  inviteUnregisteredUser
 };

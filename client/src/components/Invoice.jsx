@@ -158,11 +158,9 @@ function Invoice() {
 		});
 	}, []);
 
-
 	const handleDueDateChange = useCallback((e) => {
 		setSelectedDueDate(new Date(e.target.value));
 	}, []);
-
 
 	const handleSelectedClient = useCallback(
 		async (selectedOptionValue) => {
@@ -268,14 +266,7 @@ function Invoice() {
 							</Flex>
 						)}
 					</Box>
-
-					{/* <Box>
-						<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
-							Bill To
-						</Text>
-						
-					</Box> */}
-
+				
 					<AddClientModal />
 
 					<Box>

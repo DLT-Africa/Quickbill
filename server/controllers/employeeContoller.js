@@ -5,6 +5,11 @@ const createEmployee = async (req, res) => {
 	try {
 		const { email, name, department, jobTitle } = req.body;
 		const employerId = req.userId
+		const userEmail = req.userEmail
+
+		if(email === userEmail) {
+			return res.status(400).json({ error: "You cannot register yourself as an employee" });
+		  }
 
 		const employeeAsRegisteredUser = await User.findOne({ email });
 
@@ -14,9 +19,11 @@ const createEmployee = async (req, res) => {
 				.json({ error: "This email is not a registered user" });
 		}
 
-		const existingEmployee = await Employee.findOne({ email });
+		//If employee is already an employee of the employer, return an error
+		const existingEmployee = await Employee.findOne({ email, employerId });
+
 		if (existingEmployee) {
-			return res.status(400).json({ error: "Email address already in use" });
+			return res.status(400).json({ error: "You have registered this employee already" });
 		}
 
 		//Create a new employee
@@ -28,23 +35,10 @@ const createEmployee = async (req, res) => {
 			jobTitle,
 		});
 
-		//Obtain the ID of the new employee
-		const newEmployeeId = newEmployee._id;
-
-		//Update the user document's employees array with the new employee ID
-		const updatedEmployer = await User.findByIdAndUpdate(
-			employerId,
-			{ $push: { employees: newEmployeeId } },
-			{ new: true, runValidators: true }
-		);
-		if (!updatedEmployer) {
-			return res.status(404).json({ error: "Employer not found" });
-		}
-
+		
 		res.status(201).json({
 			message: "Employee created successfully",
 			newEmployee,
-			updatedEmployer,
 		});
 	} catch (error) {
 		console.error(error);
