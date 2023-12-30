@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { addDays, format, set } from "date-fns";
+import React, { useCallback, useEffect, useState } from "react";
+import { addDays, format } from "date-fns";
 import ReactSelect from "react-select";
 
 import {
@@ -12,19 +12,11 @@ import {
 	Tr,
 	Td,
 	Button,
-	MenuButton,
-	MenuItem,
-	MenuList,
-	Menu,
-	Divider,
 	Input,
-	Select,
 	Textarea,
 	Th,
-	MenuDivider,
 	Icon,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import invoiceAtom from "../atoms/invoiceAtom";
 import userAtom from "../atoms/userAtom";
@@ -35,31 +27,23 @@ import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import allClientsAtom from "../atoms/allClientsAtom";
 import { MdOutlineCancel } from "react-icons/md";
 import currencies from "../utils/currencies.json";
+import ItemRow from "./ItemRow";
 
 const todayDate = new Date();
 const rawDueDate = addDays(todayDate, 7);
-
 const currencyOptions = currencies;
-
-const options = [
-	{ value: "chocolate", label: "Chocolate" },
-	{ value: "strawberry", label: "Strawberry" },
-	{ value: "vanilla", label: "Vanilla" },
-];
 
 function Invoice() {
 	const [invoice, setInvoice] = useRecoilState(invoiceAtom);
-	const [invoiceItems, setInvoiceItems] = useState([]);
 	const [user, setUser] = useRecoilState(userAtom);
 	const [clients, setClients] = useRecoilState(allClientsAtom);
 	const [currentInvoiceNumber, setcurrentInvoiceNumber] = useState("");
 	const [clientsSelectOptions, setClientsSelectOptions] = useState("");
-	const [selectedOption, setSelectedOption] = useState(null);
 	const [selectedClientDetails, setSelectedClientDetails] = useState(null);
 	const [isSelectedClient, setIsSelectedClient] = useState(false);
 	const [selectedDueDate, setSelectedDueDate] = useState(rawDueDate);
-	const [selectedCurrency, setSelectedCurrency] = useState('USD');
-	const [tableData, setTableData] = useState([
+	const [selectedCurrency, setSelectedCurrency] = useState("USD");
+	const [invoiceItems, setInvoiceItems] = useState([
 		{
 			itemName: "",
 			qty: "",
@@ -122,7 +106,6 @@ function Invoice() {
 			try {
 				const response = await axiosInstance.get("/clients");
 				const data = response.data;
-				// setInvoiceItems(data);
 				setClients(data);
 				localStorage.setItem("clients-quickBill", JSON.stringify(data));
 				console.log(data);
@@ -146,27 +129,23 @@ function Invoice() {
 			discValue: "",
 			amtBeforeDiscount: "",
 		};
-		setTableData((prevData) => [...prevData, newRow]);
+		setInvoiceItems((prevData) => [...prevData, newRow]);
 	};
 
 	const deleteRow = (index) => {
-		const updatedData = [...tableData];
+		const updatedData = [...invoiceItems];
 		updatedData.splice(index, 1);
-		setTableData(updatedData);
+		setInvoiceItems(updatedData);
 	};
 
-	const handleItemsInputChange = (index, columnName, value) => {
-		// const updatedData = [...tableData];
-		// updatedData[index][columnName] = value;
-		// setTableData(updatedData);
-		setTableData((prevTableDate) => {
+	const handleItemsInputChange = useCallback((index, columnName, value) => {
+		setInvoiceItems((prevTableDate) => {
 			const updatedData = [...prevTableDate];
 			updatedData[index] = {
 				...updatedData[index],
 				[columnName]: value,
 			};
 
-			//Perform calculations and update total for the specific row
 			const valBeforeDiscount =
 				Number(updatedData[index].qty) * Number(updatedData[index].price);
 			const discount = Number(updatedData[index].disc) / 100;
@@ -177,30 +156,23 @@ function Invoice() {
 			updatedData[index].discValue = discountValue;
 			return updatedData;
 		});
-	};
+	}, []);
 
-	const handleDueDateChange = (e) => {
+
+	const handleDueDateChange = useCallback((e) => {
 		setSelectedDueDate(new Date(e.target.value));
-	};
+	}, []);
 
-	const handleSelectedClient = async (selectedOptionValue) => {
-		const clientId = selectedOptionValue.value;
 
-		const selectedclient = clients.find((client) => {
-			return client._id === clientId;
-		});
-
-		setSelectedClientDetails(selectedclient);
-		setIsSelectedClient(true);
-	};
-
-	// const handleSelectedCurrency = (selectedOptionValue) => {
-	// 	const currency = selectedOptionValue.value;
-	// }
-
-	useEffect(() => {
-		console.log(selectedCurrency);
-	}, [selectedCurrency]);
+	const handleSelectedClient = useCallback(
+		async (selectedOptionValue) => {
+			const clientId = selectedOptionValue.value;
+			const selectedclient = clients.find((client) => client._id === clientId);
+			setSelectedClientDetails(selectedclient);
+			setIsSelectedClient(true);
+		},
+		[clients]
+	);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -208,14 +180,14 @@ function Invoice() {
 
 	useEffect(() => {
 		//Calculate Total Value before Discount
-		const totalBeforeDiscount = tableData.reduce(
+		const totalBeforeDiscount = invoiceItems.reduce(
 			(acc, row) => acc + Number(row.amtBeforeDiscount),
 			0
 		);
 		setSubTotal(totalBeforeDiscount.toFixed(2));
 
 		// Calculate Subtotal based on table data
-		const totalAfterDiscount = tableData.reduce(
+		const totalAfterDiscount = invoiceItems.reduce(
 			(acc, row) => acc + Number(row.amtAfterDiscount),
 			0
 		);
@@ -225,7 +197,7 @@ function Invoice() {
 		const vatAmount = (totalAfterDiscount * Number(vatRate)) / 100;
 		setVatAmt(vatAmount.toFixed(2));
 
-		const calculatedDiscountValue = tableData.reduce(
+		const calculatedDiscountValue = invoiceItems.reduce(
 			(acc, row) => acc + Number(row.discValue),
 			0
 		);
@@ -234,8 +206,8 @@ function Invoice() {
 		const calculatedGrandTotal = totalAfterDiscount + vatAmount;
 		setGrandTotal(calculatedGrandTotal.toFixed(2));
 
-		setInvoice({ ...invoice, items: tableData });
-	}, [tableData, vatRate]);
+		setInvoice({ ...invoice, items: invoiceItems });
+	}, [invoiceItems, vatRate]);
 
 	return (
 		<>
@@ -330,7 +302,9 @@ function Invoice() {
 						<Text fontSize={"22"} fontWeight={500}>
 							AMOUNT
 						</Text>
-						<Text fontSize={"20"}>{selectedCurrency} {grandTotal}</Text>
+						<Text fontSize={"20"}>
+							{selectedCurrency} {grandTotal}
+						</Text>
 					</Box>
 				</Flex>
 				{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
@@ -350,65 +324,14 @@ function Invoice() {
 								</Tr>
 							</Thead>
 							<Tbody>
-								{tableData.map((row, index) => (
-									<Tr key={index}>
-										<Td>
-											<Input
-												placeholder="Item name or description"
-												type="text"
-												required
-												value={row.itemName}
-												onChange={(e) =>
-													handleItemsInputChange(
-														index,
-														"itemName",
-														e.target.value
-													)
-												}
-											/>
-										</Td>
-										<Td>
-											<Input
-												placeholder="0"
-												required
-												type="number"
-												value={row.qty}
-												onChange={(e) =>
-													handleItemsInputChange(index, "qty", e.target.value)
-												}
-											/>
-										</Td>
-										<Td>
-											<Input
-												placeholder="0"
-												required
-												type="number"
-												value={row.price}
-												onChange={(e) =>
-													handleItemsInputChange(index, "price", e.target.value)
-												}
-											/>
-										</Td>
-										<Td>
-											<Input
-												placeholder="0"
-												type="number"
-												value={row.disc}
-												onChange={(e) =>
-													handleItemsInputChange(index, "disc", e.target.value)
-												}
-											/>
-										</Td>
-										<Td>
-											<Text>{row.amtAfterDiscount}</Text>
-										</Td>
-										<Td>
-											<DeleteIcon
-												cursor={"pointer"}
-												onClick={() => deleteRow(index)}
-											/>
-										</Td>
-									</Tr>
+								{invoiceItems.map((row, index) => (
+									<ItemRow
+										key={index}
+										row={row}
+										index={index}
+										handleItemsInputChange={handleItemsInputChange}
+										deleteRow={deleteRow}
+									/>
 								))}
 							</Tbody>
 						</Table>
@@ -448,7 +371,9 @@ function Invoice() {
 									<Td color={"gray"}>{totalDiscount}</Td>
 								</Tr>
 								<Tr>
-									<Td color={"gray"}>Total after Discount ({selectedCurrency}): </Td>
+									<Td color={"gray"}>
+										Total after Discount ({selectedCurrency}):{" "}
+									</Td>
 									<Td color={"gray"}>{totalAmtAfterDiscount}</Td>
 								</Tr>
 
@@ -457,8 +382,12 @@ function Invoice() {
 									<Td color={"gray"}>{vatAmt}</Td>
 								</Tr>
 								<Tr>
-									<Td color={"black"} flexWrap={900}  fontSize={'2xl'}>Total: </Td>
-									<Td color={"black"} fontWeight={900} fontSize={'2xl'}>{grandTotal}</Td>
+									<Td color={"black"} flexWrap={900} fontSize={"2xl"}>
+										Total:{" "}
+									</Td>
+									<Td color={"black"} fontWeight={900} fontSize={"2xl"}>
+										{grandTotal}
+									</Td>
 								</Tr>
 							</Thead>
 						</Table>
@@ -496,12 +425,14 @@ function Invoice() {
 						</Flex>
 						<Flex flexDir={"column"} gap={2}>
 							<Text color={"gray"}>Currency</Text>
-				
+
 							<ReactSelect
 								defaultValue={{ label: "US Dollar", value: "USD" }}
 								options={currencyOptions}
 								placeholder={"Select Currency"}
-								onChange={(currencyInfo) => setSelectedCurrency(currencyInfo.value)}
+								onChange={(currencyInfo) =>
+									setSelectedCurrency(currencyInfo.value)
+								}
 							/>
 						</Flex>
 					</Flex>
