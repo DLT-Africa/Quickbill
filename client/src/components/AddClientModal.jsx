@@ -17,6 +17,9 @@ import { useRecoilState } from "recoil";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import sendInviteModalOpenAtom from "../atoms/sendInviteModalOpenAtom";
 import { axiosInstance } from "../../api/axios";
+import useShowToast from "../hooks/useShowToast";
+import { set } from "date-fns";
+import allClientsAtom from "../atoms/allClientsAtom";
 
 const AddClientModal = () => {
 	const [formData, setFormData] = useState({
@@ -24,6 +27,8 @@ const AddClientModal = () => {
 		email: "",
 		address: "",
 	});
+	const showToast = useShowToast();
+	const [loading, setLoading] = useState(false);
 
 	const [addClientModalOpen, setAddClientModalOpen] = useRecoilState(
 		addClientModalOpenAtom
@@ -31,6 +36,8 @@ const AddClientModal = () => {
 	const [sendInviteModalOpen, setSendInviteModalOpen] = useRecoilState(
 		sendInviteModalOpenAtom
 	);
+	const [clients, setClients] = useRecoilState(allClientsAtom);
+
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -39,30 +46,52 @@ const AddClientModal = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
+		setLoading(true);
+		const existingClients = JSON.parse(localStorage.getItem("clients-quickBill")) || [];
 		// Perform email existence check logic here
 		try {
 			const response = await axiosInstance.post("/clients/create", formData);
-			const data = response.data;
-			console.log(data);
+			const newClient = response.data;
+			const updatedClients = [...existingClients, newClient];
+			localStorage.setItem("clients-quickBill", JSON.stringify(updatedClients));
+			setClients(updatedClients)
+			setLoading(false);
+			setAddClientModalOpen(false);
+			setFormData({ name: "", email: "", address: "" });
+
+			showToast("Success", "Client added successfully", "success");
 		} catch (error) {
-			console.log(error);
+			console.log(error.response);
+			if (error.response && error.response.status === 400) {
+				showToast("Error", error.response.data.message, "error");
+				setLoading(false);
+			} else if (error.response && error.response.status === 404) {
+				setAddClientModalOpen(false);
+				setSendInviteModalOpen(true);
+				setLoading(false);
+			}
 		}
-		// Send formData to the backend for email existence check
-		// ...
-
-		// Close the modal
-		// setAddClientModalOpen(false);
-
-		// setSendInviteModalOpen(true);
 	};
 
 	const handleSendInvitation = () => {
 		// Logic to send invitation
 		// ...
+		try {
+      setLoading(true);
+      const response = axiosInstance.post("/clients/invite", formData);
+      const data = response.data;
+      console.log(data)
+			showToast("Success", "Invitation sent successfully", "success");
+      setSendInviteModalOpen(false);
 
-		// Close the modal
-		setSendInviteModalOpen(false);
+		} catch (error) {
+			console.log(error);
+      if(error.response.data.msg){
+        showToast("Error", error.response.data.msg, "error");
+        setSendInviteModalOpen(false);
+      }
+      setSendInviteModalOpen(false)
+		}
 	};
 
 	return (
@@ -107,7 +136,12 @@ const AddClientModal = () => {
 							</FormControl>
 						</ModalBody>
 						<ModalFooter>
-							<Button type="submit" colorScheme="blue" mr={3}>
+							<Button
+								type="submit"
+								colorScheme="blue"
+								mr={3}
+								isLoading={loading}
+							>
 								Add Client
 							</Button>
 							<Button onClick={() => setAddClientModalOpen(false)}>
@@ -131,7 +165,12 @@ const AddClientModal = () => {
 						</p>
 					</ModalBody>
 					<ModalFooter>
-						<Button colorScheme="blue" mr={3} onClick={handleSendInvitation}>
+						<Button
+							colorScheme="blue"
+							mr={3}
+							onClick={handleSendInvitation}
+							isLoading={loading}
+						>
 							Send Invitation
 						</Button>
 						<Button onClick={() => setSendInviteModalOpen(false)}>
