@@ -1,257 +1,459 @@
-import React, { useEffect, useState } from "react";
-import { addDays, format } from 'date-fns';
+import React, { useCallback, useEffect, useState } from "react";
+import { addDays, format } from "date-fns";
+import ReactSelect from "react-select";
 
 import {
-  ChakraProvider,
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Table,
-  Tbody,
-  Thead,
-  Tr,
-  Td,
-  Button,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Menu,
-  Divider,
-  Input,
-  Select,
-  Textarea,
+	Box,
+	Flex,
+	Text,
+	Table,
+	Tbody,
+	Thead,
+	Tr,
+	Td,
+	Button,
+	Input,
+	Textarea,
+	Th,
+	Icon,
 } from "@chakra-ui/react";
-import {  ChevronDownIcon, DeleteIcon } from "@chakra-ui/icons";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import invoiceAtom from "../atoms/invoiceAtom";
 import userAtom from "../atoms/userAtom";
 import { axiosInstance } from "../../api/axios";
+import { useNavigate } from "react-router-dom";
+import AddClientModal from "./AddClientModal";
+import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
+import allClientsAtom from "../atoms/allClientsAtom";
+import { MdOutlineCancel } from "react-icons/md";
+import currencies from "../utils/currencies.json";
+import ItemRow from "./ItemRow";
 
-const todayDate = new Date()
-const rawDueDate = addDays(todayDate, 7)
+const todayDate = new Date();
+const rawDueDate = addDays(todayDate, 7);
+const currencyOptions = currencies;
 
 function Invoice() {
-  const [invoice, setInvoice] = useRecoilState(invoiceAtom)
-  const [user, setUser] = useRecoilState(userAtom)
-  const [currentInvoiceNumber, setcurrentInvoiceNumber] = useState('')
-  const [dueDate, setDueDate] = useState( format(rawDueDate, 'PP'))
+	const [invoice, setInvoice] = useRecoilState(invoiceAtom);
+	const [user, setUser] = useRecoilState(userAtom);
+	const [clients, setClients] = useRecoilState(allClientsAtom);
+	const [currentInvoiceNumber, setcurrentInvoiceNumber] = useState("");
+	const [clientsSelectOptions, setClientsSelectOptions] = useState("");
+	const [selectedClientDetails, setSelectedClientDetails] = useState(null);
+	const [isSelectedClient, setIsSelectedClient] = useState(false);
+	const [selectedDueDate, setSelectedDueDate] = useState(rawDueDate);
+	const [selectedCurrency, setSelectedCurrency] = useState("USD");
+	const [invoiceItems, setInvoiceItems] = useState([
+		{
+			itemName: "",
+			qty: "",
+			price: "",
+			disc: "",
+			amtAfterDiscount: (0.0).toFixed(2),
+			discValue: "",
+			amtBeforeDiscount: "",
+		},
+	]);
+	const [totalDiscount, setTotalDiscount] = useState(0);
+	const [vatRate, setVatRate] = useState("");
+	const [vatAmt, setVatAmt] = useState(0);
+	const [subTotal, setSubTotal] = useState(0);
+	const [totalAmtAfterDiscount, setTotalAmtAfterDiscount] = useState(0);
+	const [grandTotal, setGrandTotal] = useState(0);
+	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
+	// const [inviteModalOpen, setInviteModalOpen] = useState(false);
+
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const getInvoiceNo = async () => {
+			try {
+				const response = await axiosInstance.get("/invoices");
+				const data = response.data;
+				// console.log(data);
+				const totalInvoices = data.length;
+				const newInvNo = totalInvoices + 1;
+				const formattedInvoiceNumber = newInvNo.toString().padStart(3, "0");
+				setcurrentInvoiceNumber(formattedInvoiceNumber);
+				setInvoice({ ...invoice, invoiceNumber: formattedInvoiceNumber });
+			} catch (error) {
+				console.log(error.response);
+				const errorData = error.response.data;
+				if (errorData.error.startsWith("Internal")) {
+					console.log("Internal Server Error");
+				} else if (errorData.error.startsWith("jwt" || "Unauthorized")) {
+					navigate("/auth");
+				}
+			}
+		};
+
+		getInvoiceNo();
+	}, []);
+
+	useEffect(() => {
+		const setOptions = () => {
+			const options = clients.map((client) => {
+				return { value: client._id, label: client.name };
+			});
+
+			setClientsSelectOptions(options);
+		};
+		setOptions();
+	}, [clients]);
+
+	useEffect(() => {
+		const getAllClients = async () => {
+			try {
+				const response = await axiosInstance.get("/clients");
+				const data = response.data;
+				setClients(data);
+				localStorage.setItem("clients-quickBill", JSON.stringify(data));
+				console.log(data);
+			} catch (error) {
+				console.log(error);
+				if (error.response.status === 401) {
+					navigate("/auth");
+				}
+			}
+		};
+		getAllClients();
+	}, []);
+
+	const addRow = () => {
+		const newRow = {
+			itemName: "",
+			qty: "",
+			price: "",
+			disc: "",
+			amtAfterDiscount: (0.0).toFixed(2),
+			discValue: "",
+			amtBeforeDiscount: "",
+		};
+		setInvoiceItems((prevData) => [...prevData, newRow]);
+	};
+
+	const deleteRow = (index) => {
+		const updatedData = [...invoiceItems];
+		updatedData.splice(index, 1);
+		setInvoiceItems(updatedData);
+	};
+
+	const handleItemsInputChange = useCallback((index, columnName, value) => {
+		setInvoiceItems((prevTableDate) => {
+			const updatedData = [...prevTableDate];
+			updatedData[index] = {
+				...updatedData[index],
+				[columnName]: value,
+			};
+
+			const valBeforeDiscount =
+				Number(updatedData[index].qty) * Number(updatedData[index].price);
+			const discount = Number(updatedData[index].disc) / 100;
+			const valAfterDiscount = valBeforeDiscount * (1 - discount);
+			const discountValue = valBeforeDiscount - valAfterDiscount;
+			updatedData[index].amtAfterDiscount = valAfterDiscount.toFixed(2);
+			updatedData[index].amtBeforeDiscount = valBeforeDiscount;
+			updatedData[index].discValue = discountValue;
+			return updatedData;
+		});
+	}, []);
 
 
+	const handleDueDateChange = useCallback((e) => {
+		setSelectedDueDate(new Date(e.target.value));
+	}, []);
 
-  useEffect(() => {
-    const getInvoiceNo = async () => {
-      try {
-        const response = await axiosInstance.get("/invoices")
-        const data = response.data
-        const totalInvoices = data.length
-        const newInvNo = totalInvoices+1
-        const formattedInvoiceNumber = newInvNo.toString().padStart(3, '0')
-        setcurrentInvoiceNumber(formattedInvoiceNumber)
-        setInvoice({...invoice, invoiceNumber: formattedInvoiceNumber})
-      } catch (error) {
-       console.log(error) 
-      }
-    }
 
-    getInvoiceNo()
-  }, [])
-  
-  return (
-    <>
-      <Box m={10} py={10} border={"1px solid black"} bg={"#fff"} borderRadius={10}>
-        <Box textAlign={"right"} px={10}>
-          <Text fontSize={"36px"} fontWeight={700}>
-            INVOICE{" "}
-          </Text>
-          <Text fontWeight={400} fontSize={"26px"}>
-            Invoice #: {currentInvoiceNumber}
-          </Text>
-        </Box>
-        <Box borderBottom="1px" borderColor="gray" w={"full"}></Box>
+	const handleSelectedClient = useCallback(
+		async (selectedOptionValue) => {
+			const clientId = selectedOptionValue.value;
+			const selectedclient = clients.find((client) => client._id === clientId);
+			setSelectedClientDetails(selectedclient);
+			setIsSelectedClient(true);
+		},
+		[clients]
+	);
 
-        <Flex justifyContent={"space-between"} pt={"27"} pb={"2"} px={10}>
-          <Box>
-            <Text as={"h2"} fontWeight={600}>
-              Bill To
-            </Text>
-            <Menu>
-              <MenuButton
-                px={4}
-                py={2}
-                transition="all 0.2s"
-                borderRadius="md"
-                borderWidth="1px"
-                _hover={{ bg: "gray.400" }}
-                _expanded={{ bg: "#fff" }}
-                _focus={{ boxShadow: "outline" }}
-              >
-                Select customer <ChevronDownIcon />
-              </MenuButton>
-              <MenuList>
-                <MenuItem>*New customer</MenuItem>
-              </MenuList>
-            </Menu>
-          </Box>
+	const handleSubmit = (e) => {
+		e.preventDefault();
+	};
 
-          <Box>
-            <Text as={"h2"} fontWeight={500} fontSize={"18"}>
-              STATUS
-            </Text>
-            <Text
-              as={"h2"}
-              fontWeight={400}
-              color={"red"}
-              pb={"5"}
-              fontSize={"20"}
-            >
-              Unpaid
-            </Text>
+	useEffect(() => {
+		//Calculate Total Value before Discount
+		const totalBeforeDiscount = invoiceItems.reduce(
+			(acc, row) => acc + Number(row.amtBeforeDiscount),
+			0
+		);
+		setSubTotal(totalBeforeDiscount.toFixed(2));
 
-            <Text fontWeight={500} fontSize={"18"}>
-              DATE:
-            </Text>
-            <Text pb={"25"}>{format(todayDate, 'PP')} </Text>
+		// Calculate Subtotal based on table data
+		const totalAfterDiscount = invoiceItems.reduce(
+			(acc, row) => acc + Number(row.amtAfterDiscount),
+			0
+		);
+		setTotalAmtAfterDiscount(totalAfterDiscount.toFixed(2));
 
-            <Text fontWeight={500}>DUE DATE:</Text>
-            <Text pb={"35"}>{dueDate}</Text>
-            <Text fontSize={"18"} fontWeight={500}>
-              
-              AMOUNT <br /> NGN 0
-            </Text>
-          </Box>
-        </Flex>
-        <Flex justifyContent={"space-between"} alignItems={"center"}></Flex>
+		// Calculate Grand Total after removing VAT
+		const vatAmount = (totalAfterDiscount * Number(vatRate)) / 100;
+		setVatAmt(vatAmount.toFixed(2));
 
-        <Box mt={8}>
-          <Table variant="striped"  colorScheme="gray.600">
-            <Thead>
-              <Tr bg={"#F4F4F4"}>
-                <Td w={300}>Item</Td>
+		const calculatedDiscountValue = invoiceItems.reduce(
+			(acc, row) => acc + Number(row.discValue),
+			0
+		);
+		setTotalDiscount(calculatedDiscountValue.toFixed(2));
 
-                <Td>Qty</Td>
-                <Td>Price</Td>
-                <Td>Disc(%)</Td>
-                <Td>Amount</Td>
-                <Td>Action</Td>
-              </Tr>
-            </Thead>
+		const calculatedGrandTotal = totalAfterDiscount + vatAmount;
+		setGrandTotal(calculatedGrandTotal.toFixed(2));
 
-            <Tr>
-              <Td >
-              <Input placeholder="Item name or description"  />
+		setInvoice({ ...invoice, items: invoiceItems });
+	}, [invoiceItems, vatRate]);
 
-                </Td>
-              <Td>
-                <Input placeholder="0" type="number"/>
-              </Td>
-              <Td>
-                <Input placeholder="0" type="number"/>
-              </Td>
-              <Td>
-                <Input placeholder="0" type="number"/>
-              </Td>
-              <Td>
-                <Input placeholder="0" type="number"/>
-              </Td>
-              <Td>
-                <DeleteIcon />
-              </Td>
-            </Tr>
-          </Table>
-        </Box>
+	return (
+		<>
+			<Box
+				m={10}
+				py={10}
+				border={"1px solid black"}
+				bg={"#fff"}
+				borderRadius={10}
+			>
+				<Box textAlign={"right"} px={10}>
+					<Text fontSize={"36px"} fontWeight={700}>
+						INVOICE{" "}
+					</Text>
+					<Text fontWeight={400} fontSize={"26px"}>
+						Invoice #: {currentInvoiceNumber}
+					</Text>
+				</Box>
+				<Box borderBottom="1px" borderColor="gray" w={"full"}></Box>
 
-        <Button ml={10} mt={5} bg={"#2970FF"} borderRadius="50%" color={"#fff"}>
-          +
-        </Button>
+				<Flex justifyContent={"space-between"} pt={"27"} pb={"2"} px={10}>
+					<Box>
+						<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
+							Bill To
+						</Text>
+						{!isSelectedClient ? (
+							<Flex gap={2} flexDir={"column"}>
+								<Box w={250}>
+									<ReactSelect
+										onChange={handleSelectedClient}
+										options={clientsSelectOptions}
+										placeholder="Select Client"
+									/>
+								</Box>
+								<Button
+									bg={"#2970FF"}
+									color={"#F6F6F6"}
+									w={150}
+									onClick={() => setAddClientModalOpen(true)}
+								>
+									Add New Client
+								</Button>
+							</Flex>
+						) : (
+							<Flex gap={4}>
+								<Box>
+									<Text>{selectedClientDetails?.name}</Text>
+									<Text>{selectedClientDetails?.email}</Text>
+									<Text>{selectedClientDetails?.address}</Text>
+								</Box>
+								<Icon
+									as={MdOutlineCancel}
+									fontSize={"2xl"}
+									cursor={"pointer"}
+									color={"red"}
+									onClick={() => setIsSelectedClient(false)}
+								/>
+							</Flex>
+						)}
+					</Box>
 
-        <Box mt={100} pl={700}>
-          <Table variant="striped" fontSize={'20px'} fontWeight={500} color={"gray"} >
-            <Thead pl={2}>
-              <Tr>
-                <Td borderBottom={"1px solid black"}  bg="#F4F4F4">Invoice Summary </Td>
-              </Tr>
+					{/* <Box>
+						<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
+							Bill To
+						</Text>
+						
+					</Box> */}
 
-              <Tr >
-                 <Flex justifyContent={'space-between'} color={"gray"} borderBottom={"1px solid black"}>
-                  <Td  color={"gray"}>Sub Total: </Td>
-                  <Td  color={'gray'}>0</Td>
-                 </Flex>
-              </Tr>
+					<AddClientModal />
 
-              <Tr >
-                 <Flex justifyContent={'space-between'} color={"gray"} borderBottom={"1px solid black"}>
-                  <Td  color={"gray"}>VAT(%): </Td>
-                  <Td  color={'gray'}>0</Td>
-                 </Flex>
-              </Tr>
-              <Tr >
-                 <Flex justifyContent={'space-between'} color={"gray"} borderBottom={"1px solid black"}>
-                  <Td  color={"gray"}>Total: </Td>
-                  <Td color={'gray'}>0</Td>
-                 </Flex>
-              </Tr>
+					<Box>
+						<Text as={"h2"} fontWeight={500} fontSize={"18"}>
+							STATUS
+						</Text>
+						<Text
+							as={"h2"}
+							fontWeight={400}
+							color={"red"}
+							pb={"5"}
+							fontSize={"20"}
+						>
+							Unpaid
+						</Text>
 
-            </Thead>
-          </Table>
-        </Box>
+						<Text fontWeight={500} fontSize={"18"}>
+							DATE:
+						</Text>
+						<Text pb={"25"}>{format(todayDate, "PP")} </Text>
 
-        <Flex
-          p={4}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          px={10}
-        >
-          <Flex flexDir={"column"} gap={2}>
-            <Text color={"gray"}>Tax Rate (%)</Text>
-            <Input
-                    placeholder="0"
-                    size="md"
-                    type="number"
-                  />
-          </Flex>
+						<Text fontWeight={500}>DUE DATE:</Text>
+						<Text pb={"35"}>{format(selectedDueDate, "PP")}</Text>
+						<Text fontSize={"22"} fontWeight={500}>
+							AMOUNT
+						</Text>
+						<Text fontSize={"20"}>
+							{selectedCurrency} {grandTotal}
+						</Text>
+					</Box>
+				</Flex>
+				{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
 
-          
-              <Flex flexDir={'column'} gap={2} >
-                <Text color={"gray"}>
-                  Due Date 
-                </Text>
+				<form onSubmit={handleSubmit}>
+					<Box mt={8}>
+						<Table variant="striped" colorScheme="gray.600">
+							<Thead>
+								<Tr bg={"#F4F4F4"}>
+									<Th w={300}>Item</Th>
 
-                  <Input
-                    placeholder="Select Date and Time"
-                    size="md"
-                    type="date"
-                  />
-              </Flex>
-              <Flex flexDir={'column'} gap={2} >
-                <Text color={"gray"}>
-                  Currency
-                </Text>
-                <Select placeholder="Select Currency" size="md" />
+									<Th>Qty</Th>
+									<Th>Unit Price</Th>
+									<Th>Discount(%)</Th>
+									<Th>Amount</Th>
+									<Th>Action</Th>
+								</Tr>
+							</Thead>
+							<Tbody>
+								{invoiceItems.map((row, index) => (
+									<ItemRow
+										key={index}
+										row={row}
+										index={index}
+										handleItemsInputChange={handleItemsInputChange}
+										deleteRow={deleteRow}
+									/>
+								))}
+							</Tbody>
+						</Table>
+					</Box>
 
-              </Flex>
+					<Button
+						onClick={addRow}
+						ml={10}
+						mt={5}
+						bg={"#2970FF"}
+						borderRadius="50%"
+						color={"#fff"}
+					>
+						+
+					</Button>
 
-          {/* <Flex flexDir={"column"} py={5}>
-            <Select placeholder="Select Currency" size="sm" />
+					<Flex mt={100} justifyContent={"flex-end"}>
+						<Table
+							variant="striped"
+							fontSize={"20px"}
+							fontWeight={500}
+							color={"gray"}
+							w={"45%"}
+						>
+							<Thead pl={2}>
+								<Tr bg="#F4F4F4">
+									<Td>Invoice Summary </Td>
+									<Td> </Td>
+								</Tr>
 
-            <Divider borderColor={"#1c1c1c"} w={"200px"} />
-          </Flex> */}
-        </Flex>
-        <Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"}>
-          <Text>Note/Additional Information</Text>
-          <Box>
-            <Textarea placeholder="Kindly provide additional details or terms of service " />
-          </Box>
-        </Flex>
+								<Tr>
+									<Td color={"gray"}>Sub Total: </Td>
+									<Td color={"gray"}>{subTotal}</Td>
+								</Tr>
+								<Tr>
+									<Td color={"gray"}>Discount ({selectedCurrency}): </Td>
+									<Td color={"gray"}>{totalDiscount}</Td>
+								</Tr>
+								<Tr>
+									<Td color={"gray"}>
+										Total after Discount ({selectedCurrency}):{" "}
+									</Td>
+									<Td color={"gray"}>{totalAmtAfterDiscount}</Td>
+								</Tr>
 
-        <Box mt={8}>
-          <Flex justifyContent="center" pb={5}>
-            <Button bg={"#2970FF"}>Create and send</Button>
-          </Flex>
-        </Box>
-      </Box>
-    </>
-  );
+								<Tr>
+									<Td color={"gray"}>VAT ({selectedCurrency}): </Td>
+									<Td color={"gray"}>{vatAmt}</Td>
+								</Tr>
+								<Tr>
+									<Td color={"black"} flexWrap={900} fontSize={"2xl"}>
+										Total:{" "}
+									</Td>
+									<Td color={"black"} fontWeight={900} fontSize={"2xl"}>
+										{grandTotal}
+									</Td>
+								</Tr>
+							</Thead>
+						</Table>
+					</Flex>
+
+					<Flex
+						p={4}
+						justifyContent={"space-between"}
+						alignItems={"center"}
+						px={10}
+						mt={10}
+					>
+						<Flex flexDir={"column"} gap={2}>
+							<Text color={"gray"}>Tax Rate (%) </Text>
+							<Input
+								placeholder="0"
+								size="md"
+								type="number"
+								value={vatRate}
+								onChange={(e) => setVatRate(e.target.value)}
+							/>
+						</Flex>
+
+						<Flex flexDir={"column"} gap={2}>
+							<Text color={"gray"}>Due Date</Text>
+
+							<Input
+								placeholder="Select Date and Time"
+								size="md"
+								type="date"
+								value={format(selectedDueDate, "yyyy-MM-dd")}
+								onChange={handleDueDateChange}
+								min={format(addDays(todayDate, 1), "yyyy-MM-dd")}
+							/>
+						</Flex>
+						<Flex flexDir={"column"} gap={2}>
+							<Text color={"gray"}>Currency</Text>
+
+							<ReactSelect
+								defaultValue={{ label: "US Dollar", value: "USD" }}
+								options={currencyOptions}
+								placeholder={"Select Currency"}
+								onChange={(currencyInfo) =>
+									setSelectedCurrency(currencyInfo.value)
+								}
+							/>
+						</Flex>
+					</Flex>
+					<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"}>
+						<Text>Note/Additional Information</Text>
+						<Box>
+							<Textarea placeholder="Kindly provide additional details or terms of service " />
+						</Box>
+					</Flex>
+
+					<Box mt={8}>
+						<Flex justifyContent="center" pb={5}>
+							<Button type="submit" bg={"#2970FF"}>
+								Create and send
+							</Button>
+						</Flex>
+					</Box>
+				</form>
+			</Box>
+		</>
+	);
 }
 
 export default Invoice;
