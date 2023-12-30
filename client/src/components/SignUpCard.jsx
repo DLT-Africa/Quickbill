@@ -27,12 +27,14 @@ import authScreenAtom from "../atoms/authAtom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api/axios";
+import userAtom from "../atoms/userAtom";
 
 export default function SplitScreen() {
   const setAuthScreen = useSetRecoilState(authScreenAtom);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const setUser = useSetRecoilState(userAtom);
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -50,7 +52,7 @@ export default function SplitScreen() {
       //  navigate(state?.from || "/dashboard");
       // Redirect to the originally requested route (or a default route)
 
-      navigate("/auth");
+      navigate("/confirm-email");
     } catch (error) {
       console.log(error);
     }

@@ -16,6 +16,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PayrollPage from "./pages/PayrollPage";
 import { useRecoilValue } from "recoil";
 import userAtom from "./atoms/userAtom";
+import ConfirmEmail from "./components/ConfirmEmail";
 
 function App() {
   const user = useRecoilValue(userAtom) 
@@ -24,6 +25,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/auth" element={<AuthPage />} />
+				<Route path="/confirm-email" element={<ConfirmEmail />} />
 				<Route path="/about" element={<AboutPage />} />
 				<Route path="/contact" element={<ContactPage />} />
 				<Route
