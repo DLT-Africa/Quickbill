@@ -56,6 +56,22 @@ const getAllSentInvoices = async (req, res) => {
 				select: "name email", // Select the fields you want to populate
 			})
 			.exec();
+
+			// Update overdue status using forEach
+			invoices.forEach(async (invoice) => {
+				// Check if the invoice is not paid or rejected and is overdue
+				if (
+					invoice.invoiceStatus !== "Paid" &&
+					invoice.invoiceStatus !== "Rejected" &&
+					invoice.dueDate < new Date()
+				) {
+					// Update the invoiceStatus to "Overdue"
+					invoice.invoiceStatus = "Overdue";
+					// Save the updated invoice
+					await invoice.save();
+				}
+			});
+	
 		res.status(200).json(invoices);
 	} catch (error) {
 		console.error(error);
@@ -75,6 +91,21 @@ const getAllReceivedInvoices = async (req, res) => {
 			})
 			.exec();
 
+			// Update overdue status using forEach
+			invoices.forEach(async (invoice) => {
+				// Check if the invoice is not paid or rejected and is overdue
+				if (
+					invoice.invoiceStatus !== "Paid" &&
+					invoice.invoiceStatus !== "Rejected" &&
+					invoice.dueDate < new Date()
+				) {
+					// Update the invoiceStatus to "Overdue"
+					invoice.invoiceStatus = "Overdue";
+					// Save the updated invoice
+					await invoice.save();
+				}
+			});
+	
 		res.status(200).json(invoices);
 	} catch (error) {
 		console.error(error);

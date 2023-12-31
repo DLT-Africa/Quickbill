@@ -14,16 +14,16 @@ const PayrollSchema = mongoose.Schema(
 			required: true,
 		},
 		totalSalary: Number,
-		paidAmount: Number,
+		paidAmountTotal: Number,
 		paymentStatus: {
 			type: String,
-			default: "awaiting_payment"
+			default: "Active"
 		},
 		paymentRecords: [
 			{
 				amountPaid: Number,
 				paymentDate: Date,
-				paymentMethod: String,
+				// paymentMethod: String,
 				note: String,
 				// paidBy: String,
 			},
