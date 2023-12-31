@@ -111,8 +111,18 @@ const signIn = async (req, res) => {
 	try {
 		// Checking if the user exists in the database
 		const existingUser = await User.findOne({ email });
+
 		if (!existingUser)
 			return res.status(404).json({ error: "User doesn't exist" });
+
+		if (!existingUser.password) {
+			return res
+				.status(404)
+				.json({
+					error: "This user was registered using google Authentication",
+				});
+		}
+
 
 		// Comparing the provided password with the hashed password stored in the database
 		const correctPassword = await bcrypt.compare(
@@ -134,9 +144,13 @@ const signIn = async (req, res) => {
 			httpOnly: true,
 			secure: true,
 			sameSite: "None",
-			maxAge: 30 * 60 * 1000,
+			maxAge: 2 * 60 * 60 * 1000,
 		});
 
+		existingUser.password = null
+		existingUser.updatedAt = null
+		existingUser.createdAt = null
+		
 		res.status(200).json({ loggedInUser: existingUser, token });
 	} catch (error) {
 		// Handling any errors that occur during the process
@@ -150,8 +164,8 @@ const signOut = (req, res) => {
 		res.cookie("jwt", "", { maxAge: 1 });
 		res.status(200).json({ message: "User logged out successfully" });
 	} catch (err) {
+		console.log(err)
 		res.status(500).json({ error: err.message }); //Internal server error
-		console.log("Error in logout", err.message);
 	}
 };
 

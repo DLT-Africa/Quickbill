@@ -9,7 +9,10 @@ const AuthPage = () => {
   const authScreenState = useRecoilValue(authScreenAtom);
  
   useEffect(() => {
-    localStorage.removeItem("user-quickBill");
+    // localStorage.removeItem("user-quickBill");
+    // localStorage.removeItem("clients-quickBill");
+    localStorage.clear();
+
 
   }, [])
   
