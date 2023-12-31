@@ -5,15 +5,16 @@ const invoiceAtom = atom({
     default: {
         invoiceNumber: '',
         client: '',
-        items: '',
+        items: [],
         issueDate: '',
         dueDate: '',
-        vat: '',
-        subTotal: '',
-        total: '',
+        subTotalBeforeDiscount: '',
+        totalDiscountValue: '',
+        vatPercent: '',
+        vatValue: '',
+        grandTotal: '',
         notes: '',
         currency: '',
-        totalAmount: '',
         remainingAmount: '',
     }
 })

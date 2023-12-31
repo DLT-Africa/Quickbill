@@ -28,6 +28,7 @@ import allClientsAtom from "../atoms/allClientsAtom";
 import { MdOutlineCancel } from "react-icons/md";
 import currencies from "../utils/currencies.json";
 import ItemRow from "./ItemRow";
+import useShowToast from "../hooks/useShowToast";
 
 const todayDate = new Date();
 const rawDueDate = addDays(todayDate, 7);
@@ -48,7 +49,7 @@ function Invoice() {
 			itemName: "",
 			qty: "",
 			price: "",
-			disc: "",
+			discPercent: "",
 			amtAfterDiscount: (0.0).toFixed(2),
 			discValue: "",
 			amtBeforeDiscount: "",
@@ -56,11 +57,13 @@ function Invoice() {
 	]);
 	const [totalDiscount, setTotalDiscount] = useState(0);
 	const [vatRate, setVatRate] = useState("");
+	const [invoiceNote, setInvoiceNote] = useState();
 	const [vatAmt, setVatAmt] = useState(0);
 	const [subTotal, setSubTotal] = useState(0);
 	const [totalAmtAfterDiscount, setTotalAmtAfterDiscount] = useState(0);
 	const [grandTotal, setGrandTotal] = useState(0);
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
+	const showToast = useShowToast();
 	// const [inviteModalOpen, setInviteModalOpen] = useState(false);
 
 	const navigate = useNavigate();
@@ -68,20 +71,20 @@ function Invoice() {
 	useEffect(() => {
 		const getInvoiceNo = async () => {
 			try {
-				const response = await axiosInstance.get("/invoices");
+				const response = await axiosInstance.get("/invoices/all-sent");
 				const data = response.data;
 				// console.log(data);
-				const totalInvoices = data.length;
+				const totalInvoices = data.length; 
 				const newInvNo = totalInvoices + 1;
 				const formattedInvoiceNumber = newInvNo.toString().padStart(3, "0");
 				setcurrentInvoiceNumber(formattedInvoiceNumber);
-				setInvoice({ ...invoice, invoiceNumber: formattedInvoiceNumber });
+				// setInvoice({ ...invoice, invoiceNumber: formattedInvoiceNumber });
 			} catch (error) {
 				console.log(error.response);
-				const errorData = error.response.data;
-				if (errorData.error.startsWith("Internal")) {
+				const errorData = error.response?.data;
+				if (errorData?.error?.startsWith("Internal")) {
 					console.log("Internal Server Error");
-				} else if (errorData.error.startsWith("jwt" || "Unauthorized")) {
+				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
 					navigate("/auth");
 				}
 			}
@@ -92,7 +95,7 @@ function Invoice() {
 
 	useEffect(() => {
 		const setOptions = () => {
-			const options = clients.map((client) => {
+			const options = clients?.map((client) => {
 				return { value: client._id, label: client.name };
 			});
 
@@ -113,18 +116,24 @@ function Invoice() {
 				console.log(error);
 				if (error.response.status === 401) {
 					navigate("/auth");
+				} else if (error?.response?.data?.error?.startsWith("jwt" || "Unauthorized")) {
+					navigate("/auth");
 				}
 			}
 		};
 		getAllClients();
 	}, []);
 
+	useEffect(() => {
+		console.log(invoice);
+	}, [invoice]);
+
 	const addRow = () => {
 		const newRow = {
 			itemName: "",
 			qty: "",
 			price: "",
-			disc: "",
+			discPercent: "",
 			amtAfterDiscount: (0.0).toFixed(2),
 			discValue: "",
 			amtBeforeDiscount: "",
@@ -148,7 +157,7 @@ function Invoice() {
 
 			const valBeforeDiscount =
 				Number(updatedData[index].qty) * Number(updatedData[index].price);
-			const discount = Number(updatedData[index].disc) / 100;
+			const discount = Number(updatedData[index].discPercent) / 100;
 			const valAfterDiscount = valBeforeDiscount * (1 - discount);
 			const discountValue = valBeforeDiscount - valAfterDiscount;
 			updatedData[index].amtAfterDiscount = valAfterDiscount.toFixed(2);
@@ -172,8 +181,50 @@ function Invoice() {
 		[clients]
 	);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		if (!isSelectedClient) {
+			showToast("Error", "Please select a client before submitting", "error");
+			return;
+		}
+
+		// Update the invoiceAtom state with the current data
+
+		const invoiceData = {
+			invoiceNumber: currentInvoiceNumber,
+			client: isSelectedClient ? selectedClientDetails : "", // Replace with actual logic
+			items: invoiceItems,
+			issueDate: todayDate,
+			dueDate: selectedDueDate,
+			subTotalBeforeDiscount: subTotal,
+			totalDiscountValue: totalDiscount,
+			vatPercent: vatRate,
+			vatValue: vatAmt,
+			grandTotal: grandTotal,
+			remainingAmount: grandTotal,
+			notes: invoiceNote,
+			currency: selectedCurrency,
+		};
+
+		try {
+			setInvoice((prevInvoiceState) => ({
+				...prevInvoiceState,
+				...invoiceData,
+			}));
+			const response = await axiosInstance.post(
+				"/invoices/create",
+				invoiceData
+			);
+			const data = response.data;
+			const newInvoice = data.newInvoice;
+
+			showToast("Success", "Invoice created successfully", "success");
+			navigate(`/invoices/${newInvoice._id}`)
+			console.log(data);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
@@ -204,7 +255,7 @@ function Invoice() {
 		const calculatedGrandTotal = totalAfterDiscount + vatAmount;
 		setGrandTotal(calculatedGrandTotal.toFixed(2));
 
-		setInvoice({ ...invoice, items: invoiceItems });
+		// setInvoice({ ...invoice, items: invoiceItems });
 	}, [invoiceItems, vatRate]);
 
 	return (
@@ -266,7 +317,7 @@ function Invoice() {
 							</Flex>
 						)}
 					</Box>
-				
+
 					<AddClientModal />
 
 					<Box>
@@ -290,12 +341,7 @@ function Invoice() {
 
 						<Text fontWeight={500}>DUE DATE:</Text>
 						<Text pb={"35"}>{format(selectedDueDate, "PP")}</Text>
-						<Text fontSize={"22"} fontWeight={500}>
-							AMOUNT
-						</Text>
-						<Text fontSize={"20"}>
-							{selectedCurrency} {grandTotal}
-						</Text>
+						
 					</Box>
 				</Flex>
 				{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
@@ -430,7 +476,11 @@ function Invoice() {
 					<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"}>
 						<Text>Note/Additional Information</Text>
 						<Box>
-							<Textarea placeholder="Kindly provide additional details or terms of service " />
+							<Textarea
+								placeholder="Kindly provide additional details or terms of service "
+								value={invoiceNote}
+								onChange={(e) => setInvoiceNote(e.target.value)}
+							/>
 						</Box>
 					</Flex>
 

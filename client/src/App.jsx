@@ -1,10 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import AuthPage from "./pages/AuthPage";
-import LoginCard from "./components/LoginCard";
-import SignUpCard from "./components/SignUpCard";
 import Clients from "./components/Clients";
-import SentInvoice from "./components/SentInvoice";
+import SentInvoicesPage from "./pages/SentInvoicesPage";
 import InvoiceMe from "./pages/InvoiceMe";
 import BillPage from "./pages/BillPage";
 import Dashboard from "./pages/Dashboard";
@@ -16,6 +14,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PayrollPage from "./pages/PayrollPage";
 import { useRecoilValue } from "recoil";
 import userAtom from "./atoms/userAtom";
+import InvoiceSummaryPage from "./pages/InvoiceSummaryPage";
 
 function App() {
   const user = useRecoilValue(userAtom) 
@@ -30,8 +29,9 @@ function App() {
 					path="/dashboard" element={user? <Dashboard /> :  <Navigate to='/auth'/>}
 				/>
 				<Route path="/clients" element={<Clients />} />
-				<Route path="/create-invoice" element={<CreateInvoicePage />} />
-				<Route path="/sent-invoices" element={<SentInvoice />} />
+				<Route path="/invoices/create" element={<CreateInvoicePage />} />
+				<Route path="/invoices/sent" element={<SentInvoicesPage />} />
+				<Route path="/invoices/:invoiceId" element={<InvoiceSummaryPage />} />
 				<Route path="/bills" element={<BillPage />} />
 				<Route path="/employees" element={<EmployeesPage />} />
 				<Route path="/payroll" element={<PayrollPage />} />
