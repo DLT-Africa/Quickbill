@@ -581,9 +581,9 @@ const InvoiceSummary = () => {
 								<Th w={300}>Item</Th>
 
 								<Th>Qty</Th>
-								<Th>Unit Price</Th>
+								<Th>Unit Price ({invoiceDetails.currency})</Th>
 								<Th>Discount(%)</Th>
-								<Th>Amount({invoiceDetails.currency})</Th>
+								<Th>Amount ({invoiceDetails.currency})</Th>
 							</Tr>
 						</Thead>
 						<Tbody>
@@ -679,50 +679,6 @@ const InvoiceSummary = () => {
 						</Thead>
 					</Table>
 				</Flex>
-
-				{/* <Flex
-					p={4}
-					justifyContent={"space-between"}
-					alignItems={"center"}
-					px={10}
-					mt={10}
-				>
-					<Flex flexDir={"column"} gap={2}>
-						<Text color={"gray"}>Tax Rate (%) </Text>
-						<Input
-							placeholder="0"
-							size="md"
-							type="number"
-							value={vatRate}
-							onChange={(e) => setVatRate(e.target.value)}
-						/>
-					</Flex>
-
-					<Flex flexDir={"column"} gap={2}>
-						<Text color={"gray"}>Due Date</Text>
-
-						<Input
-							placeholder="Select Date and Time"
-							size="md"
-							type="date"
-							value={format(selectedDueDate, "yyyy-MM-dd")}
-							onChange={handleDueDateChange}
-							min={format(addDays(todayDate, 1), "yyyy-MM-dd")}
-						/>
-					</Flex>
-					<Flex flexDir={"column"} gap={2}>
-						<Text color={"gray"}>Currency</Text>
-
-						<ReactSelect
-							defaultValue={{ label: "US Dollar", value: "USD" }}
-							options={currencyOptions}
-							placeholder={"Select Currency"}
-							onChange={(currencyInfo) =>
-								setSelectedCurrency(currencyInfo.value)
-							}
-						/>
-					</Flex>
-				</Flex> */}
 
 				<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"} w={"40%"}>
 					<Text fontWeight={600} fontSize={"xl"}>
