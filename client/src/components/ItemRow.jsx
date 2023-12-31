@@ -40,9 +40,9 @@ const ItemRow = ({ row, index, handleItemsInputChange, deleteRow }) => {
 				<Input
 					placeholder="0"
 					type="number"
-					value={row.disc}
+					value={row.discPercent}
 					onChange={(e) =>
-						handleItemsInputChange(index, "disc", e.target.value)
+						handleItemsInputChange(index, "discPercent", e.target.value)
 					}
 				/>
 			</Td>

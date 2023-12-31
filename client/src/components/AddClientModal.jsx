@@ -38,7 +38,6 @@ const AddClientModal = () => {
 	);
 	const [clients, setClients] = useRecoilState(allClientsAtom);
 
-
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -47,14 +46,15 @@ const AddClientModal = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
-		const existingClients = JSON.parse(localStorage.getItem("clients-quickBill")) || [];
+		const existingClients =
+			JSON.parse(localStorage.getItem("clients-quickBill")) || [];
 		// Perform email existence check logic here
 		try {
 			const response = await axiosInstance.post("/clients/create", formData);
 			const newClient = response.data;
 			const updatedClients = [...existingClients, newClient];
 			localStorage.setItem("clients-quickBill", JSON.stringify(updatedClients));
-			setClients(updatedClients)
+			setClients(updatedClients);
 			setLoading(false);
 			setAddClientModalOpen(false);
 			setFormData({ name: "", email: "", address: "" });
@@ -77,20 +77,22 @@ const AddClientModal = () => {
 		// Logic to send invitation
 		// ...
 		try {
-      setLoading(true);
-      const response = axiosInstance.post("/clients/invite", formData);
-      const data = response.data;
-      console.log(data)
+			setLoading(true);
+			const response = axiosInstance.post("/clients/invite", formData);
+			const data = response.data;
+			console.log(data);
 			showToast("Success", "Invitation sent successfully", "success");
-      setSendInviteModalOpen(false);
-
+			setSendInviteModalOpen(false);
+			setLoading(false);
 		} catch (error) {
 			console.log(error);
-      if(error.response.data.msg){
-        showToast("Error", error.response.data.msg, "error");
-        setSendInviteModalOpen(false);
-      }
-      setSendInviteModalOpen(false)
+			if (error.response.data.msg) {
+				showToast("Error", error.response.data.msg, "error");
+				setSendInviteModalOpen(false);
+				setLoading(false);
+			}
+			setSendInviteModalOpen(false);
+			setLoading(false);
 		}
 	};
 

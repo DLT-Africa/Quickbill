@@ -84,7 +84,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
           <AccordionPanel pb={4}>
             <NavItem
               as={NavLink}
-              to={"/create-invoice"}
+              to={"/invoices/create"}
               style={({ isActive }) => ({
                 color: isActive ? "rgb(41, 112, 255)" : "",
               })}
@@ -95,7 +95,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
             </NavItem>
             <NavItem
               as={NavLink}
-              to={"/sent-invoices"}
+              to={"/invoices/sent"}
               style={({ isActive }) => ({
                 color: isActive ? "rgb(41, 112, 255)" : "",
               })}
