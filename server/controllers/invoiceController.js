@@ -8,14 +8,16 @@ const createInvoice = async (req, res) => {
 			items,
 			issueDate,
 			dueDate,
-			vat,
-			subTotal,
-			total,
+			subTotalBeforeDiscount,
+			totalDiscountValue,
+			vatPercent,
+			vatValue,
+			grandTotal,
 			notes,
 			currency,
-			totalAmount,
 			remainingAmount,
 		} = req.body;
+
 		const creatorId = req.userId;
 
 		const newInvoice = await Invoice.create({
@@ -25,12 +27,13 @@ const createInvoice = async (req, res) => {
 			items,
 			issueDate,
 			dueDate,
-			vat,
-			subTotal,
-			total,
+			subTotalBeforeDiscount,
+			totalDiscountValue,
+			vatPercent,
+			vatValue,
+			grandTotal,
 			notes,
 			currency,
-			totalAmount,
 			remainingAmount,
 		});
 
@@ -43,12 +46,35 @@ const createInvoice = async (req, res) => {
 	}
 };
 
-const getAllInvoices = async (req, res) => {
+const getAllSentInvoices = async (req, res) => {
 	try {
 		const creatorId = req.userId;
 		const invoices = await Invoice.find({ creatorId })
 			.sort({ createdAt: -1 })
+			.populate({
+				path: "creatorId",
+				select: "name email", // Select the fields you want to populate
+			})
 			.exec();
+		res.status(200).json(invoices);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+
+const getAllReceivedInvoices = async (req, res) => {
+	try {
+		const userEmail = req.userEmail;
+
+		const invoices = await Invoice.find({ "client.email": userEmail })
+			.sort({ createdAt: -1 })
+			.populate({
+				path: "creatorId",
+				select: "name email", // Select the fields you want to populate
+			})
+			.exec();
+
 		res.status(200).json(invoices);
 	} catch (error) {
 		console.error(error);
@@ -59,7 +85,10 @@ const getAllInvoices = async (req, res) => {
 const getInvoice = async (req, res) => {
 	try {
 		const invoiceId = req.params.id;
-		const invoice = await Invoice.findById(invoiceId);
+		const invoice = await Invoice.findById(invoiceId).populate({
+			path: "creatorId",
+			select: "name email", // Select the fields you want to populate
+		});
 
 		if (!invoice) {
 			return res.status(404).json({ error: "Invoice not found" });
@@ -75,6 +104,7 @@ const getInvoice = async (req, res) => {
 const rejectInvoice = async (req, res) => {
 	try {
 		const invoiceId = req.params.id;
+		const {rejectReason}  = req.body;
 
 		const invoice = await Invoice.findById(invoiceId);
 
@@ -83,6 +113,7 @@ const rejectInvoice = async (req, res) => {
 		}
 
 		invoice.invoiceStatus = "Rejected";
+		invoice.rejectReason = rejectReason;
 
 		const rejectedInvoice = await invoice.save();
 
@@ -119,10 +150,13 @@ const payInvoice = async (req, res) => {
 
 		// Updating the invoice with the new payment details and calculate remaining amount
 		invoice.paymentRecords.push(paymentDetails);
-		invoice.remainingAmount = Math.max(invoice.remainingAmount - amountPaid, 0);
+		invoice.remainingAmount = Math.max(
+			invoice.remainingAmount - Number(amountPaid),
+			0
+		);
 		invoice.invoiceStatus =
 			invoice.remainingAmount === 0 ? "Paid" : "Partially Paid";
-		invoice.totalAmountReceived += amountPaid;
+		invoice.totalAmountReceived += Number(amountPaid);
 
 		// Saving the updated invoice
 		await invoice.save();
@@ -138,8 +172,9 @@ const payInvoice = async (req, res) => {
 
 module.exports = {
 	createInvoice,
-	getAllInvoices,
+	getAllSentInvoices,
 	getInvoice,
 	rejectInvoice,
+	getAllReceivedInvoices,
 	payInvoice,
 };

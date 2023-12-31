@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const invoiceSchema = mongoose.Schema(
 	{
-		invoiceNumber: String,
+		invoiceNumber: Number,
 		creatorId: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
@@ -11,27 +11,32 @@ const invoiceSchema = mongoose.Schema(
 		items: [
 			{
 				itemName: String,
-				unitPrice: String,
-				quantity: String,
-				discount: String,
+				qty: Number,
+				price: Number,
+				discPercent: Number,
+				amtAfterDiscount: Number,
+				discValue: Number,
+				amtBeforeDiscount: Number,
 			},
 		],
 		issueDate: Date,
 		dueDate: Date,
 		// rates: String,
-		vat: Number,
-		subTotal: Number,
-		total: Number,
+		subTotalBeforeDiscount: Number,
+		totalDiscountValue: Number,
+		vatPercent: Number,
+		vatValue: Number,
+		grandTotal: Number,
 		notes: String,
-		InvoiceStatus: {
+		rejectReason: String,
+		invoiceStatus: {
 			type: String,
-			default: "awaiting_payment"
+			default: "Awaiting Payment",
 		},
 		currency: String,
-		totalAmount: Number,
 		totalAmountReceived: {
 			type: Number,
-			default: 0
+			default: 0,
 		},
 		remainingAmount: Number,
 		paymentRecords: [
