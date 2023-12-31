@@ -45,6 +45,7 @@ import {
 import { FaStarHalfAlt } from "react-icons/fa";
 import { ImStarFull } from "react-icons/im";
 import { FaDownload } from "react-icons/fa6";
+import { FcCancel } from "react-icons/fc";
 import useShowToast from "../hooks/useShowToast";
 
 const InvoiceSummary = () => {
@@ -70,10 +71,17 @@ const InvoiceSummary = () => {
 	});
 	const [payPartialModalOpen, setPayPartialModalOpen] = useState(false);
 	const [fullyPaidModalOpen, setFullyPaidModalOpen] = useState(false);
+	const [rejectModalOpen, setRejectModalOpen] = useState(false);
+	const [rejectReason, setRejectReason] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+
 	const showToast = useShowToast();
 
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		console.log(paymentRecords);
+	}, [paymentRecords]);
 
 	useEffect(() => {
 		const getInvoiceDetails = async () => {
@@ -82,6 +90,7 @@ const InvoiceSummary = () => {
 				const data = response.data;
 				console.log(data);
 				setInvoiceDetails(data);
+				setPaymentRecords(data.paymentRecords);
 			} catch (error) {
 				const errorData = error.response?.data;
 				if (errorData?.error?.startsWith("Internal")) {
@@ -102,8 +111,6 @@ const InvoiceSummary = () => {
 			setInvoiceItems(items);
 			const client = invoiceDetails.client;
 			setClient(client);
-			const paymentRecords = invoiceDetails.paymentRecords;
-			setPaymentRecords(paymentRecords);
 
 			switch (invoiceDetails.invoiceStatus) {
 				case "Awaiting Payment":
@@ -196,6 +203,7 @@ const InvoiceSummary = () => {
 			);
 			return;
 		}
+
 		try {
 			const response = await axiosInstance.put(
 				`/invoices/pay/${invoiceId}`,
@@ -207,10 +215,10 @@ const InvoiceSummary = () => {
 
 			setInvoiceDetails((previousInvoiceDetails) => {
 				const updatedInvoiceDetails = { ...previousInvoiceDetails };
-                const paymentRecord = {
-					...formData,
-					paymentDate: new Date(),
-				}
+				// const paymentRecord = {
+				// 	...formData,
+				// 	paymentDate: new Date(),
+				// };
 
 				updatedInvoiceDetails.remainingAmount = Math.max(
 					updatedInvoiceDetails.remainingAmount - Number(formData.amountPaid),
@@ -226,10 +234,13 @@ const InvoiceSummary = () => {
 						? "Paid"
 						: "Partially Paid";
 
-				updatedInvoiceDetails.paymentRecords.push(paymentRecord);
-
 				return updatedInvoiceDetails;
 			});
+
+			setPaymentRecords((prevRecord) => [
+				...prevRecord,
+				{ ...formData, paymentDate: new Date() },
+			]);
 
 			setFormData({
 				amountPaid: "",
@@ -246,6 +257,13 @@ const InvoiceSummary = () => {
 
 	const handleFullPayment = async () => {
 		setIsLoading(true);
+
+		const paymentRecord = {
+			amountPaid: invoiceDetails.remainingAmount,
+			note: "",
+			paymentDate: new Date(),
+		};
+
 		try {
 			const response = await axiosInstance.put(`/invoices/pay/${invoiceId}`, {
 				amountPaid: invoiceDetails.remainingAmount,
@@ -257,27 +275,46 @@ const InvoiceSummary = () => {
 			setInvoiceDetails((previousInvoiceDetails) => {
 				const updatedInvoiceDetails = { ...previousInvoiceDetails };
 
-				const paymentRecord = {
-					amountPaid: invoiceDetails.remainingAmount,
-					note: "",
-					paymentDate: new Date(),
-				};
-
 				updatedInvoiceDetails.remainingAmount = 0;
 
 				updatedInvoiceDetails.totalAmountReceived = invoiceDetails.grandTotal;
 
 				updatedInvoiceDetails.invoiceStatus = "Paid";
 
-				updatedInvoiceDetails.paymentRecords.push(paymentRecord);
-
 				return updatedInvoiceDetails;
 			});
+
+			setPaymentRecords((prevRecord) => [...prevRecord, { ...paymentRecord }]);
 
 			setFullyPaidModalOpen(false);
 			setIsLoading(false);
 			showToast("Success", "Payment Updated Successfully", "success");
 			// window.location.reload();
+		} catch (error) {
+			console.log(error);
+			setIsLoading(false);
+		}
+	};
+
+	const handleRejectInvoice = async (e) => {
+		e.preventDefault();
+		setIsLoading(true);
+		try {
+			const response = await axiosInstance.post(
+				`/invoices/reject/${invoiceId}`,
+				{ rejectReason }
+			);
+			const data = response.data;
+			console.log(data);
+			setInvoiceDetails((prevInvoice) => {
+				const updatedInvoice = { ...prevInvoice };
+				updatedInvoice.invoiceStatus = "Rejected";
+				updatedInvoice.rejectReason = rejectReason;
+				return updatedInvoice;
+			});
+			setRejectModalOpen(false);
+			setIsLoading(false);
+			showToast("Success", "Invoice Rejected Successfully", "success");
 		} catch (error) {
 			console.log(error);
 			setIsLoading(false);
@@ -305,23 +342,36 @@ const InvoiceSummary = () => {
 							colorScheme="blue"
 						/>
 						<MenuList>
-							{invoiceDetails.invoiceStatus !== ("Paid" || "Rejected") && (
-								<MenuItem
-									icon={<FaStarHalfAlt />}
-									onClick={() => setPayPartialModalOpen(true)}
-								>
-									Mark as Partially Paid
-								</MenuItem>
-							)}
+							{invoiceDetails.invoiceStatus !== "Rejected" &&
+								invoiceDetails.invoiceStatus !== ("Paid" || "Rejected") && (
+									<MenuItem
+										icon={<FaStarHalfAlt />}
+										onClick={() => setPayPartialModalOpen(true)}
+									>
+										Mark as Partially Paid
+									</MenuItem>
+								)}
 
-							{invoiceDetails.invoiceStatus !== "Paid" && (
-								<MenuItem
-									icon={<ImStarFull />}
-									onClick={() => setFullyPaidModalOpen(true)}
-								>
-									Mark as Fully Paid
-								</MenuItem>
-							)}
+							{invoiceDetails.invoiceStatus !== "Rejected" &&
+								invoiceDetails.invoiceStatus !== ("Paid" || "Rejected") && (
+									<MenuItem
+										icon={<ImStarFull />}
+										onClick={() => setFullyPaidModalOpen(true)}
+									>
+										Mark as Fully Paid
+									</MenuItem>
+								)}
+
+							{invoiceDetails.invoiceStatus === "Awaiting Payment" &&
+								invoiceDetails?.client?.email === userDetails?.email && (
+									<MenuItem
+										icon={<FcCancel />}
+										onClick={() => setRejectModalOpen(true)}
+										color={"red"}
+									>
+										Reject Invoice
+									</MenuItem>
+								)}
 
 							<MenuItem icon={<FaDownload />}>Download Invoice</MenuItem>
 						</MenuList>
@@ -412,6 +462,48 @@ const InvoiceSummary = () => {
 							</ModalFooter>
 						</ModalContent>
 					</Modal>
+
+					<Modal
+						isOpen={rejectModalOpen}
+						onClose={() => setRejectModalOpen(false)}
+					>
+						<ModalOverlay />
+						<form onSubmit={handleRejectInvoice}>
+							<ModalContent>
+								<ModalBody>
+									<Text fontSize={"xl"} textAlign={"center"}>
+										Are you sure you want to Reject this invoice?
+									</Text>
+									<FormControl mt={4} isRequired>
+										<FormLabel>Reason for Rejection</FormLabel>
+										<Textarea
+											name="reject"
+											value={rejectReason}
+											required
+											onChange={(event) => setRejectReason(event.target.value)}
+										/>
+									</FormControl>
+								</ModalBody>
+								<ModalFooter>
+									<Button
+										colorScheme="red"
+										mr={3}
+										type="submit"
+										isLoading={isLoading}
+									>
+										Yes, Reject Invoice
+									</Button>
+									<Button
+										onClick={() => {
+											setRejectModalOpen(false);
+										}}
+									>
+										Cancel
+									</Button>
+								</ModalFooter>
+							</ModalContent>
+						</form>
+					</Modal>
 				</Flex>
 			</Box>
 			<Box
@@ -440,9 +532,8 @@ const InvoiceSummary = () => {
 							</Text>
 
 							<Box>
-								<Text>{userDetails?.name}</Text>
-								<Text>{userDetails?.email}</Text>
-								<Text>{userDetails?.address}</Text>
+								<Text>{invoiceDetails?.creatorId?.name}</Text>
+								<Text>{invoiceDetails?.creatorId?.email}</Text>
 							</Box>
 						</Box>
 						<Box>
