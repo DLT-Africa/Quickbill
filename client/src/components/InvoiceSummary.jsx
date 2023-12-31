@@ -343,7 +343,8 @@ const InvoiceSummary = () => {
 						/>
 						<MenuList>
 							{invoiceDetails.invoiceStatus !== "Rejected" &&
-								invoiceDetails.invoiceStatus !== ("Paid" || "Rejected") && (
+								invoiceDetails.invoiceStatus !== "Paid" &&
+								invoiceDetails.invoiceStatus !== "Overdue" && (
 									<MenuItem
 										icon={<FaStarHalfAlt />}
 										onClick={() => setPayPartialModalOpen(true)}
@@ -353,7 +354,8 @@ const InvoiceSummary = () => {
 								)}
 
 							{invoiceDetails.invoiceStatus !== "Rejected" &&
-								invoiceDetails.invoiceStatus !== ("Paid" || "Rejected") && (
+								invoiceDetails.invoiceStatus !== "Paid" &&
+								invoiceDetails.invoiceStatus !== "Overdue" && (
 									<MenuItem
 										icon={<ImStarFull />}
 										onClick={() => setFullyPaidModalOpen(true)}
@@ -362,7 +364,7 @@ const InvoiceSummary = () => {
 									</MenuItem>
 								)}
 
-							{invoiceDetails.invoiceStatus === "Awaiting Payment" &&
+							{invoiceDetails.invoiceStatus === "Awaiting Payment" || invoiceDetails.invoiceStatus !== 'Overdue' &&
 								invoiceDetails?.client?.email === userDetails?.email && (
 									<MenuItem
 										icon={<FcCancel />}
@@ -400,12 +402,13 @@ const InvoiceSummary = () => {
 											required
 										/>
 									</FormControl>
-									<FormControl mt={4}>
+									<FormControl mt={4} isRequired>
 										<FormLabel>Note</FormLabel>
 										<Textarea
 											name="note"
 											value={formData.note}
 											onChange={handleChange}
+                                            required
 										/>
 									</FormControl>
 								</ModalBody>
@@ -641,7 +644,7 @@ const InvoiceSummary = () => {
 							<Tr>
 								<Td color={"gray"}>VAT: </Td>
 								<Td color={"gray"} textAlign={"right"}>
-									{formattedVat}
+									{formattedVat} ({Number(invoiceDetails.vatPercent)}%)
 								</Td>
 							</Tr>
 							<Tr>

@@ -114,7 +114,7 @@ function Invoice() {
 				console.log(data);
 			} catch (error) {
 				console.log(error);
-				if (error.response.status === 401) {
+				if (error?.response?.status === 401) {
 					navigate("/auth");
 				} else if (error?.response?.data?.error?.startsWith("jwt" || "Unauthorized")) {
 					navigate("/auth");

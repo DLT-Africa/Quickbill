@@ -127,13 +127,14 @@ const AddClientModal = () => {
 									onChange={handleChange}
 								/>
 							</FormControl>
-							<FormControl mt={4}>
+							<FormControl mt={4} isRequired>
 								<FormLabel>Address</FormLabel>
 								<Input
 									type="text"
 									name="address"
 									value={formData.address}
 									onChange={handleChange}
+									required
 								/>
 							</FormControl>
 						</ModalBody>
