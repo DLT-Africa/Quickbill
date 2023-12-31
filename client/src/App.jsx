@@ -14,6 +14,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PayrollPage from "./pages/PayrollPage";
 import { useRecoilValue } from "recoil";
 import userAtom from "./atoms/userAtom";
+import ConfirmEmail from "./components/ConfirmEmail";
 import InvoiceSummaryPage from "./pages/InvoiceSummaryPage";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/auth" element={<AuthPage />} />
+				<Route path="/confirm-email" element={<ConfirmEmail />} />
 				<Route path="/about" element={<AboutPage />} />
 				<Route path="/contact" element={<ContactPage />} />
 				<Route
