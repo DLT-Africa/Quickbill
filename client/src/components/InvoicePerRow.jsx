@@ -2,10 +2,13 @@ import { Td, Text, Tr } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
 import { addDays, format } from "date-fns";
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import userAtom from '../atoms/userAtom';
 
 
 const InvoicePerRow = ({singleInvoice}) => {
     const navigate = useNavigate();
+    const user = useRecoilValue(userAtom)
 	const [statusColor, setStatusColor] = useState("#E0BF00");
     const [total, setTotal] = useState(0);
     const [remAmount, setRemAmount] = useState(0);
@@ -47,7 +50,7 @@ const InvoicePerRow = ({singleInvoice}) => {
   return (
     <Tr onClick={() => navigate(`/invoices/${singleInvoice._id}`)} cursor={"pointer"} _hover={{bg: '#EFEFEF'}}>
     <Td>{singleInvoice.invoiceNumber.toString().padStart(3, "0")}</Td>
-    <Td> {singleInvoice.client?.name}</Td>
+    <Td> {user?._id === singleInvoice?.creatorId?._id ? singleInvoice.client?.name : singleInvoice?.creatorId?.name}</Td>
     <Td>{total}</Td>
     <Td>{remAmount}</Td>
     <Td>{format(singleInvoice.dueDate, "dd/MM/yyyy")}</Td>
