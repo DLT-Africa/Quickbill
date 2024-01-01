@@ -8,6 +8,11 @@ const invoiceSchema = mongoose.Schema(
 			ref: "User",
 		},
 		client: { name: String, email: String, address: String },
+		paymentDetails: {
+			bankName: String,
+			accountName: String,
+			accountNumber: Number,
+		},
 		items: [
 			{
 				itemName: String,

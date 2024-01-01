@@ -83,9 +83,9 @@ const BillCon = () => {
 					Sent invoices
 				</Text> */}
 				<Box>
-						<Text as={"h1"} fontSize={"2xl"} fontWeight={700}>
-							Bills
-						</Text>
+				<Text fontSize={36} textAlign={"left"} fontWeight={700}>
+						Bills
+					</Text>
  						<Text as={"p"} fontSize={"xl"} fontWeight={300}>
  							Manage all the invoices you received from vendors
 					</Text>

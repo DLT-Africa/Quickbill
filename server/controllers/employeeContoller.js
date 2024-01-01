@@ -1,5 +1,6 @@
 const Employee = require("../models/employeeModel");
 const User = require("../models/userModel");
+const { sendClientInvitationMail } = require("../utils/sendMail");
 
 const createEmployee = async (req, res) => {
 	try {
@@ -76,6 +77,20 @@ const getAllEmployees = async (req, res) => {
 	}
 };
 
+const inviteUnregisteredUser = async (req, res) => {
+	try {
+		const employeeEmail = req.body.email;
+		const inviterId = req.userId;
+		const inviter = await User.findById(inviterId);
+		const inviterEmail = inviter.email;
+		const inviterName = inviter.name;
+		sendClientInvitationMail({ inviterEmail, inviterName, clientEmail: employeeEmail }, res);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+};
+
 const deleteEmployee = async (req, res) => {
 	try {
 		const employeeId = req.params.id;
@@ -125,4 +140,5 @@ module.exports = {
 	getAllEmployees,
 	deleteEmployee,
 	updateEmployee,
+	inviteUnregisteredUser
 };
