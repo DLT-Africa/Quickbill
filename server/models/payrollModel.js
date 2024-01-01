@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-
 const PayrollSchema = mongoose.Schema(
 	{
+		payrollNumber: { type: String, unique: true },
 		employerId: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
@@ -13,11 +13,15 @@ const PayrollSchema = mongoose.Schema(
 			ref: "Employee",
 			required: true,
 		},
-		totalSalary: Number,
+		salary: Number,
+		bankName: String,
+		accountName: String,
+		accountNumber: Number,
 		paidAmountTotal: Number,
+		note: String,
+		currency: String,
 		paymentStatus: {
 			type: String,
-			default: "Active"
 		},
 		paymentRecords: [
 			{

@@ -32,7 +32,7 @@ import {
 	Thead,
 	Tr,
 } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import InvSummaryItemRow from "./InvSummaryItemRow";
 import {
@@ -47,6 +47,8 @@ import { ImStarFull } from "react-icons/im";
 import { FaDownload } from "react-icons/fa6";
 import { FcCancel } from "react-icons/fc";
 import useShowToast from "../hooks/useShowToast";
+import useLogout from "../hooks/useLogout";
+import { prevPathAtom } from "../atoms/prevPathAtom";
 
 const InvoiceSummary = () => {
 	const { invoiceId } = useParams();
@@ -74,6 +76,8 @@ const InvoiceSummary = () => {
 	const [rejectModalOpen, setRejectModalOpen] = useState(false);
 	const [rejectReason, setRejectReason] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const logout = useLogout();
 
 	const showToast = useShowToast();
 
@@ -96,7 +100,8 @@ const InvoiceSummary = () => {
 				if (errorData?.error?.startsWith("Internal")) {
 					console.log("Internal Server Error");
 				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
-					navigate("/auth");
+					setPrevPath(window.location.pathname);
+					logout();
 				}
 			}
 		};
@@ -342,29 +347,27 @@ const InvoiceSummary = () => {
 							colorScheme="blue"
 						/>
 						<MenuList>
-							{invoiceDetails.invoiceStatus !== "Rejected" &&
-								invoiceDetails.invoiceStatus !== "Paid" &&
-								invoiceDetails.invoiceStatus !== "Overdue" && (
-									<MenuItem
-										icon={<FaStarHalfAlt />}
-										onClick={() => setPayPartialModalOpen(true)}
-									>
-										Mark as Partially Paid
-									</MenuItem>
-								)}
+							{(invoiceDetails.invoiceStatus === "Awaiting Payment" ||
+								invoiceDetails.invoiceStatus === "Partially Paid") && (
+								<MenuItem
+									icon={<FaStarHalfAlt />}
+									onClick={() => setPayPartialModalOpen(true)}
+								>
+									Mark as Partially Paid
+								</MenuItem>
+							)}
 
-							{invoiceDetails.invoiceStatus !== "Rejected" &&
-								invoiceDetails.invoiceStatus !== "Paid" &&
-								invoiceDetails.invoiceStatus !== "Overdue" && (
-									<MenuItem
-										icon={<ImStarFull />}
-										onClick={() => setFullyPaidModalOpen(true)}
-									>
-										Mark as Fully Paid
-									</MenuItem>
-								)}
+							{(invoiceDetails.invoiceStatus === "Awaiting Payment" ||
+								invoiceDetails.invoiceStatus === "Partially Paid") && (
+								<MenuItem
+									icon={<ImStarFull />}
+									onClick={() => setFullyPaidModalOpen(true)}
+								>
+									Mark as Fully Paid
+								</MenuItem>
+							)}
 
-							{invoiceDetails.invoiceStatus === "Awaiting Payment" || invoiceDetails.invoiceStatus !== 'Overdue' &&
+							{invoiceDetails.invoiceStatus === "Awaiting Payment" &&
 								invoiceDetails?.client?.email === userDetails?.email && (
 									<MenuItem
 										icon={<FcCancel />}
@@ -408,7 +411,7 @@ const InvoiceSummary = () => {
 											name="note"
 											value={formData.note}
 											onChange={handleChange}
-                                            required
+											required
 										/>
 									</FormControl>
 								</ModalBody>
@@ -550,6 +553,24 @@ const InvoiceSummary = () => {
 								<Text>{client?.address}</Text>
 							</Box>
 						</Box>
+
+						<Box>
+							<Text fontSize={"xl"} fontWeight={600} mt={2}>
+								Payment Details:
+							</Text>
+							<Text>
+								<strong>Bank Name:</strong>{" "}
+								{invoiceDetails?.paymentDetails?.bankName}
+							</Text>
+							<Text>
+								<strong>Account Name:</strong>{" "}
+								{invoiceDetails?.paymentDetails?.accountName}
+							</Text>
+							<Text>
+								<strong>Account Number:</strong>{" "}
+								{invoiceDetails?.paymentDetails?.accountNumber}
+							</Text>
+						</Box>
 					</Flex>
 
 					<Box>
@@ -648,15 +669,10 @@ const InvoiceSummary = () => {
 								</Td>
 							</Tr>
 							<Tr>
-								<Td color={"black"} fontWeight={900} fontSize={"2xl"}>
+								<Td color={"black"} fontSize={"2xl"}>
 									Total:{" "}
 								</Td>
-								<Td
-									color={"black"}
-									fontWeight={900}
-									textAlign={"right"}
-									fontSize={"2xl"}
-								>
+								<Td color={"black"} textAlign={"right"} fontSize={"2xl"}>
 									{formattedGrandTotal}
 								</Td>
 							</Tr>
@@ -683,22 +699,24 @@ const InvoiceSummary = () => {
 					</Table>
 				</Flex>
 
-				<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"} w={"40%"}>
-					<Text fontWeight={600} fontSize={"xl"}>
-						Note/Additional Information:
-					</Text>
-					<Box mt={4} ml={4}>
-						<Text>{invoiceDetails?.notes}</Text>
-					</Box>
-				</Flex>
+				{invoiceDetails?.notes && (
+					<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"} w={"40%"}>
+						<Text fontWeight={600} fontSize={"xl"}>
+							Note/Additional Information:
+						</Text>
+						<Box mt={4} ml={4}>
+							<Text>{invoiceDetails?.notes}</Text>
+						</Box>
+					</Flex>
+				)}
 
-				<Box mt={8}>
+				{/* <Box mt={8}>
 					<Flex justifyContent="center" pb={5}>
 						<Button type="submit" bg={"#2970FF"}>
 							Create and send
 						</Button>
 					</Flex>
-				</Box>
+				</Box> */}
 			</Box>
 		</>
 	);

@@ -145,7 +145,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
             >
               Bills
             </NavItem>
-            <NavItem as={NavLink} to={"/payroll"} pl="12" py="2">
+            <NavItem as={NavLink} to={"/payrolls"} pl="12" py="2">
               Payroll
             </NavItem>
           </AccordionPanel>

@@ -28,11 +28,13 @@ const getPayroll = async (req, res) => {
 
 const createPayroll = async (req, res) => {
 	try {
-		const { employeeId, totalSalary } = req.body;
+		const { payrollDetails } = req.body;
+
+		console.log(payrollDetails)
         
 		//From middleware
 		const employerId = req.userId;
-		const newPayroll = new Payroll({ employerId, employeeId, totalSalary });
+		const newPayroll = new Payroll({ ...payrollDetails, employerId });
 		await newPayroll.save();
 		res.status(201).json(newPayroll);
 	} catch (error) {

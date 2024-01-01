@@ -16,6 +16,8 @@ import {
 	Textarea,
 	Th,
 	Icon,
+	FormControl,
+	FormLabel,
 } from "@chakra-ui/react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import invoiceAtom from "../atoms/invoiceAtom";
@@ -29,6 +31,8 @@ import { MdOutlineCancel } from "react-icons/md";
 import currencies from "../utils/currencies.json";
 import ItemRow from "./ItemRow";
 import useShowToast from "../hooks/useShowToast";
+import useLogout from "../hooks/useLogout";
+import { prevPathAtom } from "../atoms/prevPathAtom";
 
 const todayDate = new Date();
 const rawDueDate = addDays(todayDate, 7);
@@ -62,8 +66,12 @@ function Invoice() {
 	const [subTotal, setSubTotal] = useState(0);
 	const [totalAmtAfterDiscount, setTotalAmtAfterDiscount] = useState(0);
 	const [grandTotal, setGrandTotal] = useState(0);
+	const [paymentDetails, setPaymentDetails] = useState({});
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
+	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+
 	const showToast = useShowToast();
+	const logout = useLogout();
 	// const [inviteModalOpen, setInviteModalOpen] = useState(false);
 
 	const navigate = useNavigate();
@@ -74,7 +82,7 @@ function Invoice() {
 				const response = await axiosInstance.get("/invoices/all-sent");
 				const data = response.data;
 				// console.log(data);
-				const totalInvoices = data.length; 
+				const totalInvoices = data.length;
 				const newInvNo = totalInvoices + 1;
 				const formattedInvoiceNumber = newInvNo.toString().padStart(3, "0");
 				setcurrentInvoiceNumber(formattedInvoiceNumber);
@@ -85,7 +93,8 @@ function Invoice() {
 				if (errorData?.error?.startsWith("Internal")) {
 					console.log("Internal Server Error");
 				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
-					navigate("/auth");
+					setPrevPath(window.location.pathname);
+					logout();
 				}
 			}
 		};
@@ -115,9 +124,13 @@ function Invoice() {
 			} catch (error) {
 				console.log(error);
 				if (error?.response?.status === 401) {
-					navigate("/auth");
-				} else if (error?.response?.data?.error?.startsWith("jwt" || "Unauthorized")) {
-					navigate("/auth");
+					setPrevPath(window.location.pathname);
+					logout();
+				} else if (
+					error?.response?.data?.error?.startsWith("jwt" || "Unauthorized")
+				) {
+					setPrevPath(window.location.pathname);
+					logout();
 				}
 			}
 		};
@@ -125,8 +138,9 @@ function Invoice() {
 	}, []);
 
 	useEffect(() => {
-		console.log(invoice);
-	}, [invoice]);
+		// console.log(invoice);
+		console.log(paymentDetails);
+	}, [paymentDetails]);
 
 	const addRow = () => {
 		const newRow = {
@@ -145,6 +159,15 @@ function Invoice() {
 		const updatedData = [...invoiceItems];
 		updatedData.splice(index, 1);
 		setInvoiceItems(updatedData);
+	};
+
+	const handlePaymentDetailsInput = (property, value) => {
+		setPaymentDetails((prevPaymentDetails) => {
+			return {
+				...prevPaymentDetails,
+				[property]: value,
+			};
+		});
 	};
 
 	const handleItemsInputChange = useCallback((index, columnName, value) => {
@@ -195,6 +218,7 @@ function Invoice() {
 			invoiceNumber: currentInvoiceNumber,
 			client: isSelectedClient ? selectedClientDetails : "", // Replace with actual logic
 			items: invoiceItems,
+			paymentDetails: paymentDetails,
 			issueDate: todayDate,
 			dueDate: selectedDueDate,
 			subTotalBeforeDiscount: subTotal,
@@ -220,7 +244,7 @@ function Invoice() {
 			const newInvoice = data.newInvoice;
 
 			showToast("Success", "Invoice created successfully", "success");
-			navigate(`/invoices/${newInvoice._id}`)
+			navigate(`/invoices/${newInvoice._id}`);
 			console.log(data);
 		} catch (error) {
 			console.log(error);
@@ -277,76 +301,116 @@ function Invoice() {
 				</Box>
 				<Box borderBottom="1px" borderColor="gray" w={"full"}></Box>
 
-				<Flex justifyContent={"space-between"} pt={"27"} pb={"2"} px={10}>
-					<Box>
-						<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
-							Bill To
-						</Text>
-						{!isSelectedClient ? (
-							<Flex gap={2} flexDir={"column"}>
-								<Box w={250}>
-									<ReactSelect
-										onChange={handleSelectedClient}
-										options={clientsSelectOptions}
-										placeholder="Select Client"
-									/>
-								</Box>
-								<Button
-									bg={"#2970FF"}
-									color={"#F6F6F6"}
-									w={150}
-									onClick={() => setAddClientModalOpen(true)}
-								>
-									Add New Client
-								</Button>
-							</Flex>
-						) : (
-							<Flex gap={4}>
-								<Box>
-									<Text>{selectedClientDetails?.name}</Text>
-									<Text>{selectedClientDetails?.email}</Text>
-									<Text>{selectedClientDetails?.address}</Text>
-								</Box>
-								<Icon
-									as={MdOutlineCancel}
-									fontSize={"2xl"}
-									cursor={"pointer"}
-									color={"red"}
-									onClick={() => setIsSelectedClient(false)}
-								/>
-							</Flex>
-						)}
-					</Box>
-
-					<AddClientModal />
-
-					<Box>
-						<Text as={"h2"} fontWeight={500} fontSize={"18"}>
-							STATUS
-						</Text>
-						<Text
-							as={"h2"}
-							fontWeight={400}
-							color={"red"}
-							pb={"5"}
-							fontSize={"20"}
-						>
-							Unpaid
-						</Text>
-
-						<Text fontWeight={500} fontSize={"18"}>
-							DATE:
-						</Text>
-						<Text pb={"25"}>{format(todayDate, "PP")} </Text>
-
-						<Text fontWeight={500}>DUE DATE:</Text>
-						<Text pb={"35"}>{format(selectedDueDate, "PP")}</Text>
-						
-					</Box>
-				</Flex>
-				{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
-
 				<form onSubmit={handleSubmit}>
+					<Flex justifyContent={"space-between"} pt={"27"} pb={"2"} px={10}>
+						<Box>
+							<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
+								Bill To
+							</Text>
+							{!isSelectedClient ? (
+								<Flex gap={2} flexDir={"column"}>
+									<Box w={250}>
+										<ReactSelect
+											onChange={handleSelectedClient}
+											options={clientsSelectOptions}
+											placeholder="Select Client"
+										/>
+									</Box>
+									<Button
+										bg={"#2970FF"}
+										color={"#F6F6F6"}
+										w={150}
+										onClick={() => setAddClientModalOpen(true)}
+									>
+										Add New Client
+									</Button>
+								</Flex>
+							) : (
+								<Flex gap={4}>
+									<Box>
+										<Text>{selectedClientDetails?.name}</Text>
+										<Text>{selectedClientDetails?.email}</Text>
+										<Text>{selectedClientDetails?.address}</Text>
+									</Box>
+									<Icon
+										as={MdOutlineCancel}
+										fontSize={"2xl"}
+										cursor={"pointer"}
+										color={"red"}
+										onClick={() => setIsSelectedClient(false)}
+									/>
+								</Flex>
+							)}
+
+							<Flex gap={3} flexDir={"column"} my={6}>
+								<Text fontSize={"xl"} fontWeight={600} mt={5}>
+									Payment Details:
+								</Text>
+								<FormControl isRequired>
+									<FormLabel>Bank Name</FormLabel>
+									<Input
+										placeholder="United Bank for Africa"
+										value={paymentDetails.bankName}
+										onChange={(e) =>
+											handlePaymentDetailsInput("bankName", e.target.value)
+										}
+										required
+									/>
+								</FormControl>
+								<FormControl isRequired colorScheme="red">
+									<FormLabel>Account Name</FormLabel>
+									<Input
+										bg={"White"}
+										placeholder="John Doe"
+										value={paymentDetails.accountName}
+										onChange={(e) =>
+											handlePaymentDetailsInput("accountName", e.target.value)
+										}
+										required
+									/>
+								</FormControl>
+								<FormControl isRequired>
+									<FormLabel>Account Number</FormLabel>
+									<Input
+										type="number"
+										placeholder="0456789012"
+										value={paymentDetails.accountNumber}
+										onChange={(e) =>
+											handlePaymentDetailsInput("accountNumber", e.target.value)
+										}
+										required
+									/>
+								</FormControl>
+							</Flex>
+						</Box>
+
+						<AddClientModal />
+
+						<Box>
+							<Text as={"h2"} fontWeight={500} fontSize={"18"}>
+								STATUS
+							</Text>
+							<Text
+								as={"h2"}
+								fontWeight={400}
+								color={"red"}
+								pb={"5"}
+								fontSize={"20"}
+							>
+								Unpaid
+							</Text>
+
+							<Text fontWeight={500} fontSize={"18"}>
+								DATE:
+							</Text>
+							<Text pb={"25"}>{format(todayDate, "PP")} </Text>
+
+							<Text fontWeight={500}>DUE DATE:</Text>
+							<Text pb={"35"}>{format(selectedDueDate, "PP")}</Text>
+						</Box>
+					</Flex>
+					{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
+
 					<Box mt={8}>
 						<Table variant="striped" colorScheme="gray.600">
 							<Thead>
@@ -420,7 +484,7 @@ function Invoice() {
 								</Tr>
 								<Tr>
 									<Td color={"black"} flexWrap={900} fontSize={"2xl"}>
-										Total:{" "}
+										Total: ({selectedCurrency})
 									</Td>
 									<Td color={"black"} fontWeight={900} fontSize={"2xl"}>
 										{grandTotal}
