@@ -16,6 +16,8 @@ import { useRecoilValue } from "recoil";
 import userAtom from "./atoms/userAtom";
 import ConfirmEmail from "./components/ConfirmEmail";
 import InvoiceSummaryPage from "./pages/InvoiceSummaryPage";
+import AccountConfirmation from "./components/AccountConfirmation";
+import LinkExpired from "./components/LinkExpired";
 
 function App() {
   const user = useRecoilValue(userAtom) 
@@ -24,6 +26,8 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/auth" element={<AuthPage />} />
+				<Route path="/accountconfirmation" element={<AccountConfirmation />} />
+				<Route path="/linkexpired" element={<LinkExpired />} />
 				<Route path="/confirm-email" element={<ConfirmEmail />} />
 				<Route path="/about" element={<AboutPage />} />
 				<Route path="/contact" element={<ContactPage />} />
