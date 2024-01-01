@@ -123,12 +123,11 @@ function Invoice() {
 				console.log(data);
 			} catch (error) {
 				console.log(error);
-				if (error?.response?.status === 401) {
-					setPrevPath(window.location.pathname);
-					logout();
-				} else if (
-					error?.response?.data?.error?.startsWith("jwt" || "Unauthorized")
-				) {
+				const errorData = error.response?.data;
+
+				if (errorData?.error?.startsWith("Internal")) {
+					console.log("Internal Server Error");
+				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
 					setPrevPath(window.location.pathname);
 					logout();
 				}

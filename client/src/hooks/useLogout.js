@@ -14,8 +14,7 @@ const useLogout = () => {
 			const data = response.data;
 
 			console.log(data);
-			// localStorage.removeItem("user-quickBill");
-			// localStorage.removeItem("clients-quickBill");
+			
 			localStorage.clear();
 
 

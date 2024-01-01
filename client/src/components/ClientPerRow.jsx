@@ -43,7 +43,7 @@ const ClientPerRow = ({ client, index, setClients }) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	const handleSubmit = async (e) => {
+	const handleUpdateClient = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 		try {
@@ -54,6 +54,7 @@ const ClientPerRow = ({ client, index, setClients }) => {
 			setLoading(false);
 			setUpdateClientModalOpen(false);
             setClients(response.data);
+			localStorage.setItem("clients-quickBill", JSON.stringify(response.data));
 			showToast("Success", "Client details updated successfully", "success");
 			console.log(response.data);
 		} catch (error) {
@@ -65,7 +66,10 @@ const ClientPerRow = ({ client, index, setClients }) => {
 				setPrevPath(window.location.pathname);
 
 				logout()
-            }
+            } else if (error.response.status === 401) {
+				setPrevPath(window.location.pathname);
+				logout();
+			}
 		}
 	};
 
@@ -102,7 +106,7 @@ const ClientPerRow = ({ client, index, setClients }) => {
 				isOpen={updateClientModalOpen}
 				onClose={() => setUpdateClientModalOpen(false)}
 			>
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={handleUpdateClient}>
 					<ModalOverlay />
 					<ModalContent>
 						<ModalHeader>Update Client Details</ModalHeader>
