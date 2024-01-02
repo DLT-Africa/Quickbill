@@ -49,7 +49,7 @@ export default function SplitScreen() {
 			localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
 			setUser(loggedUser);
 
-			const localStoragePrevPath = localStorage?.getItem("localPrevPath")
+			const localStoragePrevPath = localStorage?.getItem("localPrevPath");
 			// Redirect to the originally requested route (or a default route)
 			if (localStoragePrevPath) {
 				localStorage.removeItem("localPrevPath");
@@ -101,109 +101,95 @@ export default function SplitScreen() {
 					/>
 				</Box>
 			</Flex>
-
-			<Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"}>
-				<Stack spacing={4} w={"full"} maxW={"md"} align={"center"}>
-					<Heading fontSize={"4xl"} textAlign={"center"}>
-						Login
-					</Heading>
-					<Box>
-						<Flex fontWeight={"3000"} gap={4}>
-							<IconButton icon={<FaFacebook size={"md"} />} />
-							<IconButton icon={<FcGoogle size={"md"} />} />
-							<IconButton icon={<FaApple size={"md"} />} />
-						</Flex>
-						<Box position="relative" padding="10" fontSize={"2xl"}>
-							<Divider background={"black"} height={"2px"} width={"4rem"} />
-							<AbsoluteCenter px="1" background={"#ecf1f6"}>
-								{" "}
-								or{" "}
-							</AbsoluteCenter>
+				<Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"}>
+					<Stack spacing={4} w={"full"} maxW={"md"} align={"center"}>
+						<Heading fontSize={"4xl"} textAlign={"center"}>
+							Login
+						</Heading>
+						<Box>
+							<Flex fontWeight={"3000"} gap={4}>
+								<IconButton icon={<FaFacebook size={"md"} />} />
+								<IconButton icon={<FcGoogle size={"md"} />} />
+								<IconButton icon={<FaApple size={"md"} />} />
+							</Flex>
+							<Box position="relative" padding="10" fontSize={"2xl"}>
+								<Divider background={"black"} height={"2px"} width={"4rem"} />
+								<AbsoluteCenter px="1" background={"#ecf1f6"}>
+									{" "}
+									or{" "}
+								</AbsoluteCenter>
+							</Box>
 						</Box>
-					</Box>
-      <Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"}>
-        <Stack spacing={4} w={"full"} maxW={"md"} align={"center"}>
-          <Heading fontSize={"4xl"} textAlign={"center"}>
-            Login
-          </Heading>
-          <Box>
-            <Flex fontWeight={"3000"} gap={4}>
-              <IconButton icon={<FaFacebook size={"md"} />} />
-              <IconButton icon={<FcGoogle size={"md"} />} />
-              <IconButton icon={<FaApple size={"md"} />} />
-            </Flex>
-            <Box position="relative" padding="10" fontSize={"2xl"}>
-              <Divider background={"black"} height={"2px"} width={"4rem"} />
-              <AbsoluteCenter px="1" background={"#ecf1f6"}>
-                {" "}
-                or{" "}
-              </AbsoluteCenter>
-            </Box>
-          </Box>
-					<Stack spacing={4} w={500}>
-						<FormControl isRequired>
-							<FormLabel>Email address</FormLabel>
-							<Input
-								type="email"
-								onChange={(e) => setEmail(e.target.value)}
-								value={email}
-								placeholder="example@mail.com"
-								border={"1px solid black"}
-							/>
-						</FormControl>
-						<FormControl isRequired>
-							<FormLabel>Password</FormLabel>
-							<InputGroup>
-								<Input
-									type={showPassword ? "text" : "password"}
-									onChange={(e) => setPassword(e.target.value)}
-									value={password}
-									placeholder="Enter password"
-									border={"1px solid black"}
-								/>
-								<InputRightElement h={"full"}>
-									<Button
-										variant={"ghost"}
-										onClick={() =>
-											setShowPassword((showPassword) => !showPassword)
-										}
-									>
-										{showPassword ? <ViewIcon /> : <ViewOffIcon />}
-									</Button>
-								</InputRightElement>
-							</InputGroup>
-						</FormControl>
 
-						<Stack spacing={10} pt={2}>
-							<Button
-								loadingText="Signing in"
-								size="lg"
-								bg={"blue.400"}
-								color={"white"}
-								_hover={{
-									bg: "blue.500",
-								}}
-								onClick={handleSubmit}
-								isLoading={loading}
-								// isDisabled={(!email, !password ? true : false)}
-							>
-								Sign In
-							</Button>
-						</Stack>
-						<Stack pt={6}>
-							<Text align={"center"}>
-								Don&apos;t have an account?{" "}
-								<Link
-									color={"blue.400"}
-									onClick={() => setAuthScreen("signup")}
+						<Stack spacing={4} w={500}>
+						<form onSubmit={handleSubmit}>
+
+							<FormControl isRequired>
+								<FormLabel>Email address</FormLabel>
+								<Input
+									type="email"
+									onChange={(e) => setEmail(e.target.value)}
+									value={email}
+									placeholder="example@mail.com"
+									border={"1px solid black"}
+									required
+								/>
+							</FormControl>
+							<FormControl isRequired>
+								<FormLabel>Password</FormLabel>
+								<InputGroup>
+									<Input
+										type={showPassword ? "text" : "password"}
+										onChange={(e) => setPassword(e.target.value)}
+										value={password}
+										placeholder="Enter password"
+										border={"1px solid black"}
+										required
+									/>
+									<InputRightElement h={"full"}>
+										<Button
+											variant={"ghost"}
+											onClick={() =>
+												setShowPassword((showPassword) => !showPassword)
+											}
+										>
+											{showPassword ? <ViewIcon /> : <ViewOffIcon />}
+										</Button>
+									</InputRightElement>
+								</InputGroup>
+							</FormControl>
+
+							<Stack spacing={10} pt={2}>
+								<Button
+									loadingText="Signing in"
+									size="lg"
+									bg={"blue.400"}
+									color={"white"}
+									_hover={{
+										bg: "blue.500",
+									}}
+									type="submit"
+									isLoading={loading}
+									// isDisabled={(!email, !password ? true : false)}
 								>
-									Sign Up
-								</Link>
-							</Text>
+									Sign In
+								</Button>
+							</Stack>
+							<Stack pt={6}>
+								<Text align={"center"}>
+									Don&apos;t have an account?{" "}
+									<Link
+										color={"blue.400"}
+										onClick={() => setAuthScreen("signup")}
+									>
+										Sign Up
+									</Link>
+								</Text>
+							</Stack>
+			</form>
 						</Stack>
 					</Stack>
-				</Stack>
-			</Flex>
+				</Flex>
 		</Stack>
 	);
 }
