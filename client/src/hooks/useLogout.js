@@ -14,10 +14,17 @@ const useLogout = () => {
 			const data = response.data;
 
 			console.log(data);
-			// localStorage.removeItem("user-quickBill");
-			// localStorage.removeItem("clients-quickBill");
-			localStorage.clear();
-
+			
+			// const clearLocalStorageExceptKey = (keyToKeep) => {
+			// 	Object.keys(localStorage).forEach((key) => {
+			// 	  if (key !== keyToKeep) {
+			// 		localStorage.removeItem(key);
+			// 	  }
+			// 	});
+			//   };
+			//   // Usage
+			//   clearLocalStorageExceptKey('localPrevPath');
+			  
 
 			setUser(null);
             navigate("/auth");

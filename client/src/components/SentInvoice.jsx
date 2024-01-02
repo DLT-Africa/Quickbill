@@ -22,6 +22,9 @@ import { GoDownload } from "react-icons/go";
 import InvoicePerRow from "./InvoicePerRow";
 import { useEffect } from "react";
 import { axiosInstance } from "../../api/axios";
+import useLogout from "../hooks/useLogout";
+import { useRecoilState } from "recoil";
+import { prevPathAtom } from "../atoms/prevPathAtom";
 
 const SentInvoice = () => {
 	const [allSentInvoices, setAllSentInvoices] = useState([]);
@@ -31,7 +34,8 @@ const SentInvoice = () => {
 	const [allAwaitingPaymentInvoices, setAllAwaitingPaymentInvoices] = useState(
 		[]
 	);
-
+	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const logout = useLogout()
 
 	const navigate = useNavigate();
 
@@ -62,8 +66,6 @@ const SentInvoice = () => {
 					(invoice) => invoice.invoiceStatus === "Awaiting Payment"
 				);
 
-
-
 				setAllSentInvoices(invoicesSent);
 				setAllPaidInvoices(filteredPaidInvoices);
 				setAllRejectedInvoices(filteredRejectedInvoices);
@@ -75,7 +77,11 @@ const SentInvoice = () => {
 				if (errorData?.error?.startsWith("Internal")) {
 					console.log("Internal Server Error");
 				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
-					navigate("/auth");
+					setPrevPath(window.location.pathname);
+					logout();
+				} else if (error.response.status === 401) {
+					setPrevPath(window.location.pathname);
+					logout();
 				}
 			}
 		};
@@ -121,14 +127,13 @@ const SentInvoice = () => {
 					</TabList>
 					<TabPanels>
 						<TabPanel>
-							
 							<Table variant="simple" colorScheme="gray" size={"md"} mt={5}>
 								<Thead>
 									<Tr
 										p={2}
 										borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
 										borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
-										bg={"#F4F4F4"}
+										bg={"rgba(55, 73, 87, 0.1)"}
 									>
 										<Th color={"#1c1c1c"} fontSize={"l"}>
 											Invoice No.
@@ -152,7 +157,6 @@ const SentInvoice = () => {
 								</Thead>
 								<Tbody>
 									{allSentInvoices.map((singleInvoice, index) => (
-			
 										<InvoicePerRow key={index} singleInvoice={singleInvoice} />
 									))}
 								</Tbody>

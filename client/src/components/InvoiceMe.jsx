@@ -11,12 +11,22 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
+import { encodePayload } from '../utils/tokenUtils'
 
-const InvoiceCon = () => {
+const InvoiceMe = () => {
+  const user = useRecoilValue(userAtom)
+  const payload = { name: user.name, email: user.email, address: user.address };
+  const encodedToken = encodePayload(payload);
   const [inputValue, setInputValue] = useState(
-    "https://app.quickbill.com/create/c94f48ae9d5a6dd4"
-  );
-  const { hasCopied, onCopy } = useClipboard(inputValue);
+    `http://localhost:5173/invoices/create/${encodedToken}`
+    );
+    const { hasCopied, onCopy } = useClipboard(inputValue);
+    // console.log('Decoded Token:', decodedToken);
+    // const decodedToken = decodeToken(encodedToken);
+    
+// console.log('Encoded Token:', encodedToken);
 
   return (
     <>
@@ -104,4 +114,4 @@ const InvoiceCon = () => {
   );
 };
 
-export default InvoiceCon;
+export default InvoiceMe;

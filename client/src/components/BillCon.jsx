@@ -22,6 +22,9 @@ import { GoDownload } from "react-icons/go";
 import InvoicePerRow from "./InvoicePerRow";
 import { useEffect } from "react";
 import { axiosInstance } from "../../api/axios";
+import { prevPathAtom } from "../atoms/prevPathAtom";
+import { useRecoilState } from "recoil";
+import useLogout from "../hooks/useLogout";
 
 const BillCon = () => {
 	const [allSentInvoices, setAllSentInvoices] = useState([]);
@@ -31,6 +34,8 @@ const BillCon = () => {
 	const [allAwaitingPaymentInvoices, setAllAwaitingPaymentInvoices] = useState(
 		[]
 	);
+	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const logout = useLogout();
 
 
 	const navigate = useNavigate();
@@ -71,6 +76,16 @@ const BillCon = () => {
 				setAllAwaitingPaymentInvoices(filteredAwaitingPaymentInvoices);
 			} catch (error) {
 				console.log(error);
+				const errorData = error.response?.data;
+			if (errorData?.error?.startsWith("Internal")) {
+				console.log("Internal Server Error");
+			} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
+				setPrevPath(window.location.pathname);
+				logout();
+			} else if (error.response.status === 401) {
+				setPrevPath(window.location.pathname);
+				logout();
+			}
 			}
 		};
 		getAllSentInvoices();

@@ -39,26 +39,29 @@ export default function SplitScreen() {
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
 	const showToast = useShowToast();
+	const [loading, setLoading] = useState(false);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true);
 		try {
 			const response = await axiosInstance.post(
 				"/auth/signup",
 				JSON.stringify({ name, email, password })
 			);
-			const loggedUser = response.data.loggedInUser;
+			// const loggedUser = response.data.loggedInUser;
+			const data = response.data;
 
-			// localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
-			// setUser(loggedUser);
-
-			//  navigate(state?.from || "/dashboard");
-			// Redirect to the originally requested route (or a default route)
+			if (data.message) {
+				showToast("Success", data.message, "success");
+			}
 
 			navigate("/confirm-email");
 		} catch (error) {
 			console.log(error);
 			showToast("Error", error.response.data.error, "error");
+		} finally {
+			setLoading(false);
 		}
 	};
 	// if (user === "" || pwd === "") {
@@ -132,7 +135,7 @@ export default function SplitScreen() {
 											value={name}
 											color={"black"}
 											border={"1px solid black"}
-                      required
+											required
 											w={500}
 										/>
 									</FormControl>
@@ -146,7 +149,7 @@ export default function SplitScreen() {
 									placeholder="example@mail.com"
 									value={email}
 									border={"1px solid black"}
-                  required
+									required
 								/>
 							</FormControl>
 							<FormControl isRequired>
@@ -158,7 +161,7 @@ export default function SplitScreen() {
 										value={password}
 										placeholder="Enter your password"
 										border={"1px solid black"}
-                    required
+										required
 									/>
 									<InputRightElement h={"full"}>
 										<Button
@@ -174,7 +177,7 @@ export default function SplitScreen() {
 							</FormControl>
 							<Stack spacing={10} pt={2}>
 								<Button
-									loadingText="Submitting"
+									loadingText="Signing you up"
 									size="lg"
 									bg={"blue.400"}
 									color={"white"}
@@ -182,7 +185,7 @@ export default function SplitScreen() {
 										bg: "blue.500",
 									}}
 									type="submit"
-									isDisabled={(!name, !email, !password ? true : false)}
+									isLoading={loading}
 								>
 									Sign up
 								</Button>
