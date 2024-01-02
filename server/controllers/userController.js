@@ -1,37 +1,41 @@
 const User = require("../models/userModel");
+const cloudinary = require("cloudinary").v2;
+const bcrypt = require("bcrypt");
 
-// const deleteUser = async (req, res) => {
-// 	try {
-// 		const userId = req.params.id;
-
-// 		const deletedUser = await User.findByIdAndDelete(userId);
-
-// 		if (!deletedUser) {
-// 			return res.status(404).json({ error: "User not found" });
-// 		}
-
-// 		res.status(200).json({ message: "User deleted successfully", deletedUser });
-// 	} catch (error) {
-// 		console.error(error);
-// 		res.status(500).json({ error: "Internal server error" });
-// 	}
-// };
 
 const updateUserProfile = async (req, res) => {
+	const userId = req.userId;
+	const { name, email, password } = req.body;
+	let { profilePic } = req.body;
+
 	try {
-		const userId = req.userId;
-		const updateData = req.body;
+		let user = await User.findById(userId);
 
-		const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
-			new: true,
-			runValidators: true,
-		}).select("-password");
-
-		if (!updatedUser) {
-			return res.status(404).json({ error: "User not found" });
+		if (password) {
+			const hashedPassword = await bcrypt.hash(password, 12);
+			user.password = hashedPassword;
 		}
 
-		res.status(200).json({ message: "User updated successfully", updatedUser });
+		if (profilePic) {
+			if (user.profilePic) {
+				await cloudinary.uploader.destroy(
+					user.profilePic.split("/").pop().split(".")[0]
+				);
+			}
+			const uploadedResponse = await cloudinary.uploader.upload(profilePic);
+			profilePic = uploadedResponse.secure_url;
+			console.log(profilePic)
+		}
+
+		user.name = name || user.name;
+		user.email = email || user.email;
+		user.avatar = profilePic || user.avatar;
+
+		user = await user.save();
+
+		user.password = null;
+
+		res.status(200).json(user);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });

@@ -9,6 +9,7 @@ const userSchema = mongoose.Schema(
 		phoneNumber: String,
 		businessName: String,
 		contactAddress: String,
+		avatar: String,
 		paymentDetails: String,
 		// invoices: [
 		// 	{

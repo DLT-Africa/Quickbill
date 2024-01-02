@@ -15,12 +15,20 @@ const invoiceRoutes = require("./routes/invoiceRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const payrollRoutes = require("./routes/payrollRoutes");
+const cloudinary = require("cloudinary").v2;	
+
 
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 
 // Handle options credentials check - before CORS!

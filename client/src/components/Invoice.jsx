@@ -79,7 +79,7 @@ function Invoice() {
 		decodedTokenDetails = decodeToken(encodedToken);
 	}
 
-	console.log(decodedTokenDetails);
+	// console.log(decodedTokenDetails);
 
 	const showToast = useShowToast();
 	const logout = useLogout();
@@ -135,12 +135,13 @@ function Invoice() {
 				const data = response.data;
 				setClients(data);
 				localStorage.setItem("clients-quickBill", JSON.stringify(data));
-				console.log(data);
+				// console.log(data);
 			} catch (error) {
 				console.log(error);
 				const errorData = error.response?.data;
 				if (errorData?.error?.startsWith("Internal")) {
-					console.log("Internal Server Error");
+					// console.log("Internal Server Error");
+					showToast("Error", "Internal Server Error", "error");
 				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
 					if (decodedTokenDetails) {
 						localStorage.setItem("localPrevPath", window.location.pathname);
