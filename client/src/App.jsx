@@ -3,7 +3,7 @@ import HomePage from "./Pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 import Clients from "./components/Clients";
 import SentInvoicesPage from "./pages/SentInvoicesPage";
-import InvoiceMe from "./pages/InvoiceMe";
+import InvoiceMePage from "./pages/InvoiceMePage";
 import BillPage from "./pages/BillPage";
 import Dashboard from "./pages/Dashboard";
 import AboutPage from "./pages/AboutPage";
@@ -29,9 +29,9 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/auth" element={<AuthPage />} />
-				<Route path="/accountconfirmation" element={<AccountConfirmation />} />
-				<Route path="/linkexpired" element={<LinkExpired />} />
-				<Route path="/confirm-email" element={<ConfirmEmail />} />
+				<Route path="/confirm-email" element={<AccountConfirmation />} />
+				<Route path="/link-expired/" element={<LinkExpired />} />
+				<Route path="/verify-access/:token" element={<ConfirmEmail />} />
 				<Route path="/about" element={<AboutPage />} />
 				<Route path="/contact" element={<ContactPage />} />
 				<Route
@@ -39,15 +39,16 @@ function App() {
 				/>
 				<Route path="/clients" element={<Clients />} />
 				<Route path="/invoices/create" element={<CreateInvoicePage />} />
+				<Route path="/invoices/create/:encodedToken" element={<CreateInvoicePage />} />
 				<Route path="/invoices/sent" element={<SentInvoicesPage />} />
 				<Route path="/invoices/:invoiceId" element={<InvoiceSummaryPage />} />
 				<Route path="/bills" element={<BillPage />} />
 				<Route path="/employees" element={<EmployeesPage />} />
 				<Route path="/payrolls" element={<PayrollPage />} />
 				<Route path="/payrolls/create" element={<CreatePayrollPage />} />
-				<Route path="/invoice-me" element={<InvoiceMe />} />
 				<Route path="/profile" element={<ProfilePage />} />
 				<Route path="/account-activated" element={<ActivatePage />} />
+				<Route path="/invoice-me" element={<InvoiceMePage />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</>

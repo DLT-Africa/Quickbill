@@ -35,8 +35,10 @@ export default function SplitScreen() {
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const [loading, setLoading] = useState(false);
 
 	const handleSubmit = async (e) => {
+		setLoading(true);
 		e.preventDefault();
 		try {
 			const response = await axiosInstance.post(
@@ -47,8 +49,12 @@ export default function SplitScreen() {
 			localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
 			setUser(loggedUser);
 
+			const localStoragePrevPath = localStorage?.getItem("localPrevPath")
 			// Redirect to the originally requested route (or a default route)
-			if (prevPath) {
+			if (localStoragePrevPath) {
+				localStorage.removeItem("localPrevPath");
+				navigate(localStoragePrevPath);
+			} else if (prevPath) {
 				setPrevPath(null); // Clear the stored path
 				navigate(prevPath);
 			} else {
@@ -56,11 +62,9 @@ export default function SplitScreen() {
 			}
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
-		// if (user === "" || pwd === "") {
-		//    setErrMsg("User and pwd are required");
-		//    return;
-		// }
 	};
 
 	return (
@@ -172,7 +176,7 @@ export default function SplitScreen() {
 
 						<Stack spacing={10} pt={2}>
 							<Button
-								loadingText="Submitting"
+								loadingText="Signing in"
 								size="lg"
 								bg={"blue.400"}
 								color={"white"}
@@ -180,6 +184,7 @@ export default function SplitScreen() {
 									bg: "blue.500",
 								}}
 								onClick={handleSubmit}
+								isLoading={loading}
 								// isDisabled={(!email, !password ? true : false)}
 							>
 								Sign In

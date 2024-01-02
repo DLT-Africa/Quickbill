@@ -19,12 +19,14 @@ import { axiosInstance } from "../../api/axios";
 import useShowToast from "../hooks/useShowToast";
 import allClientsAtom from "../atoms/allClientsAtom";
 import allEmployeesAtom from "../atoms/allEmployeesAtom";
+import useLogout from "../hooks/useLogout";
+import { prevPathAtom } from "../atoms/prevPathAtom";
 
 const AddEmployeeModal = () => {
-    const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState({
 		name: "",
 		email: "",
-        jobTitle: '',
+		jobTitle: "",
 		department: "",
 	});
 	const showToast = useShowToast();
@@ -36,8 +38,10 @@ const AddEmployeeModal = () => {
 	const [sendInviteModalOpen, setSendInviteModalOpen] = useRecoilState(
 		sendInviteModalOpenAtom
 	);
-    
+
 	const [employees, setEmployees] = useRecoilState(allEmployeesAtom);
+	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const logout = useLogout();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -52,24 +56,37 @@ const AddEmployeeModal = () => {
 		// Perform email existence check logic here
 		try {
 			const response = await axiosInstance.post("/employees/create", formData);
-			const newEmployee = response.data;
-			const updatedEmployee = [...existingEmployees, newEmployee];
-			localStorage.setItem("employees-quickBill", JSON.stringify(updatedEmployee));
-			setEmployees(updatedEmployee);
+			const allNewEmployees = response.data;
+			// const updatedEmployee = [...existingEmployees, newEmployee];
+			localStorage.setItem(
+				"employees-quickBill",
+				JSON.stringify(allNewEmployees)
+			);
+			setEmployees(allNewEmployees);
 			setLoading(false);
 			setAddClientModalOpen(false);
-			setFormData({ name: "", email: "", department: "", jobTitle: '' });
+			setFormData({ name: "", email: "", department: "", jobTitle: "" });
 
 			showToast("Success", "Employee added successfully", "success");
 		} catch (error) {
 			console.log(error.response);
+			const errorData = error.response?.data;
+
 			if (error.response && error.response.status === 400) {
-				showToast("Error", error.response.data.message, "error");
+				showToast("Error", error.response.data.error, "error");
 				setLoading(false);
 			} else if (error.response && error.response.status === 404) {
 				setAddClientModalOpen(false);
 				setSendInviteModalOpen(true);
 				setLoading(false);
+			} else if  (errorData?.error?.startsWith("Internal")) {
+				console.log("Internal Server Error");
+			} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
+				setPrevPath(window.location.pathname);
+				logout();
+			} else if (error.response.status === 401) {
+				setPrevPath(window.location.pathname);
+				logout();
 			}
 		}
 	};
@@ -101,7 +118,10 @@ const AddEmployeeModal = () => {
 		<>
 			<Modal
 				isOpen={addClientModalOpen}
-				onClose={() => setAddClientModalOpen(false)}
+				onClose={() => {
+					setAddClientModalOpen(false);
+					setLoading(false);
+				}}
 			>
 				<form onSubmit={handleSubmit}>
 					<ModalOverlay />
@@ -195,6 +215,6 @@ const AddEmployeeModal = () => {
 			</Modal>
 		</>
 	);
-}
+};
 
-export default AddEmployeeModal
+export default AddEmployeeModal;

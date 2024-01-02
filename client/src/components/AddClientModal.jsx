@@ -28,7 +28,7 @@ const AddClientModal = () => {
 		address: "",
 	});
 	const showToast = useShowToast();
-	const [loading, setLoading] = useState(false);
+	const [loadingAddClientBtn, setLoadingAddClientBtn] = useState(false);
 
 	const [addClientModalOpen, setAddClientModalOpen] = useRecoilState(
 		addClientModalOpenAtom
@@ -43,9 +43,9 @@ const AddClientModal = () => {
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
 	};
 
-	const handleSubmit = async (e) => {
+	const handleAddClient = async (e) => {
 		e.preventDefault();
-		setLoading(true);
+		setLoadingAddClientBtn(true);
 		const existingClients =
 			JSON.parse(localStorage.getItem("clients-quickBill")) || [];
 		// Perform email existence check logic here
@@ -55,7 +55,7 @@ const AddClientModal = () => {
 			const updatedClients = [...existingClients, newClient];
 			localStorage.setItem("clients-quickBill", JSON.stringify(updatedClients));
 			setClients(updatedClients);
-			setLoading(false);
+			setLoadingAddClientBtn(false);
 			setAddClientModalOpen(false);
 			setFormData({ name: "", email: "", address: "" });
 
@@ -64,11 +64,11 @@ const AddClientModal = () => {
 			console.log(error.response);
 			if (error.response && error.response.status === 400) {
 				showToast("Error", error.response.data.message, "error");
-				setLoading(false);
+				setLoadingAddClientBtn(false);
 			} else if (error.response && error.response.status === 404) {
 				setAddClientModalOpen(false);
 				setSendInviteModalOpen(true);
-				setLoading(false);
+				setLoadingAddClientBtn(false);
 			}
 		}
 	};
@@ -77,22 +77,22 @@ const AddClientModal = () => {
 		// Logic to send invitation
 		// ...
 		try {
-			setLoading(true);
+			setLoadingAddClientBtn(true);
 			const response = axiosInstance.post("/clients/invite", formData);
 			const data = response.data;
 			console.log(data);
 			showToast("Success", "Invitation sent successfully", "success");
 			setSendInviteModalOpen(false);
-			setLoading(false);
+			setLoadingAddClientBtn(false);
 		} catch (error) {
 			console.log(error);
 			if (error.response.data.msg) {
 				showToast("Error", error.response.data.msg, "error");
 				setSendInviteModalOpen(false);
-				setLoading(false);
+				setLoadingAddClientBtn(false);
 			}
 			setSendInviteModalOpen(false);
-			setLoading(false);
+			setLoadingAddClientBtn(false);
 		}
 	};
 
@@ -102,7 +102,7 @@ const AddClientModal = () => {
 				isOpen={addClientModalOpen}
 				onClose={() => setAddClientModalOpen(false)}
 			>
-				<form onSubmit={handleSubmit}>
+				<form id="addClient" onSubmit={handleAddClient}>
 					<ModalOverlay />
 					<ModalContent>
 						<ModalHeader>Add Client</ModalHeader>
@@ -143,7 +143,8 @@ const AddClientModal = () => {
 								type="submit"
 								colorScheme="blue"
 								mr={3}
-								isLoading={loading}
+								isLoading={loadingAddClientBtn}
+								form="addClient"
 							>
 								Add Client
 							</Button>
@@ -172,7 +173,7 @@ const AddClientModal = () => {
 							colorScheme="blue"
 							mr={3}
 							onClick={handleSendInvitation}
-							isLoading={loading}
+							isLoading={loadingAddClientBtn}
 						>
 							Send Invitation
 						</Button>

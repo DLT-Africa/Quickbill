@@ -1,17 +1,17 @@
-import InvoiceCon from '../components/InvoiceCon'
+import InvoiceMe from '../components/InvoiceMe'
 import SidebarWithHeader from '../components/SidebarWithHeader'
 
-const InvoiceMe = () => {
+const InvoiceMePage = () => {
   return (
     <SidebarWithHeader>
 
 
       {/* <NavBar/> */}
-      <InvoiceCon />
+      <InvoiceMe />
 
     </SidebarWithHeader>
 
   )
 }
 
-export default InvoiceMe
+export default InvoiceMePage

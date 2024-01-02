@@ -10,10 +10,12 @@ import {
     useColorModeValue,
   } from '@chakra-ui/react'
   import { CheckIcon, CloseIcon } from '@chakra-ui/icons'
+import { useNavigate } from 'react-router-dom'
  
 
 
 const LinkExpired = () => {
+  const navigate = useNavigate()
   return (
     <>
 
@@ -32,9 +34,9 @@ const LinkExpired = () => {
 />
         
     <Text as={"h1"} fontWeight={800} mt={5} color={'red.400'}
-   > Authentication failed. Your login link may have expired. Please send </Text>
+   > Authentication failed! Your activation link may have expired. Please </Text>
     <Text as={"h1"} fontWeight={800}  color={'red.400'}
-   > yourself a new sign in link </Text>
+   > signup with your details again. </Text>
 </Flex>
 
 
@@ -59,13 +61,13 @@ const LinkExpired = () => {
             px={3}
             color={'black.500'}
             rounded={'full'}>
-            Login link Expired
+            Activation Link Expired
           </Text>
         </Stack>
 
         <Box bg={useColorModeValue('gray.50', 'gray.900')} px={6} py={10}>
          <Text>
-           Login link access expires after 10 minutes and can only be use once
+           Activation link access expires after 10 minutes and can only be used once
          </Text>
 
           <Button
@@ -74,6 +76,7 @@ const LinkExpired = () => {
             bg={'blue.400'}
             color={'white'}
             rounded={'xl'}
+            onClick={() => navigate('/auth')}
             boxShadow={'0 5px 20px 0px rgb(72 187 120 / 43%)'}
             _hover={{
               bg: 'blue.500',
