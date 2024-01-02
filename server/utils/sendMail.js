@@ -4,7 +4,7 @@ dotenv.config();
 const Mailgen = require("mailgen");
 
 let config = {
-	service: "hotmail",
+	service: "gmail",
 	auth: {
 		user: process.env.EMAIL,
 		pass: process.env.PASSWORD,
@@ -19,7 +19,7 @@ let MailGenerator = new Mailgen({
 		link: "https://google.com",
 	},
 });
-
+ 
 //********************************************************************************************************************************** */
 
 const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
@@ -33,7 +33,7 @@ const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
 				button: {
 					color: "#22BC66", // Optional action button color
 					text: "Confirm your account",
-					link: `http://localhost:3000/auth/activate-account/${token}`,
+					link: `http://localhost:5173/verify-access/${token}`,
 				},
 			},
 			outro:
@@ -45,7 +45,7 @@ const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
 	let message = {
 		from: process.env.EMAIL,
 		to: userEmail,
-		subject: "Welcome to QuickBill",
+		subject: `${name}, Welcome to QuickBill`,
 		html: mail,
 	};
 	transporter
@@ -62,7 +62,7 @@ const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
 			console.log(error);
 			return res
 				.status(500)
-				.send({ msg: "An error occured while sending the email." });
+				.send({ error: "An error occured while sending activation email." });
 		});
 };
 
@@ -106,7 +106,7 @@ const sendClientInvitationMail = ({inviterEmail, inviterName, clientEmail}, res)
 			console.log(error);
 			return res
 				.status(500)
-				.send({ msg: "An error occured while sending the email." });
+				.send({ error: "An error occured while sending the email." });
 		});
 }
 

@@ -70,18 +70,22 @@ const signUp = async (req, res) => {
 		});
 
 		sendConfirmationMail(newUnconfirmedUser, res);
+		
+		
 	} catch (error) {
 		// Handling any errors that occur during the process
 		console.log(error);
-		res.status(500).json({ message: "Something went wrong" });
+		res.status(500).json({ error: "Something went wrong" });
 	}
 };
 
 const activateAccount = async (req, res) => {
 	try {
 		const token = req.params.token;
+		console.log(token)
 
 		const unconfirmedUser = await UnconfirmedUser.findOne({ token });
+		console.log(unconfirmedUser)
 
 		if (!unconfirmedUser) {
 			return res
@@ -95,12 +99,14 @@ const activateAccount = async (req, res) => {
 			});
 
 			await UnconfirmedUser.findByIdAndDelete(unconfirmedUser._id);
+			console.log(confirmedUser)
 
 			return res
 				.status(200)
 				.json({ message: "Account activated successfully", confirmedUser });
 		}
 	} catch (error) {
+		console.log(error)
 		res.status(500).json({ message: "Something went wrong" });
 	}
 };

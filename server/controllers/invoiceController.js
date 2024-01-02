@@ -1,3 +1,4 @@
+const Client = require("../models/clientModel");
 const Invoice = require("../models/invoiceModel");
 
 const createInvoice = async (req, res) => {
@@ -38,6 +39,23 @@ const createInvoice = async (req, res) => {
 			currency,
 			remainingAmount,
 		});
+
+		//Create new client if client email is not found associated with clientFor
+		const existingClient = await Client.findOne({
+			email: client.email,
+			clientFor: creatorId,
+		})
+
+		if(!existingClient){
+			const newClient = new Client({
+				name: client.name,
+				email: client.email,
+				// address: client.address,
+				clientFor: creatorId,
+			});
+	
+			await newClient.save();
+		}
 
 		res
 			.status(201)
