@@ -17,21 +17,12 @@ const PayrollSchema = mongoose.Schema(
 		bankName: String,
 		accountName: String,
 		accountNumber: Number,
-		paidAmountTotal: Number,
 		note: String,
+		paymentDate: Date,
 		currency: String,
 		paymentStatus: {
 			type: String,
 		},
-		paymentRecords: [
-			{
-				amountPaid: Number,
-				paymentDate: Date,
-				// paymentMethod: String,
-				note: String,
-				// paidBy: String,
-			},
-		],
 		// Other payroll details
 	},
 	{

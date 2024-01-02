@@ -35,12 +35,10 @@ const createEmployee = async (req, res) => {
 			department,
 			jobTitle,
 		});
-
 		
-		res.status(201).json({
-			message: "Employee created successfully",
-			newEmployee,
-		});
+		const employees = await Employee.find({ employerId });
+
+		res.status(200).json(employees);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });
@@ -94,6 +92,8 @@ const inviteUnregisteredUser = async (req, res) => {
 const deleteEmployee = async (req, res) => {
 	try {
 		const employeeId = req.params.id;
+		const employerId  = req.userId;
+
 
 		const deletedEmployee = await Employee.findByIdAndDelete(employeeId);
 
@@ -101,9 +101,10 @@ const deleteEmployee = async (req, res) => {
 			return res.status(404).json({ error: "Employee not found" });
 		}
 
-		res
-			.status(200)
-			.json({ message: "Employee deleted successfully", deletedEmployee });
+
+		const employees = await Employee.find({ employerId });
+
+		res.status(200).json(employees);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });
@@ -114,6 +115,8 @@ const updateEmployee = async (req, res) => {
 	try {
 		const employeeId = req.params.id;
 		const updateData = req.body;
+		const employerId  = req.userId;
+
 
 		const updatedEmployee = await Employee.findByIdAndUpdate(
 			employeeId,
@@ -125,9 +128,9 @@ const updateEmployee = async (req, res) => {
 			return res.status(404).json({ error: "Employee not found" });
 		}
 
-		res
-			.status(200)
-			.json({ message: "Employee updated successfully", updatedEmployee });
+
+		const employees = await Employee.find({ employerId });
+		res.status(200).json(employees);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });
