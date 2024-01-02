@@ -71,6 +71,12 @@ const SentInvoice = () => {
 				setAllAwaitingPaymentInvoices(filteredAwaitingPaymentInvoices);
 			} catch (error) {
 				console.log(error);
+				const errorData = error.response?.data;
+				if (errorData?.error?.startsWith("Internal")) {
+					console.log("Internal Server Error");
+				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
+					navigate("/auth");
+				}
 			}
 		};
 		getAllSentInvoices();

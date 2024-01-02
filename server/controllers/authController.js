@@ -144,7 +144,7 @@ const signIn = async (req, res) => {
 			httpOnly: true,
 			secure: true,
 			sameSite: "None",
-			maxAge: 2 * 60 * 60 * 1000,
+			maxAge: 1 * 60 * 60 * 1000, 
 		});
 
 		existingUser.password = null

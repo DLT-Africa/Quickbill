@@ -18,6 +18,9 @@ import ConfirmEmail from "./components/ConfirmEmail";
 import InvoiceSummaryPage from "./pages/InvoiceSummaryPage";
 import ActivatePage from "./components/ActivatePage";
 import ProfilePage from "./pages/ProfilePage";
+import CreatePayrollPage from "./pages/CreatePayrollPage";
+import AccountConfirmation from "./components/AccountConfirmation";
+import LinkExpired from "./components/LinkExpired";
 
 function App() {
   const user = useRecoilValue(userAtom) 
@@ -26,6 +29,8 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/auth" element={<AuthPage />} />
+				<Route path="/accountconfirmation" element={<AccountConfirmation />} />
+				<Route path="/linkexpired" element={<LinkExpired />} />
 				<Route path="/confirm-email" element={<ConfirmEmail />} />
 				<Route path="/about" element={<AboutPage />} />
 				<Route path="/contact" element={<ContactPage />} />
@@ -38,7 +43,8 @@ function App() {
 				<Route path="/invoices/:invoiceId" element={<InvoiceSummaryPage />} />
 				<Route path="/bills" element={<BillPage />} />
 				<Route path="/employees" element={<EmployeesPage />} />
-				<Route path="/payroll" element={<PayrollPage />} />
+				<Route path="/payrolls" element={<PayrollPage />} />
+				<Route path="/payrolls/create" element={<CreatePayrollPage />} />
 				<Route path="/invoice-me" element={<InvoiceMe />} />
 				<Route path="/profile" element={<ProfilePage />} />
 				<Route path="/account-activated" element={<ActivatePage />} />
