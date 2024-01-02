@@ -16,6 +16,8 @@ import { useRecoilValue } from "recoil";
 import userAtom from "./atoms/userAtom";
 import ConfirmEmail from "./components/ConfirmEmail";
 import InvoiceSummaryPage from "./pages/InvoiceSummaryPage";
+import ActivatePage from "./components/ActivatePage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   const user = useRecoilValue(userAtom) 
@@ -38,6 +40,8 @@ function App() {
 				<Route path="/employees" element={<EmployeesPage />} />
 				<Route path="/payroll" element={<PayrollPage />} />
 				<Route path="/invoice-me" element={<InvoiceMe />} />
+				<Route path="/profile" element={<ProfilePage />} />
+				<Route path="/account-activated" element={<ActivatePage />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 		</>

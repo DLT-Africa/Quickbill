@@ -61,8 +61,7 @@ export default function SplitScreen() {
   return (
     <Stack
       minH={"100vh"}
-      direction={{ base: "column", md: "row" }}
-      className="loginSignup"
+      flexDir={{ base: "column", md: "row" }}
     >
       <Flex flexDir="column" w={"450px"}>
         <Link>
@@ -120,7 +119,7 @@ export default function SplitScreen() {
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-								placeholder="example@mail.com"
+                placeholder="example@mail.com"
                 border={"1px solid black"}
               />
             </FormControl>
@@ -157,7 +156,7 @@ export default function SplitScreen() {
                   bg: "blue.500",
                 }}
                 onClick={handleSubmit}
-								isDisabled={(!email, !password ? true : false)}
+                isDisabled={(!email, !password ? true : false)}
               >
                 Sign In
               </Button>
