@@ -26,12 +26,13 @@ import { prevPathAtom } from "../atoms/prevPathAtom";
 import useLogout from "../hooks/useLogout";
 import { useRecoilState } from "recoil";
 
-const ClientPerRow = ({ client, setClients }) => {
+const EmployeePerRow = ({ employee, setEmployees }) => {
 	const [updateClientModalOpen, setUpdateClientModalOpen] = useState(false);
 	const [formData, setFormData] = useState({
-		name: client.name,
-		email: client.email,
-		address: client.address,
+		name: employee.name,
+		email: employee.email,
+		department: employee.department,
+		jobTitle: employee.jobTitle,
 	});
 	const [loading, setLoading] = useState(false);
 	const [deleteClientModalOpen, setDeleteClientModalOpen] = useState(false);
@@ -43,19 +44,19 @@ const ClientPerRow = ({ client, setClients }) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	const handleUpdateClient = async (e) => {
+	const handleUpdateEmployee = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 		try {
 			const response = await axiosInstance.put(
-				`/clients/${client._id}`,
+				`/employees/${employee._id}`,
 				formData
 			);
 			setLoading(false);
 			setUpdateClientModalOpen(false);
-            setClients(response.data);
-			localStorage.setItem("clients-quickBill", JSON.stringify(response.data));
-			showToast("Success", "Client details updated successfully", "success");
+            setEmployees(response.data);
+			localStorage.setItem("employees-quickBill", JSON.stringify(response.data));
+			showToast("Success", "Employee details updated successfully", "success");
 			console.log(response.data);
 		} catch (error) {
 			console.error(error);
@@ -73,13 +74,13 @@ const ClientPerRow = ({ client, setClients }) => {
 		}
 	};
 
-    const handleDeleteClient = async () => {
+    const handleDeleteEmployee = async () => {
         try {
-            const response = await axiosInstance.delete(`/clients/${client._id}`);
-            setClients(response.data);
+            const response = await axiosInstance.delete(`/employees/${employee._id}`);
+            setEmployees(response.data);
             setDeleteClientModalOpen(false);
-            showToast("Success", "Client deleted successfully", "success");
-            localStorage.setItem("clients-quickBill", JSON.stringify(response.data));
+            showToast("Success", "Employee deleted successfully", "success");
+            localStorage.setItem("employees-quickBill", JSON.stringify(response.data));
             console.log(response.data);
         } catch (error) {
             console.error(error);
@@ -89,9 +90,10 @@ const ClientPerRow = ({ client, setClients }) => {
 
 	return (
 		<Tr>
-			<Td>{client.name}</Td>
-			<Td> {client.email}</Td>
-			<Td>{client.address}</Td>
+			<Td>{employee.name}</Td>
+			<Td> {employee.email}</Td>
+			<Td>{employee.department}</Td>
+			<Td>{employee.jobTitle}</Td>
 			<Td>
 				<FaEdit
 					cursor={"pointer"}
@@ -106,15 +108,15 @@ const ClientPerRow = ({ client, setClients }) => {
 				isOpen={updateClientModalOpen}
 				onClose={() => setUpdateClientModalOpen(false)}
 			>
-				<form onSubmit={handleUpdateClient}>
+				<form onSubmit={handleUpdateEmployee}>
 					<ModalOverlay />
 					<ModalContent>
-						<ModalHeader>Update Client Details</ModalHeader>
+						<ModalHeader>Update Employee Details</ModalHeader>
 						<ModalCloseButton />
 						<ModalBody>
 							<Flex gap={2} mb={2}>
 								<Text fontWeight={600}>Email:</Text>
-								<Text>{client.email}</Text>
+								<Text>{employee.email}</Text>
 							</Flex>
 
 							<FormControl>
@@ -128,11 +130,20 @@ const ClientPerRow = ({ client, setClients }) => {
 							</FormControl>
 
 							<FormControl mt={4}>
-								<FormLabel>Address</FormLabel>
+								<FormLabel>Department</FormLabel>
 								<Input
 									type="text"
-									name="address"
-									value={formData.address}
+									name="department"
+									value={formData.department}
+									onChange={handleChange}
+								/>
+							</FormControl>
+							<FormControl mt={4}>
+								<FormLabel>Job Title</FormLabel>
+								<Input
+									type="text"
+									name="jobTitle"
+									value={formData.jobTitle}
 									onChange={handleChange}
 								/>
 							</FormControl>
@@ -144,7 +155,7 @@ const ClientPerRow = ({ client, setClients }) => {
 								mr={3}
 								isLoading={loading}
 							>
-								Update Client Details
+								Update Employee Details
 							</Button>
 							<Button onClick={() => setUpdateClientModalOpen(false)}>
 								Cancel
@@ -162,17 +173,17 @@ const ClientPerRow = ({ client, setClients }) => {
 				<ModalContent>
 					<ModalBody>
 						<Text>
-							Are you sure you want to delete this client?
+							Are you sure you want to delete this employee?
 						</Text>
 					</ModalBody>
 					<ModalFooter>
 						<Button
 							mr={3}
-							onClick={handleDeleteClient}
+							onClick={handleDeleteEmployee}
 							isLoading={loading}
                             colorScheme={'red'}
 						>
-							Delete Client
+							Delete Employee
 						</Button>
 						<Button onClick={() => setDeleteClientModalOpen(false)}>
 							Cancel
@@ -184,4 +195,4 @@ const ClientPerRow = ({ client, setClients }) => {
 	);
 };
 
-export default ClientPerRow;
+export default EmployeePerRow;

@@ -18,12 +18,13 @@ import {
 	Icon,
 	FormControl,
 	FormLabel,
+	Spinner,
 } from "@chakra-ui/react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import invoiceAtom from "../atoms/invoiceAtom";
 import userAtom from "../atoms/userAtom";
 import { axiosInstance } from "../../api/axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import AddClientModal from "./AddClientModal";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import allClientsAtom from "../atoms/allClientsAtom";
@@ -33,6 +34,7 @@ import ItemRow from "./ItemRow";
 import useShowToast from "../hooks/useShowToast";
 import useLogout from "../hooks/useLogout";
 import { prevPathAtom } from "../atoms/prevPathAtom";
+import { encodePayload, decodeToken } from "../utils/tokenUtils";
 
 const todayDate = new Date();
 const rawDueDate = addDays(todayDate, 7);
@@ -69,6 +71,15 @@ function Invoice() {
 	const [paymentDetails, setPaymentDetails] = useState({});
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const { encodedToken } = useParams();
+	const [loading, setLoading] = useState(false);
+
+	let decodedTokenDetails;
+	if (encodedToken) {
+		decodedTokenDetails = decodeToken(encodedToken);
+	}
+
+	console.log(decodedTokenDetails);
 
 	const showToast = useShowToast();
 	const logout = useLogout();
@@ -77,6 +88,10 @@ function Invoice() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		if (user?.email === decodedTokenDetails?.email) {
+			showToast("Error", "You cannot send invoice to yourself", "error");
+			navigate("/dashboard");
+		}
 		const getInvoiceNo = async () => {
 			try {
 				const response = await axiosInstance.get("/invoices/all-sent");
@@ -124,22 +139,34 @@ function Invoice() {
 			} catch (error) {
 				console.log(error);
 				const errorData = error.response?.data;
-
 				if (errorData?.error?.startsWith("Internal")) {
 					console.log("Internal Server Error");
 				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
-					setPrevPath(window.location.pathname);
-					logout();
+					if (decodedTokenDetails) {
+						localStorage.setItem("localPrevPath", window.location.pathname);
+						logout();
+					} else {
+						setPrevPath(window.location.pathname);
+						logout();
+					}
+				} else if (error.response.status === 401) {
+					if (decodedTokenDetails) {
+						localStorage.setItem("localPrevPath", window.location.pathname);
+						logout();
+					} else {
+						setPrevPath(window.location.pathname);
+						logout();
+					}
 				}
 			}
 		};
 		getAllClients();
 	}, []);
 
-	useEffect(() => {
-		// console.log(invoice);
-		console.log(paymentDetails);
-	}, [paymentDetails]);
+	// useEffect(() => {
+	// 	// console.log(invoice);
+	// 	console.log(paymentDetails);
+	// }, [paymentDetails]);
 
 	const addRow = () => {
 		const newRow = {
@@ -206,16 +233,16 @@ function Invoice() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (!isSelectedClient) {
-			showToast("Error", "Please select a client before submitting", "error");
-			return;
-		}
+		// if (!isSelectedClient) {
+		// 	showToast("Error", "Please select a client before submitting", "error");
+		// 	return;
+		// }
 
 		// Update the invoiceAtom state with the current data
 
 		const invoiceData = {
 			invoiceNumber: currentInvoiceNumber,
-			client: isSelectedClient ? selectedClientDetails : "", // Replace with actual logic
+			client: isSelectedClient ? selectedClientDetails : decodedTokenDetails, // Replace with actual logic
 			items: invoiceItems,
 			paymentDetails: paymentDetails,
 			issueDate: todayDate,
@@ -230,7 +257,13 @@ function Invoice() {
 			currency: selectedCurrency,
 		};
 
+		if (!invoiceData.client) {
+			return;
+		}
+
 		try {
+			setLoading(true);
+
 			setInvoice((prevInvoiceState) => ({
 				...prevInvoiceState,
 				...invoiceData,
@@ -247,6 +280,8 @@ function Invoice() {
 			console.log(data);
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -281,6 +316,21 @@ function Invoice() {
 		// setInvoice({ ...invoice, items: invoiceItems });
 	}, [invoiceItems, vatRate]);
 
+	if (!currentInvoiceNumber) {
+		return (
+			<Flex
+				justifyContent={"center"}
+				flexDir={"column"}
+				gap={2}
+				alignItems={"center"}
+				minH={"100vh"}
+			>
+				<Spinner size={"xl"} />
+				<Text>Setting up the invoice page</Text>
+			</Flex>
+		);
+	}
+
 	return (
 		<>
 			<Box
@@ -300,19 +350,26 @@ function Invoice() {
 				</Box>
 				<Box borderBottom="1px" borderColor="gray" w={"full"}></Box>
 
-				<form onSubmit={handleSubmit}>
+				<form id="createInvoice" onSubmit={handleSubmit}>
 					<Flex justifyContent={"space-between"} pt={"27"} pb={"2"} px={10}>
 						<Box>
 							<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
 								Bill To
 							</Text>
-							{!isSelectedClient ? (
+							{encodedToken ? (
+								<Box>
+									<Text>{decodedTokenDetails?.name}</Text>
+									<Text>{decodedTokenDetails?.email}</Text>
+									{/* <Text>{selectedClientDetails?.address}</Text> */}
+								</Box>
+							) : !isSelectedClient ? (
 								<Flex gap={2} flexDir={"column"}>
 									<Box w={250}>
 										<ReactSelect
 											onChange={handleSelectedClient}
 											options={clientsSelectOptions}
 											placeholder="Select Client"
+											required={encodedToken ? false : true}
 										/>
 									</Box>
 									<Button
@@ -549,7 +606,15 @@ function Invoice() {
 
 					<Box mt={8}>
 						<Flex justifyContent="center" pb={5}>
-							<Button type="submit" bg={"#2970FF"}>
+							<Button
+								form="createInvoice"
+								color={"white"}
+								type="submit"
+								bg={"#2970FF"}
+								loadingText={"Sending your invoice"}
+								isLoading={loading}
+								_hover={{ bg: "blue" }}
+							>
 								Create and send
 							</Button>
 						</Flex>

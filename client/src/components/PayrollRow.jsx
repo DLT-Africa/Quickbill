@@ -11,13 +11,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import { addDays, format, set } from "date-fns";
 import { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { GrTransaction } from "react-icons/gr";
 import { MdOutlinePaid } from "react-icons/md";
 import { GiCancel } from "react-icons/gi";
 import { axiosInstance } from "../../api/axios";
 import allPayrollsAtom from "../atoms/allPayrollsAtom";
+import useLogout from "../hooks/useLogout";
+import { prevPathAtom } from "../atoms/prevPathAtom";
 
 const PayrollRow = ({ singlePayroll }) => {
 	const navigate = useNavigate();
@@ -26,6 +28,8 @@ const PayrollRow = ({ singlePayroll }) => {
 	const [salaryAmount, setSalaryAmount] = useState(0);
 	const setAllPayrolls = useSetRecoilState(allPayrollsAtom);
 	const [isActionDisabled, setIsActionDisabled] = useState(false);
+    const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const logout = useLogout();
 
 	useEffect(() => {
 		switch (singlePayroll?.paymentStatus) {

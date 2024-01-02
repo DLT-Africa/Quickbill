@@ -43,9 +43,7 @@ function CreatePayroll() {
 	const [selectedCurrency, setSelectedCurrency] = useState("USD");
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const [allPayrolls, setAllPayrolls] = useRecoilState(allPayrollsAtom);
-
 	const logout = useLogout();
-
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
 	const showToast = useShowToast();
 	// const [inviteModalOpen, setInviteModalOpen] = useState(false);
@@ -69,7 +67,11 @@ function CreatePayroll() {
 				if (errorData?.error?.startsWith("Internal")) {
 					console.log("Internal Server Error");
 				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
-					navigate("/auth");
+					setPrevPath(window?.location?.pathname);
+					logout();
+				} else if (error?.response?.status === 401) {
+					setPrevPath(window.location.pathname);
+					logout();
 				}
 			}
 		};
@@ -98,12 +100,15 @@ function CreatePayroll() {
 				console.log(data);
 			} catch (error) {
 				console.log(error);
-				if (error?.response?.status === 401) {
-					navigate("/auth");
-				} else if (
-					error?.response?.data?.error?.startsWith("jwt" || "Unauthorized")
-				) {
-					navigate("/auth");
+				const errorData = error.response?.data;
+				if (errorData?.error?.startsWith("Internal")) {
+					console.log("Internal Server Error");
+				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
+					setPrevPath(window.location.pathname);
+					logout();
+				} else if (error.response.status === 401) {
+					setPrevPath(window.location.pathname);
+					logout();
 				}
 			}
 		};
