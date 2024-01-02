@@ -121,7 +121,25 @@ export default function SplitScreen() {
 							</AbsoluteCenter>
 						</Box>
 					</Box>
-
+      <Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"}>
+        <Stack spacing={4} w={"full"} maxW={"md"} align={"center"}>
+          <Heading fontSize={"4xl"} textAlign={"center"}>
+            Login
+          </Heading>
+          <Box>
+            <Flex fontWeight={"3000"} gap={4}>
+              <IconButton icon={<FaFacebook size={"md"} />} />
+              <IconButton icon={<FcGoogle size={"md"} />} />
+              <IconButton icon={<FaApple size={"md"} />} />
+            </Flex>
+            <Box position="relative" padding="10" fontSize={"2xl"}>
+              <Divider background={"black"} height={"2px"} width={"4rem"} />
+              <AbsoluteCenter px="1" background={"#ecf1f6"}>
+                {" "}
+                or{" "}
+              </AbsoluteCenter>
+            </Box>
+          </Box>
 					<Stack spacing={4} w={500}>
 						<FormControl isRequired>
 							<FormLabel>Email address</FormLabel>

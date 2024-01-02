@@ -16,6 +16,8 @@ import { useRecoilValue } from "recoil";
 import userAtom from "./atoms/userAtom";
 import ConfirmEmail from "./components/ConfirmEmail";
 import InvoiceSummaryPage from "./pages/InvoiceSummaryPage";
+import ActivatePage from "./components/ActivatePage";
+import ProfilePage from "./pages/ProfilePage";
 import CreatePayrollPage from "./pages/CreatePayrollPage";
 import AccountConfirmation from "./components/AccountConfirmation";
 import LinkExpired from "./components/LinkExpired";
@@ -44,6 +46,8 @@ function App() {
 				<Route path="/employees" element={<EmployeesPage />} />
 				<Route path="/payrolls" element={<PayrollPage />} />
 				<Route path="/payrolls/create" element={<CreatePayrollPage />} />
+				<Route path="/profile" element={<ProfilePage />} />
+				<Route path="/account-activated" element={<ActivatePage />} />
 				<Route path="/invoice-me" element={<InvoiceMePage />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
