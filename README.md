@@ -22,7 +22,7 @@ Contributions to this repository can be made via pull requests on GitHub to the 
 
 
 In the terminal
-- cd server and create a .env file in the root of your server directory.
+- cd server and create a .env file in the root directory of your server directory.
 - Supply the following credentials
 
 ```

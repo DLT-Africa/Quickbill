@@ -31,7 +31,7 @@ const Container = () => {
             gap={25}
             borderRadius={10}
             bg={"#fff"}
-            boxShadow={"0px 4px 4px 0px rgba(28, 28, 28, 0.25);"}
+            boxShadow={"0px 4px 4px 0px rgba(28, 28, 28, 0.25)"}
           >
 
           <Text fontSize={'3xl'} fontWeight={600}>Accounts <span className="landingPageSpan">Payable</span></Text>
@@ -97,7 +97,7 @@ const Container = () => {
             <Text fontSize={"3xl"} fontWeight={600}>
               Expenses
             </Text>
-            <Image src="/expenses.svg" alt="expenses" />
+            <Image src="/expenses.webp" alt="expenses" />
 
             <Text fontSize={"lg"} textAlign={"center"} fontWeight={400}>
               Corem ipsum dolor sit amet, consectetur adipiscing elit. Nunc

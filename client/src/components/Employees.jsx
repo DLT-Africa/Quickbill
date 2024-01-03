@@ -1,181 +1,144 @@
+import { useEffect, useState } from "react";
 import {
-  Flex,
-  Text,
-  Button,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  FormControl,
-  Textarea,
-  Input,
-  Image,
-  CloseButton,
-  ModalFooter,
+	Button,
+	Flex,
+	Spinner,
+	Table,
+	TableContainer,
+	Tbody,
+	Td,
+	Text,
+	Th,
+	Thead,
+	Tr,
 } from "@chakra-ui/react";
-import { BsFillImageFill } from "react-icons/bs";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/react'
+import React from "react";
+import SidebarWithHeader from "./SidebarWithHeader";
+import AddClientModal from "./AddClientModal";
+import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import ClientPerRow from "./ClientPerRow";
+import { axiosInstance } from "../../api/axios";
+import allClientsAtom from "../atoms/allClientsAtom";
+import { prevPathAtom } from "../atoms/prevPathAtom";
+import useLogout from "../hooks/useLogout";
+import AddEmployeeModal from "./AddEmployeeModal";
+import EmployeePerRow from "./EmployeePerRow";
+import allEmployeesAtom from "../atoms/allEmployeesAtom";
 
 const Employees = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  return (
-    <>
-    <TableContainer p={20}>
-      <Flex alignItems={"center"} justifyContent={"space-between"} w={"full"} mb={10}>
-          <Text color={"#1c1c1c"} fontSize={"5xl"} fontWeight={500}>
-            Employees.....
-          </Text>
-          <Button
-            size={"lg"}
-            borderRadius={"10px"}
-            _hover={{ bg: "#599cff" }}
-            transition={'all 1s'}
-            fontSize={"2xl"}
-            color={"#FFF"}
-            bg={"#2970FF"}
-            onClick={onOpen}
-          >
-            Add An Employee
-          </Button>
-      </Flex>
-  <Table variant={'simple'} size={'lg'} >
-    <Thead bg={"rgba(55, 73, 87, 0.1)"} >
-      <Tr>
-        <Th fontSize={'xl'} textAlign={'center'}>Name</Th>
-        <Th fontSize={'xl'} textAlign={'center'}>Email</Th>
-        <Th fontSize={'xl'} textAlign={'center'}>Job Title</Th>
-        <Th fontSize={'xl'} textAlign={'center'}>Department</Th>
-      </Tr>
-    </Thead>
-    <Tbody>
-      <Tr bg={"#FFFFFF"}>
-        <Td textAlign={'center'}>Abiodun Kennymas</Td>
-        <Td textAlign={'center'}>kennymas4luv@gmail.com</Td>
-        <Td textAlign={'center'}>Project Manager</Td>
-        <Td textAlign={'center'}>Fullstack Developer</Td>
-      </Tr>
-      <Tr bg={"#FFFFFF"}>
-        <Td textAlign={'center'}>Jimoh Nasihudeen</Td>
-        <Td textAlign={'center'}>nasihudeen04@gmail.com</Td>
-        <Td textAlign={'center'}>Project Supervisor</Td>
-        <Td textAlign={'center'}>Backend Developer</Td>
-      </Tr>
-      <Tr bg={"#FFFFFF"}>
-        <Td textAlign={'center'}>Musa Mohammad</Td>
-        <Td textAlign={'center'}>musamohammadolayinka@gmail.com</Td>
-        <Td textAlign={'center'}>Project Lead</Td>
-        <Td textAlign={'center'}>Frontend Developer</Td>
-      </Tr>
-      <Tr bg={"#FFFFFF"}>
-        <Td textAlign={'center'}>Yusuf Roqib</Td>
-        <Td textAlign={'center'}>yusufroqib@gmail.com</Td>
-        <Td textAlign={'center'}>Project Manager</Td>
-        <Td textAlign={'center'}>Fullstack Developer</Td>
-      </Tr>
-    </Tbody>
-  </Table>
-</TableContainer>
+	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
+	const [employees, setEmployees] = useRecoilState(allEmployeesAtom);
+  const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+  const [fetching, setFetching] = useState(true)
+  const logout = useLogout()
 
-      <Modal isOpen={isOpen} onClose={onClose} w={"full"}>
-        <ModalOverlay />
-        <ModalContent py={10} px={2}>
-          <ModalHeader>Employee Details.....</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <Flex gap={5} flexDir={"column"}>
-                <Input
-                  border={"1px"}
-                  w={"full"}
-                  size={"lg"}
-                  placeholder="Employee's Email Address (Required)"
-                  type="email"
-                  isRequired
-                  borderRadius={"10px"}
-                />
 
-                <Flex gap={15}>
-                  <Input
-                    border={"1px"}
-                    w={"full"}
-                    type="text"
-                    size={"lg"}
-                    isRequired
-                    _placeholder={{
-                      fontSize: "sm",
-                    }}
-                    borderRadius={"10px"}
-                    placeholder="First Name (Required)"
-                  />
-                  <Input
-                    border={"1px"}
-                    w={"full"}
-                    size={"lg"}
-                    type="text"
-                    isRequired
-                    _placeholder={{
-                      fontSize: "sm",
-                    }}
-                    borderRadius={"10px"}
-                    placeholder="Last Name (Required)"
-                  />
-                </Flex>
+	useEffect(() => {
+		const getAllClients = async () => {
+			try {
+				const response = await axiosInstance.get("/employees");
+				const data = response.data;
+				setEmployees(data);
+				// localStorage.setItem("employees-quickBill", JSON.stringify(data));
+				console.log(data);
+			} catch (error) {
+				console.log(error);
+				if (error?.response?.status === 401) {
+					setPrevPath(window.location.pathname);
+					logout();
+				} else if (
+					error?.response?.data?.error?.startsWith("jwt" || "Unauthorized")
+				) {
+					setPrevPath(window.location.pathname);
+					logout();
+				} else if (error.response.status === 401) {
+					setPrevPath(window.location.pathname);
+					logout();
+				}
+			} finally {
+				setFetching(false)
+			}
+		};
+		getAllClients();
+	}, []);
 
-                <Flex gap={"15px"}>
-                  <Input
-                    w={"full"}
-                    type="text"
-                    size={"lg"}
-                    _placeholder={{
-                      fontSize: "sm",
-                    }}
-                    borderRadius={"10px"}
-                    placeholder="Category"
-                  />
-                  <Input
-                    w={"full"}
-                    size={"lg"}
-                    type="text"
-                    _placeholder={{
-                      fontSize: "sm",
-                    }}
-                    borderRadius={"10px"}
-                    placeholder="Department"
-                  />
-                </Flex>
-              </Flex>
-            </FormControl>
-          </ModalBody>
+	if (fetching ) {
+		return (
+			<Flex
+				justifyContent={"center"}
+				flexDir={"column"}
+				gap={2}
+				alignItems={"center"}
+				minH={"100vh"}
+			>
+				<Spinner size={"xl"} />
+			</Flex>
+		);}
 
-          <ModalFooter>
-            <Button
-              size={"lg"}
-              borderRadius={"10px"}
-              transition={'all 1s'}
-              bg={"#2970FF"}
-              color={"#FFF"}
-              _hover={{ bg: "#599cff" }}
-            >
-              Submit
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
-  );
+	return (
+		<>
+				<Flex px={8} mt={4} justifyContent={"space-between"}>
+					<Text fontSize={36} textAlign={"left"} fontWeight={700}>
+						Employees
+					</Text>
+					<Flex>
+						<Button
+							pos={"relative"}
+							bg={"#2970ff"}
+							color={"#f6f6f6"}
+							_hover={{ bg: "#6C73EF" }}
+							onClick={() => setAddClientModalOpen(true)}
+						>
+							Add New Employee
+						</Button>
+
+						<AddEmployeeModal />
+					</Flex>
+				</Flex>
+				<Flex justifyContent={"center"} alignItems={"center"}>
+					<Table variant="simple" colorScheme="gray" size={"md"} w={"95%"}>
+						<Thead>
+							<Tr
+								p={2}
+								borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
+								borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
+								bg={"rgba(55, 73, 87, 0.1)"}
+								>
+								<Th color={"#1c1c1c"} fontSize={"l"}>
+									Name
+								</Th>
+								<Th color={"#1c1c1c"} fontSize={"l"}>
+									email
+								</Th>
+								<Th color={"#1c1c1c"} fontSize={"l"}>
+									Department
+								</Th>
+								<Th color={"#1c1c1c"} fontSize={"l"}>
+									Job Title
+								</Th>
+								<Th color={"#1c1c1c"} fontSize={"l"}>
+									Edit
+								</Th>
+								<Th color={"#1c1c1c"} fontSize={"l"}>
+									Delete
+								</Th>
+							</Tr>
+						</Thead>
+						<Tbody>
+							{employees?.map((employee, index) => (
+								<EmployeePerRow
+									key={index}
+									index={index}
+									setEmployees={setEmployees}
+									employee={employee}
+								/>
+							))}
+						</Tbody>
+					</Table>
+				</Flex>
+		</>
+	);
 };
 
 export default Employees;
