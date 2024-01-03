@@ -20,6 +20,7 @@ import { axiosInstance } from "../../api/axios";
 import useShowToast from "../hooks/useShowToast";
 import { set } from "date-fns";
 import allClientsAtom from "../atoms/allClientsAtom";
+import useErrorHandler from "../hooks/useErrorHandler";
 
 const AddClientModal = () => {
 	const [formData, setFormData] = useState({
@@ -37,6 +38,7 @@ const AddClientModal = () => {
 		sendInviteModalOpenAtom
 	);
 	const [clients, setClients] = useRecoilState(allClientsAtom);
+	const errorHandler = useErrorHandler();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -69,6 +71,8 @@ const AddClientModal = () => {
 				setAddClientModalOpen(false);
 				setSendInviteModalOpen(true);
 				setLoadingAddClientBtn(false);
+			}  else {
+				errorHandler(error);
 			}
 		}
 	};
@@ -90,6 +94,8 @@ const AddClientModal = () => {
 				showToast("Error", error.response.data.msg, "error");
 				setSendInviteModalOpen(false);
 				setLoadingAddClientBtn(false);
+			} else {
+				errorHandler(error);
 			}
 			setSendInviteModalOpen(false);
 			setLoadingAddClientBtn(false);

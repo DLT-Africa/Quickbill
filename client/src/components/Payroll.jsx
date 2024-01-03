@@ -15,6 +15,7 @@ import {
 	Table,
 	Th,
 	Tbody,
+	Spinner,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -36,6 +37,7 @@ const Payroll = () => {
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const [payrollSummary, setPayrollSummary] = useState({})
 	const logout = useLogout();
+	const [fetching, setFetching] = useState(true)
 
 	useEffect(() => {
 		const getPayrolls = async () => {
@@ -80,9 +82,23 @@ const Payroll = () => {
 		setVoidedPayrolls(filteredVoidedPayrolls);
 		const payrollSumm = calcPayrollData(allPayrolls)
 		setPayrollSummary(payrollSumm)
-		console.log(payrollSumm)
+		// console.log(payrollSumm)
+		setFetching(false)
 
 	}, [allPayrolls]);
+
+	if (fetching ) {
+		return (
+			<Flex
+				justifyContent={"center"}
+				flexDir={"column"}
+				gap={2}
+				alignItems={"center"}
+				minH={"100vh"}
+			>
+				<Spinner size={"xl"} />
+			</Flex>
+		);}
 
 	return (
 		<>

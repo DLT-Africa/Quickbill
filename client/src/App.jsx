@@ -5,7 +5,6 @@ import Clients from "./components/Clients";
 import SentInvoicesPage from "./pages/SentInvoicesPage";
 import InvoiceMePage from "./pages/InvoiceMePage";
 import BillPage from "./pages/BillPage";
-import Dashboard from "./pages/Dashboard";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import CreateInvoicePage from "./pages/CreateInvoicePage";
@@ -14,13 +13,14 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PayrollPage from "./pages/PayrollPage";
 import { useRecoilValue } from "recoil";
 import userAtom from "./atoms/userAtom";
-import ConfirmEmail from "./components/ConfirmEmail";
 import InvoiceSummaryPage from "./pages/InvoiceSummaryPage";
 import ActivatePage from "./components/ActivatePage";
 import ProfilePage from "./pages/ProfilePage";
 import CreatePayrollPage from "./pages/CreatePayrollPage";
 import AccountConfirmation from "./components/AccountConfirmation";
 import LinkExpired from "./components/LinkExpired";
+import DashboardPage from "./pages/DashboardPage";
+import ClientsPage from "./pages/ClientsPage";
 
 function App() {
   const user = useRecoilValue(userAtom) 
@@ -35,9 +35,9 @@ function App() {
 				<Route path="/about" element={<AboutPage />} />
 				<Route path="/contact" element={<ContactPage />} />
 				<Route
-					path="/dashboard" element={user? <Dashboard /> :  <Navigate to='/auth'/>}
+					path="/dashboard" element={user? <DashboardPage /> :  <Navigate to='/auth'/>}
 				/>
-				<Route path="/clients" element={<Clients />} />
+				<Route path="/clients" element={<ClientsPage />} />
 				<Route path="/invoices/create" element={<CreateInvoicePage />} />
 				<Route path="/invoices/create/:encodedToken" element={<CreateInvoicePage />} />
 				<Route path="/invoices/sent" element={<SentInvoicesPage />} />

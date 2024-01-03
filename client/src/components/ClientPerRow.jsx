@@ -25,6 +25,7 @@ import { set } from "date-fns";
 import { prevPathAtom } from "../atoms/prevPathAtom";
 import useLogout from "../hooks/useLogout";
 import { useRecoilState } from "recoil";
+import useErrorHandler from "../hooks/useErrorHandler";
 
 const ClientPerRow = ({ client, setClients }) => {
 	const [updateClientModalOpen, setUpdateClientModalOpen] = useState(false);
@@ -38,6 +39,7 @@ const ClientPerRow = ({ client, setClients }) => {
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
   const logout = useLogout()
 	const showToast = useShowToast();
+	const errorHandler = useErrorHandler()
 
 	const handleChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,17 +61,7 @@ const ClientPerRow = ({ client, setClients }) => {
 			console.log(response.data);
 		} catch (error) {
 			console.error(error);
-            const errorData = error.response?.data;
-            if (errorData?.error?.startsWith("Internal")) {
-                console.log("Internal Server Error");
-            } else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
-				setPrevPath(window.location.pathname);
-
-				logout()
-            } else if (error.response.status === 401) {
-				setPrevPath(window.location.pathname);
-				logout();
-			}
+				errorHandler(error);
 		}
 	};
 
@@ -82,7 +74,7 @@ const ClientPerRow = ({ client, setClients }) => {
             localStorage.setItem("clients-quickBill", JSON.stringify(response.data));
             console.log(response.data);
         } catch (error) {
-            console.error(error);
+				errorHandler(error);
         }
     
     }

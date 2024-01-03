@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
 	Button,
 	Flex,
+	Spinner,
 	Table,
 	TableContainer,
 	Tbody,
@@ -29,6 +30,7 @@ const Employees = () => {
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
 	const [employees, setEmployees] = useRecoilState(allEmployeesAtom);
   const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+  const [fetching, setFetching] = useState(true)
   const logout = useLogout()
 
 
@@ -54,10 +56,25 @@ const Employees = () => {
 					setPrevPath(window.location.pathname);
 					logout();
 				}
+			} finally {
+				setFetching(false)
 			}
 		};
 		getAllClients();
 	}, []);
+
+	if (fetching ) {
+		return (
+			<Flex
+				justifyContent={"center"}
+				flexDir={"column"}
+				gap={2}
+				alignItems={"center"}
+				minH={"100vh"}
+			>
+				<Spinner size={"xl"} />
+			</Flex>
+		);}
 
 	return (
 		<>

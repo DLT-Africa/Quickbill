@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
 	Button,
 	Flex,
+	Spinner,
 	Table,
 	TableContainer,
 	Tbody,
@@ -26,6 +27,7 @@ const Clients = () => {
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
 	const [clients, setClients] = useRecoilState(allClientsAtom);
   const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+  const [fetching, setFetching] = useState(true)
   const logout = useLogout()
 
 
@@ -51,14 +53,29 @@ const Clients = () => {
 					setPrevPath(window.location.pathname);
 					logout();
 				}
+			} finally {
+				setFetching(false)
+			
 			}
 		};
 		getAllClients();
 	}, []);
 
+	if (fetching) {
+		return(
+		<Flex
+			justifyContent={"center"}
+			flexDir={"column"}
+			gap={2}
+			alignItems={"center"}
+			minH={"100vh"}
+		>
+			<Spinner size={"xl"} />
+		</Flex>)
+	}
+
 	return (
 		<>
-			<SidebarWithHeader>
 				<Flex px={8} mt={4} justifyContent={"space-between"}>
 					<Text fontSize={36} textAlign={"left"} fontWeight={700}>
 						Clients
@@ -71,7 +88,7 @@ const Clients = () => {
 							_hover={{ bg: "#6C73EF" }}
 							onClick={() => setAddClientModalOpen(true)}
 						>
-							Add New Clients
+							Add New Client
 						</Button>
 
 						<AddClientModal />
@@ -115,7 +132,6 @@ const Clients = () => {
 						</Tbody>
 					</Table>
 				</Flex>
-			</SidebarWithHeader>
 		</>
 	);
 };

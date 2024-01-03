@@ -17,6 +17,7 @@ import {
 	TabPanel,
 	Tabs,
 	useColorModeValue,
+	Spinner,
 } from "@chakra-ui/react";
 import { GoDownload } from "react-icons/go";
 import InvoicePerRow from "./InvoicePerRow";
@@ -37,12 +38,15 @@ const SentInvoice = () => {
 	);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const [invoiceToDownl, setInvoiceToDownl] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const logout = useLogout();
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		setLoading(true)
 		const getAllSentInvoices = async () => {
+			
 			try {
 				const response = await axiosInstance.get("/invoices/all-sent");
 				const invoicesSent = response.data;
@@ -86,14 +90,33 @@ const SentInvoice = () => {
 					setPrevPath(window.location.pathname);
 					logout();
 				}
+			} finally {
+				setLoading(false)
 			}
 		};
-		getAllSentInvoices();
+
+		setTimeout(() => {
+			
+			getAllSentInvoices();
+		}, 500);
 	}, []);
 
 	const handleDownload = () => {
 		downloadCSV(invoiceToDownl);
 	};
+
+	if (loading) {
+		return (
+			<Flex
+				justifyContent={"center"}
+				flexDir={"column"}
+				gap={2}
+				alignItems={"center"}
+				minH={"100vh"}
+			>
+				<Spinner size={"xl"} />
+			</Flex>
+		);}
 
 	return (
 		<>

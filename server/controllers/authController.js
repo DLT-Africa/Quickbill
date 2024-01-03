@@ -150,7 +150,7 @@ const signIn = async (req, res) => {
 			httpOnly: true,
 			secure: true,
 			sameSite: "None",
-			maxAge: 1 * 60 * 60 * 1000, 
+			maxAge: 1 * 60 * 60 * 1000,  //1hr
 		});
 
 		existingUser.password = null
