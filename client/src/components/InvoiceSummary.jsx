@@ -234,6 +234,7 @@ const InvoiceSummary = () => {
 
 				updatedInvoiceDetails.remainingAmount = Math.max(
 					updatedInvoiceDetails.remainingAmount - Number(formData.amountPaid),
+
 					0
 				);
 
@@ -243,6 +244,7 @@ const InvoiceSummary = () => {
 
 				updatedInvoiceDetails.invoiceStatus =
 					updatedInvoiceDetails.remainingAmount === 0
+
 						? "Paid"
 						: "Partially Paid";
 
