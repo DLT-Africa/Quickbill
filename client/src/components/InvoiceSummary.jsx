@@ -233,7 +233,8 @@ const InvoiceSummary = () => {
 				// };
 
 				updatedInvoiceDetails.remainingAmount = Math.max(
-					updatedInvoiceDetails?.remainingAmount - Number(formData.amountPaid),
+					updatedInvoiceDetails.remainingAmount - Number(formData.amountPaid),
+
 					0
 				);
 
@@ -242,7 +243,8 @@ const InvoiceSummary = () => {
 				);
 
 				updatedInvoiceDetails.invoiceStatus =
-					updatedInvoiceDetails?.remainingAmount === 0
+					updatedInvoiceDetails.remainingAmount === 0
+
 						? "Paid"
 						: "Partially Paid";
 
@@ -571,14 +573,14 @@ const InvoiceSummary = () => {
 									</Tr>
 								</Thead>
 								<Tbody>
-									{[...paymentRecords].reverse().map((record, index) => (
+									{[...paymentRecords]?.reverse().map((record, index) => (
 											<Tr
 											key={index}
 											_hover={{ bg: "#EFEFEF" }}
 										>
 											<Td>{format(record?.paymentDate, "dd/MM/yyyy")}</Td>
 											
-											<Td>{record?.amountPaid?.toFixed(2)}</Td>
+											<Td>{record?.amountPaid}</Td>
 											<Td>
 												{record?.note || '--'}
 											</Td>
