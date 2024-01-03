@@ -130,7 +130,7 @@ const sendInvoiceMail = (newInvoice, invoiceOwner, res) => {
 				data: tableData,
 			},
 			outro: [
-				`You are expected to pay a sum ${newInvoice.currency}${newInvoice.grandTotal} before the due date, kindly login to see more details about the invoice.`,
+				`You are expected to pay a sum of ${newInvoice.currency}${newInvoice.grandTotal} before the due date, kindly login to see more details about the invoice.`,
 				"If you have any problem, just reply to this email, we'd love to help.",
 			],
 		},
