@@ -83,7 +83,7 @@ const PayrollRow = ({ singlePayroll }) => {
 
 			setAllPayrolls(response.data);
 			status === "pay" ? setStatusColor("green") : setStatusColor("red");
-			window.location.reload();
+			// window.location.reload();
 
 			// console.log(response.data);
 		} catch (error) {

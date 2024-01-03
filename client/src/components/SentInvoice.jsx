@@ -25,6 +25,7 @@ import { axiosInstance } from "../../api/axios";
 import useLogout from "../hooks/useLogout";
 import { useRecoilState } from "recoil";
 import { prevPathAtom } from "../atoms/prevPathAtom";
+import { downloadCSV } from "../utils/downloadInvoiceCSV";
 
 const SentInvoice = () => {
 	const [allSentInvoices, setAllSentInvoices] = useState([]);
@@ -35,7 +36,8 @@ const SentInvoice = () => {
 		[]
 	);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-	const logout = useLogout()
+	const [invoiceToDownl, setInvoiceToDownl] = useState([]);
+	const logout = useLogout();
 
 	const navigate = useNavigate();
 
@@ -67,6 +69,7 @@ const SentInvoice = () => {
 				);
 
 				setAllSentInvoices(invoicesSent);
+				setInvoiceToDownl(invoicesSent)
 				setAllPaidInvoices(filteredPaidInvoices);
 				setAllRejectedInvoices(filteredRejectedInvoices);
 				setAllOverdueInvoices(filteredOverdueInvoices);
@@ -88,6 +91,10 @@ const SentInvoice = () => {
 		getAllSentInvoices();
 	}, []);
 
+	const handleDownload = () => {
+		downloadCSV(invoiceToDownl);
+	};
+
 	return (
 		<>
 			<Flex justifyContent={"space-between"} p={5} flexDir={"row"}>
@@ -107,11 +114,14 @@ const SentInvoice = () => {
 						Create invoice
 					</Button>
 					<GoDownload
+						onClick={handleDownload}
 						// size={'md'}
 						fontSize={36}
 						// fontWeight={400}
 						color={"black"}
 						cursor={"pointer"}
+						transition={"all 1s"}
+						_hover={{color: 'blue'}}
 					/>
 				</Flex>
 			</Flex>
@@ -119,11 +129,21 @@ const SentInvoice = () => {
 			<Box px={5}>
 				<Tabs align="end">
 					<TabList>
-						<Tab>All ({allSentInvoices.length})</Tab>
-						<Tab>Paid ({allPaidInvoices.length})</Tab>
-						<Tab>Awaiting Payment ({allAwaitingPaymentInvoices.length})</Tab>
-						<Tab>Rejected ({allRejectedInvoices.length})</Tab>
-						<Tab>Overdue ({allOverdueInvoices.length})</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allSentInvoices)}>
+							All ({allSentInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allPaidInvoices)}>
+							Paid ({allPaidInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allAwaitingPaymentInvoices)}>
+							Awaiting Payment ({allAwaitingPaymentInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allRejectedInvoices)}>
+							Rejected ({allRejectedInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allOverdueInvoices)}>
+							Overdue ({allOverdueInvoices.length})
+						</Tab>
 					</TabList>
 					<TabPanels>
 						<TabPanel>

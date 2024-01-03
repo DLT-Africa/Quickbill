@@ -12,7 +12,7 @@ import { prevPathAtom } from "../atoms/prevPathAtom";
 import useLogout from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api/axios";
-import { calcPayments } from "../utils/calcPayments";
+import { calcPayments } from "../utils/calcInvoicePayments";
 
 export default function Dashboard() {
 	const [allSentInvoices, setAllSentInvoices] = useState([]);

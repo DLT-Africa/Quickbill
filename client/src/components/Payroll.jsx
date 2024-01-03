@@ -25,6 +25,7 @@ import { prevPathAtom } from "../atoms/prevPathAtom";
 import { useRecoilState } from "recoil";
 import PayrollRow from "./PayrollRow";
 import allPayrollsAtom from "../atoms/allPayrollsAtom";
+import { calcPayrollData } from "../utils/calcPayrollData";
 
 const Payroll = () => {
 	const navigate = useNavigate();
@@ -33,6 +34,7 @@ const Payroll = () => {
 	const [pendingPayrolls, setPendingPayrolls] = useState([]);
 	const [voidedPayrolls, setVoidedPayrolls] = useState([]);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const [payrollSummary, setPayrollSummary] = useState({})
 	const logout = useLogout();
 
 	useEffect(() => {
@@ -42,6 +44,7 @@ const Payroll = () => {
 				const allPayrolls = response.data;
 
 				setAllPayrolls(allPayrolls);
+				console.log(allPayrolls)
 
 				// console.log(allPayrolls);
 			} catch (error) {
@@ -52,7 +55,7 @@ const Payroll = () => {
 				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
 					setPrevPath(window.location.pathname);
 					logout();
-				} else if (error.response.status === 401) {
+				} else if (error?.response?.status === 401) {
 					setPrevPath(window.location.pathname);
 					logout();
 				}
@@ -75,6 +78,10 @@ const Payroll = () => {
 		setPaidPayrolls(filteredPaidPayrolls);
 		setPendingPayrolls(filteredPendingPayrolls);
 		setVoidedPayrolls(filteredVoidedPayrolls);
+		const payrollSumm = calcPayrollData(allPayrolls)
+		setPayrollSummary(payrollSumm)
+		console.log(payrollSumm)
+
 	}, [allPayrolls]);
 
 	return (
@@ -82,7 +89,7 @@ const Payroll = () => {
 			<Box as="section" px={10}>
 				<Flex flexDir={"column"} gap={10}>
 					<Flex flexDir={"column"} gap={8}>
-						<Flex justifyContent={"space-between"}>
+						<Flex mt={4} justifyContent={"space-between"}>
 							<Flex flexDir={"column"}>
 								<Text fontSize={36} textAlign={"left"} fontWeight={700}>
 									Payroll
@@ -117,10 +124,10 @@ const Payroll = () => {
 								border={"1px solid #fff"}
 							>
 								<Text fontSize={"3xl"} fontWeight={700}>
-									$0.00
+									{payrollSummary.totalPaid}
 								</Text>
 								<Text fontSize={"xl"} fontWeight={500} color={"#8E8E8E"}>
-									Paid this month
+									Paid in total
 								</Text>
 							</Flex>
 							<Flex
@@ -131,161 +138,15 @@ const Payroll = () => {
 								borderRadius={10}
 							>
 								<Text fontSize={"3xl"} fontWeight={700}>
-									$0.00
+									{payrollSummary.totalAwaitingBalance}
 								</Text>
 								<Text fontSize={"xl"} fontWeight={500} color={"#8E8E8E"}>
-									Left to pay this month
+									Left to be paid
 								</Text>
 							</Flex>
 						</Flex>
 					</Flex>
 
-					{/* <Flex gap={5}>
-						<Flex>
-							<Flex bg={"#fff"} py={8} px={5} gap={10} flexDir={"column"}>
-								<Flex
-									justifyContent={"space-between"}
-									alignItems={"center"}
-									gap={10}
-								>
-									<Text as={"h1"} fontSize={"3xl"} fontWeight={400}>
-										Overall Payouts
-									</Text>
-									<Flex>
-										<Text
-											as={"h4"}
-											fontSize={"lg"}
-											fontWeight={300}
-											color={"#8E8E8E"}
-										>
-											3m
-										</Text>
-										<ChevronDownIcon cursor={"pointer"} boxSize={6} />
-									</Flex>
-								</Flex>
-
-								<Flex flexDir={"column"} gap={2}>
-									<Flex
-										bg={"#DEEBF7"}
-										border={"1px solid #F0EEEE"}
-										py={6}
-										px={2}
-										borderRadius={4}
-									>
-										<Text
-											as={"h2"}
-											fontSize={"lg"}
-											fontWeight={500}
-											color={"#8E8E8E"}
-										>
-											$20k
-										</Text>
-									</Flex>
-
-									<Flex
-										bg={"#DEEBF7"}
-										border={"1px solid #F0EEEE"}
-										py={6}
-										px={2}
-										borderRadius={4}
-										fontSize={"lg"}
-										fontWeight={500}
-										color={"#8E8E8E"}
-										gap={10}
-									>
-										<Text as={"h2"}>$20k</Text>
-										<Text>You have no data to display for more activities</Text>
-									</Flex>
-
-									<Flex
-										bg={"#DEEBF7"}
-										border={"1px solid #F0EEEE"}
-										py={6}
-										px={2}
-										borderRadius={4}
-									>
-										<Text
-											as={"h2"}
-											fontSize={"lg"}
-											fontWeight={500}
-											color={"#8E8E8E"}
-										>
-											$20k
-										</Text>
-									</Flex>
-								</Flex>
-							</Flex>
-						</Flex>
-
-						<Flex bg={"#fff"} py={8} px={5} gap={10} flexDir={"column"}>
-							<Flex alignItems={"center"} gap={10}>
-								<Flex flexDir={"column"} gap={4}>
-									<Text as={"h1"} fontSize={"3xl"} fontWeight={400}>
-										Payout by Department
-									</Text>
-									<Text
-										as={"h1"}
-										fontSize={"2xl"}
-										fontWeight={300}
-										color={"#8E8E8E"}
-									>
-										Last 3 months
-									</Text>
-								</Flex>
-							</Flex>
-
-							<Flex flexDir={"column"} gap={2}>
-								<Flex
-									bg={"#DEEBF7"}
-									border={"1px solid #F0EEEE"}
-									py={6}
-									px={2}
-									borderRadius={4}
-								>
-									<Text
-										as={"h2"}
-										fontSize={"lg"}
-										fontWeight={500}
-										color={"#8E8E8E"}
-									>
-										$20k
-									</Text>
-								</Flex>
-
-								<Flex
-									bg={"#DEEBF7"}
-									border={"1px solid #F0EEEE"}
-									py={6}
-									px={2}
-									borderRadius={4}
-									fontSize={"lg"}
-									fontWeight={500}
-									color={"#8E8E8E"}
-									gap={10}
-								>
-									<Text as={"h2"}>$20k</Text>
-									<Text>You have no data to display for more activities</Text>
-								</Flex>
-
-								<Flex
-									bg={"#DEEBF7"}
-									border={"1px solid #F0EEEE"}
-									py={6}
-									px={2}
-									borderRadius={4}
-								>
-									<Text
-										as={"h2"}
-										fontSize={"lg"}
-										fontWeight={500}
-										color={"#8E8E8E"}
-									>
-										$20k
-									</Text>
-								</Flex>
-							</Flex>
-						</Flex>
-					</Flex> */}
 					<Box px={5}>
 						<Tabs align={"end"} size={"lg"}>
 							<TabList>

@@ -5,6 +5,11 @@ import { useParams } from "react-router-dom";
 import { format, set } from "date-fns";
 import ItemRow from "./ItemRow";
 import {
+	Accordion,
+	AccordionButton,
+	AccordionIcon,
+	AccordionItem,
+	AccordionPanel,
 	Box,
 	Button,
 	Flex,
@@ -49,6 +54,8 @@ import { FcCancel } from "react-icons/fc";
 import useShowToast from "../hooks/useShowToast";
 import useLogout from "../hooks/useLogout";
 import { prevPathAtom } from "../atoms/prevPathAtom";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const InvoiceSummary = () => {
 	const { invoiceId } = useParams();
@@ -331,13 +338,33 @@ const InvoiceSummary = () => {
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
 	};
 
+	const downloadPDF = () => {
+		const input = document.getElementById("invoice-container");
+		const scaleFactor = 1.5; // Adjust this value as needed
+
+		setTimeout(() => {
+			html2canvas(input, { scale: scaleFactor }).then((canvas) => {
+				const pdf = new jsPDF("p", "mm", "a4");
+
+				const imgWidth = 210; // A4 page width in mm
+				const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+				const imgData = canvas.toDataURL("image/jpeg", 0.8); // Adjust compression quality (0.0 to 1.0)
+
+				pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+				pdf.save("invoice.pdf");
+			});
+		}, 500);
+	};
+
 	return (
-		<>
+		<div id="invoice-container">
 			<Box>
 				<Text textAlign={"center"} fontSize={"3xl"} fontWeight={800}>
 					INVOICE INFORMATION
 				</Text>
-				<Flex justifyContent={"flex-end"} pr={10}>
+					
+				<Flex justifyContent={'flex-end'} pr={10}>
 					<Menu>
 						<MenuButton
 							as={IconButton}
@@ -378,7 +405,9 @@ const InvoiceSummary = () => {
 									</MenuItem>
 								)}
 
-							<MenuItem icon={<FaDownload />}>Download Invoice</MenuItem>
+							<MenuItem icon={<FaDownload />} onClick={downloadPDF}>
+								Download Invoice
+							</MenuItem>
 						</MenuList>
 					</Menu>
 
@@ -511,6 +540,57 @@ const InvoiceSummary = () => {
 						</form>
 					</Modal>
 				</Flex>
+				<Accordion mx={'auto'} mt={8} w={'95%'} defaultIndex={[0]} allowMultiple>
+						<AccordionItem>
+							<h2>
+								<AccordionButton gap={4}>
+									<Box as="span" fontSize={'2xl'} textAlign="left">
+										Payment History 
+									</Box  >
+									<AccordionIcon />
+								</AccordionButton>
+							</h2>
+							<AccordionPanel pb={4}>
+							<Table variant="simple" colorScheme="gray" size={"md"} mt={5}>
+								<Thead>
+									<Tr
+										p={2}
+										borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
+										borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
+										bg={"rgba(55, 73, 87, 0.1)"}
+									>
+										<Th color={"#1c1c1c"} fontSize={"l"}>
+											Payment Date
+										</Th>
+										<Th color={"#1c1c1c"} fontSize={"l"}>
+											Amount Paid ({invoiceDetails.currency})
+										</Th>
+										<Th color={"#1c1c1c"} fontSize={"l"}>
+											Note
+										</Th>
+									</Tr>
+								</Thead>
+								<Tbody>
+									{[...paymentRecords].reverse().map((record, index) => (
+											<Tr
+											key={index}
+											_hover={{ bg: "#EFEFEF" }}
+										>
+											<Td>{format(record?.paymentDate, "dd/MM/yyyy")}</Td>
+											
+											<Td>{record?.amountPaid.toFixed(2)}</Td>
+											<Td>
+												{record?.note || '--'}
+											</Td>
+										</Tr>
+									))}
+								</Tbody>
+								</Table>
+							</AccordionPanel>
+						</AccordionItem>
+
+						
+					</Accordion>
 			</Box>
 			<Box
 				m={10}
@@ -718,7 +798,7 @@ const InvoiceSummary = () => {
 					</Flex>
 				</Box> */}
 			</Box>
-		</>
+		</div>
 	);
 };
 
