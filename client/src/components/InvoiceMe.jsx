@@ -20,7 +20,7 @@ const InvoiceMe = () => {
   const payload = { name: user.name, email: user.email, address: user.address };
   const encodedToken = encodePayload(payload);
   const [inputValue, setInputValue] = useState(
-    `http://localhost:5173/invoices/create/${encodedToken}`
+    `https://quickbillpay.onrender.com/invoices/create/${encodedToken}`
     );
     const { hasCopied, onCopy } = useClipboard(inputValue);
     // console.log('Decoded Token:', decodedToken);
