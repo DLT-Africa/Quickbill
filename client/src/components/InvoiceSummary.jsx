@@ -119,9 +119,9 @@ const InvoiceSummary = () => {
 	useEffect(() => {
 		if (invoiceDetails) {
 			console.log(invoiceDetails);
-			const items = invoiceDetails.items;
+			const items = invoiceDetails?.items;
 			setInvoiceItems(items);
-			const client = invoiceDetails.client;
+			const client = invoiceDetails?.client;
 			setClient(client);
 
 			switch (invoiceDetails.invoiceStatus) {
@@ -169,7 +169,7 @@ const InvoiceSummary = () => {
 			}).format(invoiceDetails.vatValue);
 			const formatGrandTotal = new Intl.NumberFormat("en-US", {
 				style: "currency",
-				currency: invoiceDetails.currency, // Change currency code as needed
+				currency: invoiceDetails?.currency, // Change currency code as needed
 				minimumFractionDigits: 2,
 				maximumFractionDigits: 2,
 			}).format(invoiceDetails.grandTotal);
@@ -232,17 +232,17 @@ const InvoiceSummary = () => {
 				// 	paymentDate: new Date(),
 				// };
 
-				updatedInvoiceDetails.remainingAmount = Math.max(
-					updatedInvoiceDetails.remainingAmount - Number(formData.amountPaid),
+				updatedInvoiceDetails?.remainingAmount = Math.max(
+					updatedInvoiceDetails?.remainingAmount - Number(formData.amountPaid),
 					0
 				);
 
-				updatedInvoiceDetails.totalAmountReceived += Number(
+				updatedInvoiceDetails?.totalAmountReceived += Number(
 					formData.amountPaid
 				);
 
-				updatedInvoiceDetails.invoiceStatus =
-					updatedInvoiceDetails.remainingAmount === 0
+				updatedInvoiceDetails?.invoiceStatus =
+					updatedInvoiceDetails?.remainingAmount === 0
 						? "Paid"
 						: "Partially Paid";
 
@@ -271,14 +271,14 @@ const InvoiceSummary = () => {
 		setIsLoading(true);
 
 		const paymentRecord = {
-			amountPaid: invoiceDetails.remainingAmount,
+			amountPaid: invoiceDetails?.remainingAmount,
 			note: "",
 			paymentDate: new Date(),
 		};
 
 		try {
 			const response = await axiosInstance.put(`/invoices/pay/${invoiceId}`, {
-				amountPaid: invoiceDetails.remainingAmount,
+				amountPaid: invoiceDetails?.remainingAmount,
 				note: "",
 			});
 			const data = response.data;
@@ -374,8 +374,8 @@ const InvoiceSummary = () => {
 							colorScheme="blue"
 						/>
 						<MenuList>
-							{(invoiceDetails.invoiceStatus === "Awaiting Payment" ||
-								invoiceDetails.invoiceStatus === "Partially Paid") && (
+							{(invoiceDetails?.invoiceStatus === "Awaiting Payment" ||
+								invoiceDetails?.invoiceStatus === "Partially Paid") && (
 								<MenuItem
 									icon={<FaStarHalfAlt />}
 									onClick={() => setPayPartialModalOpen(true)}
@@ -384,8 +384,8 @@ const InvoiceSummary = () => {
 								</MenuItem>
 							)}
 
-							{(invoiceDetails.invoiceStatus === "Awaiting Payment" ||
-								invoiceDetails.invoiceStatus === "Partially Paid") && (
+							{(invoiceDetails?.invoiceStatus === "Awaiting Payment" ||
+								invoiceDetails?.invoiceStatus === "Partially Paid") && (
 								<MenuItem
 									icon={<ImStarFull />}
 									onClick={() => setFullyPaidModalOpen(true)}
@@ -394,7 +394,7 @@ const InvoiceSummary = () => {
 								</MenuItem>
 							)}
 
-							{invoiceDetails.invoiceStatus === "Awaiting Payment" &&
+							{invoiceDetails?.invoiceStatus === "Awaiting Payment" &&
 								invoiceDetails?.client?.email === userDetails?.email && (
 									<MenuItem
 										icon={<FcCancel />}
@@ -578,7 +578,7 @@ const InvoiceSummary = () => {
 										>
 											<Td>{format(record?.paymentDate, "dd/MM/yyyy")}</Td>
 											
-											<Td>{record?.amountPaid.toFixed(2)}</Td>
+											<Td>{record?.amountPaid?.toFixed(2)}</Td>
 											<Td>
 												{record?.note || '--'}
 											</Td>
