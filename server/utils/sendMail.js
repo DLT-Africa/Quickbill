@@ -129,8 +129,18 @@ const sendInvoiceMail = (newInvoice, invoiceOwner, res) => {
 			table: {
 				data: tableData,
 			},
+			action: [
+				{
+					instructions: `You are expected to pay a sum ${newInvoice.currency}${newInvoice.grandTotal} before the due date, kindly login to see more details about the invoice.`,
+					button: {
+						color: "#0175dd",
+						text: "Take me to my account",
+						link: "http://localhost:5173/auth/",
+						fallback: true,
+					},
+				},
+			],
 			outro: [
-				`You are expected to pay a sum of ${newInvoice.currency}${newInvoice.grandTotal} before the due date, kindly login to see more details about the invoice.`,
 				"If you have any problem, just reply to this email, we'd love to help.",
 			],
 		},
