@@ -344,16 +344,16 @@ const InvoiceSummary = () => {
 
 		setTimeout(() => {
 			html2canvas(input, { scale: scaleFactor }).then((canvas) => {
-				const pdf = new jsPDF("p", "mm", "a4");
-
-				const imgWidth = 210; // A4 page width in mm
+				const pdf = new jsPDF('p', 'mm', 'a4');
+			
+				const imgWidth = pdf.internal.pageSize.getWidth();
 				const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-				const imgData = canvas.toDataURL("image/jpeg", 0.8); // Adjust compression quality (0.0 to 1.0)
-
-				pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
-				pdf.save("invoice.pdf");
-			});
+			
+				const imgData = canvas.toDataURL('image/jpeg', 0.8); // Adjust compression quality (0.0 to 1.0)
+			
+				pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+				pdf.save('invoice.pdf');
+			  });
 		}, 500);
 	};
 
