@@ -32,7 +32,7 @@ const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
 				button: {
 					color: "#22BC66", // Optional action button color
 					text: "Confirm your account",
-					link: `http://localhost:5173/verify-access/${token}`,
+					link: `https://quickbillpay.onrender.com/verify-access/${token}`,
 				},
 			},
 			outro:
@@ -77,7 +77,7 @@ const sendClientInvitationMail = (
 				button: {
 					color: "#22BC66", // Optional action button color
 					text: "Accept Invitation",
-					link: `http://localhost:5173/auth/`,
+					link: `https://quickbillpay.onrender.com/auth/`,
 				},
 			},
 			outro:
@@ -135,7 +135,7 @@ const sendInvoiceMail = (newInvoice, invoiceOwner, res) => {
 					button: {
 						color: "#0175dd",
 						text: "Take me to my account",
-						link: "http://localhost:5173/auth/",
+						link: "https://quickbillpay.onrender.com/auth/",
 						fallback: true,
 					},
 				},
@@ -159,7 +159,7 @@ const sendInvoiceMail = (newInvoice, invoiceOwner, res) => {
 		.sendMail(message)
 		.then(() => {
 			return res.status(200).send({
-				message: "Client notified successfully",
+				message: "Client notified successfully", newInvoice
 			});
 		})
 		.catch((error) => {
