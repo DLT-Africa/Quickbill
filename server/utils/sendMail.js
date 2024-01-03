@@ -131,7 +131,7 @@ const sendInvoiceMail = (newInvoice, invoiceOwner, res) => {
 			},
 			action: [
 				{
-					instructions: `You are expected to pay a sum ${newInvoice.currency}${newInvoice.grandTotal} before the due date, kindly login to see more details about the invoice.`,
+					instructions: `You are expected to pay a sum of ${newInvoice.currency}${newInvoice.grandTotal} before the due date, kindly login to see more details about the invoice.`,
 					button: {
 						color: "#0175dd",
 						text: "Take me to my account",
