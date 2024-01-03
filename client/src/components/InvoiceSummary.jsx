@@ -232,16 +232,16 @@ const InvoiceSummary = () => {
 				// 	paymentDate: new Date(),
 				// };
 
-				updatedInvoiceDetails?.remainingAmount = Math.max(
+				updatedInvoiceDetails.remainingAmount = Math.max(
 					updatedInvoiceDetails?.remainingAmount - Number(formData.amountPaid),
 					0
 				);
 
-				updatedInvoiceDetails?.totalAmountReceived += Number(
+				updatedInvoiceDetails.totalAmountReceived += Number(
 					formData.amountPaid
 				);
 
-				updatedInvoiceDetails?.invoiceStatus =
+				updatedInvoiceDetails.invoiceStatus =
 					updatedInvoiceDetails?.remainingAmount === 0
 						? "Paid"
 						: "Partially Paid";
