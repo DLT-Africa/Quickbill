@@ -4,6 +4,7 @@ import {
 	AccordionButton,
 	AccordionPanel,
 	AccordionIcon,
+	Image,
 } from "@chakra-ui/react";
 import {
 	IconButton,
@@ -36,7 +37,6 @@ import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 
 const SidebarContent = ({ onClose, ...rest }) => {
-
 	return (
 		<Box
 			transition="3s ease"
@@ -49,10 +49,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
 			color={"#374957"} ///////////////////////////////////////////////////For the sidebar
 			{...rest}
 		>
-			<Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-				<Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+			<Flex h="20" alignItems="center" mx="6" justifyContent="space-between">
+				{/* <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
 					Logo
-				</Text>
+				</Text> */}
+				<Image src="/QBLogo.png" />
+
 				<CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
 			</Flex>
 
@@ -218,8 +220,7 @@ const NavItem = ({ icon, children, ...rest }) => {
 const MobileNav = ({ onOpen, ...rest }) => {
 	const logout = useLogout();
 	const user = useRecoilValue(userAtom);
-  const navigate = useNavigate()
-
+	const navigate = useNavigate();
 
 	return (
 		<Flex
@@ -245,14 +246,15 @@ const MobileNav = ({ onOpen, ...rest }) => {
 				icon={<FiMenu />}
 			/>
 
-			<Text
+			{/* <Text
 				display={{ base: "flex", md: "none" }}
 				fontSize="2xl"
 				fontFamily="monospace"
 				fontWeight="bold"
 			>
 				Logo
-			</Text>
+			</Text> */}
+			<Image display={{ base: "flex", md: "none" }} src="/QBLogo.png" />
 
 			<HStack spacing={{ base: "0", md: "6" }}>
 				<IconButton
@@ -290,7 +292,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 							bg={useColorModeValue("white", "gray.900")}
 							borderColor={useColorModeValue("gray.200", "gray.700")}
 						>
-							<MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
+							<MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
 							<MenuDivider />
 							<MenuItem onClick={logout}>Sign out</MenuItem>
 						</MenuList>

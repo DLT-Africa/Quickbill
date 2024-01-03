@@ -17,6 +17,7 @@ import {
 	TabPanel,
 	Tabs,
 	useColorModeValue,
+	Spinner,
 } from "@chakra-ui/react";
 import { GoDownload } from "react-icons/go";
 import InvoicePerRow from "./InvoicePerRow";
@@ -26,6 +27,7 @@ import { prevPathAtom } from "../atoms/prevPathAtom";
 import { useRecoilState } from "recoil";
 import useLogout from "../hooks/useLogout";
 import { downloadCSV } from "../utils/downloadInvoiceCSV";
+import useErrorHandler from "../hooks/useErrorHandler";
 
 const BillCon = () => {
 	const [allReceivedInvoices, setAllReceivedInvoices] = useState([]);
@@ -37,6 +39,8 @@ const BillCon = () => {
 	);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const [invoiceToDownl, setInvoiceToDownl] = useState([]);
+	const [fetching, setFetching] = useState(true)
+	const errorHandler = useErrorHandler()
 
 	const logout = useLogout();
 
@@ -77,16 +81,9 @@ const BillCon = () => {
 				setAllAwaitingPaymentInvoices(filteredAwaitingPaymentInvoices);
 			} catch (error) {
 				console.log(error);
-				const errorData = error.response?.data;
-				if (errorData?.error?.startsWith("Internal")) {
-					console.log("Internal Server Error");
-				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
-					setPrevPath(window.location.pathname);
-					logout();
-				} else if (error.response.status === 401) {
-					setPrevPath(window.location.pathname);
-					logout();
-				}
+					errorHandler(error);
+			} finally {
+				setFetching(false)
 			}
 		};
 		getAllReceivedInvoices();
@@ -95,6 +92,19 @@ const BillCon = () => {
 	const handleDownload = () => {
 		downloadCSV(invoiceToDownl);
 	};
+
+	if (fetching) {
+		return (
+			<Flex
+				justifyContent={"center"}
+				flexDir={"column"}
+				gap={2}
+				alignItems={"center"}
+				minH={"100vh"}
+			>
+				<Spinner size={"xl"} />
+			</Flex>
+		);}
 
 	return (
 		<>

@@ -21,6 +21,7 @@ import allClientsAtom from "../atoms/allClientsAtom";
 import allEmployeesAtom from "../atoms/allEmployeesAtom";
 import useLogout from "../hooks/useLogout";
 import { prevPathAtom } from "../atoms/prevPathAtom";
+import useErrorHandler from "../hooks/useErrorHandler";
 
 const AddEmployeeModal = () => {
 	const [formData, setFormData] = useState({
@@ -42,6 +43,7 @@ const AddEmployeeModal = () => {
 	const [employees, setEmployees] = useRecoilState(allEmployeesAtom);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const logout = useLogout();
+	const errorHandler = useErrorHandler()
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -79,14 +81,8 @@ const AddEmployeeModal = () => {
 				setAddClientModalOpen(false);
 				setSendInviteModalOpen(true);
 				setLoading(false);
-			} else if  (errorData?.error?.startsWith("Internal")) {
-				console.log("Internal Server Error");
-			} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
-				setPrevPath(window.location.pathname);
-				logout();
-			} else if (error.response.status === 401) {
-				setPrevPath(window.location.pathname);
-				logout();
+			} else {
+				errorHandler(error);
 			}
 		}
 	};
@@ -108,6 +104,8 @@ const AddEmployeeModal = () => {
 				showToast("Error", error.response.data.msg, "error");
 				setSendInviteModalOpen(false);
 				setLoading(false);
+			}  else {
+				errorHandler(error);
 			}
 			setSendInviteModalOpen(false);
 			setLoading(false);
