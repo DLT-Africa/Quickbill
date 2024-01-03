@@ -35,11 +35,11 @@ const AccountConfirmation = () => {
 					mt={20}
 				/>
 
-				<Text as={"h1"} fontWeight={800} mt={5}>
+				<Text as={"h1"} fontSize={'2xl'} fontWeight={800} mt={5}>
 					{" "}
 					Your Account has been{" "}
 				</Text>
-				<Text as={"h1"} fontWeight={800}>
+				<Text as={"h1"}  fontSize={'2xl'} fontWeight={800}>
 					{" "}
 					succesfully created{" "}
 				</Text>
@@ -47,8 +47,8 @@ const AccountConfirmation = () => {
 
 			<Center py={6}>
 				<Box
-					maxW={"330px"}
-					w={"full"}
+					maxW={"35rem"}
+					// w={"full"}
 					bg={useColorModeValue("white", "gray.800")}
 					boxShadow={"2xl"}
 					rounded={"md"}
@@ -73,7 +73,7 @@ const AccountConfirmation = () => {
 						</Text>
 					</Stack>
 
-					<Box bg={useColorModeValue("gray.50", "gray.900")} px={6} py={10}>
+					<Box bg={useColorModeValue("gray.50", "gray.900")} textAlign={'center'} fontSize={'xl'} px={6} py={10}>
 						<Text>
 							We've sent a verification link to your email address. Please check
 							your email inbox or spam folder and verify your email address

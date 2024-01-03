@@ -69,6 +69,7 @@ const Profile = () => {
       console.log(data)
       setUser(data);
       localStorage.setItem("user-quickBill", JSON.stringify(data));
+      showToast("Success", "Profile updated successfully", "success")
 		
 		} catch (error) {
       console.log(error)

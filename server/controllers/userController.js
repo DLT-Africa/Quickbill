@@ -1,15 +1,30 @@
+const Client = require("../models/clientModel");
+const Employee = require("../models/employeeModel");
+const Invoice = require("../models/invoiceModel");
+const Payroll = require("../models/payrollModel");
 const User = require("../models/userModel");
 const cloudinary = require("cloudinary").v2;
 const bcrypt = require("bcrypt");
 
+const updateEmailInOtherModels = async (oldEmail, newEmail) => {
+	await Invoice.updateMany(
+		{ "client.email": oldEmail },
+		{ $set: { "client.email": newEmail } }
+	);
+	await Employee.updateMany({ email: oldEmail }, { email: newEmail });
+	await Client.updateMany({ email: oldEmail }, { email: newEmail });
+	// Add more updates for other models if needed
+};
 
 const updateUserProfile = async (req, res) => {
 	const userId = req.userId;
 	const { name, email, password } = req.body;
 	let { profilePic } = req.body;
+	const newEmail = email;
 
 	try {
 		let user = await User.findById(userId);
+		const oldEmail = user.email;
 
 		if (password) {
 			const hashedPassword = await bcrypt.hash(password, 12);
@@ -24,7 +39,11 @@ const updateUserProfile = async (req, res) => {
 			}
 			const uploadedResponse = await cloudinary.uploader.upload(profilePic);
 			profilePic = uploadedResponse.secure_url;
-			console.log(profilePic)
+			console.log(profilePic);
+		}
+
+		if (newEmail !== oldEmail) {
+			await updateEmailInOtherModels(oldEmail, newEmail);
 		}
 
 		user.name = name || user.name;

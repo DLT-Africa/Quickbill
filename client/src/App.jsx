@@ -31,7 +31,7 @@ function App() {
 				<Route path="/auth" element={<AuthPage />} />
 				<Route path="/confirm-email" element={<AccountConfirmation />} />
 				<Route path="/link-expired/" element={<LinkExpired />} />
-				<Route path="/verify-access/:token" element={<ConfirmEmail />} />
+				<Route path="/verify-access/:token" element={<ActivatePage />} />
 				<Route path="/about" element={<AboutPage />} />
 				<Route path="/contact" element={<ContactPage />} />
 				<Route
@@ -47,7 +47,7 @@ function App() {
 				<Route path="/payrolls" element={<PayrollPage />} />
 				<Route path="/payrolls/create" element={<CreatePayrollPage />} />
 				<Route path="/profile" element={<ProfilePage />} />
-				<Route path="/account-activated" element={<ActivatePage />} />
+				{/* <Route path="/account-activated" element={<ActivatePage />} /> */}
 				<Route path="/invoice-me" element={<InvoiceMePage />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>

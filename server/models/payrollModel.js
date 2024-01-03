@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const PayrollSchema = mongoose.Schema(
 	{
-		payrollNumber: { type: String, unique: true },
+		payrollNumber: { type: String},
 		employerId: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
