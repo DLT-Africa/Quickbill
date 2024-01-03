@@ -68,7 +68,7 @@ export default function SplitScreen() {
 	};
 
 	const handleGoogleAuth = async () => {
-		window.location.href = "http://localhost:3000/auth/googleauth";
+		window.location.href = "https://quickbill-2oy7.onrender.com/auth/googleauth";
 	}
 
 	return (
