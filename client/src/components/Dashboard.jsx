@@ -50,7 +50,7 @@ export default function Dashboard() {
 			try {
 				const response = await axiosInstance.get("/invoices/all-sent");
 				const invoicesSent = response.data;
-				console.log(response.data);
+				// console.log(response.data);
 
 				//filter all paid invoices
 				const filteredPaidInvoices = invoicesSent.filter(
