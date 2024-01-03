@@ -17,7 +17,6 @@ import { axiosInstance } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import { MdOutlineCancel } from "react-icons/md";
-import currencies from "../utils/currencies.json";
 import useShowToast from "../hooks/useShowToast";
 import { format } from "date-fns";
 import AddEmployeeModal from "./AddEmployeeModal";
@@ -27,7 +26,6 @@ import useLogout from "../hooks/useLogout";
 import allPayrollsAtom from "../atoms/allPayrollsAtom";
 
 const todayDate = new Date();
-const currencyOptions = currencies;
 
 function CreatePayroll() {
 	const [employees, setEmployees] = useRecoilState(allEmployeesAtom);
@@ -299,16 +297,8 @@ function CreatePayroll() {
 								/>
 							</FormControl>
 							<FormControl>
-								<FormLabel>Select Currency</FormLabel>
-								<ReactSelect
-									defaultValue={{ label: "US Dollar", value: "USD" }}
-									options={currencyOptions}
-									placeholder={"Select Currency"}
-									onChange={(currencyInfo) =>
-										setSelectedCurrency(currencyInfo.value)
-									}
-									required
-								/>
+								<FormLabel>Salary Currency</FormLabel>
+								<Text>US Dollar</Text>
 							</FormControl>
 							<FormControl isRequired>
 								<FormLabel>Salary Amount ({selectedCurrency})</FormLabel>

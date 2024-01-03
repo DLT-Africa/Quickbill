@@ -25,9 +25,10 @@ import { axiosInstance } from "../../api/axios";
 import { prevPathAtom } from "../atoms/prevPathAtom";
 import { useRecoilState } from "recoil";
 import useLogout from "../hooks/useLogout";
+import { downloadCSV } from "../utils/downloadInvoiceCSV";
 
 const BillCon = () => {
-	const [allSentInvoices, setAllSentInvoices] = useState([]);
+	const [allReceivedInvoices, setAllReceivedInvoices] = useState([]);
 	const [allPaidInvoices, setAllPaidInvoices] = useState([]);
 	const [allRejectedInvoices, setAllRejectedInvoices] = useState([]);
 	const [allOverdueInvoices, setAllOverdueInvoices] = useState([]);
@@ -35,41 +36,41 @@ const BillCon = () => {
 		[]
 	);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-	const logout = useLogout();
+	const [invoiceToDownl, setInvoiceToDownl] = useState([]);
 
+	const logout = useLogout();
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const getAllSentInvoices = async () => {
+		const getAllReceivedInvoices = async () => {
 			try {
 				const response = await axiosInstance.get("/invoices/all-received");
-				const invoicesSent = response.data;
+				const invoicesReceived = response.data;
 				console.log(response.data);
 
 				//filter all paid invoices
-				const filteredPaidInvoices = invoicesSent.filter(
+				const filteredPaidInvoices = invoicesReceived.filter(
 					(invoice) => invoice.invoiceStatus === "Paid"
 				);
 
 				//filter rejected invoices
-				const filteredRejectedInvoices = invoicesSent.filter(
+				const filteredRejectedInvoices = invoicesReceived.filter(
 					(invoice) => invoice.invoiceStatus === "Rejected"
 				);
 
 				//filter overdue invoice
-				const filteredOverdueInvoices = invoicesSent.filter(
+				const filteredOverdueInvoices = invoicesReceived.filter(
 					(invoice) => invoice.invoiceStatus === "Overdue"
 				);
 
 				//filter awaiting payment invoice
-				const filteredAwaitingPaymentInvoices = invoicesSent.filter(
+				const filteredAwaitingPaymentInvoices = invoicesReceived.filter(
 					(invoice) => invoice.invoiceStatus === "Awaiting Payment"
 				);
 
-
-
-				setAllSentInvoices(invoicesSent);
+				setInvoiceToDownl(invoicesReceived);
+				setAllReceivedInvoices(invoicesReceived);
 				setAllPaidInvoices(filteredPaidInvoices);
 				setAllRejectedInvoices(filteredRejectedInvoices);
 				setAllOverdueInvoices(filteredOverdueInvoices);
@@ -77,19 +78,23 @@ const BillCon = () => {
 			} catch (error) {
 				console.log(error);
 				const errorData = error.response?.data;
-			if (errorData?.error?.startsWith("Internal")) {
-				console.log("Internal Server Error");
-			} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
-				setPrevPath(window.location.pathname);
-				logout();
-			} else if (error.response.status === 401) {
-				setPrevPath(window.location.pathname);
-				logout();
-			}
+				if (errorData?.error?.startsWith("Internal")) {
+					console.log("Internal Server Error");
+				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
+					setPrevPath(window.location.pathname);
+					logout();
+				} else if (error.response.status === 401) {
+					setPrevPath(window.location.pathname);
+					logout();
+				}
 			}
 		};
-		getAllSentInvoices();
+		getAllReceivedInvoices();
 	}, []);
+
+	const handleDownload = () => {
+		downloadCSV(invoiceToDownl);
+	};
 
 	return (
 		<>
@@ -98,13 +103,13 @@ const BillCon = () => {
 					Sent invoices
 				</Text> */}
 				<Box>
-				<Text fontSize={36} textAlign={"left"} fontWeight={700}>
+					<Text fontSize={36} textAlign={"left"} fontWeight={700}>
 						Bills
 					</Text>
- 						<Text as={"p"} fontSize={"xl"} fontWeight={300}>
- 							Manage all the invoices you received from vendors
+					<Text as={"p"} fontSize={"xl"} fontWeight={300}>
+						Manage all the invoices you received from vendors
 					</Text>
-					</Box>
+				</Box>
 				<Flex gap={"5"}>
 					<Button
 						transition={"all 1s"}
@@ -121,6 +126,7 @@ const BillCon = () => {
 						// size={'md'}
 						fontSize={36}
 						// fontWeight={400}
+						onClick={handleDownload}
 						color={"black"}
 						cursor={"pointer"}
 					/>
@@ -130,15 +136,24 @@ const BillCon = () => {
 			<Box px={5}>
 				<Tabs align="end">
 					<TabList>
-						<Tab>All ({allSentInvoices.length})</Tab>
-						<Tab>Paid ({allPaidInvoices.length})</Tab>
-						<Tab>Awaiting Payment ({allAwaitingPaymentInvoices.length})</Tab>
-						<Tab>Rejected ({allRejectedInvoices.length})</Tab>
-						<Tab>Overdue ({allOverdueInvoices.length})</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allReceivedInvoices)}>
+							All ({allReceivedInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allPaidInvoices)}>
+							Paid ({allPaidInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allAwaitingPaymentInvoices)}>
+							Awaiting Payment ({allAwaitingPaymentInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allRejectedInvoices)}>
+							Rejected ({allRejectedInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allOverdueInvoices)}>
+							Overdue ({allOverdueInvoices.length})
+						</Tab>
 					</TabList>
 					<TabPanels>
 						<TabPanel>
-							
 							<Table variant="simple" colorScheme="gray" size={"md"} mt={5}>
 								<Thead>
 									<Tr
@@ -168,8 +183,7 @@ const BillCon = () => {
 									</Tr>
 								</Thead>
 								<Tbody>
-									{allSentInvoices.map((singleInvoice, index) => (
-			
+									{allReceivedInvoices.map((singleInvoice, index) => (
 										<InvoicePerRow key={index} singleInvoice={singleInvoice} />
 									))}
 								</Tbody>
@@ -179,7 +193,7 @@ const BillCon = () => {
 						<TabPanel>
 							<Table variant="simple" colorScheme="gray" size={"md"} mt={5}>
 								<Thead>
-								<Tr
+									<Tr
 										p={2}
 										borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
 										borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
@@ -216,7 +230,7 @@ const BillCon = () => {
 						<TabPanel>
 							<Table variant="simple" colorScheme="gray" size={"md"} mt={5}>
 								<Thead>
-								<Tr
+									<Tr
 										p={2}
 										borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
 										borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
@@ -253,7 +267,7 @@ const BillCon = () => {
 						<TabPanel>
 							<Table variant="simple" colorScheme="gray" size={"md"} mt={5}>
 								<Thead>
-								<Tr
+									<Tr
 										p={2}
 										borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
 										borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
@@ -290,7 +304,7 @@ const BillCon = () => {
 						<TabPanel>
 							<Table variant="simple" colorScheme="gray" size={"md"} mt={5}>
 								<Thead>
-								<Tr
+									<Tr
 										p={2}
 										borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
 										borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
