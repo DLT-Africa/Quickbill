@@ -64,10 +64,10 @@ export default function SplitScreen() {
 			setLoading(false);
 		}
 	};
-	// if (user === "" || pwd === "") {
-	//    setErrMsg("User and pwd are required");
-	//    return;
-	// }
+
+	const handleGoogleAuth = async () => {
+		window.location.href = "http://localhost:3000/auth/googleauth";
+	}
 
 	return (
 		<Stack
@@ -111,7 +111,7 @@ export default function SplitScreen() {
 					<Box>
 						<Flex fontWeight={"3000"} gap={4}>
 							<IconButton icon={<FaFacebook size={"md"} />} />
-							<IconButton icon={<FcGoogle size={"md"} />} />
+							<IconButton onClick={handleGoogleAuth} icon={<FcGoogle size={"md"} />} />
 							<IconButton icon={<FaApple size={"md"} />} />
 						</Flex>
 						<Box position="relative" padding="10" fontSize={"2xl"}>
