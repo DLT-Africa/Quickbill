@@ -97,7 +97,7 @@ const Container = () => {
             <Text fontSize={"3xl"} fontWeight={600}>
               Expenses
             </Text>
-            <Image src="/expenses.web" alt="expenses" />
+            <Image src="/expenses.webp" alt="expenses" />
 
             <Text fontSize={"lg"} textAlign={"center"} fontWeight={400}>
               Corem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
