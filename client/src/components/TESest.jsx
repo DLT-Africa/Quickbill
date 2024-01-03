@@ -43,11 +43,6 @@ function BarChart({ invoiceData }) {
         title: {
           text: '$ (USD)',
         },
-        labels: {
-          formatter: function (value) {
-            return `$${value.toFixed(2)}`;
-          },
-        },
       },
       fill: {
         opacity: 1,
