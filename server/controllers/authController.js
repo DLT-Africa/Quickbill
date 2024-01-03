@@ -36,8 +36,7 @@ const googleAuthCallback = async (req, res) => {
 		});
 
 		// Redirect the user or send a response with the token
-		res.status(200).json({ user, token });
-		console.log({ user, token });
+		res.redirect('http://localhost:5173/dashboard')
 	} catch (error) {
 		res
 			.status(500)
