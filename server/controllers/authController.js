@@ -36,7 +36,7 @@ const googleAuthCallback = async (req, res) => {
 		});
 
 		// Redirect the user or send a response with the token
-		res.redirect('http://localhost:5173/dashboard')
+		res.redirect('https://quickbillpay.onrender.com/dashboard')
 	} catch (error) {
 		res
 			.status(500)
