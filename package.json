@@ -4,8 +4,8 @@
   "description": "- Comment under an issue you want to be assigned to.\r - Create a New branch from `staging` with your name and the feature you are working on. for example\r   `yusufroqib/hero-section`.\r - Make sure you do a rebase or pull before making your pull request back to `staging`.\r - On your pull request, refrence the issue you worked on by mentioning the issue number or uurl you worked on.",
   "main": "server.js",
   "scripts": {
-    "install-server": "cd backend && npm install",
-    "start-server": "cd backend && node app.js",
+    "install-server": "cd server && npm install",
+    "start-server": "cd server && node server.js",
     "install-client": "cd client && npm install",
     "build-client": "cd client && npm run build",
     "start-client": "cd client && npm run start"
