@@ -23,7 +23,6 @@ import DashboardPage from "./pages/DashboardPage";
 import ClientsPage from "./pages/ClientsPage";
 
 function App() {
-  const user = useRecoilValue(userAtom) 
 	return (
 		<>
 			<Routes>
@@ -34,12 +33,13 @@ function App() {
 				<Route path="/verify-access/:token" element={<ActivatePage />} />
 				<Route path="/about" element={<AboutPage />} />
 				<Route path="/contact" element={<ContactPage />} />
-				<Route
-					path="/dashboard" element={user? <DashboardPage /> :  <Navigate to='/auth'/>}
-				/>
+				<Route path="/dashboard" element={<DashboardPage />} />
 				<Route path="/clients" element={<ClientsPage />} />
 				<Route path="/invoices/create" element={<CreateInvoicePage />} />
-				<Route path="/invoices/create/:encodedToken" element={<CreateInvoicePage />} />
+				<Route
+					path="/invoices/create/:encodedToken"
+					element={<CreateInvoicePage />}
+				/>
 				<Route path="/invoices/sent" element={<SentInvoicesPage />} />
 				<Route path="/invoices/:invoiceId" element={<InvoiceSummaryPage />} />
 				<Route path="/bills" element={<BillPage />} />
@@ -47,7 +47,6 @@ function App() {
 				<Route path="/payrolls" element={<PayrollPage />} />
 				<Route path="/payrolls/create" element={<CreatePayrollPage />} />
 				<Route path="/profile" element={<ProfilePage />} />
-				{/* <Route path="/account-activated" element={<ActivatePage />} /> */}
 				<Route path="/invoice-me" element={<InvoiceMePage />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
