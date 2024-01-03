@@ -159,7 +159,7 @@ const sendInvoiceMail = (newInvoice, invoiceOwner, res) => {
 		.sendMail(message)
 		.then(() => {
 			return res.status(200).send({
-				message: "Client notified successfully",
+				message: "Client notified successfully", newInvoice
 			});
 		})
 		.catch((error) => {
