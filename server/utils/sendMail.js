@@ -19,11 +19,10 @@ let MailGenerator = new Mailgen({
 		link: "https://google.com",
 	},
 });
- 
+
 //********************************************************************************************************************************** */
 
 const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
-
 	let response = {
 		body: {
 			name: name,
@@ -51,12 +50,9 @@ const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
 	transporter
 		.sendMail(message)
 		.then(() => {
-			return res
-				.status(200)
-				.send({
-					msg: "You should receive an email from us soon. If not, check your spam folder. Click on confirmation link to activate account",
-					
-				});
+			return res.status(200).send({
+				msg: "You should receive an email from us soon. If not, check your spam folder. Click on confirmation link to activate account",
+			});
 		})
 		.catch((error) => {
 			console.log(error);
@@ -66,12 +62,18 @@ const sendConfirmationMail = ({ email: userEmail, name, token }, res) => {
 		});
 };
 
-const sendClientInvitationMail = ({inviterEmail, inviterName, clientEmail}, res) => {
+//******************************************************************************************** */
+
+const sendClientInvitationMail = (
+	{ inviterEmail, inviterName, clientEmail },
+	res
+) => {
 	let response = {
 		body: {
 			intro: `${inviterName} with email address (${inviterEmail})  has invited you to Quickbill to enjoy seamless payroll and invoicing system`,
 			action: {
-				instructions: "To get started with Quickbill, please click on the button below to register in less than 3 minutes:",
+				instructions:
+					"To get started with Quickbill, please click on the button below to register in less than 3 minutes:",
 				button: {
 					color: "#22BC66", // Optional action button color
 					text: "Accept Invitation",
@@ -95,12 +97,9 @@ const sendClientInvitationMail = ({inviterEmail, inviterName, clientEmail}, res)
 	transporter
 		.sendMail(message)
 		.then(() => {
-			return res
-				.status(200)
-				.send({
-					message: "Invitation mail sent",
-					
-				});
+			return res.status(200).send({
+				message: "Invitation mail sent",
+			});
 		})
 		.catch((error) => {
 			console.log(error);
@@ -108,6 +107,61 @@ const sendClientInvitationMail = ({inviterEmail, inviterName, clientEmail}, res)
 				.status(500)
 				.send({ error: "An error occured while sending the email." });
 		});
-}
+};
 
-module.exports = { sendConfirmationMail, sendClientInvitationMail };
+//************************************************************************************** */
+
+const sendInvoiceMail = (newInvoice, invoiceOwner, res) => {
+	const tableData = newInvoice.items.map((item) => ({
+		Item: item.itemName,
+		Qty: item.qty,
+		"Unit Price": `${newInvoice.currency} ${item.price}`,
+		"Discount(%)": item.discPercent,
+		Amount: `${newInvoice.currency} ${item.amtAfterDiscount}`,
+	}));
+
+	let response = {
+		body: {
+			name: newInvoice.client.name,
+			intro: [
+				`${invoiceOwner.name} just sent you an invoice. Here is a brief overview of the invoice generated.`,
+			],
+			table: {
+				data: tableData,
+			},
+			outro: [
+				`You are expected to pay a sum ${newInvoice.currency}${newInvoice.grandTotal} before the due date, kindly login to see more details about the invoice.`,
+				"If you have any problem, just reply to this email, we'd love to help.",
+			],
+		},
+	};
+
+	let mail = MailGenerator.generate(response);
+
+	let message = {
+		from: process.env.EMAIL,
+		to: newInvoice.client.email,
+		subject: `${invoiceOwner.name} sent you an invoice`,
+		html: mail,
+	};
+
+	transporter
+		.sendMail(message)
+		.then(() => {
+			return res.status(200).send({
+				message: "Client notified successfully",
+			});
+		})
+		.catch((error) => {
+			console.log(error);
+			return res
+				.status(500)
+				.send({ error: "An error occured while sending the email." });
+		});
+};
+
+module.exports = {
+	sendConfirmationMail,
+	sendClientInvitationMail,
+	sendInvoiceMail,
+};

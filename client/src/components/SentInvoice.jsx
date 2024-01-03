@@ -86,7 +86,7 @@ const SentInvoice = () => {
 				} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
 					setPrevPath(window.location.pathname);
 					logout();
-				} else if (error.response.status === 401) {
+				} else if (error?.response?.status === 401) {
 					setPrevPath(window.location.pathname);
 					logout();
 				}

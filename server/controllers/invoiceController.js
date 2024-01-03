@@ -1,5 +1,7 @@
 const Client = require("../models/clientModel");
 const Invoice = require("../models/invoiceModel");
+const User = require("../models/userModel");
+const { sendInvoiceMail } = require("../utils/sendMail");
 
 const createInvoice = async (req, res) => {
 	try {
@@ -40,26 +42,28 @@ const createInvoice = async (req, res) => {
 			remainingAmount,
 		});
 
+		const invoiceOwner = await User.findById(creatorId);
+
 		//Create new client if client email is not found associated with clientFor
 		const existingClient = await Client.findOne({
 			email: client.email,
 			clientFor: creatorId,
-		})
+		});
 
-		if(!existingClient){
+		if (!existingClient) {
 			const newClient = new Client({
 				name: client.name,
 				email: client.email,
 				// address: client.address,
 				clientFor: creatorId,
 			});
-	
+
+			
 			await newClient.save();
 		}
-
-		res
-			.status(201)
-			.json({ message: "Invoice created successfully", newInvoice });
+		
+		sendInvoiceMail(newInvoice, invoiceOwner, res);
+		
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal server error" });
@@ -77,21 +81,21 @@ const getAllSentInvoices = async (req, res) => {
 			})
 			.exec();
 
-			// Update overdue status using forEach
-			invoices.forEach(async (invoice) => {
-				// Check if the invoice is not paid or rejected and is overdue
-				if (
-					invoice.invoiceStatus !== "Paid" &&
-					invoice.invoiceStatus !== "Rejected" &&
-					invoice.dueDate < new Date()
-				) {
-					// Update the invoiceStatus to "Overdue"
-					invoice.invoiceStatus = "Overdue";
-					// Save the updated invoice
-					await invoice.save();
-				}
-			});
-	
+		// Update overdue status using forEach
+		invoices.forEach(async (invoice) => {
+			// Check if the invoice is not paid or rejected and is overdue
+			if (
+				invoice.invoiceStatus !== "Paid" &&
+				invoice.invoiceStatus !== "Rejected" &&
+				invoice.dueDate < new Date()
+			) {
+				// Update the invoiceStatus to "Overdue"
+				invoice.invoiceStatus = "Overdue";
+				// Save the updated invoice
+				await invoice.save();
+			}
+		});
+
 		res.status(200).json(invoices);
 	} catch (error) {
 		console.error(error);
@@ -111,21 +115,21 @@ const getAllReceivedInvoices = async (req, res) => {
 			})
 			.exec();
 
-			// Update overdue status using forEach
-			invoices.forEach(async (invoice) => {
-				// Check if the invoice is not paid or rejected and is overdue
-				if (
-					invoice.invoiceStatus !== "Paid" &&
-					invoice.invoiceStatus !== "Rejected" &&
-					invoice.dueDate < new Date()
-				) {
-					// Update the invoiceStatus to "Overdue"
-					invoice.invoiceStatus = "Overdue";
-					// Save the updated invoice
-					await invoice.save();
-				}
-			});
-	
+		// Update overdue status using forEach
+		invoices.forEach(async (invoice) => {
+			// Check if the invoice is not paid or rejected and is overdue
+			if (
+				invoice.invoiceStatus !== "Paid" &&
+				invoice.invoiceStatus !== "Rejected" &&
+				invoice.dueDate < new Date()
+			) {
+				// Update the invoiceStatus to "Overdue"
+				invoice.invoiceStatus = "Overdue";
+				// Save the updated invoice
+				await invoice.save();
+			}
+		});
+
 		res.status(200).json(invoices);
 	} catch (error) {
 		console.error(error);
@@ -155,7 +159,7 @@ const getInvoice = async (req, res) => {
 const rejectInvoice = async (req, res) => {
 	try {
 		const invoiceId = req.params.id;
-		const {rejectReason}  = req.body;
+		const { rejectReason } = req.body;
 
 		const invoice = await Invoice.findById(invoiceId);
 
