@@ -36,17 +36,17 @@ cloudinary.config({
 app.use(credentials);
 
 // Cross Origin Resource Sharing
-app.use(cors(corsOptions));
 
 app.use(express.json({ limit: "50mb" })); //parse json data inside the req body
 app.use(express.urlencoded({ extended: true })); // parse form data inside the req body
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 // Set up MongoDB store
 const store = new MongoDBStore({
-  uri: process.env.MONGO_URI, // Replace with your MongoDB connection string
+  uri: process.env.MONGO_URI,
   collection: 'sessions',
-  expires: 30 * 60 // 30 minutes in seconds
+  expires: 7 * 24 * 60 * 60, // 7 days in seconds
 });
 
 // Use express-session middleware
@@ -54,7 +54,7 @@ app.use(
   session({
     secret: process.env.JWT_SECRET, // Change this to a secure secret key
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: store, // Use MongoDB store
     cookie: {
       maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds
@@ -69,8 +69,6 @@ initializePassport(passport);
 // Middleware to initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 app.use("/auth", authRoutes)
 app.use("/account", userRoutes);
 app.use("/invoices", invoiceRoutes);

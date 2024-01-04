@@ -81,9 +81,9 @@ const getUserProfile = async (req, res) => {
 
 const getProfileByEmail = async (req, res) => {
 	try {
+		console.log({ first: req.user, req });
+
 		if (req.isAuthenticated()) {
-			console.log(req.user)
-			
 			const email = req.query.email;
 			console.log(email);
 			const user = await User.findOne({ email: email });
