@@ -1,23 +1,13 @@
 import { Flex, Text, Box, Spinner } from "@chakra-ui/react";
-
 import { CgSmileSad } from "react-icons/cg";
-
 import { IoMdCheckmarkCircleOutline, IoMdHappy } from "react-icons/io";
-import { MdOutlinePending, MdOutlinePayment } from "react-icons/md";
-import SidebarWithHeader from "./SidebarWithHeader";
+import { MdOutlinePending } from "react-icons/md";
 import BarChart from "./BarChart";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { prevPathAtom } from "../atoms/prevPathAtom";
-import useLogout from "../hooks/useLogout";
-import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api/axios";
 import { calcPayments } from "../utils/calcInvoicePayments";
 import PieChart from "./PieChart";
 import { TbSum } from "react-icons/tb";
-
-import { set } from "date-fns";
-import useShowToast from "../hooks/useShowToast";
 import useErrorHandler from "../hooks/useErrorHandler";
 
 export default function Dashboard() {
@@ -31,7 +21,7 @@ export default function Dashboard() {
 	const [paymentSummary, setPaymentSummary] = useState(null);
 	const [isFetching, setIsFetching] = useState(true);
 	const [settingUpChart, isSettingUpChart] = useState(true);
-	const errorHandler = useErrorHandler()
+	const errorHandler = useErrorHandler();
 
 	useEffect(() => {
 		const getSummary = async () => {
@@ -78,7 +68,7 @@ export default function Dashboard() {
 				setAllOverdueInvoices(filteredOverdueInvoices);
 				setAllAwaitingPaymentInvoices(filteredAwaitingPaymentInvoices);
 			} catch (error) {
-				errorHandler(error)
+				errorHandler(error);
 			} finally {
 				setIsFetching(false);
 			}
@@ -101,29 +91,36 @@ export default function Dashboard() {
 	}
 
 	if (isFetching || settingUpChart) {
-		return(<Flex
-			justifyContent={"center"}
-			flexDir={"column"}
-			gap={2}
-			alignItems={"center"}
-			minH={"100vh"}
-		>
-			<Spinner size={"xl"} />
-		</Flex>)
+		return (
+			<Flex
+				justifyContent={"center"}
+				flexDir={"column"}
+				gap={2}
+				alignItems={"center"}
+				minH={"100vh"}
+			>
+				<Spinner size={"xl"} />
+			</Flex>
+		);
 	}
 
 	return (
-		<Flex mt={6} flexDir={"column"} placeItems={"center"} gap={10}>
+		<Flex mt={6} pb={9} flexDir={"column"} placeItems={"center"} gap={10}>
 			<Flex
 				gap={9}
+				p={10}
 				flexWrap={"wrap"}
 				color={"black"}
-				justifyContent={"space-around"}
+				justifyContent={"flex-start"}
 			>
 				<Flex
-					w={200}
-					h={150}
+					// w={200}
+					flexGrow={1}
+					// h={150}
 					bg={"white"}
+					px={3}
+					w={250}
+					py={10}
 					borderRadius={9}
 					placeItems={"center"}
 					gap={2}
@@ -138,9 +135,10 @@ export default function Dashboard() {
 					<IoMdCheckmarkCircleOutline size={50} color={"green"} />
 				</Flex>
 				<Flex
-					w={200}
-					h={150}
-					bg={"white"}
+					flexGrow={1}
+					px={3}
+					w={250}
+					py={10}					bg={"white"}
 					borderRadius={9}
 					placeItems={"center"}
 					gap={2}
@@ -155,9 +153,10 @@ export default function Dashboard() {
 					<MdOutlinePending size={50} color={"#CBEE00"} />
 				</Flex>{" "}
 				<Flex
-					w={200}
-					h={150}
-					bg={"white"}
+					flexGrow={1}
+					px={3}
+					w={250}
+					py={10}					bg={"white"}
 					borderRadius={9}
 					placeItems={"center"}
 					gap={2}
@@ -172,9 +171,10 @@ export default function Dashboard() {
 					<TbSum size={50} color={"#3A13FF"} />
 				</Flex>
 				<Flex
-					w={200}
-					h={150}
-					bg={"white"}
+					flexGrow={1}
+					px={3}
+					w={250}
+					py={10}					bg={"white"}
 					borderRadius={9}
 					placeItems={"center"}
 					gap={2}
@@ -189,9 +189,10 @@ export default function Dashboard() {
 					<IoMdHappy size={50} color={"#0BE82A"} />
 				</Flex>
 				<Flex
-					w={200}
-					h={150}
-					bg={"white"}
+					flexGrow={{base:1, xl:0}}
+					px={3}
+					minW={275}
+					py={10}					bg={"white"}
 					borderRadius={9}
 					placeItems={"center"}
 					gap={2}
@@ -206,11 +207,11 @@ export default function Dashboard() {
 					<CgSmileSad size={50} color={"#FF1313"} />
 				</Flex>
 			</Flex>
-			<Flex w={"85%"} gap={3}>
-				<Box bg={"white"} p={3} w={"50%"} borderRadius={20}>
+			<Flex w={'90%'} p={1} flexDir={{base: 'column', lg: 'row'}}  justifyContent={'center'} gap={8}>
+				<Box bg={"white"} w={{lg: '50%'}} p={3} borderRadius={20}>
 					<BarChart invoiceData={allSentInvoices} />
 				</Box>
-				<Box bg={"white"} p={3} w={"50%"} borderRadius={20}>
+				<Box bg={"white"} w={{lg: '50%'}}  p={3} borderRadius={20}>
 					<PieChart
 						paidInvoices={allPaidInvoices}
 						awaitingPayment={allAwaitingPaymentInvoices}
