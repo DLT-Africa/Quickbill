@@ -56,7 +56,7 @@ const GoogleAuth = () => {
 		};
 
 		verifyDetails()
-        // console.log(`Encoded email: ${encodedEmail}`)
+
 
 	}, []);
 
