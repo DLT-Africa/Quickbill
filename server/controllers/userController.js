@@ -6,6 +6,9 @@ const User = require("../models/userModel");
 const cloudinary = require("cloudinary").v2;
 const bcrypt = require("bcrypt");
 const { generateCookieToken } = require("../utils/generateToken");
+const express = require("express");
+const app = express();
+
 
 const updateEmailInOtherModels = async (oldEmail, newEmail) => {
 	await Invoice.updateMany(
@@ -81,7 +84,15 @@ const getUserProfile = async (req, res) => {
 
 const getProfileByEmail = async (req, res) => {
 	try {
-		console.log({ first: req.user, req });
+		// console.log({ first: req.user, req });
+
+		app.use((req, res, next) => {
+			console.log('--- Incoming Request (Controller:::) ---');
+			console.log('Request URL:', req.url);
+			console.log('Authenticated:', req.isAuthenticated());
+			console.log('User:', req.user);
+			next();
+		  });
 
 		if (req.isAuthenticated()) {
 			const email = req.query.email;
