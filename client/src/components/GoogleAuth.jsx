@@ -19,9 +19,21 @@ const GoogleAuth = () => {
     // console.log(encodedEmail)
 
 	useEffect(() => {
+		if (encodedEmail) {
+			const decoded = decodeURIComponent(encodedEmail);
+			setDecodedEmail(decoded);
+			
+		}
+	},[encodedEmail])
+
+	useEffect(() => {
 		const verifyDetails = async () => {
 			try {
-				const response = await axiosInstance.get(`/account/google-profile?email=${encodeURIComponent(decodedEmail)}`);
+				   const response = await axiosInstance.get(`/account/google-profile`, {
+          params: {
+            email: decodedEmail,
+          },
+        });
 				const loggedUser = response.data;
 
 				localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
@@ -47,14 +59,10 @@ const GoogleAuth = () => {
 			}
 		};
 
-		if (encodedEmail) {
-			const decoded = decodeURIComponent(encodedEmail);
-			setDecodedEmail(decoded);
-			verifyDetails();
-		}
+		verifyDetails()
         console.log(`Encoded email: ${encodedEmail}`)
 
-	}, [encodedEmail]);
+	}, [decodedEmail]);
 
 	return (
 		<Flex
