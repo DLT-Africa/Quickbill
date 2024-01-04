@@ -15,15 +15,15 @@ const useLogout = () => {
 
 			console.log(data);
 			
-			// const clearLocalStorageExceptKey = (keyToKeep) => {
-			// 	Object.keys(localStorage).forEach((key) => {
-			// 	  if (key !== keyToKeep) {
-			// 		localStorage.removeItem(key);
-			// 	  }
-			// 	});
-			//   };
-			//   // Usage
-			//   clearLocalStorageExceptKey('localPrevPath');
+			const clearLocalStorageExceptKey = (keyToKeep) => {
+				Object.keys(localStorage).forEach((key) => {
+				  if (key !== keyToKeep) {
+					localStorage.removeItem(key);
+				  }
+				});
+			  };
+			  // Usage
+			  clearLocalStorageExceptKey('localPrevPath');
 			  
 
 			setUser(null);

@@ -36,6 +36,8 @@ const googleAuthCallback = async (req, res) => {
 			maxAge: 30 * 60 * 1000,
 		});
 
+		res.status(200).json({ loggedInUser: user});
+
 		// Redirect the user or send a response with the token
 		res.redirect("https://quickbillpay.onrender.com/dashboard");
 	} catch (error) {
