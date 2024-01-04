@@ -4,74 +4,42 @@ const { generateCookieToken } = require("../utils/generateToken");
 const UnconfirmedUser = require("../models/unconfirmedUserModel");
 const crypto = require("crypto");
 const { sendConfirmationMail } = require("../utils/sendMail");
+const passport = require("passport");
 
 // Google authentication callback
 
 
 
-const googleAuthCallback = async (req, res) => {
+const googleAuthCallback = passport.authenticate('google', {
+	successRedirect: '/auth/fetch-user-profile', // Redirect on successful authentication
+	failureRedirect: 'https://quickbillpay.onrender.com/auth', // Redirect on authentication failure
+  });
+
+
+  const fetchUserProfile = async (req, res) => {
 	try {
-		// Retrieve the user from the Google authentication
-		const googleProfile = req.user;
-
-		// Check if the user already exists in your database
-		let user = await User.findOne({ email: googleProfile.email }).select(
-			"-password"
-		);
-
-		// If the user doesn't exist, create a new user in your database
-		if (!user) {
-			user = await User.create({
-				email: googleProfile.email,
-				name: googleProfile.name,
-				avatar: googleProfile.photo || avatar,
-				// You may want to include additional user details from the Google profile
-			});
-		}
-
-		// Generate JWT token
-
-		// res.status(200).json({ loggedInUser: user});
-
-		// Redirect the user or send a response with the token
-		res.redirect("https://quickbillpay.onrender.com/auth/google-verify");
+	  // Assuming the user is available in req.user after successful authentication
+	  const googleProfile = req.user;
+  
+	  // Fetch user profile from MongoDB based on the email
+	  const user = await User.findOne({ email: googleProfile.email });
+  
+	  if (!user) {
+		// Handle the case where the user is not found in the database
+		return res.status(404).json({ message: 'User not found in the database' });
+	  }
+  
+	  // Perform any additional actions with the user profile
+	  // ...
+  
+	  // Redirect or send a response as needed
+	  res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?email=${encodeURIComponent(user.email)}`);
 	} catch (error) {
-		res
-			.status(500)
-			.json({ message: "Something went wrong during Google authentication" });
+	  // Handle errors
+	  console.error('Error fetching user profile:', error);
+	  res.status(500).json({ message: 'Internal Server Error' });
 	}
-};
-
-
-const getUserProfileAfterAuth = async (req, res) => {
-	console.log(req)
-	try {
-	// 	if (req.isAuthenticated()) {
-			const googleProfile = req.user;
-			console.log(googleProfile)
-
-			// Check if the user already exists in your database
-			let user = await User.findOne({ email: googleProfile.email }).select(
-				"-password"
-			);
-
-			const token = generateCookieToken({ email: user.email, id: user._id });
-
-			res.cookie("jwt", token, {
-				httpOnly: true,
-				secure: true,
-				sameSite: "None",
-				maxAge: 30 * 60 * 1000,
-			});
-
-			return res.status(200).json(user);
-		// } else {
-		// 	return res.status(401).json({ error: "Unauthorized" });
-		// }
-	} catch (error) {
-		res.status(500).json({ message: "Something went wrong" });
-	}
-};
+  };
 
 
 const signUp = async (req, res) => {
@@ -205,5 +173,5 @@ module.exports = {
 	signOut,
 	googleAuthCallback,
 	activateAccount,
-	getUserProfileAfterAuth
+	fetchUserProfile
 };
