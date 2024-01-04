@@ -4,6 +4,7 @@ const {
 	signUp,
 	signIn,
 	signOut,
+  successRedirect,
 
 	activateAccount,
 	fetchUserEmail,
@@ -18,7 +19,7 @@ router.get(
 	authenticateGoogle
 );
 
-router.get("/googleauth/callback", googleAuthCallback);
+router.get("/googleauth/callback", googleAuthCallback, successRedirect);
 // router.get("/fetch-user-profile", fetchUserEmail);
 router.post("/signup", signUp);
 router.get("/activate-account/:token", activateAccount);

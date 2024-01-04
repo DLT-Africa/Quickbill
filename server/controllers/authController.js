@@ -13,24 +13,25 @@ const passport = require("passport");
 
 
 
-  const fetchUserEmail = async (req, res) => {
+  const successRedirect = async (req, res) => {
 	try {
-	  // Assuming the user is available in req.user after successful authentication
-	  const googleProfile = req.user;
+	//   // Assuming the user is available in req.user after successful authentication
+	//   const googleProfile = req.user;
   
-	  // Fetch user profile from MongoDB based on the email
-	  const user = await User.findOne({ email: googleProfile.email });
+	//   // Fetch user profile from MongoDB based on the email
+	//   const user = await User.findOne({ email: googleProfile.email });
   
-	  if (!user) {
-		// Handle the case where the user is not found in the database
-		return res.status(404).json({ message: 'User not found in the database' });
-	  }
+	//   if (!user) {
+	// 	// Handle the case where the user is not found in the database
+	// 	return res.status(404).json({ message: 'User not found in the database' });
+	//   }
   
 	  // Perform any additional actions with the user profile
 	  // ...
   
 	  // Redirect or send a response as needed
-	  res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?email=${encodeURIComponent(user.email)}`);
+	//   res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?email=${encodeURIComponent(user.email)}`);
+	  res.redirect(`https://quickbillpay.onrender.com/auth/google-verify`);
 	} catch (error) {
 	  // Handle errors
 	  console.error('Error fetching user profile:', error);
@@ -169,5 +170,5 @@ module.exports = {
 	signIn,
 	signOut,
 	activateAccount,
-	fetchUserEmail
+	successRedirect
 };
