@@ -16,7 +16,7 @@ const GoogleAuth = () => {
 	const [user, setUser] = useRecoilState(userAtom);
 	const [decodedEmail, setDecodedEmail] = useState("");
     const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-    console.log(encodedEmail)
+    // console.log(encodedEmail)
 
 	useEffect(() => {
 		const verifyDetails = async () => {
@@ -52,6 +52,7 @@ const GoogleAuth = () => {
 			setDecodedEmail(decoded);
 			verifyDetails();
 		}
+        console.log(`Encoded email: ${encodedEmail}`)
 
 	}, [encodedEmail]);
 

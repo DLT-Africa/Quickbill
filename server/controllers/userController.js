@@ -82,6 +82,8 @@ const getUserProfile = async (req, res) => {
 const getProfileByEmail = async(req, res) => {
 	try {
 		const email = req.query.email;
+		
+		console.log(email)
 		const user = await User.findOne({email: email}).select("-password")
 		
 		if (!user) {
