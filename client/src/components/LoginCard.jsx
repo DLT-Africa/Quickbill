@@ -68,8 +68,9 @@ export default function SplitScreen() {
 	};
 
 	const handleGoogleAuth = async () => {
-		window.location.href = "https://quickbill-2oy7.onrender.com/auth/googleauth";
-	}
+		window.location.href =
+			"https://quickbill-2oy7.onrender.com/auth/googleauth";
+	};
 
 	return (
 		<Stack
@@ -105,29 +106,35 @@ export default function SplitScreen() {
 					/>
 				</Box>
 			</Flex>
-				<Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"}>
-					<Stack spacing={4} w={"full"} maxW={"md"} align={"center"}>
-						<Heading fontSize={"4xl"} textAlign={"center"}>
-							Login
-						</Heading>
-						<Box>
-							<Flex fontWeight={"3000"} gap={4}>
-								<IconButton icon={<FaFacebook size={"md"} />} />
-								<IconButton onClick={handleGoogleAuth} icon={<FcGoogle size={"md"} />} />
-								<IconButton icon={<FaApple size={"md"} />} />
-							</Flex>
-							<Box position="relative" padding="10" fontSize={"2xl"}>
-								<Divider background={"black"} height={"2px"} width={"4rem"} />
-								<AbsoluteCenter px="1" background={"#ecf1f6"}>
-									{" "}
-									or{" "}
-								</AbsoluteCenter>
-							</Box>
+			<Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"}>
+				<Stack spacing={4} w={"full"} maxW={"md"} align={"center"}>
+					<Heading fontSize={"4xl"} textAlign={"center"}>
+						Login
+					</Heading>
+					<Box>
+						<Flex fontWeight={"3000"} gap={4}>
+							<Button
+								bg={"#4c54ad"}
+								_hover={{ bg: "blue" }}
+								leftIcon={<FcGoogle />}
+								color={"white"}
+								onClick={handleGoogleAuth}
+							>
+								{" "}
+								Continue with Google
+							</Button>
+						</Flex>
+						<Box position="relative" padding="10" fontSize={"2xl"}>
+							{/* <Divider background={"black"} height={"2px"} width={"4rem"} /> */}
+							<AbsoluteCenter px="1">
+								{" "}
+								or{" "}
+							</AbsoluteCenter>
 						</Box>
+					</Box>
 
-						<Stack spacing={4} w={500}>
+					<Stack spacing={4} w={500}>
 						<form onSubmit={handleSubmit}>
-
 							<FormControl isRequired>
 								<FormLabel>Email address</FormLabel>
 								<Input
@@ -190,10 +197,10 @@ export default function SplitScreen() {
 									</Link>
 								</Text>
 							</Stack>
-			</form>
-						</Stack>
+						</form>
 					</Stack>
-				</Flex>
+				</Stack>
+			</Flex>
 		</Stack>
 	);
 }
