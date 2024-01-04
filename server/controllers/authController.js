@@ -44,9 +44,11 @@ const googleAuthCallback = async (req, res) => {
 
 
 const getUserProfileAfterAuth = async (req, res) => {
+	console.log(req)
 	try {
-		if (req.isAuthenticated()) {
+	// 	if (req.isAuthenticated()) {
 			const googleProfile = req.user;
+			console.log(googleProfile)
 
 			// Check if the user already exists in your database
 			let user = await User.findOne({ email: googleProfile.email }).select(
@@ -63,9 +65,9 @@ const getUserProfileAfterAuth = async (req, res) => {
 			});
 
 			return res.status(200).json(user);
-		} else {
-			return res.status(401).json({ error: "Unauthorized" });
-		}
+		// } else {
+		// 	return res.status(401).json({ error: "Unauthorized" });
+		// }
 	} catch (error) {
 		res.status(500).json({ message: "Something went wrong" });
 	}
