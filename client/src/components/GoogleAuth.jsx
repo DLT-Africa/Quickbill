@@ -5,6 +5,7 @@ import { Flex, Spinner, Text } from "@chakra-ui/react";
 import useShowToast from "../hooks/useShowToast";
 import { useRecoilState } from "recoil";
 import { prevPathAtom } from "../atoms/prevPathAtom";
+import userAtom from "../atoms/userAtom";
 
 const GoogleAuth = () => {
 	const navigate = useNavigate();
