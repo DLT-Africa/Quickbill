@@ -108,14 +108,20 @@ export default function SplitScreen() {
 						Create Account
 					</Heading>
 					<Box>
-						<Flex fontWeight={"3000"} gap={4}>
-							<IconButton icon={<FaFacebook size={"md"} />} />
-							<IconButton onClick={handleGoogleAuth} icon={<FcGoogle size={"md"} />} />
-							<IconButton icon={<FaApple size={"md"} />} />
+					<Flex fontWeight={"3000"} gap={4}>
+							<Button
+								bg={"#4c54ad"}
+								_hover={{ bg: "blue" }}
+								leftIcon={<FcGoogle />}
+								color={"white"}
+								onClick={handleGoogleAuth}
+							>
+								{" "}
+								Continue with Google
+							</Button>
 						</Flex>
 						<Box position="relative" padding="10" fontSize={"2xl"}>
-							<Divider background={"black"} height={"2px"} width={"4rem"} />
-							<AbsoluteCenter px="1" background={"#ecf1f6"}>
+							<AbsoluteCenter px="1">
 								{" "}
 								or{" "}
 							</AbsoluteCenter>
