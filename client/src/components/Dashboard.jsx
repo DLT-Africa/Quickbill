@@ -105,20 +105,21 @@ export default function Dashboard() {
 	}
 
 	return (
-		<Flex mt={6} flexDir={"column"} placeItems={"center"} gap={10}>
+		<Flex mt={6} pb={9} flexDir={"column"} placeItems={"center"} gap={10}>
 			<Flex
 				gap={9}
 				p={10}
 				flexWrap={"wrap"}
 				color={"black"}
-				// justifyContent={"flex-start"}
+				justifyContent={"flex-start"}
 			>
 				<Flex
 					// w={200}
 					flexGrow={1}
 					// h={150}
 					bg={"white"}
-					px={5}
+					px={3}
+					w={250}
 					py={10}
 					borderRadius={9}
 					placeItems={"center"}
@@ -135,7 +136,8 @@ export default function Dashboard() {
 				</Flex>
 				<Flex
 					flexGrow={1}
-					px={5}
+					px={3}
+					w={250}
 					py={10}					bg={"white"}
 					borderRadius={9}
 					placeItems={"center"}
@@ -152,7 +154,8 @@ export default function Dashboard() {
 				</Flex>{" "}
 				<Flex
 					flexGrow={1}
-					px={5}
+					px={3}
+					w={250}
 					py={10}					bg={"white"}
 					borderRadius={9}
 					placeItems={"center"}
@@ -169,7 +172,8 @@ export default function Dashboard() {
 				</Flex>
 				<Flex
 					flexGrow={1}
-					px={5}
+					px={3}
+					w={250}
 					py={10}					bg={"white"}
 					borderRadius={9}
 					placeItems={"center"}
@@ -185,8 +189,9 @@ export default function Dashboard() {
 					<IoMdHappy size={50} color={"#0BE82A"} />
 				</Flex>
 				<Flex
-					flexGrow={1}
-					px={5}
+					flexGrow={{base:1, xl:0}}
+					px={3}
+					minW={275}
 					py={10}					bg={"white"}
 					borderRadius={9}
 					placeItems={"center"}
