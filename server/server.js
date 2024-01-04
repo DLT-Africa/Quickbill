@@ -49,6 +49,14 @@ const store = new MongoDBStore({
   expires: 7 * 24 * 60 * 60, // 7 days in seconds
 });
 
+app.use((req, res, next) => {
+  console.log('--- Incoming Request ---');
+  console.log('Request URL:', req.url);
+  console.log('Authenticated:', req.isAuthenticated());
+  console.log('User:', req.user);
+  next();
+});
+
 // Use express-session middleware
 app.use(
   session({
