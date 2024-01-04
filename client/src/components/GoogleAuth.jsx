@@ -59,7 +59,7 @@ const GoogleAuth = () => {
 			}
 		};
 
-		verifyDetails()
+		if (decodedEmail) {verifyDetails()}
         console.log(`Encoded email: ${encodedEmail}`)
 
 	}, [decodedEmail]);
