@@ -53,8 +53,8 @@ const store = new MongoDBStore({
 app.use(
   session({
     secret: process.env.JWT_SECRET, // Change this to a secure secret key
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     store: store, // Use MongoDB store
     cookie: {
       maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds
@@ -63,12 +63,13 @@ app.use(
   })
 );
 
+// Configure passport
+initializePassport(passport);
+
 // Middleware to initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Configure passport
-initializePassport(passport);
 
 app.use("/auth", authRoutes)
 app.use("/account", userRoutes);

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { axiosInstance } from "../../api/axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Flex, Spinner, Text } from "@chakra-ui/react";
 import useShowToast from "../hooks/useShowToast";
 
@@ -8,12 +8,16 @@ import useShowToast from "../hooks/useShowToast";
 const GoogleAuth = () => {
     const navigate = useNavigate()
     const showToast = useShowToast()
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const email = queryParams.get('email');
+
 
 	useEffect(() => {
 		const verifyDetails = async () => {
 
             try{
-            const response = await axiosInstance.get('/auth/google-profile')
+            const response = await axiosInstance.get('/account/google-profile')
             const loggedUser = response.data;
 
             localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
