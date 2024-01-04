@@ -11,13 +11,16 @@ const GoogleAuth = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const email = queryParams.get('email');
+    
+
+    
 
 
 	useEffect(() => {
 		const verifyDetails = async () => {
 
             try{
-            const response = await axiosInstance.get('/account/google-profile')
+            const response = await axiosInstance.get('/account/google-profile', {email})
             const loggedUser = response.data;
 
             localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
