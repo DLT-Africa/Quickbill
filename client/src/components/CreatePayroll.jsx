@@ -44,6 +44,8 @@ function CreatePayroll() {
 	const logout = useLogout();
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
 	const showToast = useShowToast();
+	const [loading, setLoading] = useState(false);
+	const [loadingPayLater, setLoadingPayLater] = useState(false);
 	// const [inviteModalOpen, setInviteModalOpen] = useState(false);
 
 	const navigate = useNavigate();
@@ -129,6 +131,9 @@ function CreatePayroll() {
 		e.preventDefault();
 
 		const activeButton = e.nativeEvent.submitter;
+		activeButton.name === "payNow" ? setLoading(true) : null;
+		activeButton.name === "payLater" ? setLoadingPayLater(true) : null;
+
 
 		if (!isSelectedEmployee) {
 			showToast("Error", "Please select a employee before submitting", "error");
@@ -176,6 +181,9 @@ function CreatePayroll() {
 				setPrevPath(window.location.pathname);
 				logout();
 			}
+		} finally {
+			setLoading(false)
+			setLoadingPayLater(false)
 		}
 	};
 
@@ -336,6 +344,8 @@ function CreatePayroll() {
 									color={"white"}
 									bg={"#2970FF"}
 									name="payLater"
+									isLoading={loadingPayLater}
+									loadingText={"Saving as draft"}
 								>
 									Save and Pay Later
 								</Button>
@@ -345,6 +355,8 @@ function CreatePayroll() {
 									color={"white"}
 									bg={"#2970FF"}
 									name="payNow"
+									isLoading={loading}
+									loadingText={loading ? "Paying..." : "Pay Now"}
 								>
 									Pay Now
 								</Button>
