@@ -82,9 +82,9 @@ const getUserProfile = async (req, res) => {
 const getProfileByEmail = async(req, res) => {
 	try {
 		const email = req.query.email;
-		
+
 		console.log(email)
-		const user = await User.findOne({email: email}).select("-password")
+		const user = await User.findOne({email: email})
 		
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
