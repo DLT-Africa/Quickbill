@@ -21,6 +21,7 @@ import AccountConfirmation from "./components/AccountConfirmation";
 import LinkExpired from "./components/LinkExpired";
 import DashboardPage from "./pages/DashboardPage";
 import ClientsPage from "./pages/ClientsPage";
+import GoogleAuth from "./components/GoogleAuth";
 
 function App() {
 	return (
@@ -28,6 +29,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/auth" element={<AuthPage />} />
+				<Route path="/auth/google-verify" element={<GoogleAuth />} />
 				<Route path="/confirm-email" element={<AccountConfirmation />} />
 				<Route path="/link-expired/" element={<LinkExpired />} />
 				<Route path="/verify-access/:token" element={<ActivatePage />} />
