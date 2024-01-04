@@ -4,23 +4,22 @@ const {
 	signUp,
 	signIn,
 	signOut,
-	googleAuthCallback,
+
 	activateAccount,
-	fetchUserProfile,
+	fetchUserEmail,
 } = require("../controllers/authController");
+const { googleAuthCallback, authenticateGoogle } = require("../middleware/passportMiddleware");
 
 const router = express.Router();
 
 // Google Signup with optional Google authentication
 router.get(
 	"/googleauth",
-	passport.authenticate("google", { scope: ["profile", "email"] })
+	authenticateGoogle
 );
 
 router.get("/googleauth/callback", googleAuthCallback);
-
-router.get("/fetch-user-profile", fetchUserProfile);
-
+// router.get("/fetch-user-profile", fetchUserEmail);
 router.post("/signup", signUp);
 router.get("/activate-account/:token", activateAccount);
 router.post("/signin", signIn);

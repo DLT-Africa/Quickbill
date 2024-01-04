@@ -10,13 +10,10 @@ const passport = require("passport");
 
 
 
-const googleAuthCallback = passport.authenticate('google', {
-	successRedirect: '/auth/fetch-user-profile', // Redirect on successful authentication
-	failureRedirect: 'https://quickbillpay.onrender.com/auth', // Redirect on authentication failure
-  });
 
 
-  const fetchUserProfile = async (req, res) => {
+
+  const fetchUserEmail = async (req, res) => {
 	try {
 	  // Assuming the user is available in req.user after successful authentication
 	  const googleProfile = req.user;
@@ -171,7 +168,6 @@ module.exports = {
 	signUp,
 	signIn,
 	signOut,
-	googleAuthCallback,
 	activateAccount,
-	fetchUserProfile
+	fetchUserEmail
 };
