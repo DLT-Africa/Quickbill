@@ -6,6 +6,9 @@ const crypto = require("crypto");
 const { sendConfirmationMail } = require("../utils/sendMail");
 
 // Google authentication callback
+
+
+
 const googleAuthCallback = async (req, res) => {
 	try {
 		// Retrieve the user from the Google authentication
@@ -21,31 +24,53 @@ const googleAuthCallback = async (req, res) => {
 			user = await User.create({
 				email: googleProfile.email,
 				name: googleProfile.name,
-				avatar:  googleProfile.photo || avatar
+				avatar: googleProfile.photo || avatar,
 				// You may want to include additional user details from the Google profile
 			});
 		}
 
 		// Generate JWT token
-		const token = generateCookieToken({ email: user.email, id: user._id });
 
-		res.cookie("jwt", token, {
-			httpOnly: true,
-			secure: true,
-			sameSite: "None",
-			maxAge: 30 * 60 * 1000,
-		});
-
-		res.status(200).json({ loggedInUser: user});
+		// res.status(200).json({ loggedInUser: user});
 
 		// Redirect the user or send a response with the token
-		res.redirect("https://quickbillpay.onrender.com/dashboard");
+		res.redirect("https://quickbillpay.onrender.com/auth/google-verify");
 	} catch (error) {
 		res
 			.status(500)
 			.json({ message: "Something went wrong during Google authentication" });
 	}
 };
+
+
+const getUserProfileAfterAuth = async (req, res) => {
+	try {
+		if (req.isAuthenticated()) {
+			const googleProfile = req.user;
+
+			// Check if the user already exists in your database
+			let user = await User.findOne({ email: googleProfile.email }).select(
+				"-password"
+			);
+
+			const token = generateCookieToken({ email: user.email, id: user._id });
+
+			res.cookie("jwt", token, {
+				httpOnly: true,
+				secure: true,
+				sameSite: "None",
+				maxAge: 30 * 60 * 1000,
+			});
+
+			return res.status(200).json(user);
+		} else {
+			return res.status(401).json({ error: "Unauthorized" });
+		}
+	} catch (error) {
+		res.status(500).json({ message: "Something went wrong" });
+	}
+};
+
 
 const signUp = async (req, res) => {
 	try {
@@ -178,4 +203,5 @@ module.exports = {
 	signOut,
 	googleAuthCallback,
 	activateAccount,
+	getUserProfileAfterAuth
 };

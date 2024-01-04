@@ -1,6 +1,6 @@
 const express = require("express");
 const passport = require('passport');
-const { signUp, signIn, signOut, googleAuthCallback, activateAccount} = require("../controllers/authController");
+const { signUp, signIn, signOut, googleAuthCallback, activateAccount, getUserProfileAfterAuth} = require("../controllers/authController");
 
 const router = express.Router();
 
@@ -13,6 +13,8 @@ router.get('/googleauth/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
   googleAuthCallback
 );
+
+router.get("/google-profile", getUserProfileAfterAuth);
 
 router.post("/signup", signUp);
 router.get("/activate-account/:token", activateAccount);
