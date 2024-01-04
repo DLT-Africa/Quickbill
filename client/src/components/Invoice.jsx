@@ -150,7 +150,7 @@ function Invoice() {
 						setPrevPath(window.location.pathname);
 						logout();
 					}
-				} else if (error.response.status === 401) {
+				} else if (error?.response?.status === 401) {
 					if (decodedTokenDetails) {
 						localStorage.setItem("localPrevPath", window.location.pathname);
 						logout();

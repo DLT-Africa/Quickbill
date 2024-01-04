@@ -26,6 +26,7 @@ import { useState } from "react";
 import { axiosInstance } from "../../api/axios";
 import userAtom from "../atoms/userAtom";
 import { prevPathAtom } from "../atoms/prevPathAtom";
+import useShowToast from "../hooks/useShowToast";
 
 export default function SplitScreen() {
 	const setAuthScreen = useSetRecoilState(authScreenAtom);
@@ -36,6 +37,7 @@ export default function SplitScreen() {
 	const navigate = useNavigate();
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const [loading, setLoading] = useState(false);
+	const showToast = useShowToast();
 
 	const handleSubmit = async (e) => {
 		setLoading(true);
@@ -45,6 +47,7 @@ export default function SplitScreen() {
 				"/auth/signin",
 				JSON.stringify({ email, password })
 			);
+			console.log(response.data.loggedInUser);
 			const loggedUser = response.data.loggedInUser;
 			localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
 			setUser(loggedUser);
@@ -61,7 +64,14 @@ export default function SplitScreen() {
 				navigate("/dashboard");
 			}
 		} catch (error) {
-			console.log(error);
+			if (error?.response?.status === 404) {
+				showToast(
+					"Error",
+					"This user registered with Google authentication, continue with google and create password",
+					"error"
+				);
+			}
+			console.log(error.response);
 		} finally {
 			setLoading(false);
 		}
@@ -126,10 +136,7 @@ export default function SplitScreen() {
 						</Flex>
 						<Box position="relative" padding="10" fontSize={"2xl"}>
 							{/* <Divider background={"black"} height={"2px"} width={"4rem"} /> */}
-							<AbsoluteCenter px="1">
-								{" "}
-								or{" "}
-							</AbsoluteCenter>
+							<AbsoluteCenter px="1"> or </AbsoluteCenter>
 						</Box>
 					</Box>
 
