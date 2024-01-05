@@ -32,14 +32,23 @@ const AccountConfirmation = () => {
 					aria-label="Done"
 					fontSize="20px"
 					icon={<CheckIcon />}
-					mt={20}
+					mt={{ base: 8, md: 20 }}
 				/>
 
-				<Text as={"h1"} fontSize={'2xl'} fontWeight={800} mt={5}>
+				<Text
+					as={"h1"}
+					fontSize={{ base: "lg", sm: "xl", md: "2xl", lg: "3xl" }}
+					fontWeight={{ base: 500, md: 800 }}
+					mt={{ base: 2, md: 5 }}
+				>
 					{" "}
 					Your Account has been{" "}
 				</Text>
-				<Text as={"h1"}  fontSize={'2xl'} fontWeight={800}>
+				<Text
+					as={"h1"}
+					fontSize={{ base: "lg", sm: "xl", md: "2xl", lg: "3xl" }}
+					fontWeight={{ base: 500, md: 800 }}
+				>
 					{" "}
 					succesfully created{" "}
 				</Text>
@@ -47,8 +56,7 @@ const AccountConfirmation = () => {
 
 			<Center py={6}>
 				<Box
-					maxW={"35rem"}
-					// w={"full"}
+					maxW={{ base: "80%", sm: "25rem", md: "35rem" }}
 					bg={useColorModeValue("white", "gray.800")}
 					boxShadow={"2xl"}
 					rounded={"md"}
@@ -61,8 +69,8 @@ const AccountConfirmation = () => {
 						align={"center"}
 					>
 						<Text
-							fontSize={"sm"}
-							fontWeight={500}
+							fontSize={{ base: 'xs', md: "sm", lg: 'md' }}
+							fontWeight={{ base: 300, md: 500 }}
 							bg={useColorModeValue("blue.50", "green.900")}
 							p={2}
 							px={3}
@@ -73,7 +81,13 @@ const AccountConfirmation = () => {
 						</Text>
 					</Stack>
 
-					<Box bg={useColorModeValue("gray.50", "gray.900")} textAlign={'center'} fontSize={'xl'} px={6} py={10}>
+					<Box
+						bg={useColorModeValue("gray.50", "gray.900")}
+						textAlign={"center"}
+						fontSize={{ base: "md", md: "xl", lg: '2xl' }}
+						px={6}
+						py={{ base: 5, md: 10 }}
+					>
 						<Text>
 							We've sent a verification link to your email address. Please check
 							your email inbox or spam folder and verify your email address
@@ -85,7 +99,7 @@ const AccountConfirmation = () => {
 							w={"full"}
 							bg={"blue.400"}
 							color={"white"}
-							rounded={"xl"}
+							rounded={"md"}
 							onClick={() => navigate("/auth")}
 							boxShadow={"0 5px 20px 0px rgb(72 187 120 / 43%)"}
 							_hover={{
