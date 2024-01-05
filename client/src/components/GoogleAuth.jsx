@@ -10,20 +10,20 @@ import userAtom from "../atoms/userAtom";
 const GoogleAuth = () => {
 	const navigate = useNavigate();
 	const showToast = useShowToast();
-	const location = useLocation();
-	const queryParams = new URLSearchParams(location.search);
-	const encodedEmail = queryParams.get("email");
+	// const location = useLocation();
+	// const queryParams = new URLSearchParams(location.search);
+	// const encodedEmail = queryParams.get("email");
 	const [user, setUser] = useRecoilState(userAtom);
-	const [decodedEmail, setDecodedEmail] = useState("");
+	// const [decodedEmail, setDecodedEmail] = useState("");
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	// console.log(encodedEmail)
 
-	useEffect(() => {
-		if (encodedEmail) {
-			const decoded = decodeURIComponent(encodedEmail);
-			setDecodedEmail(decoded);
-		}
-	}, [encodedEmail]);
+	// useEffect(() => {
+	// 	if (encodedEmail) {
+	// 		const decoded = decodeURIComponent(encodedEmail);
+	// 		setDecodedEmail(decoded);
+	// 	}
+	// }, [encodedEmail]);
 
 	useEffect(() => {
 		const verifyDetails = async () => {
@@ -54,11 +54,11 @@ const GoogleAuth = () => {
 			}
 		};
 
-		if (decodedEmail) {
+		// if (decodedEmail) {
 			verifyDetails();
-		}
+		// }
 		// console.log(`Encoded email: ${encodedEmail}`)
-	}, [decodedEmail]);
+	}, []);
 
 	return (
 		<Flex
