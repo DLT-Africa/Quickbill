@@ -38,20 +38,6 @@ const store = new MongoDBStore({
   expires: 7 * 24 * 60 * 60, // 7 days in seconds
 });
 
-
-
-// Handle options credentials check - before CORS!
-// and fetch cookies credentials requirement
-app.use(credentials);
-
-// Cross Origin Resource Sharing
-
-app.use(express.json({ limit: "50mb" })); //parse json data inside the req body
-app.use(express.urlencoded({ extended: true })); // parse form data inside the req body
-app.use(cors(corsOptions));
-app.use(cookieParser());
-
-// Use express-session middleware
 app.use(
   session({
     secret: process.env.JWT_SECRET, // Change this to a secure secret key
@@ -66,6 +52,21 @@ app.use(
 
   })
 );
+
+
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials);
+
+// Cross Origin Resource Sharing
+
+app.use(express.json({ limit: "50mb" })); //parse json data inside the req body
+app.use(express.urlencoded({ extended: true })); // parse form data inside the req body
+app.use(cors(corsOptions));
+app.use(cookieParser());
+
+// Use express-session middleware
+
 
 
 
