@@ -19,7 +19,7 @@ router.get(
 	authenticateGoogle
 );
 
-router.get("/googleauth/callback", googleAuthCallback, successRedirect);
+router.get("/googleauth/callback", successRedirect);
 // router.get("/fetch-user-profile", fetchUserEmail);
 router.post("/signup", signUp);
 router.get("/activate-account/:token", activateAccount);
