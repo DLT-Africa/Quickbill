@@ -310,6 +310,8 @@ const SidebarWithHeader = ({ children }) => {
 		<Box
 			minH="100vh"
 			bg={"#F8F8F8"} ///////////////////////////////////////////////////////////For the whole box
+			overflowX={'hidden'}
+
 		>
 			<SidebarContent
 				onClose={() => onClose}
