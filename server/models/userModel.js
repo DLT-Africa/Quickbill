@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema(
 		contactAddress: String,
 		avatar: String,
 		paymentDetails: String,
+		googleId: String,	
 		// invoices: [
 		// 	{
 		// 		type: mongoose.Schema.Types.ObjectId,
