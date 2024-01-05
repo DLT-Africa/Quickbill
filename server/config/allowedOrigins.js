@@ -5,7 +5,7 @@ const allowedOrigins = [
     'http://localhost:5173',
     'https://quickbillpay.onrender.com',
     'https://quickbill-2oy7.onrender.com',
-    'https://accounts.google.com'
+    'https://accounts.google.com',
 ];
 
 module.exports = allowedOrigins;
