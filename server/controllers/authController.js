@@ -8,35 +8,38 @@ const passport = require("passport");
 
 // Google authentication callback
 
-const successRedirect = async (req, res) => {
+
+
+
+
+
+  const successRedirect = async (req, res) => {
 	try {
-		//   // Assuming the user is available in req.user after successful authentication
-		//   const googleProfile = req.user;
-
-		//   // Fetch user profile from MongoDB based on the email
-		//   const user = await User.findOne({ email: googleProfile.email });
-
-		//   if (!user) {
-		// 	// Handle the case where the user is not found in the database
-		// 	return res.status(404).json({ message: 'User not found in the database' });
-		//   }
-
-		// Perform any additional actions with the user profile
-		// ...
-
-		// Redirect or send a response as needed
-		//   res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?email=${encodeURIComponent(user.email)}`);
-		console.log(req.session)
-		console.log(req.user)
-		req.session.save(() => {
-			res.redirect(`https://quickbillpay.onrender.com/auth/google-verify`);
-		});
+	//   // Assuming the user is available in req.user after successful authentication
+	//   const googleProfile = req.user;
+  
+	//   // Fetch user profile from MongoDB based on the email
+	//   const user = await User.findOne({ email: googleProfile.email });
+  
+	//   if (!user) {
+	// 	// Handle the case where the user is not found in the database
+	// 	return res.status(404).json({ message: 'User not found in the database' });
+	//   }
+  
+	  // Perform any additional actions with the user profile
+	  // ...
+  
+	  // Redirect or send a response as needed
+	//   res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?email=${encodeURIComponent(user.email)}`);
+	req.session.user = req.user;
+	  res.redirect(`https://quickbillpay.onrender.com/auth/google-verify`);
 	} catch (error) {
-		// Handle errors
-		console.error("Error fetching user profile:", error);
-		res.status(500).json({ message: "Internal Server Error" });
+	  // Handle errors
+	  console.error('Error fetching user profile:', error);
+	  res.status(500).json({ message: 'Internal Server Error' });
 	}
-};
+  };
+
 
 const signUp = async (req, res) => {
 	try {
@@ -168,5 +171,5 @@ module.exports = {
 	signIn,
 	signOut,
 	activateAccount,
-	successRedirect,
+	successRedirect
 };
