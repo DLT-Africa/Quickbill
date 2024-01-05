@@ -31,6 +31,29 @@ cloudinary.config({
 })
 
 
+// Set up MongoDB store
+const store = new MongoDBStore({
+  uri: process.env.MONGO_URI,
+  collection: 'sessions',
+  expires: 7 * 24 * 60 * 60, // 7 days in seconds
+});
+
+// Use express-session middleware
+app.use(
+  session({
+    secret: process.env.JWT_SECRET, // Change this to a secure secret key
+    resave: true,
+    saveUninitialized: false,
+    store: store, // Use MongoDB store
+    cookie: {
+      maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds,
+      secure: true, // Set to true if using HTTPS
+      sameSite: 'none'
+    },
+
+  })
+);
+
 // Handle options credentials check - before CORS!
 // and fetch cookies credentials requirement
 app.use(credentials);
@@ -42,28 +65,10 @@ app.use(express.urlencoded({ extended: true })); // parse form data inside the r
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
-// Set up MongoDB store
-const store = new MongoDBStore({
-  uri: process.env.MONGO_URI,
-  collection: 'sessions',
-  expires: 7 * 24 * 60 * 60, // 7 days in seconds
-});
 
 
 
-// Use express-session middleware
-app.use(
-  session({
-    secret: process.env.JWT_SECRET, // Change this to a secure secret key
-    resave: true,
-    saveUninitialized: false,
-    store: store, // Use MongoDB store
-    cookie: {
-      maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds
-    },
 
-  })
-);
 
 // Configure passport
 initializePassport(passport);
