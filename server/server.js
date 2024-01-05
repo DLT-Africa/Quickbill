@@ -60,7 +60,7 @@ app.use(
     store: store, // Use MongoDB store
     cookie: {
       maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds,
-      secure: true, // Set to true if using HTTPS
+      // secure: true, // Set to true if using HTTPS
       // sameSite: 'none'
     },
 
