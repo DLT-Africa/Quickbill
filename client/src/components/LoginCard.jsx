@@ -82,7 +82,7 @@ export default function SplitScreen() {
         flexDir={{ base: "column-reverse", md: "column" }}
         w={{ base: "full", md: "450px" }}
       >
-        <Link href="/">
+        <Link>
           <Box>
             <Image src="short logo 2.png" alt="short logo" />
           </Box>
