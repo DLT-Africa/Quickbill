@@ -15,13 +15,24 @@ const GoogleAuth = () => {
 	const encodedEmail = queryParams.get("email");
 	const [user, setUser] = useRecoilState(userAtom);
 	const [decodedEmail, setDecodedEmail] = useState("");
-    const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-    // console.log(encodedEmail)
+	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	// console.log(encodedEmail)
+
+	useEffect(() => {
+		if (encodedEmail) {
+			const decoded = decodeURIComponent(encodedEmail);
+			setDecodedEmail(decoded);
+		}
+	}, [encodedEmail]);
 
 	useEffect(() => {
 		const verifyDetails = async () => {
 			try {
-				const response = await axiosInstance.get(`/account/google-profile?email=${encodeURIComponent(decodedEmail)}`);
+				const response = await axiosInstance.get(`/account/google-profile`, {
+                    params: {
+                        email: decodedEmail,
+                    }
+                })
 				const loggedUser = response.data;
 
 				localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
@@ -47,14 +58,11 @@ const GoogleAuth = () => {
 			}
 		};
 
-		if (encodedEmail) {
-			const decoded = decodeURIComponent(encodedEmail);
-			setDecodedEmail(decoded);
+		if (decodedEmail) {
 			verifyDetails();
 		}
-        console.log(`Encoded email: ${encodedEmail}`)
-
-	}, [encodedEmail]);
+		// console.log(`Encoded email: ${encodedEmail}`)
+	}, [decodedEmail]);
 
 	return (
 		<Flex
