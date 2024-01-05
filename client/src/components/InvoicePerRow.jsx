@@ -14,8 +14,8 @@ const InvoicePerRow = ({ singleInvoice }) => {
 
 	useEffect(() => {
 		switch (singleInvoice?.invoiceStatus) {
-			case "Awaiting Payment":
-				setStatusColor("#E0BF00");
+			case "Partially Paid":
+				setStatusColor("#7d85f5");
 				break;
 			case "Paid":
 				setStatusColor("green");

@@ -125,18 +125,18 @@ const InvoiceSummary = () => {
 			setClient(client);
 
 			switch (invoiceDetails.invoiceStatus) {
-				case "Awaiting Payment":
-					setStatusColor("#E0BF00");
-					break;
-				case "Paid":
-					setStatusColor("green");
-					break;
-				case "Rejected":
-					setStatusColor("red");
-					break;
-				case "Overdue":
-					setStatusColor("#E40DC4");
-					break;
+				case "Partially Paid":
+				setStatusColor("#7d85f5");
+				break;
+			case "Paid":
+				setStatusColor("green");
+				break;
+			case "Rejected":
+				setStatusColor("red");
+				break;
+			case "Overdue":
+				setStatusColor("#E40DC4");
+				break;
 			}
 
 			// Format number with two decimal places and currency symbol
