@@ -78,11 +78,10 @@ export default function SplitScreen() {
       <Flex
         flexDir={{ base: "column-reverse", md: "column" }}
         w={{ base: "full", md: "450px" }}
+        justifyContent={'center'}
       >
         <Link href="/">
-          <Box>
-            <Image src="short logo 2.png" alt="short logo" />
-          </Box>
+           <Image src="short logo 2.png" alt="short logo" />
         </Link>
 
         <Box>
@@ -133,7 +132,8 @@ export default function SplitScreen() {
           </Box>
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
-              <Box w={{ base: "100%", md: "80%", lg: "100%" }}>
+              <Box w={{ base: "100%", md: "80%", lg: "100%" }} maxW="500px"
+                mx="auto">
                 <FormControl
                   isRequired
                 >
