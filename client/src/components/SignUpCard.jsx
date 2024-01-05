@@ -70,7 +70,7 @@ export default function SplitScreen() {
 
   return (
     <Stack
-      overflowX={'hidden'}
+      // overflowX={'hidden'}
       minH={"100vh"}
       direction={{ base: "column", md: "row" }}
       className="loginSignup"
