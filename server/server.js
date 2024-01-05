@@ -38,6 +38,8 @@ const store = new MongoDBStore({
   expires: 7 * 24 * 60 * 60, // 7 days in seconds
 });
 
+
+// Use express-session middleware
 app.use(
   session({
     secret: process.env.JWT_SECRET, // Change this to a secure secret key
@@ -65,7 +67,6 @@ app.use(express.urlencoded({ extended: true })); // parse form data inside the r
 app.use(cors(corsOptions));
 app.use(cookieParser());
 
-// Use express-session middleware
 
 
 

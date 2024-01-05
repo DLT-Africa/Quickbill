@@ -82,28 +82,31 @@ const getUserProfile = async (req, res) => {
 const getProfileByEmail = async(req, res) => {
 	try {
 		
-		const email = req.query.email;
+		// const email = req.query.email;
 
-		console.log(email)
-		const user = await User.findOne({email: email})
+		// console.log(email)
+		// const user = await User.findOne({email: email})
+		const userId = req.userId;
+		
+		const user = await User.findById(userId).select("-password");
 		
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
 		
 		}
 
-		const token = generateCookieToken({
-			email: user.email,
-			id: user._id,
-		});
+		// const token = generateCookieToken({
+		// 	email: user.email,
+		// 	id: user._id,
+		// });
 
-		// Creates Secure Cookie with token token
-		res.cookie("jwt", token, {
-			httpOnly: true,
-			secure: true,
-			sameSite: "None",
-			maxAge: 1 * 60 * 60 * 1000, //1hr
-		});
+		// // Creates Secure Cookie with token token
+		// res.cookie("jwt", token, {
+		// 	httpOnly: true,
+		// 	secure: true,
+		// 	sameSite: "None",
+		// 	maxAge: 1 * 60 * 60 * 1000, //1hr
+		// });
 		
 		res.status(200).json(user);
 	} catch (error) {
