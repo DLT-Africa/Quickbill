@@ -7,13 +7,19 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
+import React from "react";
 import { FiMinus } from "react-icons/fi";
 import { IoAdd } from "react-icons/io5";
 
 const Faq = () => {
   return (
-    <>
-      <Flex justifyContent={"center"} align={"center"} mt={20} py={70} px={72}>
+    <React.Fragment>
+      <Flex
+        justifyContent={"center"}
+        align={"center"}
+        py={{ base: 8, md: 70 }}
+        px={{ base: 8, md: 72 }}
+      >
         <Flex justifyContent={"center"} alignItems={"center"} p={"auto"}>
           <Accordion defaultIndex={[0]} allowMultiple>
             <AccordionItem
@@ -26,11 +32,15 @@ const Faq = () => {
                 <>
                   <h2>
                     <AccordionButton>
-                      <Box flex="1" textAlign="left" fontSize={"2xl"} pr={15}>
-                        <Text fontWeight={500}>
-                          How can I set up automated reminders for overdue
-                          payments and pending approvals?
-                        </Text>
+                      <Box
+                        flex="1"
+                        textAlign="left"
+                        pr={{ base: 8, md: 15 }}
+                        fontWeight={{ base: 400, md: 500 }}
+                        fontSize={{ base: "md", md: "lg", lg: "xl" }}
+                      >
+                        How can I set up automated reminders for overdue
+                        payments and pending approvals?
                       </Box>
                       {isExpanded ? (
                         <Box borderRadius={"full"} bg={"#2970FF"}>
@@ -44,7 +54,7 @@ const Faq = () => {
                     </AccordionButton>
                   </h2>
                   <AccordionPanel pb={4}>
-                    <Text as={"p"} fontSize={"xl"}>
+                    <Text as={"p"} fontSize={{ base: "sm", md: "md", lg: "lg" }}>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                       sed do eiusmod tempor incididunt ut labore et dolore magna
                       aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -68,9 +78,9 @@ const Faq = () => {
                       <Box
                         flex="1"
                         textAlign="left"
-                        fontSize={"2xl"}
-                        pr={15}
-                        fontWeight={500}
+                        pr={{ base: 8, md: 15 }}
+                        fontWeight={{ base: 400, md: 500 }}
+                        fontSize={{ base: "md", md: "lg", lg: "xl" }}
                       >
                         How can I address common user queries or issues
                         efficiently within the system?
@@ -86,7 +96,7 @@ const Faq = () => {
                       )}
                     </AccordionButton>
                   </h2>
-                  <AccordionPanel pb={4} fontSize={"xl"}>
+                  <AccordionPanel pb={4} fontSize={{ base: "sm", md: "md", lg: "lg" }}>
                     You can set up automated reminders by going to the
                     "Notification Preferences" section. Here, you can customize
                     reminders for overdue payments and pending approvals. Choose
@@ -100,7 +110,7 @@ const Faq = () => {
           </Accordion>
         </Flex>
       </Flex>
-    </>
+    </React.Fragment>
   );
 };
 
