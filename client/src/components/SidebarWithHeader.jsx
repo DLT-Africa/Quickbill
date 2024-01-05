@@ -280,7 +280,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 									ml="2"
 								>
 									<Text fontSize="sm" color="gray.600">
-										{user.name}
+										{user?.name}
 									</Text>
 								</VStack>
 								<Box display={{ base: "none", md: "flex" }}>

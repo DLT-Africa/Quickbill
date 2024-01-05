@@ -26,50 +26,70 @@ import { useState } from "react";
 import { axiosInstance } from "../../api/axios";
 import userAtom from "../atoms/userAtom";
 import { prevPathAtom } from "../atoms/prevPathAtom";
+import useShowToast from "../hooks/useShowToast";
 
 export default function SplitScreen() {
-  const setAuthScreen = useSetRecoilState(authScreenAtom);
-  const [showPassword, setShowPassword] = useState(false);
-  const setUser = useSetRecoilState(userAtom);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    setLoading(true);
-    e.preventDefault();
-    try {
-      const response = await axiosInstance.post(
-        "/auth/signin",
-        JSON.stringify({ email, password })
-      );
-      const loggedUser = response.data.loggedInUser;
-      localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
-      setUser(loggedUser);
+	const setAuthScreen = useSetRecoilState(authScreenAtom);
+	const [showPassword, setShowPassword] = useState(false);
+	const setUser = useSetRecoilState(userAtom);
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const navigate = useNavigate();
+	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const [loading, setLoading] = useState(false);
+	const showToast = useShowToast();
 
-      const localStoragePrevPath = localStorage?.getItem("localPrevPath");
-      if (localStoragePrevPath) {
-        localStorage.removeItem("localPrevPath");
-        navigate(localStoragePrevPath);
-      } else if (prevPath) {
-        setPrevPath(null);
-        navigate(prevPath);
-      } else {
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+	const handleSubmit = async (e) => {
+		setLoading(true);
+		e.preventDefault();
+		try {
+			const response = await axiosInstance.post(
+				"/auth/signin",
+				JSON.stringify({ email, password })
+			);
+			console.log(response.data.loggedInUser);
+			const loggedUser = response.data.loggedInUser;
+			localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
+			setUser(loggedUser);
 
-  const handleGoogleAuth = async () => {
-    window.location.href =
-      "https://quickbill-2oy7.onrender.com/auth/googleauth";
-  };
+			const localStoragePrevPath = localStorage?.getItem("localPrevPath");
+			// Redirect to the originally requested route (or a default route)
+			if (localStoragePrevPath) {
+				localStorage.removeItem("localPrevPath");
+				navigate(localStoragePrevPath);
+			} else if (prevPath) {
+				setPrevPath(null); // Clear the stored path
+				navigate(prevPath);
+			} else {
+				navigate("/dashboard");
+			}
+		} catch (error) {
+			if (error?.response?.status === 404) {
+				showToast(
+					"Error",
+					"This user registered with Google authentication, continue with google and create password",
+					"error"
+				);
+			}
+			console.log(error.response);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const handleGoogleAuth = async () => {
+		// try {
+		// 	const response = await axiosInstance.get("/auth/googleauth");
+		// 	const data = response.data;
+		// 	navigate('/auth/google-verify')
+		// } catch (error) {
+		// 	console.log(error)
+		// }
+
+		window.location.href =
+			"https://quickbill-2oy7.onrender.com/auth/googleauth/callback";
+	};
 
   return (
     <Stack
@@ -137,6 +157,7 @@ export default function SplitScreen() {
               <AbsoluteCenter px="1"> or </AbsoluteCenter>
             </Box>
           </Box>
+
 
           <Stack spacing={4} w={500}>
             <form onSubmit={handleSubmit}>
