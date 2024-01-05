@@ -78,8 +78,16 @@ export default function SplitScreen() {
 	};
 
 	const handleGoogleAuth = async () => {
+		// try {
+		// 	const response = await axiosInstance.get("/auth/googleauth");
+		// 	const data = response.data;
+		// 	navigate('/auth/google-verify')
+		// } catch (error) {
+		// 	console.log(error)
+		// }
+
 		window.location.href =
-			"https://quickbill-2oy7.onrender.com/auth/googleauth";
+			"https://quickbill-2oy7.onrender.com/auth/googleauth/callback";
 	};
 
 	return (

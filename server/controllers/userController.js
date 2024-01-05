@@ -85,7 +85,7 @@ const getUserProfile = async (req, res) => {
 const getProfileByEmail = async (req, res) => {
 	try {
 
-		if (req.isAuthenticated()) {
+		if (req.user) {
 			const email = req.user.email;
 			console.log(email);
 			const user = await User.findOne({ email: email });
