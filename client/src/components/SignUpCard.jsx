@@ -70,6 +70,7 @@ export default function SplitScreen() {
 
   return (
     <Stack
+      // overflowX={'hidden'}
       minH={"100vh"}
       direction={{ base: "column", md: "row" }}
       className="loginSignup"
@@ -77,11 +78,10 @@ export default function SplitScreen() {
       <Flex
         flexDir={{ base: "column-reverse", md: "column" }}
         w={{ base: "full", md: "450px" }}
+        justifyContent={'center'}
       >
-        <Link>
-          <Box>
-            <Image src="short logo 2.png" alt="short logo" />
-          </Box>
+        <Link href="/">
+           <Image src="short logo 2.png" alt="short logo" />
         </Link>
 
         <Box>
@@ -109,13 +109,14 @@ export default function SplitScreen() {
       </Flex>
       <Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"}>
         <Stack spacing={4} w={"full"} maxW={"md"} align={"center"}>
-          <Heading fontSize={"4xl"} textAlign={"center"}>
+          <Heading fontSize={{ base: '2xl', sm: '3xl', md: "4xl" }} textAlign={"center"}>
             Create Account
           </Heading>
           <Box>
-            <Flex fontWeight={"3000"} gap={4}>
+            <Flex fontWeight={400} gap={4}>
               <Button
                 bg={"#4c54ad"}
+                size={{ base: 'sm', md: 'lg' }}
                 _hover={{ bg: "blue" }}
                 leftIcon={<FcGoogle />}
                 color={"white"}
@@ -125,102 +126,85 @@ export default function SplitScreen() {
                 Continue with Google
               </Button>
             </Flex>
-            <Box position="relative" padding="10" fontSize={"2xl"}>
+            <Box position="relative" padding="7" fontSize={{ base: "xl", md: "2xl" }}>
               <AbsoluteCenter px="1"> or </AbsoluteCenter>
             </Box>
           </Box>
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
-              <HStack w={500}>
-                <Box>
-                  <FormControl
-                    isRequired
-                    w={{ base: "60%", md: "80%", lg: "100%" }}
-                    //   maxW="500px"
-                    //   mx="auto"
-					
-                  >
-                    <FormLabel> Name</FormLabel>
-                    <Input
-                      type="text"
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="John Doe"
-                      value={name}
-                      color={"black"}
-                      border={"1px solid black"}
-                      required
-                      
-					// maxW="500px"
-                    //   mx="auto"
-					//   size={{base: "500", md: "md"}}
-                    />
-                  </FormControl>
-                </Box>
-              </HStack>
-              <FormControl
-                isRequired
-                w={{ base: "60%", md: "80%", lg: "100%" }}
-                maxW="500px"
-                mx="auto"
-              >
-                <FormLabel>Email address</FormLabel>
-                <Input
-                  type="email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                  placeholder="example@mail.com"
-                  border={"1px solid black"}
-                  required
-                />
-              </FormControl>
-
-              <FormControl
-                isRequired
-                w={{ base: "60%", md: "80%", lg: "100%" }}
-                maxW="500px"
-                mx="auto"
-              >
-                <FormLabel>Password</FormLabel>
-                <InputGroup>
+              <Box w={{ base: "100%", md: "80%", lg: "100%" }} maxW="500px"
+                mx="auto">
+                <FormControl
+                  isRequired
+                >
+                  <FormLabel> Name</FormLabel>
                   <Input
-                    type={showPassword ? "text" : "password"}
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                    placeholder="Enter password"
+                    type="text"
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="John Doe"
+                    value={name}
+                    color={"black"}
                     border={"1px solid black"}
                     required
                   />
-                  <InputRightElement h={"full"}>
-                    <Button
-                      variant={"ghost"}
-                      onClick={() =>
-                        setShowPassword((showPassword) => !showPassword)
-                      }
-                    >
-                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
+                </FormControl>
 
-              <Stack spacing={10} pt={2}>
-                <Button
-                  loadingText="Signing you up"
-                  size={{ base: "lg", md: "md" }}
-                  bg={"blue.400"}
-                  color={"white"}
-                  _hover={{
-                    bg: "blue.500",
-                  }}
-                  type="submit"
-                  isLoading={loading}
-                  w={{ base: "400%", md: "80%", lg: "100%" }}
-                  maxW={{ base: "300px", md: "500px" }}
-                  mx="auto"
+                <FormControl
+                  isRequired
                 >
-                  Sign up
-                </Button>
-              </Stack>
+                  <FormLabel>Email address</FormLabel>
+                  <Input
+                    type="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    placeholder="example@mail.com"
+                    border={"1px solid black"}
+                    required
+                  />
+                </FormControl>
+
+                <FormControl
+                  isRequired
+                >
+                  <FormLabel>Password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      onChange={(e) => setPassword(e.target.value)}
+                      value={password}
+                      placeholder="Enter password"
+                      border={"1px solid black"}
+                      required
+                    />
+                    <InputRightElement h={"full"}>
+                      <Button
+                        variant={"ghost"}
+                        onClick={() =>
+                          setShowPassword((showPassword) => !showPassword)
+                        }
+                      >
+                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    loadingText="Signing you up"
+                    size={{ base: "lg", md: "md" }}
+                    bg={"blue.400"}
+                    color={"white"}
+                    _hover={{
+                      bg: "blue.500",
+                    }}
+                    type="submit"
+                    isLoading={loading}
+                  >
+                    Sign up
+                  </Button>
+                </Stack>
+              </Box>
               <Stack pt={6}>
                 <Text align={"center"}>
                   Already a user?{" "}

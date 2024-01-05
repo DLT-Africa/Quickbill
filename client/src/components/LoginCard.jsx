@@ -30,70 +30,71 @@ import useShowToast from "../hooks/useShowToast";
 
 export default function SplitScreen() {
 
-	const setAuthScreen = useSetRecoilState(authScreenAtom);
-	const [showPassword, setShowPassword] = useState(false);
-	const setUser = useSetRecoilState(userAtom);
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const navigate = useNavigate();
-	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-	const [loading, setLoading] = useState(false);
-	const showToast = useShowToast();
+  const setAuthScreen = useSetRecoilState(authScreenAtom);
+  const [showPassword, setShowPassword] = useState(false);
+  const setUser = useSetRecoilState(userAtom);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+  const [loading, setLoading] = useState(false);
+  const showToast = useShowToast();
 
-	const handleSubmit = async (e) => {
-		setLoading(true);
-		e.preventDefault();
-		try {
-			const response = await axiosInstance.post(
-				"/auth/signin",
-				JSON.stringify({ email, password })
-			);
-			console.log(response.data.loggedInUser);
-			const loggedUser = response.data.loggedInUser;
-			localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
-			setUser(loggedUser);
+  const handleSubmit = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post(
+        "/auth/signin",
+        JSON.stringify({ email, password })
+      );
+      console.log(response.data.loggedInUser);
+      const loggedUser = response.data.loggedInUser;
+      localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));
+      setUser(loggedUser);
 
-			const localStoragePrevPath = localStorage?.getItem("localPrevPath");
-			// Redirect to the originally requested route (or a default route)
-			if (localStoragePrevPath) {
-				localStorage.removeItem("localPrevPath");
-				navigate(localStoragePrevPath);
-			} else if (prevPath) {
-				setPrevPath(null); // Clear the stored path
-				navigate(prevPath);
-			} else {
-				navigate("/dashboard");
-			}
-		} catch (error) {
-			if (error?.response?.status === 404) {
-				showToast(
-					"Error",
-					"This user registered with Google authentication, continue with google and create password",
-					"error"
-				);
-			}
-			console.log(error.response);
-		} finally {
-			setLoading(false);
-		}
-	};
+      const localStoragePrevPath = localStorage?.getItem("localPrevPath");
+      // Redirect to the originally requested route (or a default route)
+      if (localStoragePrevPath) {
+        localStorage.removeItem("localPrevPath");
+        navigate(localStoragePrevPath);
+      } else if (prevPath) {
+        setPrevPath(null); // Clear the stored path
+        navigate(prevPath);
+      } else {
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error?.response?.status === 404) {
+        showToast(
+          "Error",
+          "This user registered with Google authentication, continue with google and create password",
+          "error"
+        );
+      }
+      console.log(error.response);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-	const handleGoogleAuth = async () => {
-		// try {
-		// 	const response = await axiosInstance.get("/auth/googleauth");
-		// 	const data = response.data;
-		// 	navigate('/auth/google-verify')
-		// } catch (error) {
-		// 	console.log(error)
-		// }
+  const handleGoogleAuth = async () => {
+    // try {
+    // 	const response = await axiosInstance.get("/auth/googleauth");
+    // 	const data = response.data;
+    // 	navigate('/auth/google-verify')
+    // } catch (error) {
+    // 	console.log(error)
+    // }
 
-		window.location.href =
-			"https://quickbill-2oy7.onrender.com/auth/googleauth/callback";
-	};
+    window.location.href =
+      "https://quickbill-2oy7.onrender.com/auth/googleauth/callback";
+  };
 
   return (
     <Stack
       minH={"100vh"}
+      overflowX={'hidden'}
       direction={{ base: "column", md: "row" }}
       className="loginSignup"
     >
@@ -101,7 +102,7 @@ export default function SplitScreen() {
         flexDir={{ base: "column-reverse", md: "column" }}
         w={{ base: "full", md: "450px" }}
       >
-        <Link>
+        <Link href="/">
           <Box>
             <Image src="short logo 2.png" alt="short logo" />
           </Box>
@@ -164,8 +165,8 @@ export default function SplitScreen() {
                 isRequired
                 w={{ base: "60%", md: "80%", lg: "100%" }}
                 maxW="500px"
-				mx="auto" 
-			
+                mx="auto"
+
               >
                 <FormLabel>Email address</FormLabel>
                 <Input
@@ -177,13 +178,13 @@ export default function SplitScreen() {
                   required
                 />
               </FormControl>
-			  
+
               <FormControl
                 isRequired
                 w={{ base: "60%", md: "80%", lg: "100%" }}
                 maxW="500px"
-				mx="auto" 
-				
+                mx="auto"
+
               >
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
@@ -194,7 +195,7 @@ export default function SplitScreen() {
                     placeholder="Enter password"
                     border={"1px solid black"}
                     required
-					
+
                   />
                   <InputRightElement h={"full"}>
                     <Button
@@ -212,7 +213,7 @@ export default function SplitScreen() {
               <Stack
                 spacing={10}
                 pt={2}
-                
+
               >
                 <Button
                   loadingText="Signing in"
@@ -224,10 +225,10 @@ export default function SplitScreen() {
                   }}
                   type="submit"
                   isLoading={loading}
-				 w={{ base: '400%', md: '80%', lg: '100%' }} 
-        maxW= {{ base:"300px",md:"500px" }}
-		mx="auto" 
-				  
+                  w={{ base: '400%', md: '80%', lg: '100%' }}
+                  maxW={{ base: "300px", md: "500px" }}
+                  mx="auto"
+
                 >
                   Sign In
                 </Button>
