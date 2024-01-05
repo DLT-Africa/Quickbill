@@ -18,7 +18,7 @@ const initializePassport = (passport) => {
         // User found, update any necessary information
         existingUser.googleId = profile.id;
         existingUser.name = profile.displayName;
-        existingUser.photo = profile.photos[0].value;
+        existingUser.avatar = existingUser.avatar || profile.photos[0].value;
         await existingUser.save();
 
         return done(null, existingUser);
@@ -28,7 +28,7 @@ const initializePassport = (passport) => {
           googleId: profile.id,
           email: profile.emails[0].value,
           name: profile.displayName,
-          photo: profile.photos[0].value,
+          avatar: profile.photos[0].value,
         });
 
         return done(null, newUser);

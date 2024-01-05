@@ -28,11 +28,7 @@ const GoogleAuth = () => {
 	useEffect(() => {
 		const verifyDetails = async () => {
 			try {
-				const response = await axiosInstance.get(`/account/google-profile`, {
-                    params: {
-                        email: decodedEmail,
-                    }
-                })
+				const response = await axiosInstance.get(`/account/profile`)
 				const loggedUser = response.data;
 
 				localStorage.setItem("user-quickBill", JSON.stringify(loggedUser));

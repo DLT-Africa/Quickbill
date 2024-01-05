@@ -29,10 +29,22 @@ const passport = require("passport");
 	//   Perform any additional actions with the user profile
 	//   ...
   
+	const token = generateCookieToken({
+		email: user.email,
+		id: user._id,
+	});
+
+	// Creates Secure Cookie with token token
+	res.cookie("jwt", token, {
+		httpOnly: true,
+		secure: true,
+		sameSite: "None",
+		maxAge: 1 * 60 * 60 * 1000, //1hr
+	});
 	//   Redirect or send a response as needed
-	  res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?email=${encodeURIComponent(user.email)}`);
+	//   res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?email=${encodeURIComponent(user.email)}`);
 	// req.session.user = req.user;
-	//   res.redirect(`https://quickbillpay.onrender.com/auth/google-verify`);
+	  res.redirect(`https://quickbillpay.onrender.com/auth/google-verify`);
 	} catch (error) {
 	  // Handle errors
 	  console.error('Error fetching user profile:', error);
