@@ -17,59 +17,25 @@ const NavBar = (props) => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <>
-      <Flex
-      overflowX={'hidden'}
-        w={"full"}
-        p={15}
-        justifyContent={"space-between"}
-        alignItems={"center"}
-        position={'sticky'}
-        zIndex={9999}
-        top={0}
-        bg={"#fff"}
-        // h={"123px"}
-      >
-        <Heading size={'md'}>
-          <Link href="/">
-            <Image  bg={"#fff"} src="/short logo 2.png" borderRadius={8} />
-          </Link>
-        </Heading>
-        <Flex
-          justifyContent={"center"}
-          alignItems={"center"}
-          gap={30}
-          color={"#1c1c1c"}
-          fontSize={'xl'}
-          fontWeight={400}
-          bg={'#fff'}
-        >
-          <Link
-            _active={{
-              color: "#2970ff",
-              listStyle: "none"
-            }}
-            href="/"
-          >
-            Home
-          </Link>
-          <Link
-            _active={{
-              color: "#2970ff",
-            }}
-            href="/about"
-          >
-            About us
-          </Link>
-          <Link
-            _active={{
-              color: "#2970ff",
-            }}
-            href="/contact"
-          >
-            Contact
-          </Link>
-        </Flex>
+    <NavBarContainer
+      {...props}
+      w={"full"}
+      p={15}
+      justifyContent={"space-between"}
+      alignItems={"center"}
+      position={"sticky"}
+      zIndex={9999}
+      top={0}
+      bg={"#fff"}
+    >
+      <Image bg={"#fff"} src="/short logo 2.png" borderRadius={8} />
+      <MenuToggle toggle={toggle} isOpen={isOpen} />
+      <MenuLinks isOpen={isOpen} />
+    </NavBarContainer>
+  );
+};
+
+const CloseIcon = () => (
   <svg width="24" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
     <title>Close</title>
     <path

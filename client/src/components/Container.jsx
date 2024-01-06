@@ -1,44 +1,35 @@
-import { Flex, Hide, Image, SimpleGrid, Text } from "@chakra-ui/react";
+import { Card, Flex, Hide, Image, SimpleGrid, Text } from "@chakra-ui/react";
 import React from "react";
 
 const Container = () => {
   return (
     <React.Fragment>
-      <SimpleGrid
+      <Flex
         overflowY={"hidden"}
         bg={"#EBF5FE"}
         py={70}
         px={30}
+        flexDir={'column'}
         w={{ base: "full" }}
-        spacing={10}
-        templateColumns={{ base: "1fr", lg: "repeat(3, minmax(50px, 1fr))", md: "repeat(2, minmax(50px, 1fr))" }}
+        justifyContent={'center'}
+        alignItems={'center'}
+        gap={10}
       >
         <Text fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }} fontWeight={600}>
           Time saving, efficient, compliant, less stressful... and much more!
         </Text>
-        <Flex
-          justifyContent={"center"}
-          alignItems={"center"}
-          gridTemplateColumns={{ sm: ("2, 1fr") }}
-          direction={{ base: "column", sm: "row" }}
-          flexDir={{ base: "column", md: "row" }}
+        <SimpleGrid
+          templateColumns={{ base: "1fr", md: "repeat(2, minmax(50px, 1fr))", lg: "repeat(3, minmax(50px, 1fr))" }}
           gap={{ base: 8, md: 15 }}
-          className="Cards"
+          alignItems={'center'}
+          spacing={5}
+          justifyContent={'center'}
         >
-          <Flex
-            py={{ base: 30, md: 25 }}
-            px={{ base: 10, md: 5 }}
-            justifyContent={"center"}
-            alignItems={"center"}
-            flexDir={"column"}
-            gap={25}
-            boxSize={"auto"}
-            borderRadius={10}
-            bg={"#fff"}
-            boxShadow={"0px 4px 4px 0px rgba(28, 28, 28, 0.25)"}
+          <Card
+            width={{ base: '100%', md: 320, lg:'full' }} py={4} px={3} boxShadow={"lg"}
           >
             <Text
-              fontSize={{ base: "xl", md: "3xl", lg: "4xl" }}
+              fontSize={{ base: "xl", md: "3xl", lg: "3xl" }}
               fontWeight={600}
               textAlign={"center"}
             >
@@ -54,18 +45,10 @@ const Container = () => {
               Corem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
               vulputate libero et velit interdum, ac aliquet odio mattis.
             </Text>
-          </Flex>
-          <Flex
-            py={30}
-            px={10}
-            justifyContent={"center"}
-            alignItems={"center"}
-            flexDir={"column"}
-            gap={25}
-            boxSize={"auto"}
-            borderRadius={10}
-            bg={"#fff"}
-            boxShadow={"0px 4px 4px 0px rgba(28, 28, 28, 0.25);"}
+          </Card>
+          <Card
+            width={{ base: '100%', md: 320, lg:'full' }} py={4} px={3} boxShadow={"lg"}
+            textAlign={"center"}
           >
             <Text
               fontSize={{ base: "xl", md: "3xl", lg: "4xl" }}
@@ -77,26 +60,18 @@ const Container = () => {
 
             <Text
               fontSize={{ base: "md", md: "lg", lg: "xl" }}
-              textAlign={"center"}
               fontWeight={400}
             >
               Worem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
               vulputate libero et velit interdum, ac aliquet odio mattis.
             </Text>
-          </Flex>
-          <Flex
-            py={30}
-            px={10}
-            justifyContent={"center"}
-            alignItems={"center"}
-            flexDir={"column"}
-            gap={25}
-            borderRadius={10}
-            bg={"#fff"}
-            boxShadow={"0px 4px 4px 0px rgba(28, 28, 28, 0.25);"}
+          </Card>
+          <Card
+            width={{ base: '100%', md: 320, lg:'full' }} py={4} px={3} boxShadow={"lg"}
+            textAlign={"center"}
           >
             <Text
-              fontSize={{ base: "xl", md: "3xl", lg: "4xl" }}
+              fontSize={{ base: "xl", md: "3xl", lg: "3xl" }}
               fontWeight={600}
             >
               Account Receivable
@@ -105,24 +80,15 @@ const Container = () => {
 
             <Text
               fontSize={{ base: "md", md: "lg", lg: "xl" }}
-              textAlign={"center"}
               fontWeight={400}
             >
               Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
               vulputate libero et velit interdum, ac aliquet odio mattis.
             </Text>
-          </Flex>
-          <Flex
-            py={30}
-            px={10}
-            justifyContent={"center"}
-            alignItems={"center"}
-            flexDir={"column"}
-            gap={25}
-            h={"full"}
-            borderRadius={10}
-            bg={"#fff"}
-            boxShadow={"0px 4px 4px 0px rgba(28, 28, 28, 0.25);"}
+          </Card>
+          <Card
+            width={{ base: '100%', md: 320, lg:'full' }} py={4} px={3} boxShadow={"lg"}
+            textAlign={"center"}
           >
             <Text
               fontSize={{ base: "xl", md: "3xl", lg: "4xl" }}
@@ -134,15 +100,14 @@ const Container = () => {
 
             <Text
               fontSize={{ base: "md", md: "lg", lg: "xl" }}
-              textAlign={"center"}
               fontWeight={400}
             >
               Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
               vulputate libero et velit interdum, ac aliquet odio mattis.
             </Text>
-          </Flex>
-        </Flex>
-      </SimpleGrid>
+          </Card>
+        </SimpleGrid>
+      </Flex>
     </React.Fragment>
   );
 };
