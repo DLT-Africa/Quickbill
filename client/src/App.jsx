@@ -22,6 +22,8 @@ import LinkExpired from "./components/LinkExpired";
 import DashboardPage from "./pages/DashboardPage";
 import ClientsPage from "./pages/ClientsPage";
 import GoogleAuth from "./components/GoogleAuth";
+import { DataTableDemo } from "./components/DataTableDemo";
+import SentInvoiceTable from "./components/sentIvoicesTable/SentInvoiceTable";
 
 
 
@@ -35,7 +37,8 @@ function App() {
 		<>
 			<Routes>
 				<Route path="/" element={<HomePage />} />
-			
+				<Route path="/test" element={<SentInvoiceTable />} />
+
 				<Route path="/auth" element={<AuthPage />} />
 				<Route path="/auth/google-verify" element={<GoogleAuth />} />
 				<Route path="/confirm-email" element={<AccountConfirmation />} />
