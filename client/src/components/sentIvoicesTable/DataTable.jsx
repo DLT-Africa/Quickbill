@@ -139,8 +139,9 @@ export function DataTable({ columns, data }) {
 					</TableHeader>
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
-							table.getRowModel().rows.map((row) => (
-								<TableRow
+							table.getRowModel().rows.map((row) => {
+                console.log(row)
+								return <TableRow
 									key={row.id}
 									data-state={row.getIsSelected() && "selected"}
 								>
@@ -153,7 +154,7 @@ export function DataTable({ columns, data }) {
 										</TableCell>
 									))}
 								</TableRow>
-							))
+})
 						) : (
 							<TableRow>
 								<TableCell
