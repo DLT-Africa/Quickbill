@@ -15,6 +15,7 @@ const NavBar = () => {
   return (
     <>
       <Flex
+      overflowX={'hidden'}
         w={"full"}
         p={15}
         justifyContent={"space-between"}

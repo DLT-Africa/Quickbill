@@ -1,14 +1,15 @@
 import {
-  AbsoluteCenter,
+	AbsoluteCenter,
 	Box,
 	Button,
 	Flex,
 	Image,
 	Input,
 	Textarea,
-  Text,
+	Text,
 	VStack,
-  Container,
+	Container,
+	useColorModeValue,
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
 import { IoLocationOutline } from "react-icons/io5";
@@ -20,76 +21,112 @@ const ContactPage = () => {
 	return (
 		<>
 			<NavBar />
-			<VStack  bg={'white'} >
-				<Flex mb={"50px"}>
-          <Box>
-						<Image  src="contact-us.svg"/>
-
-          </Box>
+			<VStack bg={"white"}>
+				<Flex mb={{ base: 2, md: 20, lg: "50px" }}>
+					<Box>
+						<Image src="contact-us.svg" />
+					</Box>
 				</Flex>
-				<Flex display={"flex"} justifyContent={'space-between'}  gap={20} mt={"20px"} px={20}>
-					<Flex display={"grid"}>
-						<Box fontSize={"25px"}>Talk with us</Box>
-						<Flex fontSize={"14px"}>
+				<Flex
+					display={"flex"}
+					direction={{ base: "column", md: "row" }}
+					justifyContent={"space-between"}
+					gap={{ base: 8, md: 18 }}
+					mt={{ base: 5, md: 8, lg: "15px" }}
+					px={20}
+				>
+					<Box display={"grid"} gridGap={2}>
+						<Box fontSize={{ base: "xl", md: "3xl", lg: "4xl" }}>
+							Talk with us
+						</Box>
+						<Flex fontSize={{ base: "md", md: "lg", lg: "xl" }}>
 							Questions, comments, or suggestions? <br /> Simply fill in the
 							form and we'll be in touch shortly.
 						</Flex>
-						<Flex gap={5}>
-							<IoLocationOutline /> 2, Sheikh Zakariyah Adebayo street, PEGAMUT
-							102112, Ota, Ogun State
+						<Flex
+							fontSize={{ base: "sm", md: "md", lg: "lg" }}
+							flexDir={"column"}
+							gap={{ base: 2, md: 4 }}
+						>
+							<Flex gap={4}>
+								<IoLocationOutline /> 2, Sheikh Zakariyah Adebayo street,
+								PEGAMUT 102112, Ota, Ogun State
+							</Flex>
+							<Flex gap={4}>
+								<FiPhoneCall /> +234 8168585740
+							</Flex>
+							<Flex gap={4}>
+								<CiMail /> Contact@quickbill.com
+							</Flex>
 						</Flex>
-						<Flex gap={5}>
-							<FiPhoneCall /> +234 8168585740
-						</Flex>
-						<Flex gap={5}>
-							<CiMail /> Contact@quickbill.com
-						</Flex>
-					</Flex>
-					<Box  paddingBottom={"20px"} w={'50%'}>
+					</Box>
+					<Box
+						paddingBottom={{ base: 10, md: 15, lg: 20 }}
+						w={{ base: "100%", md: "50%", lg: "60%" }}
+					>
 						<Flex gap={5}>
 							<Input
+								_placeholder={{
+									fontSize: "md",
+								}}
 								type="text"
 								placeholder="First name"
-								height={"40px"}
+								size={{ base: "md", md: "lg" }}
 								mb={"20px"}
 							/>
 							<Input
 								type="text"
+								_placeholder={{
+									fontSize: "md",
+								}}
+								size={{ base: "md", md: "lg" }}
 								placeholder="Last name"
-								height={"40px"}
 								mb={"20px"}
 							/>
 						</Flex>
 						<Input
+							size={{ base: "md", md: "lg" }}
+							_placeholder={{
+								fontSize: "md",
+							}}
 							type="text"
 							placeholder="Email"
-							height={"40px"}
 							mb={"20px"}
 						/>
 						<Input
 							type="text"
+							size={{ base: "md", md: "lg" }}
+							_placeholder={{
+								fontSize: "md",
+							}}
 							placeholder="phone number"
-							height={"40px"}
 							mb={"20px"}
 						/>
 						<Textarea
 							type="text"
+							_placeholder={{
+								fontSize: "md",
+							}}
 							placeholder="Your message"
-							height={"40px"}
 							mb={"20px"}
 						/>
 						<Button
-							bgColor={"blue"}
-							color={"white"}
-							w={"120px"}
-							paddingBottom={"20px"}
-							paddingTop={"20px"}
+							transition={"all 1s"}
+							bg={"#2970ff"}
+							type="submit"
+							_hover={{
+								bg: useColorModeValue("#599cff"),
+							}}
+							size={{
+								base: 'md', md: "lg"
+							}}
+							color={"#f5f5f5"}
 						>
 							Sign up
 						</Button>
 					</Box>
 				</Flex>
-			</VStack>
+			</VStack >
 			<Footer />
 		</>
 	);
