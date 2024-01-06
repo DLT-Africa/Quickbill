@@ -4,11 +4,7 @@ import SidebarWithHeader from '../components/SidebarWithHeader'
 const InvoiceMePage = () => {
   return (
     <SidebarWithHeader>
-
-
-      {/* <NavBar/> */}
       <InvoiceMe />
-
     </SidebarWithHeader>
 
   )
