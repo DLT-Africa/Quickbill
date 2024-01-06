@@ -17,7 +17,6 @@ const NavBar = (props) => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-<<<<<<< HEAD
     <>
       <Flex
       overflowX={'hidden'}
@@ -71,27 +70,6 @@ const NavBar = (props) => {
             Contact
           </Link>
         </Flex>
-=======
-    <NavBarContainer
-      {...props}
-      w={"full"}
-      p={15}
-      justifyContent={"space-between"}
-      alignItems={"center"}
-      position={"sticky"}
-      zIndex={9999}
-      top={0}
-      bg={"#fff"}
-    >
-      <Image bg={"#fff"} src="/short logo 2.png" borderRadius={8} />
-      <MenuToggle toggle={toggle} isOpen={isOpen} />
-      <MenuLinks isOpen={isOpen} />
-    </NavBarContainer>
-  );
-};
->>>>>>> 1b15b015b7a2cd7513686ac16b46972873a74e49
-
-const CloseIcon = () => (
   <svg width="24" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
     <title>Close</title>
     <path
