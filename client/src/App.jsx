@@ -23,11 +23,19 @@ import DashboardPage from "./pages/DashboardPage";
 import ClientsPage from "./pages/ClientsPage";
 import GoogleAuth from "./components/GoogleAuth";
 
+
+
+
+
+
+
+
 function App() {
 	return (
 		<>
 			<Routes>
 				<Route path="/" element={<HomePage />} />
+			
 				<Route path="/auth" element={<AuthPage />} />
 				<Route path="/auth/google-verify" element={<GoogleAuth />} />
 				<Route path="/confirm-email" element={<AccountConfirmation />} />
