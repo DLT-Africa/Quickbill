@@ -38,6 +38,8 @@ const NavBar = () => {
           fontSize={'xl'}
           fontWeight={400}
           bg={'#fff'}
+          display={['none', 'none', 'flex','flex']}
+
         >
           <Link
             _active={{
@@ -66,7 +68,9 @@ const NavBar = () => {
           </Link>
         </Flex>
 
-        <Flex gap={30} bg={'#fff'}>
+        <Flex gap={30} bg={'#fff'} 
+
+        >
          <Link as={RouterLink} to={'/auth'} onClick={() => setAuthScreen("login")}>
             <Button
               size={'lg'}
@@ -96,6 +100,9 @@ const NavBar = () => {
           </Button>
          </Link>
         </Flex>
+
+
+        
       </Flex>
     </>
   );

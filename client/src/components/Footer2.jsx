@@ -16,7 +16,7 @@ import {
 
 
 
-const Footer = () => {
+const Footer2 = () => {
   return (
    <>
     <Box
@@ -97,4 +97,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default Footer2

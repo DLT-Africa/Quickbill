@@ -21,6 +21,11 @@ import AccountConfirmation from "./components/AccountConfirmation";
 import LinkExpired from "./components/LinkExpired";
 import DashboardPage from "./pages/DashboardPage";
 import ClientsPage from "./pages/ClientsPage";
+import Newnav from "./components/Newnav";
+
+
+
+
 
 function App() {
   const user = useRecoilValue(userAtom) 
@@ -28,6 +33,7 @@ function App() {
 		<>
 			<Routes>
 				<Route path="/" element={<HomePage />} />
+				<Route path="/newnav" element= {<Newnav /> } />
 				<Route path="/auth" element={<AuthPage />} />
 				<Route path="/confirm-email" element={<AccountConfirmation />} />
 				<Route path="/link-expired/" element={<LinkExpired />} />
