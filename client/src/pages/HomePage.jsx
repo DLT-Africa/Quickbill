@@ -8,7 +8,7 @@ import Footer from '../components/Footer'
 
 const HomePage = () => {
   return (
-    <Box bg={'#eeeeee'}>
+    <Box bg={'#eeeeee'} overflowX={'hidden'}>
       <NavBar />
       <HeroSec />
       <PayrollCon />

@@ -1,36 +1,59 @@
-import { Box, Button, Flex, Image, Img, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Hide,
+  Image,
+  Img,
+  Show,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 const HeroSec = () => {
   return (
     <>
       <Flex
-        pr={20}
-        pl={10}
-        justifyContent={'space-between'}
+        px={{ base: 8, md: 20 }}
+        justifyContent={"space-between"}
         // gap={"186px"}
-        w={'full'}
-        fontFamily={"roboto"}
-        mt={50}
+        alignItems={"center"}
+        w={"full"}
       >
-        <Flex flexDir={"column"} w={586} gap={5}>
-          <Text fontSize={'5xl'} fontWeight={600}>
-            Set your business up with modern <span className="landingPageSpan">payroll</span>, and more
+        <Flex flexDir={"column"} w={586} gap={5} justifyContent={'center'}>
+          <Text
+            fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+            fontWeight={600}
+          >
+            Set your business up with modern{" "}
+            <span className="landingPageSpan">payroll</span>, and more
           </Text>
-          <Text fontSize={'2xl'} fontWeight={400} color={"#434E58"}>
+          <Hide above="md">
+            <Image
+              objectFit={'cover'}
+              display={{ md: "none" }}
+              src="/Moneyverse Business Balance.svg"
+            />
+          </Hide>
+          <Text
+            fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+            fontWeight={400}
+            color={"#434E58"}
+          >
             Behind every successful business is a thriving team. Hire, pay,
             insure, and support your employees with Payoll's all-in-one people
             platform.
           </Text>
-          <Link to={'/auth'}>
+          <Link to={"/auth"}>
             <Button
               bg={"#2970FF"}
               color={"#F6F6F6"}
-              size={'lg'}
-              h={'80px'}
-              w={330}
-              transition={'all 1s'}
-              fontSize={'xl'}
+              size={{ base: "md", md: "lg" }}
+              h={{ base: "35px", md: "80px" }}
+              w={{ base: 200, md: 330 }}
+              transition={"all 1s"}
+              fontSize={{ base: 'md', md: "xl" }}
               _hover={{
                 bg: useColorModeValue("#599cff"),
               }}
@@ -40,22 +63,60 @@ const HeroSec = () => {
           </Link>
         </Flex>
 
-        <Image src="/Moneyverse Business Balance.svg" />
+        <Show above="md">
+          <Image
+            objectFit={'cover'}
+            src="/Moneyverse Business Balance.svg"
+          />
+        </Show>
       </Flex>
-      <Flex w={"full"} justifyContent={"center"} alignItems={"center"} h={131} bg={'#fff'} mt={10}>
-        <Flex justifyContent={'center'} alignItems={'center'} gap={150}>
-          <Text fontSize={'2xl'} fontWeight={400}>Our customer says</Text>
-          <Flex alignItems={'center'} gap={5}>
-            <Text fontSize={'2xl'} fontWeight={700}>Excellent</Text>
-            <Img src="/Review.svg"/>
-          <Text fontSize={'2xl'} fontWeight={400}>436 reviews on</Text>
-         <Box display={'flex'} flexDir={'row'}>
-            <Image src="/star.svg"/>
-            <Text fontSize={'2xl'} fontWeight={400}>Trustpilot</Text>
-         </Box>
+      <Hide below="md">
+        <Flex
+          w={"full"}
+          flexDir={{ base: "column", md: "column" }}
+          justifyContent={"center"}
+          alignItems={"center"}
+          h={131}
+          bg={"#fff"}
+          mt={10}
+        >
+          <Flex
+            justifyContent={"center"}
+            alignItems={"center"}
+            direction={{ base: "column", sm: "row" }}
+            wrap={{ base: "nowrap", sm: "wrap" }}
+            gap={{ base: 15, md: 30, lg: 150 }}
+          >
+            <Text fontSize={{ base: "sm", md: "xl", lg: "2xl" }} fontWeight={400}>
+              Our customer says
+            </Text>
+            <Flex alignItems={"center"} gap={5} direction={{ base: "row", sm: "row" }}>
+              <Text
+                fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+                fontWeight={{ base: 500, md: 500, lg: 700 }}
+              >
+                Excellent
+              </Text>
+              <Img sizes="sm" src="/Review.svg" />
+              <Text
+                fontSize={{ base: "sm", md: "xl", lg: "2xl" }}
+                fontWeight={{ base: 300, md: 500, lg: 700 }}
+              >
+                436 reviews on
+              </Text>
+              <Box display={"flex"} alignItems={'center'} direction={{ base: "column", sm: "row" }}>
+                <Image src="/star.svg" />
+                <Text
+                  fontSize={{ base: "20px", md: "xl", lg: "2xl" }}
+                  fontWeight={{ base: 300, md: 500, lg: 700 }}
+                >
+                  Trustpilot
+                </Text>
+              </Box>
+            </Flex>
           </Flex>
         </Flex>
-      </Flex>
+      </Hide>
     </>
   );
 };

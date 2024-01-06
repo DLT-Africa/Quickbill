@@ -6,7 +6,7 @@ const PieChart = ({paidInvoices, awaitingPayment, rejectedInvoices, overdueInvoi
         type: 'pie',
       },
       labels: ['Paid Invoices', 'Awaiting Payment', 'Rejected Invoices', 'Overdue Invoices'], // Replace with your own labels
-      colors: ['#20c950',  'yellow', '#FF5733', '#5733FF',], // Replace with your desired colors
+      colors: ['#20c950',  '#a89932', '#FF5733', '#E40DC4',], // Replace with your desired colors
       legend: {
         show:true,
         position: 'bottom',

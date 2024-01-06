@@ -40,7 +40,6 @@ const SentInvoice = () => {
 	const [invoiceToDownl, setInvoiceToDownl] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const logout = useLogout();
-
 	const navigate = useNavigate();
 
 	useEffect(() => {

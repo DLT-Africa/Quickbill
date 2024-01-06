@@ -4,46 +4,54 @@ const { generateCookieToken } = require("../utils/generateToken");
 const UnconfirmedUser = require("../models/unconfirmedUserModel");
 const crypto = require("crypto");
 const { sendConfirmationMail } = require("../utils/sendMail");
+const passport = require("passport");
 
 // Google authentication callback
-const googleAuthCallback = async (req, res) => {
+
+
+
+
+
+
+  const successRedirect = async (req, res) => {
 	try {
-		// Retrieve the user from the Google authentication
-		const googleProfile = req.user;
+	//   // Assuming the user is available in req.user after successful authentication
+	  const googleProfile = req.user;
+  
+	  // Fetch user profile from MongoDB based on the email
+	  const user = await User.findOne({ email: googleProfile.email });
+  
+	  if (!user) {
+		// Handle the case where the user is not found in the database
+		return res.status(404).json({ message: 'User not found in the database' });
+	  }
+  
+	//   Perform any additional actions with the user profile
+	//   ...
+  
+	const token = generateCookieToken({
+		email: user.email,
+		id: user._id,
+	});
 
-		// Check if the user already exists in your database
-		let user = await User.findOne({ email: googleProfile.email }).select(
-			"-password"
-		);
-
-		// If the user doesn't exist, create a new user in your database
-		if (!user) {
-			user = await User.create({
-				email: googleProfile.email,
-				name: googleProfile.name,
-				// You may want to include additional user details from the Google profile
-			});
-		}
-
-		// Generate JWT token
-		const token = generateCookieToken({ email: user.email, id: user._id });
-
-		res.cookie("jwt", token, {
-			httpOnly: true,
-			secure: true,
-			sameSite: "None",
-			maxAge: 30 * 60 * 1000,
-		});
-
-		// Redirect the user or send a response with the token
-		res.status(200).json({ user, token });
-		console.log({ user, token });
+	// Creates Secure Cookie with token token
+	res.cookie("jwt", token, {
+		httpOnly: true,
+		secure: true,
+		sameSite: "None",
+		maxAge: 1 * 60 * 60 * 1000, //1hr
+	});
+	//   Redirect or send a response as needed
+	//   res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?email=${encodeURIComponent(user.email)}`);
+	// req.session.user = req.user;
+	  res.redirect(`https://quickbillpay.onrender.com/auth/google-verify`);
 	} catch (error) {
-		res
-			.status(500)
-			.json({ message: "Something went wrong during Google authentication" });
+	  // Handle errors
+	  console.error('Error fetching user profile:', error);
+	  res.status(500).json({ message: 'Internal Server Error' });
 	}
-};
+  };
+
 
 const signUp = async (req, res) => {
 	try {
@@ -70,8 +78,6 @@ const signUp = async (req, res) => {
 		});
 
 		sendConfirmationMail(newUnconfirmedUser, res);
-		
-		
 	} catch (error) {
 		// Handling any errors that occur during the process
 		console.log(error);
@@ -82,10 +88,10 @@ const signUp = async (req, res) => {
 const activateAccount = async (req, res) => {
 	try {
 		const token = req.params.token;
-		console.log(token)
+		console.log(token);
 
 		const unconfirmedUser = await UnconfirmedUser.findOne({ token });
-		console.log(unconfirmedUser)
+		console.log(unconfirmedUser);
 
 		if (!unconfirmedUser) {
 			return res
@@ -99,14 +105,14 @@ const activateAccount = async (req, res) => {
 			});
 
 			await UnconfirmedUser.findByIdAndDelete(unconfirmedUser._id);
-			console.log(confirmedUser)
+			console.log(confirmedUser);
 
 			return res
 				.status(200)
 				.json({ message: "Account activated successfully", confirmedUser });
 		}
 	} catch (error) {
-		console.log(error)
+		console.log(error);
 		res.status(500).json({ message: "Something went wrong" });
 	}
 };
@@ -122,13 +128,10 @@ const signIn = async (req, res) => {
 			return res.status(404).json({ error: "User doesn't exist" });
 
 		if (!existingUser.password) {
-			return res
-				.status(404)
-				.json({
-					error: "This user was registered using google Authentication",
-				});
+			return res.status(404).json({
+				error: "This user was registered using google Authentication",
+			});
 		}
-
 
 		// Comparing the provided password with the hashed password stored in the database
 		const correctPassword = await bcrypt.compare(
@@ -150,13 +153,13 @@ const signIn = async (req, res) => {
 			httpOnly: true,
 			secure: true,
 			sameSite: "None",
-			maxAge: 1 * 60 * 60 * 1000,  //1hr
+			maxAge: 1 * 60 * 60 * 1000, //1hr
 		});
 
-		existingUser.password = null
-		existingUser.updatedAt = null
-		existingUser.createdAt = null
-		
+		existingUser.password = null;
+		existingUser.updatedAt = null;
+		existingUser.createdAt = null;
+
 		res.status(200).json({ loggedInUser: existingUser, token });
 	} catch (error) {
 		// Handling any errors that occur during the process
@@ -170,7 +173,7 @@ const signOut = (req, res) => {
 		res.cookie("jwt", "", { maxAge: 1 });
 		res.status(200).json({ message: "User logged out successfully" });
 	} catch (err) {
-		console.log(err)
+		console.log(err);
 		res.status(500).json({ error: err.message }); //Internal server error
 	}
 };
@@ -179,6 +182,6 @@ module.exports = {
 	signUp,
 	signIn,
 	signOut,
-	googleAuthCallback,
 	activateAccount,
+	successRedirect
 };

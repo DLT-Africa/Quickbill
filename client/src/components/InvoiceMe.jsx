@@ -20,7 +20,7 @@ const InvoiceMe = () => {
   const payload = { name: user.name, email: user.email, address: user.address };
   const encodedToken = encodePayload(payload);
   const [inputValue, setInputValue] = useState(
-    `http://localhost:5173/invoices/create/${encodedToken}`
+    `https://quickbillpay.onrender.com/invoices/create/${encodedToken}`
     );
     const { hasCopied, onCopy } = useClipboard(inputValue);
     // console.log('Decoded Token:', decodedToken);
@@ -31,21 +31,13 @@ const InvoiceMe = () => {
   return (
     <>
       <Flex
-        // justifyContent={"space-between"}
         mx={10}
-        // gap={50}
         mt={30}
         borderRadius={10}
-        // mb={10}
         className="bill"
-        // maxH={'100vh'}
       >
-        {/* <Flex h={"full"}>
-          <Image src="/expenses.svg" />
-        </Flex> */}
         <Flex
           bg={"#fff"}
-          // justifyContent={"space-between"}
           alignItems={"center"}
           flexDir={"column"}
           px={20}
@@ -53,7 +45,6 @@ const InvoiceMe = () => {
           gap={100}
           borderRadius={10}
           boxShadow={"1px -1px 6px 2px rgba(0,0,0,0.75)"}
-          // h={700}
         >
           <Flex
             justifyContent={"center"}
@@ -80,16 +71,13 @@ const InvoiceMe = () => {
                   Select your invitation link
                 </FormLabel>
                 <Input
-                  // size="lg"
                   type="text"
                   _placeholder={{ color: "#1c1c1c" }}
                   bg={"#E9F3FE"}
                   value={inputValue}
                   border={"1px solid black"}
                   py={6}
-                  // w={'full'}
                   onChange={(e) => setInputValue(e.target.value)}
-                  // px={40}
                 />
               </FormControl>
             </Box>

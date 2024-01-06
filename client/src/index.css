@@ -13,3 +13,13 @@
   color: #2970ff;
 }
 
+
+@media only screen and (max-width: 992px) {
+  .Cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column: auto;
+    justify-content: center;
+    align-items: start;
+  }
+}
