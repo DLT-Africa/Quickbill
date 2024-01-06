@@ -25,12 +25,20 @@ import GoogleAuth from "./components/GoogleAuth";
 import { DataTableDemo } from "./components/DataTableDemo";
 import SentInvoiceTable from "./components/sentIvoicesTable/SentInvoiceTable";
 
+
+
+
+
+
+
+
 function App() {
 	return (
 		<>
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/test" element={<SentInvoiceTable />} />
+
 				<Route path="/auth" element={<AuthPage />} />
 				<Route path="/auth/google-verify" element={<GoogleAuth />} />
 				<Route path="/confirm-email" element={<AccountConfirmation />} />

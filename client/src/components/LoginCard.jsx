@@ -29,7 +29,6 @@ import { prevPathAtom } from "../atoms/prevPathAtom";
 import useShowToast from "../hooks/useShowToast";
 
 export default function SplitScreen() {
-
   const setAuthScreen = useSetRecoilState(authScreenAtom);
   const [showPassword, setShowPassword] = useState(false);
   const setUser = useSetRecoilState(userAtom);
@@ -94,7 +93,7 @@ export default function SplitScreen() {
   return (
     <Stack
       minH={"100vh"}
-      overflowX={'hidden'}
+      overflowX={"hidden"}
       direction={{ base: "column", md: "row" }}
       className="loginSignup"
     >
@@ -102,12 +101,13 @@ export default function SplitScreen() {
         flexDir={{ base: "column-reverse", md: "column" }}
         w={{ base: "full", md: "450px" }}
       >
-        <Link href="/">
-          <Box>
-            <Image src="short logo 2.png" alt="short logo" />
-          </Box>
-        </Link>
-
+        <Box>
+          <Image
+            onClick={() => navigate("/")}
+            src="short logo 2.png"
+            alt="short logo"
+          />
+        </Box>
         <Box>
           <Text
             as={"h2"}
@@ -118,7 +118,8 @@ export default function SplitScreen() {
             px={{ base: 4, md: 18 }}
             display={{ base: "none", md: "block" }}
           >
-            Boost Efficiency, Seamlessly & Manage Finances: Your Go-To Solution For Invoicing And Payroll
+            Boost Efficiency, Seamlessly & Manage Finances: Your Go-To Solution
+            For Invoicing And Payroll
           </Text>
 
           <Image
@@ -158,7 +159,6 @@ export default function SplitScreen() {
             </Box>
           </Box>
 
-
           <Stack spacing={4} w={500}>
             <form onSubmit={handleSubmit}>
               <FormControl
@@ -166,7 +166,6 @@ export default function SplitScreen() {
                 w={{ base: "60%", md: "80%", lg: "100%" }}
                 maxW="500px"
                 mx="auto"
-
               >
                 <FormLabel>Email address</FormLabel>
                 <Input
@@ -184,7 +183,6 @@ export default function SplitScreen() {
                 w={{ base: "60%", md: "80%", lg: "100%" }}
                 maxW="500px"
                 mx="auto"
-
               >
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
@@ -195,7 +193,6 @@ export default function SplitScreen() {
                     placeholder="Enter password"
                     border={"1px solid black"}
                     required
-
                   />
                   <InputRightElement h={"full"}>
                     <Button
@@ -210,11 +207,7 @@ export default function SplitScreen() {
                 </InputGroup>
               </FormControl>
 
-              <Stack
-                spacing={10}
-                pt={2}
-
-              >
+              <Stack spacing={10} pt={2}>
                 <Button
                   loadingText="Signing in"
                   size={{ base: "lg", md: "md" }}
@@ -225,10 +218,9 @@ export default function SplitScreen() {
                   }}
                   type="submit"
                   isLoading={loading}
-                  w={{ base: '400%', md: '80%', lg: '100%' }}
+                  w={{ base: "400%", md: "80%", lg: "100%" }}
                   maxW={{ base: "300px", md: "500px" }}
                   mx="auto"
-
                 >
                   Sign In
                 </Button>
