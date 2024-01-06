@@ -13,26 +13,27 @@ import {
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
-import { encodePayload } from '../utils/tokenUtils'
+import { encodePayload } from "../utils/tokenUtils";
 
 const InvoiceMe = () => {
-  const user = useRecoilValue(userAtom)
+  const user = useRecoilValue(userAtom);
   const payload = { name: user.name, email: user.email, address: user.address };
   const encodedToken = encodePayload(payload);
   const [inputValue, setInputValue] = useState(
     `https://quickbillpay.onrender.com/invoices/create/${encodedToken}`
-    );
-    const { hasCopied, onCopy } = useClipboard(inputValue);
-    // console.log('Decoded Token:', decodedToken);
-    // const decodedToken = decodeToken(encodedToken);
-    
-// console.log('Encoded Token:', encodedToken);
+  );
+  const { hasCopied, onCopy } = useClipboard(inputValue);
+  // console.log('Decoded Token:', decodedToken);
+  // const decodedToken = decodeToken(encodedToken);
+
+  // console.log('Encoded Token:', encodedToken);
 
   return (
     <>
       <Flex
-        mx={10}
-        mt={30}
+        mx={{ base: 0, md: 10 }}
+        mt={{ base: 2, md: 30 }}
+        overflowX={"hidden"}
         borderRadius={10}
         className="bill"
       >
@@ -40,9 +41,9 @@ const InvoiceMe = () => {
           bg={"#fff"}
           alignItems={"center"}
           flexDir={"column"}
-          px={20}
+          px={{ base: 4, md: 10, lg: 20 }}
           py={18}
-          gap={100}
+          gap={{ base: 20, md: 100 }}
           borderRadius={10}
           boxShadow={"1px -1px 6px 2px rgba(0,0,0,0.75)"}
         >
@@ -50,30 +51,44 @@ const InvoiceMe = () => {
             justifyContent={"center"}
             alignItems={"center"}
             flexDir={"column"}
-            px={40}
+            px={{ base: 10, md: 20, lg: 40 }}
             gap={2}
           >
-            <Text as={"h1"} fontSize={"3xl"} fontWeight={600}>
+            <Text
+              as={"h1"}
+              fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}
+              fontWeight={600}
+            >
               Invoice Me!
             </Text>
-            <Box>
+            <Box w={{ base: "50%", lg: "full" }}>
               <Image src="/Rectangle 10213.png" />
             </Box>
-            <Text as={"h2"} fontSize={"2xl"} fontWeight={400}>
+            <Text
+              as={"h2"}
+              fontSize={{ base: "md", md: "xl", lg: "2xl" }}
+              fontWeight={400}
+            >
               You can now easily share your personal or business information
               with your friends or suppliers, to invoice you easily.
             </Text>
           </Flex>
-          <Flex flexDir={"column"} alignItems={"flex-end"} gap={10}>
-            <Box w={630}>
+          <Flex
+            flexDir={"column"}
+            alignItems={{ base: "center", md: "flex-end" }}
+            gap={{ base: 4, md: 10 }}
+          >
+            <Box w={{ base: "full", md: 250, lg: 630 }}>
               <FormControl>
-                <FormLabel fontSize={"2xl"}>
+                <FormLabel fontSize={{ base: "lg", md: "xl", lg: "2xl" }}>
                   Select your invitation link
                 </FormLabel>
                 <Input
                   type="text"
-                  _placeholder={{ color: "#1c1c1c" }}
+                  _placeholder={{ color: "#1c1c1c", fontSize: "lg" }}
                   bg={"#E9F3FE"}
+                  size={{ base: "md", md: "lg" }}
+                  fontSize={{ base: "sm", md: "lg", lg: "xl" }}
                   value={inputValue}
                   border={"1px solid black"}
                   py={6}
@@ -84,9 +99,9 @@ const InvoiceMe = () => {
             <Button
               bg={"#2970FF"}
               color={"#F6F6F6"}
-              size={"lg"}
+              size={{ base: "md", md: "lg" }}
               transition={"all 1s"}
-              fontSize={"xl"}
+              fontSize={{ base: "sm", md: "lg", lg: "xl" }}
               onClick={onCopy}
               _hover={{
                 bg: useColorModeValue("#2970FF", "#599cff"),
