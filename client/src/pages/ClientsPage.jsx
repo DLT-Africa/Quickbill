@@ -5,8 +5,7 @@ import Clients from '../components/Clients'
 const ClientsPage = () => {
   return (
     <SidebarWithHeader>
-
-    <Clients />
+      <Clients />
     </SidebarWithHeader>
   )
 }
