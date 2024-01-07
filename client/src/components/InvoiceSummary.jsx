@@ -542,7 +542,7 @@ const InvoiceSummary = () => {
 						</form>
 					</Modal>
 				</Flex>
-				<Accordion mx={'auto'} mt={8} w={'95%'} defaultIndex={[0]} allowMultiple>
+				<Accordion mx={'auto'} mt={8} w={'98%'} defaultIndex={[0]} allowMultiple>
 						<AccordionItem>
 							<h2>
 								<AccordionButton gap={4}>
@@ -595,7 +595,8 @@ const InvoiceSummary = () => {
 					</Accordion>
 			</Box>
 			<Box
-				m={10}
+				my={10}
+				mx={8}
 				py={10}
 				border={"1px solid black"}
 				bg={"#fff"}
@@ -681,14 +682,14 @@ const InvoiceSummary = () => {
 				{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
 
 				<Box mt={8}>
-					<Table variant="striped" colorScheme="gray.600">
+					<Table fontSize={{sm: 'md'}} variant="striped" colorScheme="gray.600">
 						<Thead>
 							<Tr bg={"#F4F4F4"}>
-								<Th w={300}>Item</Th>
+								<Th >Item</Th>
 
 								<Th>Qty</Th>
 								<Th>Unit Price ({invoiceDetails.currency})</Th>
-								<Th>Discount(%)</Th>
+								<Th>Discount (%)</Th>
 								<Th>Amount ({invoiceDetails.currency})</Th>
 							</Tr>
 						</Thead>
