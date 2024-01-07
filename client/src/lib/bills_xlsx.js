@@ -12,7 +12,7 @@ export function downloadToExcel(data) {
 					label: "Invoice No",
 					value: (row) => row.invoiceNumber.toString().padStart(3, "0"),
 				},
-				{ label: "Client", value: "client.name" },
+				{ label: "Name", value: "creatorId.name" },
 				{ label: "Currency", value: "currency" },
 				{ label: "Initial Amount", value: "grandTotal" },
 				{ label: "Amount Due", value: "remainingAmount" },
@@ -27,7 +27,7 @@ export function downloadToExcel(data) {
 	];
 
 	let settings = {
-		fileName: "Sent Invoices Excel",
+		fileName: "Received Invoices Excel",
 	};
 
 	xlsx(columns, settings);
