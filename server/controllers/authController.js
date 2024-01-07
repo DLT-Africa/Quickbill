@@ -33,7 +33,7 @@ const successRedirect = async (req, res) => {
 
 		// Creates Secure Cookie with token token
 		res.cookie("jwt", token, {
-			domain: "onrender.com",
+			domain: "quickbillpay.onrender.com",
 			// path: "/",
 			httpOnly: true,
 			secure: true,
@@ -148,7 +148,7 @@ const signIn = async (req, res) => {
 
 		// Creates Secure Cookie with token token
 		res.cookie("jwt", token, {
-			domain: "onrender.com",
+			domain: "quickbillpay.onrender.com",
 			// path: "/",
 			httpOnly: true,
 			secure: true,
