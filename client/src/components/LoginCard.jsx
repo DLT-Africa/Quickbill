@@ -168,8 +168,11 @@ export default function SplitScreen() {
 						</Box>
 					</Box>
 
-					<Stack spacing={4} w={500}>
+					<Stack spacing={4} >
 						<form onSubmit={handleSubmit}>
+						<Box w={{ base: "100%", md: "80%", lg: "100%" }} maxW="500px"
+                mx="auto" 
+                >
 							<FormControl
 								isRequired
 								w={{ base: "60%", md: "80%", lg: "100%" }}
@@ -245,7 +248,9 @@ export default function SplitScreen() {
 									</Link>
 								</Text>
 							</Stack>
+							</Box>
 						</form>
+
 					</Stack>
 				</Stack>
 			</Flex>
