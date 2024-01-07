@@ -50,7 +50,7 @@ const AccountConfirmation = () => {
           fontWeight={{ base: 500, md: 800 }}
         >
           {" "}
-          succesfully created{" "}
+          successfully created{" "}
         </Text>
       </Flex>
 
