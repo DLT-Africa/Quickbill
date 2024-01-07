@@ -23,9 +23,7 @@ const NavBar = (props) => {
       p={15}
       justifyContent={"space-between"}
       alignItems={"center"}
-      position={"sticky"}
-      zIndex={9999}
-      top={0}
+     
       bg={"#fff"}
     >
       <Image bg={"#fff"} src="/short logo 2.png" borderRadius={8} />
@@ -98,8 +96,8 @@ const MenuLinks = ({ isOpen }) => {
         <MenuItem to="/login">
           <Link
             as={RouterLink}
-            to={"/auth"}
             onClick={() => setAuthScreen("login")}
+            to={"/auth"}
           >
             <Button
               size={"lg"}
@@ -120,8 +118,8 @@ const MenuLinks = ({ isOpen }) => {
         <MenuItem to="/signup" isLast>
           <Link
             as={RouterLink}
-            to={"/auth"}
             onClick={() => setAuthScreen("signup")}
+            to={"/auth"}
           >
             <Button
               transition={"all 1s"}
@@ -148,6 +146,7 @@ const NavBarContainer = ({ children, ...props }) => {
       justifyContent={"center"}
       alignItems={"center"}
       gap={30}
+      
       color={"#1c1c1c"}
       fontSize={"xl"}
       fontWeight={400}
