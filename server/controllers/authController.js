@@ -40,6 +40,7 @@ const successRedirect = async (req, res) => {
 		// 	sameSite: "None",
 		// 	maxAge: 1 * 60 * 60 * 1000, //1hr
 		// });
+
 		//   Redirect or send a response as needed
 		  res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?token=${token}`);
 		// req.session.user = req.user;
@@ -155,6 +156,7 @@ const signIn = async (req, res) => {
 		// 	sameSite: "None",
 		// 	maxAge: 1 * 60 * 60 * 1000, //1hr
 		// });
+
 
 		existingUser.password = null;
 		existingUser.updatedAt = null;
