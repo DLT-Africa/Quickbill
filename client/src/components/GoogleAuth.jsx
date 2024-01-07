@@ -17,12 +17,12 @@ const GoogleAuth = () => {
 	const [user, setUser] = useRecoilState(userAtom);
 	// const [token, setToken] = useState("");
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-	localStorage.setItem("token", token);
 	const axiosInstance = useAxiosInstance();
 	const [token, setToken] = useRecoilState(tokenAtom);
-
+	
 	setToken(receivedToken);
-
+	
+	localStorage.setItem("token", receivedToken);
 	// console.log(encodedEmail)
 
 	// useEffect(() => {
@@ -59,7 +59,7 @@ const GoogleAuth = () => {
 				console.log(error.response);
 			}
 		};
-		
+
 		if (token) {
 			verifyDetails();
 		} // console.log(`Encoded email: ${encodedEmail}`)
