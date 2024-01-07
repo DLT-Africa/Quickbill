@@ -33,12 +33,14 @@ import BillsTable from "./components/bills/BillsTable";
 
 
 
+
 function App() {
 	return (
 		<>
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route path="/test" element={<BillsTable />} />
+
 
 				<Route path="/auth" element={<AuthPage />} />
 				<Route path="/auth/google-verify" element={<GoogleAuth />} />
