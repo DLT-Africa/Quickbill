@@ -80,6 +80,8 @@ const MenuLinks = ({ isOpen }) => {
     <Box
       display={{ base: isOpen ? "block" : "none", md: "block" }}
       flexBasis={{ base: "100%", md: "auto" }}
+      font-size= {{ base: "14px", md: "16px", lg: "18px" }}
+
     >
       <Stack
         spacing={8}
@@ -87,10 +89,12 @@ const MenuLinks = ({ isOpen }) => {
         justify={["center", "space-between", "flex-end", "flex-end"]}
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 0, 0]}
+       
+
       >
         <MenuItem to="/">Home</MenuItem>
-        <MenuItem to="/about">About us </MenuItem>
-        <MenuItem to="/fcontact">Contact </MenuItem>
+        <MenuItem to="/about">About-us </MenuItem>
+        <MenuItem to="/contact">Contact </MenuItem>
         <MenuItem to="/login">
           <Link
             as={RouterLink}
