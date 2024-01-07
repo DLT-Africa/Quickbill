@@ -9,7 +9,9 @@ import Footer from '../components/Footer'
 const HomePage = () => {
   return (
     <Box bg={'#eeeeee'} overflowX={'hidden'}>
-      <NavBar />
+      <NavBar  position={"sticky"}
+      zIndex={9999}
+      top={0} />
       <HeroSec />
       <PayrollCon />
       <Container />
