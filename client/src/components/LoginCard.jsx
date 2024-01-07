@@ -178,6 +178,7 @@ export default function SplitScreen() {
 								w={{ base: "60%", md: "80%", lg: "100%" }}
 								maxW="500px"
 								mx="auto"
+								my={5}
 							>
 								<FormLabel>Email address</FormLabel>
 								<Input
@@ -195,6 +196,7 @@ export default function SplitScreen() {
 								w={{ base: "60%", md: "80%", lg: "100%" }}
 								maxW="500px"
 								mx="auto"
+								my={5}
 							>
 								<FormLabel>Password</FormLabel>
 								<InputGroup>
