@@ -28,17 +28,11 @@ import SentInvoiceTable from "./components/sentIvoicesTable/SentInvoiceTable";
 
 
 
-
-
-
-
-
 function App() {
 	return (
 		<>
 			<Routes>
 				<Route path="/" element={<HomePage />} />
-		
 				<Route path="/test" element={<SentInvoiceTable />} />
 				<Route path="/auth" element={<AuthPage />} />
 				<Route path="/auth/google-verify" element={<GoogleAuth />} />

@@ -31,13 +31,15 @@ import useShowToast from "../hooks/useShowToast";
 export default function SplitScreen() {
   const setAuthScreen = useSetRecoilState(authScreenAtom);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const setUser = useSetRecoilState(userAtom);
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
   const showToast = useShowToast();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); 
   const axiosInstance = useAxiosInstance();
 
 
@@ -47,13 +49,18 @@ export default function SplitScreen() {
     try {
       const response = await axiosInstance.post(
         "/auth/signup",
-        JSON.stringify({ name, email, password })
+        JSON.stringify({ name, email, password, confirmPassword })
       );
       // const loggedUser = response.data.loggedInUser;
       const data = response.data;
 
       if (data.message) {
         showToast("Success", data.message, "success");
+      }
+
+      if (password !== confirmPassword ) {
+
+        return  showToast("Error", 'password does not correspond', "error")
       }
 
       navigate("/confirm-email");
@@ -81,6 +88,7 @@ export default function SplitScreen() {
         flexDir={{ base: "column-reverse", md: "column" }}
         w={{ base: "full", md: "450px" }}
         justifyContent={'center'}
+       
       >
         <Link href="/">
            <Image src="short logo 2.png" alt="short logo" />
@@ -109,7 +117,7 @@ export default function SplitScreen() {
           />
         </Box>
       </Flex>
-      <Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"}>
+      <Flex p={8} flex={1} align={"center"} justify={"center"} bg={"#f6f6f6"}  >
         <Stack spacing={4} w={"full"} maxW={"md"} align={"center"}>
           <Heading fontSize={{ base: '2xl', sm: '3xl', md: "4xl" }} textAlign={"center"}>
             Create Account
@@ -124,21 +132,22 @@ export default function SplitScreen() {
                 color={"white"}
                 onClick={handleGoogleAuth}
               >
-                {" "}
+               
                 Continue with Google
               </Button>
             </Flex>
-            <Box position="relative" padding="7" fontSize={{ base: "xl", md: "2xl" }}>
+            <Box position="relative" padding="5" fontSize={{ base: "xl", md: "2xl" }}>
               <AbsoluteCenter px="1"> or </AbsoluteCenter>
             </Box>
           </Box>
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
               <Box w={{ base: "100%", md: "80%", lg: "100%" }} maxW="500px"
-                mx="auto">
+                mx="auto" 
+                >
                 <FormControl
                   isRequired
-                >
+                my={5}>
                   <FormLabel> Name</FormLabel>
                   <Input
                     type="text"
@@ -153,6 +162,7 @@ export default function SplitScreen() {
 
                 <FormControl
                   isRequired
+                  my={5}
                 >
                   <FormLabel>Email address</FormLabel>
                   <Input
@@ -167,6 +177,7 @@ export default function SplitScreen() {
 
                 <FormControl
                   isRequired
+                  my={5}
                 >
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
@@ -186,6 +197,33 @@ export default function SplitScreen() {
                         }
                       >
                         {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+
+                <FormControl
+                  isRequired
+                  my={5}
+                >
+                  <FormLabel>Confirm Password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      type={showConfirmPassword ? "text" : "password"}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      value={confirmPassword}
+                      placeholder="Confirm password"
+                      border={"1px solid black"}
+                      required
+                    />
+                    <InputRightElement h={"full"}>
+                      <Button
+                        variant={"ghost"}
+                        onClick={() =>
+                          setShowConfirmPassword((showConfirmPassword) => !showConfirmPassword)
+                        }
+                      >
+                        {showConfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
                       </Button>
                     </InputRightElement>
                   </InputGroup>
