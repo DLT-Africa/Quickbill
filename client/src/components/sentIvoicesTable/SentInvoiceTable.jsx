@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import DataTable from "./DataTable";
 import { columns } from "./columns";
-import { axiosInstance } from "../../../api/axios";
+import {  useAxiosInstance } from "../../../api/axios";
 import SidebarWithHeader from "../SidebarWithHeader";
 import { Box, Button, Flex, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs, Text, useColorModeValue } from "@chakra-ui/react";
 
@@ -22,6 +22,8 @@ const SentInvoiceTable = () => {
 	const [loading, setLoading] = useState(true);
 	const logout = useLogout();
 	const navigate = useNavigate();
+	const axiosInstance = useAxiosInstance();
+
 
 	useEffect(() => {
 		setLoading(true);

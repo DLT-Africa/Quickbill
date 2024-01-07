@@ -19,7 +19,7 @@ import React, { useState } from "react";
 
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import useShowToast from "../hooks/useShowToast";
 import { set } from "date-fns";
 import { prevPathAtom } from "../atoms/prevPathAtom";
@@ -36,6 +36,8 @@ const EmployeePerRow = ({ employee, setEmployees }) => {
 	});
 	const [loading, setLoading] = useState(false);
 	const [deleteClientModalOpen, setDeleteClientModalOpen] = useState(false);
+	const axiosInstance = useAxiosInstance();
+
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
   const logout = useLogout()
 	const showToast = useShowToast();

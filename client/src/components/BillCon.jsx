@@ -22,7 +22,7 @@ import {
 import { GoDownload } from "react-icons/go";
 import InvoicePerRow from "./InvoicePerRow";
 import { useEffect } from "react";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import { prevPathAtom } from "../atoms/prevPathAtom";
 import { useRecoilState } from "recoil";
 import useLogout from "../hooks/useLogout";
@@ -41,6 +41,8 @@ const BillCon = () => {
 	const [invoiceToDownl, setInvoiceToDownl] = useState([]);
 	const [fetching, setFetching] = useState(true)
 	const errorHandler = useErrorHandler()
+	const axiosInstance = useAxiosInstance();
+
 
 	const logout = useLogout();
 
