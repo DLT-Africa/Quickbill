@@ -14,7 +14,7 @@ import {
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { downloadToExcel } from "@/lib/sentInvoice_xlsx";
+import { downloadToExcel } from "@/lib/bills_xlsx";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -76,9 +76,9 @@ export function DataTable({ columns, data }) {
 			<div className="flex items-center py-4">
 				<Input
 					placeholder="Filter names..."
-					value={table.getColumn("client_name")?.getFilterValue() || ""}
+					value={table.getColumn("creatorId_name")?.getFilterValue() || ""}
 					onChange={(event) =>
-						table.getColumn("client_name")?.setFilterValue(event.target.value)
+						table.getColumn("creatorId_name")?.setFilterValue(event.target.value)
 					}
 					className="max-w-sm mr-4"
 				/>
@@ -96,7 +96,7 @@ export function DataTable({ columns, data }) {
 							.map((column) => {
 								const columnNames = {
 									invoiceNumber: "Invoice Number",
-									client_name: "Client Name",
+									creatorId_name: "Name",
 									grandTotal: "Initial Amount",
 									remainingAmount: "Due Amount",
 									dueDate: "Due Date",
@@ -194,7 +194,7 @@ export function DataTable({ columns, data }) {
 						Next
 					</Button> */}
 
-<div className="flex gap-2">
+					<div className="flex gap-2">
 						<Button
 							onClick={() => table.setPageIndex(0)}
 							disabled={!table.getCanPreviousPage()}
@@ -286,6 +286,7 @@ export function DataTable({ columns, data }) {
 					/>
 					<hr />
 					<h4>Current page size: {table.options.state.pagination.pageSize}</h4> */}
+				
 				</div>
 			</div>
 		</div>
