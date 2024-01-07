@@ -16,7 +16,7 @@ import {
 import { useRecoilState } from "recoil";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import sendInviteModalOpenAtom from "../atoms/sendInviteModalOpenAtom";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import useShowToast from "../hooks/useShowToast";
 import { set } from "date-fns";
 import allClientsAtom from "../atoms/allClientsAtom";
@@ -38,6 +38,8 @@ const AddClientModal = () => {
 		sendInviteModalOpenAtom
 	);
 	const [clients, setClients] = useRecoilState(allClientsAtom);
+	const axiosInstance = useAxiosInstance();
+
 	const errorHandler = useErrorHandler();
 
 	const handleChange = (e) => {

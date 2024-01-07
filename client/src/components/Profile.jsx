@@ -19,7 +19,7 @@ import usePreviewImg from "../hooks/usePreviewImg";
 import { useRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import useShowToast from "../hooks/useShowToast";
 
 const Profile = () => {
@@ -27,7 +27,9 @@ const Profile = () => {
 	const fileRef = useRef(null);
 	const { handleImageChange, imgUrl } = usePreviewImg();
 	const [updating, setUpdating] = useState(false);
-	const showToast = useShowToast();
+  const showToast = useShowToast();
+  const axiosInstance = useAxiosInstance();
+
 
 	// const [name, setName] = useState("");
 	// const [email, setEmail] = useState("");

@@ -19,7 +19,7 @@ import React, { useState } from "react";
 
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import useShowToast from "../hooks/useShowToast";
 import { set } from "date-fns";
 import { prevPathAtom } from "../atoms/prevPathAtom";
@@ -40,6 +40,8 @@ const ClientPerRow = ({ client, setClients }) => {
 	const logout = useLogout()
 	const showToast = useShowToast();
 	const errorHandler = useErrorHandler()
+	const axiosInstance = useAxiosInstance();
+
 
 	const handleChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });

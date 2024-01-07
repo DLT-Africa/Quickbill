@@ -16,7 +16,7 @@ import userAtom from "../atoms/userAtom";
 import { GrTransaction } from "react-icons/gr";
 import { MdOutlinePaid } from "react-icons/md";
 import { GiCancel } from "react-icons/gi";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import allPayrollsAtom from "../atoms/allPayrollsAtom";
 import useLogout from "../hooks/useLogout";
 import { prevPathAtom } from "../atoms/prevPathAtom";
@@ -29,6 +29,7 @@ const PayrollRow = ({ singlePayroll }) => {
 	const setAllPayrolls = useSetRecoilState(allPayrollsAtom);
 	const [isActionDisabled, setIsActionDisabled] = useState(false);
     const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const axiosInstance = useAxiosInstance();
 	const logout = useLogout();
 
 	useEffect(() => {
