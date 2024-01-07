@@ -89,25 +89,33 @@ const BillsTable = () => {
 
 	return (
 		<>
-				<Flex justifyContent={"space-between"} p={{base: 0, sm: 2, md: 4}} flexDir={"row"}>
-					<Text as={"p"} fontSize={"3xl"} fontWeight={600} color={"black"}>
-						Sent invoices
+					<Flex justifyContent={"space-between"} p={5} flexDir={"row"}>
+				{/* <Text as={"p"} fontSize={"4xl"} fontWeight={600} color={"black"}>
+					Sent invoices
+				</Text> */}
+				<Box>
+					<Text fontSize={36} textAlign={"left"} fontWeight={700}>
+						Bills
 					</Text>
-					<Flex gap={"5"}>
-						<Button
-							transition={"all 1s"}
-							bg={"#2970ff"}
-							_hover={{
-								bg: "#599cff",
-							}}
-							color={"#f5f5f5"}
-							onClick={() => navigate("/invoices/create")}
-						>
-							Create invoice
-						</Button>
-						
-					</Flex>
+					<Text as={"p"} fontSize={"xl"} fontWeight={300}>
+						Manage all the invoices you received from vendors
+					</Text>
+				</Box>
+				<Flex gap={"5"}>
+					<Button
+						transition={"all 1s"}
+						bg={"#2970ff"}
+						_hover={{
+							bg: useColorModeValue("#599cff"),
+						}}
+						color={"#f5f5f5"}
+						onClick={() => navigate("/invoices/create")}
+					>
+						Create invoice
+					</Button>
+			
 				</Flex>
+			</Flex>
 
 				<Box px={{sm: 2, md: 4}}>
 					<Tabs align="end">
