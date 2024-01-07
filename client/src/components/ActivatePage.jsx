@@ -40,7 +40,6 @@ const ActivatePage = () => {
 			} catch (error) {
 				console.log(error);
 				navigate("/link-expired");
-				// setLoading(false);
 			} finally {
 				setLoading(false);
 			}
@@ -75,20 +74,25 @@ const ActivatePage = () => {
 				flexDirection={"column"}
 				justifyContent={"center"}
 				alignItems={"center"}
+				py={{ base: 5, md: 10, lg: 20 }}
+				px={{ base: 2, md: 5, lg: 8 }}
 			>
 				<IconButton
 					isRound={true}
 					variant="solid"
-					// colorScheme='blue'
 					bg={"#3D843C"}
 					color={"#fff"}
 					aria-label="Done"
 					fontSize="25px"
 					icon={<CheckIcon />}
-					mt={20}
 				/>
 
-				<Text as={"h1"} fontWeight={800} mt={5} fontSize={"2xl"}>
+				<Text
+					as={"h1"}
+					mt={{ base: 2, md: 5 }}
+					fontWeight={{ base: 400, md: 600, lg: 800 }}
+					fontSize={{ base: "lg", sm: "xl", md: "2xl", lg: "3xl" }}
+				>
 					{" "}
 					Your Email has been Verified
 				</Text>
@@ -96,7 +100,7 @@ const ActivatePage = () => {
 
 			<Center py={6}>
 				<Box
-					maxW={"35rem"}
+					maxW={{ base: "80%", sm: "25rem", md: "35rem" }}
 					bg={useColorModeValue("white", "gray.800")}
 					boxShadow={"2xl"}
 					rounded={"md"}
@@ -104,7 +108,7 @@ const ActivatePage = () => {
 				>
 					<Stack textAlign={"center"} p={8} color={"#3D843C"} align={"center"}>
 						<Text
-							fontSize={"3xl"}
+							fontSize={{ base: "md", md: "md", lg: "xl" }}
 							fontWeight={800}
 							p={2}
 							px={3}
@@ -120,7 +124,7 @@ const ActivatePage = () => {
 						px={6}
 						py={10}
 					>
-						<Text fontSize={"lg"}>
+						<Text fontSize={{ base: "md", md: "xl", lg: "2xl" }}>
 							Your email has been verified. You can continue to login with your
 							registered details
 						</Text>
@@ -130,6 +134,7 @@ const ActivatePage = () => {
 								mt={10}
 								size={"lg"}
 								w={"full"}
+								fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
 								bg={"blue.400"}
 								color={"white"}
 								rounded={"xl"}

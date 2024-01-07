@@ -30,6 +30,7 @@ const Profile = () => {
   const showToast = useShowToast();
   const axiosInstance = useAxiosInstance();
 
+
 	// const [name, setName] = useState("");
 	// const [email, setEmail] = useState("");
 
@@ -63,17 +64,17 @@ const Profile = () => {
 		if (updating) return;
 		setUpdating(true);
 		try {
-			const res = await axiosInstance.put(`/account/profile`, 
-				 JSON.stringify({ ...inputs, profilePic: imgUrl })
+			const res = await axiosInstance.put(`/account/profile`,
+				JSON.stringify({ ...inputs, profilePic: imgUrl })
 			);
 			const data = res.data
-      console.log(data)
-      setUser(data);
-      localStorage.setItem("user-quickBill", JSON.stringify(data));
-      showToast("Success", "Profile updated successfully", "success")
-		
+			console.log(data)
+			setUser(data);
+			localStorage.setItem("user-quickBill", JSON.stringify(data));
+			showToast("Success", "Profile updated successfully", "success")
+
 		} catch (error) {
-      console.log(error)
+			console.log(error)
 			showToast("Error", 'error', "error");
 		} finally {
 			setUpdating(false);
@@ -83,6 +84,7 @@ const Profile = () => {
 	return (
 		<form onSubmit={handleSubmit}>
 			<Flex
+				overflowX={'hidden'}
 				align={"center"}
 				justify={"center"}
 				bg={useColorModeValue("gray.50", "gray.800")}
