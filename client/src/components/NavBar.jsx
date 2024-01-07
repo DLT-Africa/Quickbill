@@ -90,9 +90,9 @@ const MenuLinks = ({ isOpen }) => {
        
 
       >
-        <MenuItem to="/">Home</MenuItem>
-        <MenuItem to="/about">About-us </MenuItem>
-        <MenuItem to="/contact">Contact </MenuItem>
+        <MenuItem fontSize={{base: 'sm', md: 'lg'}} to="/">Home</MenuItem>
+        <MenuItem fontSize={{base: 'sm', md: 'lg'}} to="/about">About-us </MenuItem>
+        <MenuItem fontSize={{base: 'sm', md: 'lg'}} to="/contact">Contact </MenuItem>
         <MenuItem to="/login">
           <Link
             as={RouterLink}
@@ -100,7 +100,7 @@ const MenuLinks = ({ isOpen }) => {
             to={"/auth"}
           >
             <Button
-              size={"lg"}
+              size={{base: 'sm', md: 'lg'}}
               variant="ghost"
               transition={"all 1s"}
               boxShadow="xl"
@@ -123,11 +123,12 @@ const MenuLinks = ({ isOpen }) => {
           >
             <Button
               transition={"all 1s"}
+              size={{base: 'sm', md: 'lg'}}
+
               bg={"#2970ff"}
               _hover={{
                 bg: useColorModeValue("#599cff"),
               }}
-              size={"lg"}
               color={"#f5f5f5"}
             >
               Sign up
