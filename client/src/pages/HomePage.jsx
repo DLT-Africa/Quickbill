@@ -8,7 +8,7 @@ import Footer from '../components/Footer'
 
 const HomePage = () => {
   return (
-    <Box bg={'#eeeeee'} overflowX={'hidden'}>
+    <Box bg={'#eeeeee'}>
       <NavBar  position={"sticky"}
       zIndex={9999}
       top={0} />
