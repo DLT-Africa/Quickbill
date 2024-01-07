@@ -37,7 +37,7 @@ const ClientPerRow = ({ client, setClients }) => {
 	const [loading, setLoading] = useState(false);
 	const [deleteClientModalOpen, setDeleteClientModalOpen] = useState(false);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-  const logout = useLogout()
+	const logout = useLogout()
 	const showToast = useShowToast();
 	const errorHandler = useErrorHandler()
 
@@ -55,35 +55,35 @@ const ClientPerRow = ({ client, setClients }) => {
 			);
 			setLoading(false);
 			setUpdateClientModalOpen(false);
-            setClients(response.data);
+			setClients(response.data);
 			localStorage.setItem("clients-quickBill", JSON.stringify(response.data));
 			showToast("Success", "Client details updated successfully", "success");
 			console.log(response.data);
 		} catch (error) {
 			console.error(error);
-				errorHandler(error);
+			errorHandler(error);
 		}
 	};
 
-    const handleDeleteClient = async () => {
-        try {
-            const response = await axiosInstance.delete(`/clients/${client._id}`);
-            setClients(response.data);
-            setDeleteClientModalOpen(false);
-            showToast("Success", "Client deleted successfully", "success");
-            localStorage.setItem("clients-quickBill", JSON.stringify(response.data));
-            console.log(response.data);
-        } catch (error) {
-				errorHandler(error);
-        }
-    
-    }
+	const handleDeleteClient = async () => {
+		try {
+			const response = await axiosInstance.delete(`/clients/${client._id}`);
+			setClients(response.data);
+			setDeleteClientModalOpen(false);
+			showToast("Success", "Client deleted successfully", "success");
+			localStorage.setItem("clients-quickBill", JSON.stringify(response.data));
+			console.log(response.data);
+		} catch (error) {
+			errorHandler(error);
+		}
+
+	}
 
 	return (
 		<Tr>
-			<Td>{client.name}</Td>
-			<Td> {client.email}</Td>
-			<Td>{client.address}</Td>
+			<Td fontSize={{ base: '12px', md: '18px', lg: 'xl' }}>{client.name}</Td>
+			<Td fontSize={{ base: '12px', md: '18px', lg: 'xl' }}> {client.email}</Td>
+			<Td fontSize={{ base: '12px', md: '18px', lg: 'xl' }}>{client.address}</Td>
 			<Td>
 				<FaEdit
 					cursor={"pointer"}
@@ -146,7 +146,7 @@ const ClientPerRow = ({ client, setClients }) => {
 				</form>
 			</Modal>
 
-            <Modal
+			<Modal
 				isOpen={deleteClientModalOpen}
 				onClose={() => setDeleteClientModalOpen(false)}
 			>
@@ -162,7 +162,7 @@ const ClientPerRow = ({ client, setClients }) => {
 							mr={3}
 							onClick={handleDeleteClient}
 							isLoading={loading}
-                            colorScheme={'red'}
+							colorScheme={'red'}
 						>
 							Delete Client
 						</Button>

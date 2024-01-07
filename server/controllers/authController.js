@@ -8,50 +8,48 @@ const passport = require("passport");
 
 // Google authentication callback
 
-
-
-
-
-
-  const successRedirect = async (req, res) => {
+const successRedirect = async (req, res) => {
 	try {
-	//   // Assuming the user is available in req.user after successful authentication
-	  const googleProfile = req.user;
-  
-	  // Fetch user profile from MongoDB based on the email
-	  const user = await User.findOne({ email: googleProfile.email });
-  
-	  if (!user) {
-		// Handle the case where the user is not found in the database
-		return res.status(404).json({ message: 'User not found in the database' });
-	  }
-  
-	//   Perform any additional actions with the user profile
-	//   ...
-  
-	const token = generateCookieToken({
-		email: user.email,
-		id: user._id,
-	});
+		//   // Assuming the user is available in req.user after successful authentication
+		const googleProfile = req.user;
 
-	// Creates Secure Cookie with token token
-	res.cookie("jwt", token, {
-		httpOnly: true,
-		secure: true,
-		sameSite: "None",
-		maxAge: 1 * 60 * 60 * 1000, //1hr
-	});
-	//   Redirect or send a response as needed
-	//   res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?email=${encodeURIComponent(user.email)}`);
-	// req.session.user = req.user;
-	  res.redirect(`https://quickbillpay.onrender.com/auth/google-verify`);
+		// Fetch user profile from MongoDB based on the email
+		const user = await User.findOne({ email: googleProfile.email });
+
+		if (!user) {
+			// Handle the case where the user is not found in the database
+			return res
+				.status(404)
+				.json({ message: "User not found in the database" });
+		}
+
+		//   Perform any additional actions with the user profile
+		//   ...
+
+		const token = generateCookieToken({
+			email: user.email,
+			id: user._id,
+		});
+
+		// Creates Secure Cookie with token token
+		res.cookie("jwt", token, {
+			domain: "onrender.com",
+			// path: "/",
+			httpOnly: true,
+			secure: true,
+			sameSite: "None",
+			maxAge: 1 * 60 * 60 * 1000, //1hr
+		});
+		//   Redirect or send a response as needed
+		//   res.redirect(`https://quickbillpay.onrender.com/auth/google-verify?email=${encodeURIComponent(user.email)}`);
+		// req.session.user = req.user;
+		res.redirect(`https://quickbillpay.onrender.com/auth/google-verify`);
 	} catch (error) {
-	  // Handle errors
-	  console.error('Error fetching user profile:', error);
-	  res.status(500).json({ message: 'Internal Server Error' });
+		// Handle errors
+		console.error("Error fetching user profile:", error);
+		res.status(500).json({ message: "Internal Server Error" });
 	}
-  };
-
+};
 
 const signUp = async (req, res) => {
 	try {
@@ -150,6 +148,8 @@ const signIn = async (req, res) => {
 
 		// Creates Secure Cookie with token token
 		res.cookie("jwt", token, {
+			domain: "onrender.com",
+			// path: "/",
 			httpOnly: true,
 			secure: true,
 			sameSite: "None",
@@ -183,5 +183,5 @@ module.exports = {
 	signIn,
 	signOut,
 	activateAccount,
-	successRedirect
+	successRedirect,
 };
