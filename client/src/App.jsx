@@ -24,7 +24,7 @@ import ClientsPage from "./pages/ClientsPage";
 import GoogleAuth from "./components/GoogleAuth";
 import { DataTableDemo } from "./components/DataTableDemo";
 import SentInvoiceTable from "./components/sentIvoicesTable/SentInvoiceTable";
-import Nav2 from "./components/Nav2"
+
 
 
 
@@ -38,7 +38,7 @@ function App() {
 		<>
 			<Routes>
 				<Route path="/" element={<HomePage />} />
-				<Route path="/nav2" element={<Nav2 />} />
+		
 				<Route path="/test" element={<SentInvoiceTable />} />
 				<Route path="/auth" element={<AuthPage />} />
 				<Route path="/auth/google-verify" element={<GoogleAuth />} />
