@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import { useParams } from "react-router-dom";
 import { format, set } from "date-fns";
 import ItemRow from "./ItemRow";
@@ -85,6 +85,7 @@ const InvoiceSummary = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const logout = useLogout();
+	const axiosInstance = useAxiosInstance();
 
 	const showToast = useShowToast();
 

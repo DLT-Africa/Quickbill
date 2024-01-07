@@ -13,7 +13,7 @@ import { CheckIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import axios from "axios";
 
 const ActivatePage = () => {
@@ -21,6 +21,7 @@ const ActivatePage = () => {
 	const [loading, setLoading] = useState(true);
 	const { token } = useParams();
 	const navigate = useNavigate();
+	const axiosInstance = useAxiosInstance();
 
 	console.log("I am rendering confirm email");
 

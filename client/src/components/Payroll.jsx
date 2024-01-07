@@ -20,7 +20,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import useLogout from "../hooks/useLogout";
 import { prevPathAtom } from "../atoms/prevPathAtom";
 import { useRecoilState } from "recoil";
@@ -38,6 +38,7 @@ const Payroll = () => {
 	const [payrollSummary, setPayrollSummary] = useState({})
 	const logout = useLogout();
 	const [fetching, setFetching] = useState(true)
+	const axiosInstance = useAxiosInstance();
 
 	useEffect(() => {
 		const getPayrolls = async () => {

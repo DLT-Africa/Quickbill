@@ -22,7 +22,7 @@ import {
 import { GoDownload } from "react-icons/go";
 import InvoicePerRow from "./InvoicePerRow";
 import { useEffect } from "react";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import useLogout from "../hooks/useLogout";
 import { useRecoilState } from "recoil";
 import { prevPathAtom } from "../atoms/prevPathAtom";
@@ -40,6 +40,8 @@ const SentInvoice = () => {
 	const [invoiceToDownl, setInvoiceToDownl] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const logout = useLogout();
+	const axiosInstance = useAxiosInstance();
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
