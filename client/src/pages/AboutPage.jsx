@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 const AboutPage = () => {
   return (
     <>
-      <NavBar />
+      <NavBar  position={"sticky"} zIndex={9999} top={0} />
       <AboutUsHero />
       <AboutUsTeam />
       <Footer />
