@@ -15,7 +15,7 @@ import {
 import { useRecoilState } from "recoil";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import sendInviteModalOpenAtom from "../atoms/sendInviteModalOpenAtom";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import useShowToast from "../hooks/useShowToast";
 import allClientsAtom from "../atoms/allClientsAtom";
 import allEmployeesAtom from "../atoms/allEmployeesAtom";
@@ -41,6 +41,8 @@ const AddEmployeeModal = () => {
 	);
 
 	const [employees, setEmployees] = useRecoilState(allEmployeesAtom);
+	const axiosInstance = useAxiosInstance();
+
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const logout = useLogout();
 	const errorHandler = useErrorHandler()

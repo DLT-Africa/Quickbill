@@ -18,7 +18,7 @@ import AddClientModal from "./AddClientModal";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import ClientPerRow from "./ClientPerRow";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import allClientsAtom from "../atoms/allClientsAtom";
 import { prevPathAtom } from "../atoms/prevPathAtom";
 import useLogout from "../hooks/useLogout";
@@ -31,6 +31,7 @@ const Employees = () => {
 	const [employees, setEmployees] = useRecoilState(allEmployeesAtom);
   const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
   const [fetching, setFetching] = useState(true)
+  const axiosInstance = useAxiosInstance();
   const logout = useLogout()
 
 

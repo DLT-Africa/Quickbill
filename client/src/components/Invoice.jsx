@@ -23,7 +23,7 @@ import {
 import { useRecoilState, useSetRecoilState } from "recoil";
 import invoiceAtom from "../atoms/invoiceAtom";
 import userAtom from "../atoms/userAtom";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import AddClientModal from "./AddClientModal";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
@@ -71,6 +71,8 @@ function Invoice() {
 	const [paymentDetails, setPaymentDetails] = useState({});
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const axiosInstance = useAxiosInstance();
+
 	const { encodedToken } = useParams();
 	const [loading, setLoading] = useState(false);
 

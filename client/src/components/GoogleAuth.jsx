@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Flex, Spinner, Text } from "@chakra-ui/react";
 import useShowToast from "../hooks/useShowToast";
@@ -10,20 +10,22 @@ import userAtom from "../atoms/userAtom";
 const GoogleAuth = () => {
 	const navigate = useNavigate();
 	const showToast = useShowToast();
-	// const location = useLocation();
-	// const queryParams = new URLSearchParams(location.search);
-	// const encodedEmail = queryParams.get("email");
+	const location = useLocation();
+	const queryParams = new URLSearchParams(location.search);
+	const token = queryParams.get("token");
 	const [user, setUser] = useRecoilState(userAtom);
-	// const [decodedEmail, setDecodedEmail] = useState("");
+	// const [token, setToken] = useState("");
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	localStorage.setItem('token', token)
+	const axiosInstance = useAxiosInstance();
+
 	// console.log(encodedEmail)
 
 	// useEffect(() => {
-	// 	if (encodedEmail) {
-	// 		const decoded = decodeURIComponent(encodedEmail);
-	// 		setDecodedEmail(decoded);
+	// 	if (token) {
+	// 		localStorage.setItem('token', token)
 	// 	}
-	// }, [encodedEmail]);
+	// }, [token]);
 
 	useEffect(() => {
 		const verifyDetails = async () => {
@@ -54,11 +56,11 @@ const GoogleAuth = () => {
 			}
 		};
 
-		// if (decodedEmail) {
+		if (token) {
 			verifyDetails();
-		// }
+		}
 		// console.log(`Encoded email: ${encodedEmail}`)
-	}, []);
+	}, [token]);
 
 	return (
 		<Flex

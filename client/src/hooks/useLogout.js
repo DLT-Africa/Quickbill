@@ -1,11 +1,13 @@
 import { useSetRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
-import {axiosInstance} from "../../api/axios";
+import { useAxiosInstance} from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 
 const useLogout = () => {
 	const setUser = useSetRecoilState(userAtom);
     const navigate = useNavigate();
+	const axiosInstance = useAxiosInstance();
+
 
 	const logout = async () => {
 		try {

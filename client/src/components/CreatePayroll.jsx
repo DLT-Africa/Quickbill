@@ -13,7 +13,7 @@ import {
 	Icon,
 } from "@chakra-ui/react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import { MdOutlineCancel } from "react-icons/md";
@@ -46,6 +46,7 @@ function CreatePayroll() {
 	const showToast = useShowToast();
 	const [loading, setLoading] = useState(false);
 	const [loadingPayLater, setLoadingPayLater] = useState(false);
+	const axiosInstance = useAxiosInstance();
 	// const [inviteModalOpen, setInviteModalOpen] = useState(false);
 
 	const navigate = useNavigate();

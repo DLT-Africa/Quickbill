@@ -4,7 +4,7 @@ import { IoMdCheckmarkCircleOutline, IoMdHappy } from "react-icons/io";
 import { MdOutlinePending } from "react-icons/md";
 import BarChart from "./BarChart";
 import { useEffect, useState } from "react";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import { calcPayments } from "../utils/calcInvoicePayments";
 import PieChart from "./PieChart";
 import { TbSum } from "react-icons/tb";
@@ -21,6 +21,7 @@ export default function Dashboard() {
 	const [paymentSummary, setPaymentSummary] = useState(null);
 	const [isFetching, setIsFetching] = useState(true);
 	const [settingUpChart, isSettingUpChart] = useState(true);
+	const axiosInstance = useAxiosInstance();
 	const errorHandler = useErrorHandler();
 
 	useEffect(() => {

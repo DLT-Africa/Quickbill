@@ -24,7 +24,7 @@ import { useSetRecoilState } from "recoil";
 import authScreenAtom from "../atoms/authAtom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../api/axios";
 import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
 
@@ -38,6 +38,8 @@ export default function SplitScreen() {
   const navigate = useNavigate();
   const showToast = useShowToast();
   const [loading, setLoading] = useState(false);
+  const axiosInstance = useAxiosInstance();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
