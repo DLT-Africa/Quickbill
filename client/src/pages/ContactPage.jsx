@@ -20,7 +20,7 @@ import Footer from "../components/Footer";
 const ContactPage = () => {
 	return (
 		<>
-			<NavBar />
+			<NavBar  position={"sticky"} zIndex={9999} top={0}  />
 			<VStack bg={"white"}>
 				<Flex mb={{ base: 2, md: 20, lg: "50px" }}>
 					<Box>
