@@ -3,6 +3,7 @@ import {
 	Button,
 	Flex,
 	Spinner,
+	Stack,
 	Table,
 	TableContainer,
 	Tbody,
@@ -33,6 +34,7 @@ const Clients = () => {
   const logout = useLogout()
 
 
+
 	useEffect(() => {
 		const getAllClients = async () => {
 			try {
@@ -57,84 +59,86 @@ const Clients = () => {
 				}
 			} finally {
 				setFetching(false)
-			
+
 			}
 		};
 		getAllClients();
 	}, []);
 
 	if (fetching) {
-		return(
-		<Flex
-			justifyContent={"center"}
-			flexDir={"column"}
-			gap={2}
-			alignItems={"center"}
-			minH={"100vh"}
-		>
-			<Spinner size={"xl"} />
-		</Flex>)
+		return (
+			<Flex
+				justifyContent={"center"}
+				flexDir={"column"}
+				gap={2}
+				alignItems={"center"}
+				minH={"100vh"}
+			>
+				<Spinner size={"xl"} />
+			</Flex>)
 	}
 
 	return (
-		<>
-				<Flex px={8} mt={4} justifyContent={"space-between"}>
-					<Text fontSize={36} textAlign={"left"} fontWeight={700}>
-						Clients
-					</Text>
-					<Flex>
-						<Button
-							pos={"relative"}
-							bg={"#2970ff"}
-							color={"#f6f6f6"}
-							_hover={{ bg: "#6C73EF" }}
-							onClick={() => setAddClientModalOpen(true)}
-						>
-							Add New Client
-						</Button>
+		<Stack maxH={'100vh'} overflowX={'hidden'}>
+			<Flex px={{ base: 0, md: 8 }} mt={4} justifyContent={"space-between"} alignItems={'center'} overflowY={'hidden'}>
+				<Text fontSize={{base: '2xl', md: '3xl'}} textAlign={"left"} fontWeight={700}>
+					Clients
+				</Text>
+				<Flex>
+					<Button
+						pos={"relative"}
+						size={{ base: 'sm', md: 'md', lg: 'lg' }}
+						bg={"#2970ff"}
+						fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
+						color={"#f6f6f6"}
+						_hover={{ bg: "#6C73EF" }}
+						onClick={() => setAddClientModalOpen(true)}
+					>
+						Add New Client
+					</Button>
 
-						<AddClientModal />
-					</Flex>
+					<AddClientModal />
 				</Flex>
-				<Flex justifyContent={"center"} alignItems={"center"}>
-					<Table variant="simple" colorScheme="gray" size={"md"} w={"95%"}>
-						<Thead>
-							<Tr
-								p={2}
-								borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
-								borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
-								bg={"rgba(55, 73, 87, 0.1)"}
-								>
-								<Th color={"#1c1c1c"} fontSize={"l"}>
-									Name
-								</Th>
-								<Th color={"#1c1c1c"} fontSize={"l"}>
-									email
-								</Th>
-								<Th color={"#1c1c1c"} fontSize={"l"}>
-									Address
-								</Th>
-								<Th color={"#1c1c1c"} fontSize={"l"}>
-									Edit
-								</Th>
-								<Th color={"#1c1c1c"} fontSize={"l"}>
-									Delete
-								</Th>
-							</Tr>
-						</Thead>
-						<Tbody>
-							{clients?.map((client, index) => (
-								<ClientPerRow
-									key={index}
-									index={index}
-									setClients={setClients}
-									client={client}
-								/>
-							))}
-						</Tbody>
-					</Table>
-				</Flex>
-		</>
+			</Flex>
+			<Flex justifyContent={"center"}  overflowY={'hidden'} scrollBehavior={'smooth'} >
+				<Table variant="simple" colorScheme="gray" size={"md"} w={"95%"}>
+					<Thead px={{base: 10, md: 20}}>
+						<Tr
+							p={2}
+							borderBottom={"0.5px solid rgba(0, 0, 0, 0.60)"}
+							borderTop={"0.5px solid rgba(0, 0, 0, 0.60)"}
+							bg={"rgba(55, 73, 87, 0.1)"}
+						>
+							<Th color={"#1c1c1c"} fontSize={{base: '12px', md: '18px', lg: 'xl'}}>
+								Name
+							</Th>
+							<Th color={"#1c1c1c"} fontSize={{base: '12px', md: '18px', lg: 'xl'}}>
+								email
+							</Th>
+							<Th color={"#1c1c1c"} fontSize={{base: '12px', md: '18px', lg: 'xl'}}>
+								Address
+							</Th>
+							<Th color={"#1c1c1c"} fontSize={{base: '12px', md: '18px', lg: 'xl'}}>
+								Edit
+							</Th>
+							<Th color={"#1c1c1c"} >
+								Delete
+							</Th>
+						</Tr>
+					</Thead>
+					<Tbody>
+						{clients?.map((client, index) => (
+							<ClientPerRow
+								key={index}
+								index={index}
+								setClients={setClients}
+								client={client}
+							/>
+						))}
+					</Tbody>
+				</Table>
+			</Flex>
+		</Stack>
 	);
 };
 
