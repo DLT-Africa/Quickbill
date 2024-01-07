@@ -34,10 +34,10 @@ const successRedirect = async (req, res) => {
 		// Creates Secure Cookie with token token
 		res.cookie("jwt", token, {
 			domain: "onrender.com",
-			path: "/",
+			// path: "/",
 			httpOnly: true,
 			secure: true,
-			sameSite: "Lax",
+			sameSite: "None",
 			maxAge: 1 * 60 * 60 * 1000, //1hr
 		});
 		//   Redirect or send a response as needed
@@ -149,10 +149,10 @@ const signIn = async (req, res) => {
 		// Creates Secure Cookie with token token
 		res.cookie("jwt", token, {
 			domain: "onrender.com",
-			path: "/",
+			// path: "/",
 			httpOnly: true,
 			secure: true,
-			sameSite: "Lax",
+			sameSite: "None",
 			maxAge: 1 * 60 * 60 * 1000, //1hr
 		});
 
