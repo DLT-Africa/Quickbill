@@ -9,7 +9,7 @@ import {  useAxiosInstance } from "../../../api/axios";
 import SidebarWithHeader from "../SidebarWithHeader";
 import { Box, Button, Flex, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs, Text, useColorModeValue } from "@chakra-ui/react";
 
-const SentInvoiceTable = () => {
+const SentInvoices = () => {
 	const [allSentInvoices, setAllSentInvoices] = useState([]);
 	const [allPaidInvoices, setAllPaidInvoices] = useState([]);
 	const [allRejectedInvoices, setAllRejectedInvoices] = useState([]);
@@ -166,4 +166,4 @@ const SentInvoiceTable = () => {
 	);
 };
 
-export default SentInvoiceTable;
+export default SentInvoices;

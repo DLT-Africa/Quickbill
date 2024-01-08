@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
-import Clients from "./components/Clients";
+// import Clients from "./components/Clients";
 import SentInvoicesPage from "./pages/SentInvoicesPage";
 import InvoiceMePage from "./pages/InvoiceMePage";
 import BillPage from "./pages/BillPage";
@@ -23,9 +23,10 @@ import DashboardPage from "./pages/DashboardPage";
 import ClientsPage from "./pages/ClientsPage";
 import GoogleAuth from "./components/GoogleAuth";
 import { DataTableDemo } from "./components/DataTableDemo";
-import SentInvoiceTable from "./components/sentIvoicesTable/SentInvoiceTable";
+import SentInvoiceTable from "./components/sentIvoices/SentInvoices";
 import BillsTable from "./components/bills/BillsTable";
-
+import Clients from "./components/clients/Clients";
+// import Clients from "./components/clients/Clients"
 
 
 
@@ -35,7 +36,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 
-				<Route path="/test" element={<BillsTable />} />
+				<Route path="/test" element={<Clients />} />
 
 
 				<Route path="/auth" element={<AuthPage />} />
