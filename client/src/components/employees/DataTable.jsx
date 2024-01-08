@@ -58,7 +58,7 @@ export function DataTable({ columns, data }) {
 		},
 	});
 	let currentPage = table.options.state.pagination.pageIndex + 1;
-	if (!data.length) return null;
+	if (!data?.length) return null;
 
 	return (
 		<div className="w-full p-8">

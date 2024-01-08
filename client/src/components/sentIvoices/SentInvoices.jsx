@@ -5,9 +5,21 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import DataTable from "./DataTable";
 import { columns } from "./columns";
-import {  useAxiosInstance } from "../../../api/axios";
+import { useAxiosInstance } from "../../../api/axios";
 import SidebarWithHeader from "../SidebarWithHeader";
-import { Box, Button, Flex, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+	Box,
+	Button,
+	Flex,
+	Spinner,
+	Tab,
+	TabList,
+	TabPanel,
+	TabPanels,
+	Tabs,
+	Text,
+	useColorModeValue,
+} from "@chakra-ui/react";
 
 const SentInvoices = () => {
 	const [allSentInvoices, setAllSentInvoices] = useState([]);
@@ -23,7 +35,6 @@ const SentInvoices = () => {
 	const logout = useLogout();
 	const navigate = useNavigate();
 	const axiosInstance = useAxiosInstance();
-
 
 	useEffect(() => {
 		setLoading(true);
@@ -95,73 +106,67 @@ const SentInvoices = () => {
 
 	return (
 		<>
-				<Flex justifyContent={"space-between"} p={{base: 0, sm: 2, md: 4}} flexDir={"row"}>
-					<Text as={"p"} fontSize={"3xl"} fontWeight={600} color={"black"}>
-						Sent invoices
-					</Text>
-					<Flex gap={"5"}>
-						<Button
-							transition={"all 1s"}
-							bg={"#2970ff"}
-							_hover={{
-								bg: useColorModeValue("#599cff"),
-							}}
-							color={"#f5f5f5"}
-							onClick={() => navigate("/invoices/create")}
-						>
-							Create invoice
-						</Button>
-						
-					</Flex>
+			<Flex
+				justifyContent={"space-between"}
+				p={8}
+				flexDir={"row"}
+			>
+				<Text
+					as={"p"}
+					fontSize={{ base: "2xl", md: "3xl" }}
+					fontWeight={600}
+					color={"black"}
+				>
+					Sent invoices
+				</Text>
+				<Flex gap={"5"}>
+					<Button
+						transition={"all 1s"}
+						bg={"#2970ff"}
+						size={{ base: "sm", md: "md" }}
+						_hover={{
+							bg: "#599cff",
+						}}
+						color={"#f5f5f5"}
+						onClick={() => navigate("/invoices/create")}
+					>
+						Create invoice
+					</Button>
 				</Flex>
+			</Flex>
 
-				<Box px={{sm: 2, md: 4}}>
-					<Tabs align="end">
-						<TabList>
-							<Tab >
-								All ({allSentInvoices.length})
-							</Tab>
-							<Tab >
-								Paid ({allPaidInvoices.length})
-							</Tab>
-							<Tab
-								
-							>
-								Awaiting Payment ({allAwaitingPaymentInvoices.length})
-							</Tab>
-							<Tab >
-								Rejected ({allRejectedInvoices.length})
-							</Tab>
-							<Tab >
-								Overdue ({allOverdueInvoices.length})
-							</Tab>
-						</TabList>
-						<TabPanels>
-							<TabPanel>
-								<DataTable data={allSentInvoices} columns={columns} />
-							</TabPanel>
+			<Box px={{ sm: 2, md: 4 }}>
+				<Tabs align="end">
+					<TabList>
+						<Tab>All ({allSentInvoices.length})</Tab>
+						<Tab>Paid ({allPaidInvoices.length})</Tab>
+						<Tab>Awaiting Payment ({allAwaitingPaymentInvoices.length})</Tab>
+						<Tab>Rejected ({allRejectedInvoices.length})</Tab>
+						<Tab>Overdue ({allOverdueInvoices.length})</Tab>
+					</TabList>
+					<TabPanels>
+						<TabPanel>
+							<DataTable data={allSentInvoices} columns={columns} />
+						</TabPanel>
 
-							<TabPanel>
-								<DataTable data={allPaidInvoices} columns={columns} />
-							</TabPanel>
+						<TabPanel>
+							<DataTable data={allPaidInvoices} columns={columns} />
+						</TabPanel>
 
-							<TabPanel>
-								<DataTable
-									data={allAwaitingPaymentInvoices}
-									columns={columns}
-								/>
-							</TabPanel>
+						<TabPanel>
+							<DataTable data={allAwaitingPaymentInvoices} columns={columns} />
+						</TabPanel>
 
-							<TabPanel>
-								<DataTable data={allRejectedInvoices} columns={columns} />
-							</TabPanel>
+						<TabPanel>
+							<DataTable data={allRejectedInvoices} columns={columns} />
+						</TabPanel>
 
-							<TabPanel>
-								<DataTable data={allOverdueInvoices} columns={columns} />
-							</TabPanel>
-						</TabPanels>
-					</Tabs>
-				</Box>
+						<TabPanel>
+							<DataTable data={allOverdueInvoices} columns={columns} />
+						</TabPanel>
+					</TabPanels>
+				</Tabs>
+			</Box>
 		</>
 	);
 };
