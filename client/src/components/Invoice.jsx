@@ -524,7 +524,7 @@ function Invoice() {
 					<Box mt={8} display={{ base: "none", lg: "block" }}>
 						<Table variant="striped" colorScheme="gray.600">
 							<Thead>
-								<Tr bg={"#F4F4F4"}>
+								<Tr bg={"#F4F4F4"} >
 									<Th w={300}>Item</Th>
 
 									<Th>Qty</Th>
