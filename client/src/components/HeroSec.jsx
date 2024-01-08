@@ -16,14 +16,14 @@ const HeroSec = () => {
     <>
       <Flex
         px={{ base: 8, md: 20 }}
-        justifyContent={"space-between"}
-        // gap={"186px"}
+        justifyContent={{ md: "space-between" }}
         alignItems={"center"}
+        gap={{ md: 10, lg: 5 }}
         w={"full"}
       >
-        <Flex flexDir={"column"} w={586} gap={5} justifyContent={'center'}>
+        <Flex flexDir={"column"} w={586} gap={{ md: 2, lg: 1 }} justifyContent={'center'}>
           <Text
-            fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+            fontSize={{ base: "3xl", md: "3xl", lg: "4xl" }}
             fontWeight={600}
           >
             Set your business up with modern{" "}
@@ -37,7 +37,7 @@ const HeroSec = () => {
             />
           </Hide>
           <Text
-            fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+            fontSize={{ base: "lg", md: "lg", lg: "xl" }}
             fontWeight={400}
             color={"#434E58"}
           >
@@ -50,8 +50,8 @@ const HeroSec = () => {
               bg={"#2970FF"}
               color={"#F6F6F6"}
               size={{ base: "md", md: "lg" }}
-              h={{ base: "35px", md: "80px" }}
-              w={{ base: 200, md: 330 }}
+              h={{ base: "35px", md: "50px" }}
+              w={{ base: 200, md: 220 }}
               transition={"all 1s"}
               fontSize={{ base: 'md', md: "xl" }}
               _hover={{
@@ -66,6 +66,7 @@ const HeroSec = () => {
         <Show above="md">
           <Image
             objectFit={'cover'}
+            w={{ md: 320, lg: 420 }}
             src="/Moneyverse Business Balance.svg"
           />
         </Show>
