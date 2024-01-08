@@ -691,9 +691,10 @@ function Invoice() {
 						px={{ base: 4, lg: 10 }}
 						pt={"17px"}
 					>
-						<Text>Note/Additional Information</Text>
+						<Text >Note/Additional Information</Text>
 						<Box>
 							<Textarea
+							fontSize={{ base: "sm", lg: "lg" }}
 								placeholder="Kindly provide additional details or terms of service "
 								value={invoiceNote}
 								onChange={(e) => setInvoiceNote(e.target.value)}
