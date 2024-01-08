@@ -36,7 +36,7 @@ const Payrolls = () => {
 	const axiosInstance = useAxiosInstance();
 
 	useEffect(() => {
-		setFetching(true)
+		setFetching(true);
 		const getPayrolls = async () => {
 			try {
 				const response = await axiosInstance.get("/payrolls/");
@@ -58,8 +58,8 @@ const Payrolls = () => {
 					setPrevPath(window.location.pathname);
 					logout();
 				}
-			} finally{
-				setFetching(false)
+			} finally {
+				setFetching(false);
 			}
 		};
 		getPayrolls();
@@ -116,6 +116,7 @@ const Payrolls = () => {
 						<Button
 							transition={"all 1s"}
 							bg={"#2970ff"}
+							size={{ base: "sm", md: "md" }}
 							_hover={{
 								bg: "#599cff",
 							}}
@@ -154,22 +155,13 @@ const Payrolls = () => {
 				</Flex>
 			</Flex>
 
-			<Box >
+			<Box>
 				<Tabs align="end">
 					<TabList>
-						<Tab >
-							All ({allPayrolls.length})
-						</Tab>
-						<Tab >
-							Paid ({paidPayrolls.length})
-						</Tab>
-						<Tab >
-							Awaiting Payment ({pendingPayrolls.length})
-						</Tab>
-						<Tab >
-							Voided ({voidedPayrolls.length})
-						</Tab>
-						
+						<Tab>All ({allPayrolls.length})</Tab>
+						<Tab>Paid ({paidPayrolls.length})</Tab>
+						<Tab>Awaiting Payment ({pendingPayrolls.length})</Tab>
+						<Tab>Voided ({voidedPayrolls.length})</Tab>
 					</TabList>
 					<TabPanels>
 						<TabPanel>
@@ -187,8 +179,6 @@ const Payrolls = () => {
 						<TabPanel>
 							<DataTable data={voidedPayrolls} columns={columns} />
 						</TabPanel>
-
-						
 					</TabPanels>
 				</Tabs>
 			</Box>

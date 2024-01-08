@@ -10,7 +10,6 @@ import {
 	Button,
 	Flex,
 	Spinner,
-	
 	Text,
 	useColorModeValue,
 } from "@chakra-ui/react";
@@ -26,11 +25,10 @@ import AddEmployeeModal from "../AddEmployeeModal";
 const Employees = () => {
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
 	const [employees, setEmployees] = useRecoilState(allEmployeesAtom);
-  const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-  const [fetching, setFetching] = useState(true)
-  const axiosInstance = useAxiosInstance();
-  const logout = useLogout()
-
+	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+	const [fetching, setFetching] = useState(true);
+	const axiosInstance = useAxiosInstance();
+	const logout = useLogout();
 
 	useEffect(() => {
 		const getAllClients = async () => {
@@ -55,13 +53,13 @@ const Employees = () => {
 					logout();
 				}
 			} finally {
-				setFetching(false)
+				setFetching(false);
 			}
 		};
 		getAllClients();
 	}, []);
 
-	if (fetching ) {
+	if (fetching) {
 		return (
 			<Flex
 				justifyContent={"center"}
@@ -72,7 +70,8 @@ const Employees = () => {
 			>
 				<Spinner size={"xl"} />
 			</Flex>
-		);}
+		);
+	}
 
 	return (
 		<>
@@ -93,7 +92,7 @@ const Employees = () => {
 				<Flex>
 					<Button
 						pos={"relative"}
-						size={{ base: "sm", md: "md",  }}
+						size={{ base: "sm", md: "md" }}
 						bg={"#2970ff"}
 						color={"#f6f6f6"}
 						_hover={{ bg: "#6C73EF" }}

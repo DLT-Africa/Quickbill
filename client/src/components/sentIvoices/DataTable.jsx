@@ -58,20 +58,23 @@ export function DataTable({ columns, data }) {
 		},
 	});
 	let currentPage = table.options.state.pagination.pageIndex + 1;
-	if (!data.length) return null;
+	if (!data?.length) return null;
 
 	return (
 		<div className="w-full">
 			<div className="flex justify-end">
-				<Button
+				<Chakrabutton
 					onClick={() => downloadToExcel(data)}
 					fontSize={"xs"}
-					bg={"green"}
+					size={{ base: "sm", md: "md" }}
+					bg={"green.400"}
 					color={"white"}
-					className=" bg-green-600 hover:bg-green-800 "
+					_hover={{bg: 'green.500'}}
+
+					// className=" bg-green-600 hover:bg-green-800 "
 				>
 					Export as Excel
-				</Button>
+				</Chakrabutton>
 			</div>
 			<div className="flex items-center py-4">
 				<Input
@@ -172,29 +175,8 @@ export function DataTable({ columns, data }) {
 				</Table>
 			</div>
 			<div className="flex items-center justify-end space-x-2 py-4">
-				{/* <div className="flex-1 text-sm text-muted-foreground">
-					{table.getFilteredSelectedRowModel().rows.length} of{" "}
-					{table.getFilteredRowModel().rows.length} row(s) selected.
-				</div> */}
 				<div className="space-x-2">
-					{/* <Button
-						variant="outline"
-						size="sm"
-						onClick={() => table.previousPage()}
-						disabled={!table.getCanPreviousPage()}
-					>
-						Previous
-					</Button>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => table.nextPage()}
-						disabled={!table.getCanNextPage()}
-					>
-						Next
-					</Button> */}
-
-<div className="flex gap-2">
+					<div className="flex gap-2">
 						<Button
 							onClick={() => table.setPageIndex(0)}
 							disabled={!table.getCanPreviousPage()}
