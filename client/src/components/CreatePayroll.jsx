@@ -13,7 +13,7 @@ import {
 	Icon,
 } from "@chakra-ui/react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import {  useAxiosInstance } from "../../api/axios";
+import { useAxiosInstance } from "../../api/axios";
 import { useNavigate } from "react-router-dom";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import { MdOutlineCancel } from "react-icons/md";
@@ -170,7 +170,7 @@ function CreatePayroll() {
 			activeButton.name === "payNow"
 				? showToast("Success", "Salary Paid Successfully", "success")
 				: showToast("Success", "Payroll Saved to Pay Later", "success");
-			// navigate(`/invoices/${newInvoice._id}`);
+			// navigate(/invoices/${newInvoice._id});
 		} catch (error) {
 			const errorData = error.response?.data;
 			if (errorData?.error?.startsWith("Internal")) {
@@ -191,21 +191,23 @@ function CreatePayroll() {
 	return (
 		<>
 			<Box
+				as="section"
 				m={10}
-				py={10}
+				py={{ base: 2, md: 5, lg: 10 }}
 				border={"1px solid black"}
 				bg={"#fff"}
 				borderRadius={10}
+				overflowX={'hidden'}
 			>
 				<Box textAlign={"right"} px={10}>
-					<Text fontSize={"36px"} fontWeight={700}>
+					<Text fontSize={{ base: 'xl', md: '3xl', lg: "4xl" }} fontWeight={700}>
 						SALARY{" "}
 					</Text>
-					<Text fontWeight={400} fontSize={"26px"}>
+					<Text fontWeight={400} fontSize={{ base: 'lg', md: '2xl', lg: "3xl" }}>
 						Salary #: {currentPayrollNumber}
 					</Text>
 				</Box>
-				<Box borderBottom="1px" borderColor="gray" w={"full"} mb={20}></Box>
+				<Box borderBottom="1px" borderColor="gray" w={"full"} mb={{ base: 10, md: 20 }}></Box>
 
 				<Flex
 					flexDir={"column"}

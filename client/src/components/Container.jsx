@@ -19,14 +19,14 @@ const Container = () => {
           Time saving, efficient, compliant, less stressful... and much more!
         </Text>
         <SimpleGrid
-          templateColumns={{ base: "1fr", md: "repeat(2, minmax(50px, 1fr))", lg: "repeat(3, minmax(50px, 1fr))" }}
+          templateColumns={{ base: "1fr", sm: 'repeat(2, minmax(50px, 1fr))', md: "repeat(2, minmax(50px, 1fr))", lg: "repeat(3, minmax(50px, 1fr))", }}
           gap={{ base: 8, md: 15 }}
           alignItems={'center'}
           spacing={5}
           justifyContent={'center'}
         >
           <Card
-            width={{ base: '100%', md: 320, lg:'full' }} py={4} px={3} boxShadow={"lg"}
+            width={{ base: '100%', md: 320, lg: 'full' }} py={4} px={3} boxShadow={"lg"}
           >
             <Text
               fontSize={{ base: "xl", md: "3xl", lg: "3xl" }}
@@ -47,7 +47,7 @@ const Container = () => {
             </Text>
           </Card>
           <Card
-            width={{ base: '100%', md: 320, lg:'full' }} py={4} px={3} boxShadow={"lg"}
+            width={{ base: '100%', md: 320, lg: 'full' }} py={4} px={3} boxShadow={"lg"}
             textAlign={"center"}
           >
             <Text
@@ -67,7 +67,7 @@ const Container = () => {
             </Text>
           </Card>
           <Card
-            width={{ base: '100%', md: 320, lg:'full' }} py={4} px={3} boxShadow={"lg"}
+            width={{ base: '100%', md: 320, lg: 'full' }} py={4} px={3} boxShadow={"lg"}
             textAlign={"center"}
           >
             <Text
@@ -87,7 +87,7 @@ const Container = () => {
             </Text>
           </Card>
           <Card
-            width={{ base: '100%', md: 320, lg:'full' }} py={4} px={3} boxShadow={"lg"}
+            width={{ base: '100%', md: 320, lg: 'full' }} py={4} px={3} boxShadow={"lg"}
             textAlign={"center"}
           >
             <Text
