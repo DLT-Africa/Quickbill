@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import {  useAxiosInstance } from "../../api/axios";
+import { useAxiosInstance } from "../../api/axios";
 import { useParams } from "react-router-dom";
 import { format, set } from "date-fns";
 import ItemRow from "./ItemRow";
@@ -56,6 +56,7 @@ import useLogout from "../hooks/useLogout";
 import { prevPathAtom } from "../atoms/prevPathAtom";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import ItemPerInvSummary from "./ItemPerInvSummary";
 
 const InvoiceSummary = () => {
 	const { invoiceId } = useParams();
@@ -127,17 +128,17 @@ const InvoiceSummary = () => {
 
 			switch (invoiceDetails.invoiceStatus) {
 				case "Partially Paid":
-				setStatusColor("#7d85f5");
-				break;
-			case "Paid":
-				setStatusColor("green");
-				break;
-			case "Rejected":
-				setStatusColor("red");
-				break;
-			case "Overdue":
-				setStatusColor("#E40DC4");
-				break;
+					setStatusColor("#7d85f5");
+					break;
+				case "Paid":
+					setStatusColor("green");
+					break;
+				case "Rejected":
+					setStatusColor("red");
+					break;
+				case "Overdue":
+					setStatusColor("#E40DC4");
+					break;
 			}
 
 			// Format number with two decimal places and currency symbol
@@ -245,7 +246,6 @@ const InvoiceSummary = () => {
 
 				updatedInvoiceDetails.invoiceStatus =
 					updatedInvoiceDetails.remainingAmount === 0
-
 						? "Paid"
 						: "Partially Paid";
 
@@ -347,27 +347,31 @@ const InvoiceSummary = () => {
 
 		setTimeout(() => {
 			html2canvas(input, { scale: scaleFactor }).then((canvas) => {
-				const pdf = new jsPDF('p', 'mm', 'a4');
-			
+				const pdf = new jsPDF("p", "mm", "a4");
+
 				const imgWidth = pdf.internal.pageSize.getWidth();
 				const imgHeight = (canvas.height * imgWidth) / canvas.width;
-			
-				const imgData = canvas.toDataURL('image/jpeg', 0.8); // Adjust compression quality (0.0 to 1.0)
-			
-				pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
-				pdf.save('invoice.pdf');
-			  });
+
+				const imgData = canvas.toDataURL("image/jpeg", 0.8); // Adjust compression quality (0.0 to 1.0)
+
+				pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+				pdf.save("invoice.pdf");
+			});
 		}, 500);
 	};
 
 	return (
 		<div id="invoice-container">
 			<Box>
-				<Text textAlign={"center"} fontSize={"3xl"} fontWeight={800}>
+				<Text
+					textAlign={"center"}
+					fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}
+					fontWeight={800}
+				>
 					INVOICE INFORMATION
 				</Text>
-					
-				<Flex justifyContent={'flex-end'} pr={10}>
+
+				<Flex justifyContent={"flex-end"} pr={10}>
 					<Menu>
 						<MenuButton
 							as={IconButton}
@@ -543,18 +547,33 @@ const InvoiceSummary = () => {
 						</form>
 					</Modal>
 				</Flex>
-				<Accordion mx={'auto'} mt={8} w={'98%'} defaultIndex={[0]} allowMultiple>
-						<AccordionItem>
-							<h2>
-								<AccordionButton gap={4}>
-									<Box as="span" fontSize={'2xl'} textAlign="left">
-										Payment History 
-									</Box  >
-									<AccordionIcon />
-								</AccordionButton>
-							</h2>
-							<AccordionPanel pb={4}>
-							<Table variant="simple" colorScheme="gray" size={"md"} mt={5}>
+				<Accordion
+					mx={"auto"}
+					mt={8}
+					w={"98%"}
+					defaultIndex={[0]}
+					allowMultiple
+				>
+					<AccordionItem>
+						<h2>
+							<AccordionButton gap={4}>
+								<Box
+									as="span"
+									fontSize={{ base: "lg", lg: "2xl" }}
+									textAlign="left"
+								>
+									Payment History
+								</Box>
+								<AccordionIcon />
+							</AccordionButton>
+						</h2>
+						<AccordionPanel pb={4}>
+							<Table
+								variant="simple"
+								colorScheme="gray"
+								size={{ base: "sm", lg: "md" }}
+								mt={5}
+							>
 								<Thead>
 									<Tr
 										p={2}
@@ -575,25 +594,18 @@ const InvoiceSummary = () => {
 								</Thead>
 								<Tbody>
 									{[...paymentRecords]?.reverse().map((record, index) => (
-											<Tr
-											key={index}
-											_hover={{ bg: "#EFEFEF" }}
-										>
+										<Tr key={index} _hover={{ bg: "#EFEFEF" }}>
 											<Td>{format(record?.paymentDate, "dd/MM/yyyy")}</Td>
-											
+
 											<Td>{record?.amountPaid}</Td>
-											<Td>
-												{record?.note || '--'}
-											</Td>
+											<Td>{record?.note || "--"}</Td>
 										</Tr>
 									))}
 								</Tbody>
-								</Table>
-							</AccordionPanel>
-						</AccordionItem>
-
-						
-					</Accordion>
+							</Table>
+						</AccordionPanel>
+					</AccordionItem>
+				</Accordion>
 			</Box>
 			<Box
 				my={10}
@@ -603,54 +615,70 @@ const InvoiceSummary = () => {
 				bg={"#fff"}
 				borderRadius={10}
 			>
-				<Box textAlign={"right"} pr={50}>
-					{/* <Text fontSize={"36px"} fontWeight={700}>
-						INVOICE{" "}
-					</Text> */}
-					<Text fontWeight={600} fontSize={"2xl"}>
+				<Box textAlign={"right"} px={{ base: 4, lg: 10 }}>
+					<Text fontSize={{ base: "lg", lg: "26px" }} fontWeight={600}>
 						Invoice #:{" "}
 						{invoiceDetails?.invoiceNumber?.toString().padStart(3, "0")}
 					</Text>
 				</Box>
 				<Box borderBottom="1px" borderColor="gray" w={"full"}></Box>
 
-				<Flex justifyContent={"space-between"} pt={"27"} pb={"2"} px={10}>
+				<Flex
+					justifyContent={"space-between"}
+					pt={"27"}
+					pb={"2"}
+					px={{ base: 4, lg: 10 }}
+				>
 					<Flex flexDir={"column"} gap={5}>
 						<Box>
-							<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
+							<Text
+								as={"h2"}
+								fontSize={{ base: "md", lg: "xl" }}
+								fontWeight={600}
+							>
 								FROM
 							</Text>
 
 							<Box>
-								<Text>{invoiceDetails?.creatorId?.name}</Text>
-								<Text>{invoiceDetails?.creatorId?.email}</Text>
+								<Text fontSize={{ base: "sm", lg: "lg" }}>
+									{invoiceDetails?.creatorId?.name}
+								</Text>
+								<Text fontSize={{ base: "sm", lg: "lg" }}>
+									{invoiceDetails?.creatorId?.email}
+								</Text>
 							</Box>
 						</Box>
-						<Box>
-							<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
+						<Box maxW={{ base: "100%"}}>
+							<Text
+								as={"h2"}
+								fontSize={{ base: "md", lg: "xl" }}
+								fontWeight={600}
+							>
 								BILLED TO
 							</Text>
 
 							<Box>
-								<Text>{client?.name}</Text>
-								<Text>{client?.email}</Text>
-								<Text>{client?.address}</Text>
+								<Text fontSize={{ base: "sm", lg: "lg" }}>{client?.name}</Text>
+								<Text fontSize={{ base: "sm", lg: "lg" }}>{client?.email}</Text>
+								<Text fontSize={{ base: "sm", lg: "lg" }}>
+									{client?.address}
+								</Text>
 							</Box>
 						</Box>
 
 						<Box>
-							<Text fontSize={"xl"} fontWeight={600} mt={2}>
+							<Text fontSize={{ base: "md", lg: "lg" }} fontWeight={600} mt={2}>
 								Payment Details:
 							</Text>
-							<Text>
+							<Text fontSize={{ base: "sm", lg: "md" }}>
 								<strong>Bank Name:</strong>{" "}
 								{invoiceDetails?.paymentDetails?.bankName}
 							</Text>
-							<Text>
+							<Text fontSize={{ base: "sm", lg: "md" }}>
 								<strong>Account Name:</strong>{" "}
 								{invoiceDetails?.paymentDetails?.accountName}
 							</Text>
-							<Text>
+							<Text fontSize={{ base: "sm", lg: "md" }}>
 								<strong>Account Number:</strong>{" "}
 								{invoiceDetails?.paymentDetails?.accountNumber}
 							</Text>
@@ -658,35 +686,47 @@ const InvoiceSummary = () => {
 					</Flex>
 
 					<Box>
-						<Text as={"h2"} fontWeight={500} fontSize={"18"}>
+						<Text
+							as={"h2"}
+							fontWeight={500}
+							fontSize={{ base: "md", lg: "xl" }}
+						>
 							STATUS
 						</Text>
 						<Text
 							as={"h2"}
 							fontWeight={400}
-							pb={"5"}
-							fontSize={"20"}
+							pb={{ base: 3, lg: 25 }}
+							fontSize={{ base: "sm", lg: "lg" }}
 							color={statusColor}
 						>
 							{invoiceDetails.invoiceStatus}
 						</Text>
 
-						<Text fontWeight={500} fontSize={"18"}>
+						<Text fontWeight={500} fontSize={{ base: "md", lg: "xl" }}>
 							DATE:
 						</Text>
-						<Text pb={"25"}>{invoiceDate} </Text>
+						<Text fontSize={{ base: "sm", lg: "lg" }} pb={{ base: 3, lg: 25 }}>
+							{invoiceDate}{" "}
+						</Text>
 
-						<Text fontWeight={500}>DUE DATE:</Text>
-						<Text pb={"35"}>{invoiceDueDate}</Text>
+						<Text fontWeight={500} fontSize={{ base: "md", lg: "xl" }}>
+							DUE DATE:
+						</Text>
+						<Text fontSize={{ base: "sm", lg: "lg" }}>{invoiceDueDate}</Text>
 					</Box>
 				</Flex>
 				{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
 
-				<Box mt={8}>
-					<Table fontSize={{sm: 'md'}} variant="striped" colorScheme="gray.600">
+				<Box mt={8} display={{ base: "none", lg: "block" }}>
+					<Table
+						fontSize={{ sm: "md" }}
+						variant="striped"
+						colorScheme="gray.600"
+					>
 						<Thead>
 							<Tr bg={"#F4F4F4"}>
-								<Th >Item</Th>
+								<Th>Item</Th>
 
 								<Th>Qty</Th>
 								<Th>Unit Price ({invoiceDetails.currency})</Th>
@@ -708,6 +748,20 @@ const InvoiceSummary = () => {
 					</Table>
 				</Box>
 
+				<Box mx={4} display={{ base: "block", lg: "none" }}>
+					{invoiceItems.map((row, index) => (
+						<ItemPerInvSummary
+							key={index}
+							row={row}
+							index={index}
+							invoiceDetails={invoiceDetails}
+
+							// handleItemsInputChange={handleItemsInputChange}
+							// deleteRow={deleteRow}
+						/>
+					))}
+				</Box>
+
 				{/* <Button ml={10} mt={5} bg={"#2970FF"} borderRadius="50%" color={"#fff"}>
 					+
 				</Button> */}
@@ -718,10 +772,10 @@ const InvoiceSummary = () => {
 						fontSize={"20px"}
 						fontWeight={500}
 						color={"gray"}
-						w={"40%"}
+						w={{ base: "75%", lg: "60%" }}
 						mr={5}
 					>
-						<Thead>
+						<Thead fontSize={{ base: "sm", lg: "lg" }}>
 							<Tr bg="#F4F4F4">
 								<Td>Invoice Summary </Td>
 								<Td> </Td>
@@ -753,10 +807,14 @@ const InvoiceSummary = () => {
 								</Td>
 							</Tr>
 							<Tr>
-								<Td color={"black"} fontSize={"2xl"}>
+								<Td color={"black"} fontSize={{ base: "lg", lg: "2xl" }}>
 									Total:{" "}
 								</Td>
-								<Td color={"black"} textAlign={"right"} fontSize={"2xl"}>
+								<Td
+									color={"black"}
+									textAlign={"right"}
+									fontSize={{ base: "lg", lg: "2xl" }}
+								>
 									{formattedGrandTotal}
 								</Td>
 							</Tr>
@@ -767,14 +825,18 @@ const InvoiceSummary = () => {
 								</Td>
 							</Tr>
 							<Tr>
-								<Td color={"black"} fontWeight={900} fontSize={"2xl"}>
+								<Td
+									color={"black"}
+									fontWeight={900}
+									fontSize={{ base: "md", lg: "2xl" }}
+								>
 									Amount Due:{" "}
 								</Td>
 								<Td
 									color={"black"}
 									fontWeight={900}
 									textAlign={"right"}
-									fontSize={"2xl"}
+									fontSize={{ base: "lg", lg: "2xl" }}
 								>
 									{formattedRemAmount}
 								</Td>
@@ -784,12 +846,19 @@ const InvoiceSummary = () => {
 				</Flex>
 
 				{invoiceDetails?.notes && (
-					<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"} w={"40%"}>
-						<Text fontWeight={600} fontSize={"xl"}>
+					<Flex
+						pb={"30px"}
+						flexDir={"column"}
+						px={{ base: 4, lg: 10 }}
+						pt={"17px"}
+					>
+						<Text fontWeight={600} fontSize={{ base: "md", lg: "lg" }}>
 							Note/Additional Information:
 						</Text>
 						<Box mt={4} ml={4}>
-							<Text>{invoiceDetails?.notes}</Text>
+							<Text fontSize={{ base: "sm", lg: "md" }}>
+								{invoiceDetails?.notes}
+							</Text>
 						</Box>
 					</Flex>
 				)}
