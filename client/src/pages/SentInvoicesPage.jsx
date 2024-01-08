@@ -1,11 +1,11 @@
-import SentInvoiceTable from "@/components/sentIvoicesTable/SentInvoiceTable";
-import SentInvoice from "../components/SentInvoice";
+
 import SidebarWithHeader from "../components/SidebarWithHeader";
+import SentInvoices from "@/components/sentIvoices/SentInvoices";
 
 const SentInvoicesPage = () => {
 	return (
 		<SidebarWithHeader>
-			<SentInvoiceTable />{" "}
+			<SentInvoices />{" "}
 		</SidebarWithHeader>
 	);
 };
