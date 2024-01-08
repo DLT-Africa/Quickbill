@@ -58,21 +58,11 @@ export function DataTable({ columns, data }) {
 		},
 	});
 	let currentPage = table.options.state.pagination.pageIndex + 1;
-	if (!data.length) return null;
+	if (!data?.length) return null;
 
 	return (
 		<div className="w-full p-8">
-			{/* <div className="flex justify-end">
-				<Button
-					onClick={() => downloadToExcel(data)}
-					fontSize={"xs"}
-					bg={"green"}
-					color={"white"}
-					className=" bg-green-600 hover:bg-green-800 "
-				>
-					Export as Excel
-				</Button>
-			</div> */}
+			
 			<div className="flex items-center py-4">
 				<Input
 					placeholder="Filter names..."

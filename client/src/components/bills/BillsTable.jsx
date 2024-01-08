@@ -5,9 +5,21 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import DataTable from "./DataTable";
 import { columns } from "./columns";
-import {  useAxiosInstance } from "../../../api/axios";
+import { useAxiosInstance } from "../../../api/axios";
 import SidebarWithHeader from "../SidebarWithHeader";
-import { Box, Button, Flex, Spinner, Tab, TabList, TabPanel, TabPanels, Tabs, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+	Box,
+	Button,
+	Flex,
+	Spinner,
+	Tab,
+	TabList,
+	TabPanel,
+	TabPanels,
+	Tabs,
+	Text,
+	useColorModeValue,
+} from "@chakra-ui/react";
 import useErrorHandler from "@/hooks/useErrorHandler";
 
 const BillsTable = () => {
@@ -20,11 +32,9 @@ const BillsTable = () => {
 	);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const [invoiceToDownl, setInvoiceToDownl] = useState([]);
-	const [fetching, setFetching] = useState(true)
-	const errorHandler = useErrorHandler()
+	const [fetching, setFetching] = useState(true);
+	const errorHandler = useErrorHandler();
 	const axiosInstance = useAxiosInstance();
-
-
 
 	const logout = useLogout();
 
@@ -65,9 +75,9 @@ const BillsTable = () => {
 				setAllAwaitingPaymentInvoices(filteredAwaitingPaymentInvoices);
 			} catch (error) {
 				console.log(error);
-					errorHandler(error);
+				errorHandler(error);
 			} finally {
-				setFetching(false)
+				setFetching(false);
 			}
 		};
 		getAllReceivedInvoices();
@@ -89,12 +99,13 @@ const BillsTable = () => {
 
 	return (
 		<>
-					<Flex justifyContent={"space-between"} p={5} flexDir={"row"}>
-				{/* <Text as={"p"} fontSize={"4xl"} fontWeight={600} color={"black"}>
-					Sent invoices
-				</Text> */}
+			<Flex justifyContent={"space-between"} p={8} flexDir={"row"}>
 				<Box>
-					<Text fontSize={36} textAlign={"left"} fontWeight={700}>
+					<Text
+						fontSize={{ base: "2xl", md: "3xl" }}
+						textAlign={"left"}
+						fontWeight={700}
+					>
 						Bills
 					</Text>
 					<Text as={"p"} fontSize={"xl"} fontWeight={300}>
@@ -105,65 +116,60 @@ const BillsTable = () => {
 					<Button
 						transition={"all 1s"}
 						bg={"#2970ff"}
+						size={{ base: "sm", md: "md" }}
 						_hover={{
-							bg: useColorModeValue("#599cff"),
+							bg: "#599cff",
 						}}
 						color={"#f5f5f5"}
 						onClick={() => navigate("/invoices/create")}
 					>
 						Create invoice
 					</Button>
-			
 				</Flex>
 			</Flex>
 
-				<Box px={{sm: 2, md: 4}}>
-					<Tabs align="end">
-						<TabList>
-							<Tab onClick={() => setInvoiceToDownl(allReceivedInvoices)}>
-								All ({allReceivedInvoices.length})
-							</Tab>
-							<Tab onClick={() => setInvoiceToDownl(allPaidInvoices)}>
-								Paid ({allPaidInvoices.length})
-							</Tab>
-							<Tab
-								onClick={() => setInvoiceToDownl(allAwaitingPaymentInvoices)}
-							>
-								Awaiting Payment ({allAwaitingPaymentInvoices.length})
-							</Tab>
-							<Tab onClick={() => setInvoiceToDownl(allRejectedInvoices)}>
-								Rejected ({allRejectedInvoices.length})
-							</Tab>
-							<Tab onClick={() => setInvoiceToDownl(allOverdueInvoices)}>
-								Overdue ({allOverdueInvoices.length})
-							</Tab>
-						</TabList>
-						<TabPanels>
-							<TabPanel>
-								<DataTable data={allReceivedInvoices} columns={columns} />
-							</TabPanel>
+			<Box px={{ sm: 2, md: 4 }}>
+				<Tabs align="end">
+					<TabList>
+						<Tab onClick={() => setInvoiceToDownl(allReceivedInvoices)}>
+							All ({allReceivedInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allPaidInvoices)}>
+							Paid ({allPaidInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allAwaitingPaymentInvoices)}>
+							Awaiting Payment ({allAwaitingPaymentInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allRejectedInvoices)}>
+							Rejected ({allRejectedInvoices.length})
+						</Tab>
+						<Tab onClick={() => setInvoiceToDownl(allOverdueInvoices)}>
+							Overdue ({allOverdueInvoices.length})
+						</Tab>
+					</TabList>
+					<TabPanels>
+						<TabPanel>
+							<DataTable data={allReceivedInvoices} columns={columns} />
+						</TabPanel>
 
-							<TabPanel>
-								<DataTable data={allPaidInvoices} columns={columns} />
-							</TabPanel>
+						<TabPanel>
+							<DataTable data={allPaidInvoices} columns={columns} />
+						</TabPanel>
 
-							<TabPanel>
-								<DataTable
-									data={allAwaitingPaymentInvoices}
-									columns={columns}
-								/>
-							</TabPanel>
+						<TabPanel>
+							<DataTable data={allAwaitingPaymentInvoices} columns={columns} />
+						</TabPanel>
 
-							<TabPanel>
-								<DataTable data={allRejectedInvoices} columns={columns} />
-							</TabPanel>
+						<TabPanel>
+							<DataTable data={allRejectedInvoices} columns={columns} />
+						</TabPanel>
 
-							<TabPanel>
-								<DataTable data={allOverdueInvoices} columns={columns} />
-							</TabPanel>
-						</TabPanels>
-					</Tabs>
-				</Box>
+						<TabPanel>
+							<DataTable data={allOverdueInvoices} columns={columns} />
+						</TabPanel>
+					</TabPanels>
+				</Tabs>
+			</Box>
 		</>
 	);
 };

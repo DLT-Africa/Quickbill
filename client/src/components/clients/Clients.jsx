@@ -75,7 +75,7 @@ const Clients = () => {
 	return (
 		<>
 			<Flex
-				px={{ base: 0, md: 8 }}
+				px={8}
 				mt={4}
 				justifyContent={"space-between"}
 				alignItems={"center"}
