@@ -1,4 +1,4 @@
-import { columns } from "@/components/sentIvoicesTable/columns";
+import { columns } from "@/components/sentIvoices/columns";
 import { format } from "date-fns";
 import xlsx from "json-as-xlsx";
 // import { people } from "@/people";
