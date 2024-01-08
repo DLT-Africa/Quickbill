@@ -21,7 +21,8 @@ const ItemPerAccordion = ({
 	index,
 	handleItemsInputChange,
 	deleteRow,
-    selectedCurrency
+    selectedCurrency,
+    invoiceItems
 }) => {
 	return (
 		<AccordionItem>
@@ -36,8 +37,8 @@ const ItemPerAccordion = ({
 			<AccordionPanel pb={4}>
 				<Card variant={"elevated"} border={"solid 1px"}>
 					<CardBody>
-						<Flex mb={4} alignItems={"center"} justifyContent={"space-between"}>
-							<Box w={"90%"}>
+						<Flex mb={4} alignItems={"center"} gap={6} justifyContent={"space-between"}>
+							<Box w={"100%"}>
 								<FormLabel fontSize={"sm"}>Item Description</FormLabel>
 
 								<Input
@@ -55,12 +56,13 @@ const ItemPerAccordion = ({
 								/>
 							</Box>
 
-							<DeleteIcon
+							{invoiceItems.length > 1 && <DeleteIcon 
 								fontSize={"2xl"}
 								color={"red"}
 								cursor={"pointer"}
 								onClick={() => deleteRow(index)}
-							/>
+                                
+							/>}
 						</Flex>
 
 						<Flex mb={4} justifyContent={"space-between"} gap={4}>

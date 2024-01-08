@@ -187,6 +187,9 @@ function Invoice() {
 	};
 
 	const deleteRow = (index) => {
+		if (invoiceItems.length === 1) {
+			return;
+		}
 		const updatedData = [...invoiceItems];
 		updatedData.splice(index, 1);
 		setInvoiceItems(updatedData);
@@ -536,6 +539,7 @@ function Invoice() {
 									<ItemRow
 										key={index}
 										row={row}
+										invoiceItems={invoiceItems}
 										index={index}
 										handleItemsInputChange={handleItemsInputChange}
 										deleteRow={deleteRow}
@@ -545,12 +549,17 @@ function Invoice() {
 						</Table>
 					</Box>
 
-					<Accordion  display={{ base: "block", lg: "none" }} defaultIndex={[0]} allowMultiple>
+					<Accordion
+						display={{ base: "block", lg: "none" }}
+						defaultIndex={[0]}
+						allowMultiple
+					>
 						{invoiceItems.map((row, index) => (
 							<ItemPerAccordion
 								key={index}
 								row={row}
 								index={index}
+								invoiceItems={invoiceItems}
 								handleItemsInputChange={handleItemsInputChange}
 								deleteRow={deleteRow}
 								selectedCurrency={selectedCurrency}
