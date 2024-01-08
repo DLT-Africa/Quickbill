@@ -3,7 +3,6 @@ import useLogout from "@/hooks/useLogout";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import DataTable from "./DataTable";
 import { columns } from "./columns";
 import { useAxiosInstance } from "../../../api/axios";
 import {
@@ -11,6 +10,7 @@ import {
 	Button,
 	Flex,
 	Spinner,
+	
 	Text,
 	useColorModeValue,
 } from "@chakra-ui/react";
@@ -19,23 +19,26 @@ import addClientModalOpenAtom from "@/atoms/addClientModalOpenAtom";
 import AddClientModal from "../AddClientModal";
 import allClientsAtom from "@/atoms/allClientsAtom";
 import SidebarWithHeader from "../SidebarWithHeader";
+import allEmployeesAtom from "@/atoms/allEmployeesAtom";
+import DataTable from "./DataTable";
+import AddEmployeeModal from "../AddEmployeeModal";
 
-const Clients = () => {
+const Employees = () => {
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
-	const [clients, setClients] = useRecoilState(allClientsAtom);
-	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-	const [fetching, setFetching] = useState(true);
-	const axiosInstance = useAxiosInstance();
+	const [employees, setEmployees] = useRecoilState(allEmployeesAtom);
+  const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
+  const [fetching, setFetching] = useState(true)
+  const axiosInstance = useAxiosInstance();
+  const logout = useLogout()
 
-	const logout = useLogout();
 
 	useEffect(() => {
 		const getAllClients = async () => {
 			try {
-				const response = await axiosInstance.get("/clients");
+				const response = await axiosInstance.get("/employees");
 				const data = response.data;
-				setClients(data);
-				localStorage.setItem("clients-quickBill", JSON.stringify(data));
+				setEmployees(data);
+				// localStorage.setItem("employees-quickBill", JSON.stringify(data));
 				console.log(data);
 			} catch (error) {
 				console.log(error);
@@ -52,13 +55,13 @@ const Clients = () => {
 					logout();
 				}
 			} finally {
-				setFetching(false);
+				setFetching(false)
 			}
 		};
 		getAllClients();
 	}, []);
 
-	if (fetching) {
+	if (fetching ) {
 		return (
 			<Flex
 				justifyContent={"center"}
@@ -69,8 +72,7 @@ const Clients = () => {
 			>
 				<Spinner size={"xl"} />
 			</Flex>
-		);
-	}
+		);}
 
 	return (
 		<>
@@ -86,27 +88,27 @@ const Clients = () => {
 					textAlign={"left"}
 					fontWeight={700}
 				>
-					Clients
+					Employees
 				</Text>
 				<Flex>
 					<Button
 						pos={"relative"}
-						size={{ base: "sm", md: "md" }}
+						size={{ base: "sm", md: "md",  }}
 						bg={"#2970ff"}
 						color={"#f6f6f6"}
 						_hover={{ bg: "#6C73EF" }}
 						onClick={() => setAddClientModalOpen(true)}
 					>
-						Add New Client
+						Add New Employee
 					</Button>
 
-					<AddClientModal />
+					<AddEmployeeModal />
 				</Flex>
 			</Flex>
 
-			<DataTable data={clients} columns={columns} />
+			<DataTable data={employees} columns={columns} />
 		</>
 	);
 };
 
-export default Clients;
+export default Employees;
