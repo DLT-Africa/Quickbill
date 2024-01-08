@@ -36,6 +36,7 @@ const Payrolls = () => {
 	const axiosInstance = useAxiosInstance();
 
 	useEffect(() => {
+		setFetching(true)
 		const getPayrolls = async () => {
 			try {
 				const response = await axiosInstance.get("/payrolls/");
@@ -57,6 +58,8 @@ const Payrolls = () => {
 					setPrevPath(window.location.pathname);
 					logout();
 				}
+			} finally{
+				setFetching(false)
 			}
 		};
 		getPayrolls();
