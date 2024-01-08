@@ -100,7 +100,7 @@ const ItemPerAccordion = ({
 							</Box>
 						</Flex>
 
-						<Flex justifyContent={"space-between"} gap={4}>
+						<Flex  gap={4}>
 							<Box w={'50%'}>
 								<FormLabel fontSize={"sm"}>Discount (%)</FormLabel>
 								<Input
@@ -115,10 +115,10 @@ const ItemPerAccordion = ({
 									}
 								/>
 							</Box>
-							<Box>
+							<Flex w={'50%'}  flexDir={'column'}  alignItems={'center'}>
 								<FormLabel fontSize={"lg"}>Amount</FormLabel>
 								<Text fontSize={"lg"}>{selectedCurrency} {row.amtAfterDiscount}</Text>
-							</Box>
+							</Flex>
 						</Flex>
 					</CardBody>
 				</Card>
