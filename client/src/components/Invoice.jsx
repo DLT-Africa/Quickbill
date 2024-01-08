@@ -19,6 +19,7 @@ import {
 	FormControl,
 	FormLabel,
 	Spinner,
+	Accordion,
 } from "@chakra-ui/react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import invoiceAtom from "../atoms/invoiceAtom";
@@ -35,6 +36,7 @@ import useShowToast from "../hooks/useShowToast";
 import useLogout from "../hooks/useLogout";
 import { prevPathAtom } from "../atoms/prevPathAtom";
 import { encodePayload, decodeToken } from "../utils/tokenUtils";
+import ItemPerAccordion from "./ItemPerAccordion";
 
 const todayDate = new Date();
 const rawDueDate = addDays(todayDate, 7);
@@ -516,17 +518,17 @@ function Invoice() {
 					</Flex>
 					{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
 
-					<Box mt={8}>
+					<Box mt={8} display={{ base: "none", lg: "block" }}>
 						<Table variant="striped" colorScheme="gray.600">
 							<Thead>
 								<Tr bg={"#F4F4F4"}>
 									<Th w={300}>Item</Th>
 
 									<Th>Qty</Th>
-									<Th>Unit Price</Th>
-									<Th>Discount(%)</Th>
+									<Th minW={100}>Unit Price</Th>
+									<Th>Discount (%)</Th>
 									<Th>Amount</Th>
-									<Th>Action</Th>
+									<Th></Th>
 								</Tr>
 							</Thead>
 							<Tbody>
@@ -542,6 +544,19 @@ function Invoice() {
 							</Tbody>
 						</Table>
 					</Box>
+
+					<Accordion  display={{ base: "block", lg: "none" }} defaultIndex={[0]} allowMultiple>
+						{invoiceItems.map((row, index) => (
+							<ItemPerAccordion
+								key={index}
+								row={row}
+								index={index}
+								handleItemsInputChange={handleItemsInputChange}
+								deleteRow={deleteRow}
+								selectedCurrency={selectedCurrency}
+							/>
+						))}
+					</Accordion>
 
 					<Button
 						onClick={addRow}
