@@ -18,7 +18,7 @@ const SentInvoices = () => {
 		[]
 	);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-	const [invoiceToDownl, setInvoiceToDownl] = useState([]);
+	// const [invoiceToDownl, setInvoiceToDownl] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const logout = useLogout();
 	const navigate = useNavigate();
@@ -54,7 +54,7 @@ const SentInvoices = () => {
 				);
 
 				setAllSentInvoices(invoicesSent);
-				setInvoiceToDownl(invoicesSent);
+				// setInvoiceToDownl(invoicesSent);
 				setAllPaidInvoices(filteredPaidInvoices);
 				setAllRejectedInvoices(filteredRejectedInvoices);
 				setAllOverdueInvoices(filteredOverdueInvoices);
@@ -118,21 +118,21 @@ const SentInvoices = () => {
 				<Box px={{sm: 2, md: 4}}>
 					<Tabs align="end">
 						<TabList>
-							<Tab onClick={() => setInvoiceToDownl(allSentInvoices)}>
+							<Tab >
 								All ({allSentInvoices.length})
 							</Tab>
-							<Tab onClick={() => setInvoiceToDownl(allPaidInvoices)}>
+							<Tab >
 								Paid ({allPaidInvoices.length})
 							</Tab>
 							<Tab
-								onClick={() => setInvoiceToDownl(allAwaitingPaymentInvoices)}
+								
 							>
 								Awaiting Payment ({allAwaitingPaymentInvoices.length})
 							</Tab>
-							<Tab onClick={() => setInvoiceToDownl(allRejectedInvoices)}>
+							<Tab >
 								Rejected ({allRejectedInvoices.length})
 							</Tab>
-							<Tab onClick={() => setInvoiceToDownl(allOverdueInvoices)}>
+							<Tab >
 								Overdue ({allOverdueInvoices.length})
 							</Tab>
 						</TabList>

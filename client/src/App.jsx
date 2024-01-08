@@ -26,6 +26,8 @@ import { DataTableDemo } from "./components/DataTableDemo";
 import SentInvoiceTable from "./components/sentIvoices/SentInvoices";
 import BillsTable from "./components/bills/BillsTable";
 import Clients from "./components/clients/Clients";
+import Employees from "./components/employees/Employees";
+import Payrolls from "./components/payrolls/Payrolls";
 // import Clients from "./components/clients/Clients"
 
 
@@ -36,7 +38,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 
-				<Route path="/test" element={<Clients />} />
+				<Route path="/test" element={<Payrolls />} />
 
 
 				<Route path="/auth" element={<AuthPage />} />

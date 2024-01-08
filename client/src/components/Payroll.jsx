@@ -121,7 +121,7 @@ const Payroll = () => {
 									transition={"all 1s"}
 									bg={"#2970ff"}
 									_hover={{
-										bg: useColorModeValue("#599cff"),
+										bg: "#599cff",
 									}}
 									color={"#f5f5f5"}
 									onClick={() => navigate("/payrolls/create")}
