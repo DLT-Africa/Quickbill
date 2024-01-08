@@ -23,7 +23,7 @@ import {
 import { useRecoilState, useSetRecoilState } from "recoil";
 import invoiceAtom from "../atoms/invoiceAtom";
 import userAtom from "../atoms/userAtom";
-import {  useAxiosInstance } from "../../api/axios";
+import { useAxiosInstance } from "../../api/axios";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import AddClientModal from "./AddClientModal";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
@@ -337,37 +337,50 @@ function Invoice() {
 	return (
 		<>
 			<Box
-				m={10}
-				py={10}
+				m={{ base: 3, md: 5, lg: 10 }}
+				py={{ base: 5, md: 10 }}
 				border={"1px solid black"}
 				bg={"#fff"}
 				borderRadius={10}
 			>
-				<Box textAlign={"right"} px={10}>
-					<Text fontSize={"36px"} fontWeight={700}>
+				<Box textAlign={"right"} px={{ base: 4, lg: 10 }}>
+					<Text fontSize={{ base: "2xl", lg: "36px" }} fontWeight={700}>
 						INVOICE{" "}
 					</Text>
-					<Text fontWeight={400} fontSize={"26px"}>
+					<Text fontWeight={400} fontSize={{ base: "lg", lg: "26px" }}>
 						Invoice #: {currentInvoiceNumber}
 					</Text>
 				</Box>
 				<Box borderBottom="1px" borderColor="gray" w={"full"}></Box>
 
 				<form id="createInvoice" onSubmit={handleSubmit}>
-					<Flex justifyContent={"space-between"} pt={"27"} pb={"2"} px={10}>
+					<Flex
+						justifyContent={"space-between"}
+						pt={"27"}
+						pb={"2"}
+						px={{ base: 4, lg: 10 }}
+					>
 						<Box>
-							<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
+							<Text
+								as={"h2"}
+								fontSize={{ base: "md", lg: "xl" }}
+								fontWeight={600}
+							>
 								Bill To
 							</Text>
 							{encodedToken ? (
 								<Box>
-									<Text>{decodedTokenDetails?.name}</Text>
-									<Text>{decodedTokenDetails?.email}</Text>
+									<Text fontSize={{ base: "sm", lg: "lg" }}>
+										{decodedTokenDetails?.name}
+									</Text>
+									<Text fontSize={{ base: "sm", lg: "lg" }}>
+										{decodedTokenDetails?.email}
+									</Text>
 									{/* <Text>{selectedClientDetails?.address}</Text> */}
 								</Box>
 							) : !isSelectedClient ? (
 								<Flex gap={2} flexDir={"column"}>
-									<Box w={250}>
+									<Box w={{ base: 150, md: 200, lg: 250 }}>
 										<ReactSelect
 											onChange={handleSelectedClient}
 											options={clientsSelectOptions}
@@ -378,7 +391,8 @@ function Invoice() {
 									<Button
 										bg={"#2970FF"}
 										color={"#F6F6F6"}
-										w={150}
+										w={{ base: 120, md: 150 }}
+										size={{ base: "sm", md: "lg" }}
 										onClick={() => setAddClientModalOpen(true)}
 									>
 										Add New Client
@@ -387,9 +401,15 @@ function Invoice() {
 							) : (
 								<Flex gap={4}>
 									<Box>
-										<Text>{selectedClientDetails?.name}</Text>
-										<Text>{selectedClientDetails?.email}</Text>
-										<Text>{selectedClientDetails?.address}</Text>
+										<Text fontSize={{ base: "sm", lg: "lg" }}>
+											{selectedClientDetails?.name}
+										</Text>
+										<Text fontSize={{ base: "sm", lg: "lg" }}>
+											{selectedClientDetails?.email}
+										</Text>
+										<Text fontSize={{ base: "sm", lg: "lg" }}>
+											{selectedClientDetails?.address}
+										</Text>
 									</Box>
 									<Icon
 										as={MdOutlineCancel}
@@ -402,24 +422,34 @@ function Invoice() {
 							)}
 
 							<Flex gap={3} flexDir={"column"} my={6}>
-								<Text fontSize={"xl"} fontWeight={600} mt={5}>
+								<Text
+									fontSize={{ base: "lg", lg: "xl" }}
+									fontWeight={600}
+									mt={5}
+								>
 									Payment Details:
 								</Text>
 								<FormControl isRequired>
-									<FormLabel>Bank Name</FormLabel>
+									<FormLabel fontSize={{ base: "sm", lg: "md" }}>
+										Bank Name
+									</FormLabel>
 									<Input
 										placeholder="United Bank for Africa"
 										value={paymentDetails.bankName}
+										size={{ base: "sm", lg: "md" }}
 										onChange={(e) =>
 											handlePaymentDetailsInput("bankName", e.target.value)
 										}
 										required
 									/>
 								</FormControl>
-								<FormControl isRequired colorScheme="red">
-									<FormLabel>Account Name</FormLabel>
+								<FormControl isRequired>
+									<FormLabel fontSize={{ base: "sm", lg: "md" }}>
+										Account Name
+									</FormLabel>
 									<Input
 										bg={"White"}
+										size={{ base: "sm", lg: "md" }}
 										placeholder="John Doe"
 										value={paymentDetails.accountName}
 										onChange={(e) =>
@@ -429,8 +459,11 @@ function Invoice() {
 									/>
 								</FormControl>
 								<FormControl isRequired>
-									<FormLabel>Account Number</FormLabel>
+									<FormLabel fontSize={{ base: "sm", lg: "md" }}>
+										Account Number
+									</FormLabel>
 									<Input
+										size={{ base: "sm", lg: "md" }}
 										type="number"
 										placeholder="0456789012"
 										value={paymentDetails.accountNumber}
@@ -446,26 +479,39 @@ function Invoice() {
 						<AddClientModal />
 
 						<Box>
-							<Text as={"h2"} fontWeight={500} fontSize={"18"}>
+							<Text
+								as={"h2"}
+								fontWeight={500}
+								fontSize={{ base: "md", lg: "xl" }}
+							>
 								STATUS
 							</Text>
 							<Text
 								as={"h2"}
 								fontWeight={400}
 								color={"red"}
-								pb={"5"}
-								fontSize={"20"}
+								pb={{ base: 3, lg: 25 }}
+								fontSize={{ base: "sm", lg: "lg" }}
 							>
 								Unpaid
 							</Text>
 
-							<Text fontWeight={500} fontSize={"18"}>
+							<Text fontWeight={500} fontSize={{ base: "md", lg: "xl" }}>
 								DATE:
 							</Text>
-							<Text pb={"25"}>{format(todayDate, "PP")} </Text>
+							<Text
+								fontSize={{ base: "sm", lg: "lg" }}
+								pb={{ base: 3, lg: 25 }}
+							>
+								{format(todayDate, "PP")}{" "}
+							</Text>
 
-							<Text fontWeight={500}>DUE DATE:</Text>
-							<Text pb={"35"}>{format(selectedDueDate, "PP")}</Text>
+							<Text fontSize={{ base: "md", lg: "xl" }} fontWeight={500}>
+								DUE DATE:
+							</Text>
+							<Text fontSize={{ base: "sm", lg: "lg" }}>
+								{format(selectedDueDate, "PP")}
+							</Text>
 						</Box>
 					</Flex>
 					{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
@@ -514,9 +560,9 @@ function Invoice() {
 							fontSize={"20px"}
 							fontWeight={500}
 							color={"gray"}
-							w={"45%"}
+							w={{ base: "60%", lg: "45%" }}
 						>
-							<Thead pl={2}>
+							<Thead pl={2} fontSize={{ base: "sm", lg: "lg" }}>
 								<Tr bg="#F4F4F4">
 									<Td>Invoice Summary </Td>
 									<Td> </Td>
@@ -542,10 +588,18 @@ function Invoice() {
 									<Td color={"gray"}>{vatAmt}</Td>
 								</Tr>
 								<Tr>
-									<Td color={"black"} flexWrap={900} fontSize={"2xl"}>
+									<Td
+										color={"black"}
+										flexWrap={900}
+										fontSize={{ base: "lg", lg: "2xl" }}
+									>
 										Total: ({selectedCurrency})
 									</Td>
-									<Td color={"black"} fontWeight={900} fontSize={"2xl"}>
+									<Td
+										color={"black"}
+										fontWeight={900}
+										fontSize={{ base: "lg", lg: "2xl" }}
+									>
 										{grandTotal}
 									</Td>
 								</Tr>
@@ -557,38 +611,49 @@ function Invoice() {
 						p={4}
 						justifyContent={"space-between"}
 						alignItems={"center"}
-						px={10}
+						gap={3}
+						px={{ base: 4, lg: 10 }}
 						mt={10}
 					>
 						<Flex flexDir={"column"} gap={2}>
-							<Text color={"gray"}>Tax Rate (%) </Text>
+							<Text color={"gray"} fontSize={{ base: "sm", lg: "lg" }}>
+								Tax Rate(%){" "}
+							</Text>
 							<Input
 								placeholder="0"
-								size="md"
+								// size={{base: 'sm', lg: 'md'}}
 								type="number"
 								value={vatRate}
+								fontSize={{ base: "sm", lg: "md" }}
+								w={{ base: 20, md: "100%" }}
 								onChange={(e) => setVatRate(e.target.value)}
 							/>
 						</Flex>
 
 						<Flex flexDir={"column"} gap={2}>
-							<Text color={"gray"}>Due Date</Text>
+							<Text color={"gray"} fontSize={{ base: "sm", lg: "lg" }}>
+								Due Date
+							</Text>
 
 							<Input
 								placeholder="Select Date and Time"
-								size="md"
+								// size={{base: 'sm', lg: 'md'}}
 								type="date"
+								fontSize={{ base: "sm", md: "md" }}
 								value={format(selectedDueDate, "yyyy-MM-dd")}
 								onChange={handleDueDateChange}
 								min={format(addDays(todayDate, 1), "yyyy-MM-dd")}
 							/>
 						</Flex>
 						<Flex flexDir={"column"} gap={2}>
-							<Text color={"gray"}>Currency</Text>
+							<Text color={"gray"} fontSize={{ base: "sm", lg: "lg" }}>
+								Currency
+							</Text>
 
 							<ReactSelect
 								defaultValue={{ label: "US Dollar", value: "USD" }}
 								options={currencyOptions}
+								className="react-select"
 								placeholder={"Select Currency"}
 								onChange={(currencyInfo) =>
 									setSelectedCurrency(currencyInfo.value)
@@ -596,7 +661,12 @@ function Invoice() {
 							/>
 						</Flex>
 					</Flex>
-					<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"}>
+					<Flex
+						pb={"30px"}
+						flexDir={"column"}
+						px={{ base: 4, lg: 10 }}
+						pt={"17px"}
+					>
 						<Text>Note/Additional Information</Text>
 						<Box>
 							<Textarea
