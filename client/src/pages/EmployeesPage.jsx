@@ -1,6 +1,7 @@
 import React from "react";
-import Employees from "../components/Employees";
+// import Employees from "../components/Employees";
 import SidebarWithHeader from "../components/SidebarWithHeader";
+import Employees from "@/components/employees/Employees";
 
 const EmployeesPage = () => {
   return (
