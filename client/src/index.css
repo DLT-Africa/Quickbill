@@ -16,3 +16,15 @@
   text-decoration: underline;
   color: #2970ff;
 }
+
+.react-select {
+  width: 200px; /* Default width */
+  font-size: 14px; /* Default font size */
+}
+
+@media (max-width: 800px) {
+  .react-select {
+    width: 100%; /* Adjust width for smaller screens */
+    font-size: 12px; /* Adjust font size for smaller screens */
+  }
+}
