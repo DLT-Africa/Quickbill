@@ -2,7 +2,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { Input, Td, Text, Tr } from "@chakra-ui/react";
 import React from "react";
 
-const ItemRow = ({ row, index, handleItemsInputChange, deleteRow }) => {
+const ItemRow = ({ row, index, handleItemsInputChange, deleteRow, invoiceItems }) => {
 	return (
 		<Tr key={index}>
 			<Td p={{ base: 2, xl: "5" }}>
@@ -62,11 +62,11 @@ const ItemRow = ({ row, index, handleItemsInputChange, deleteRow }) => {
 				<Text>{row.amtAfterDiscount}</Text>
 			</Td>
 			<Td p={{ base: 2, xl: "7" }}>
-				<DeleteIcon
+				{invoiceItems.length > 1 && <DeleteIcon
 					color={"red"}
 					cursor={"pointer"}
 					onClick={() => deleteRow(index)}
-				/>
+				/>}
 			</Td>
 		</Tr>
 	);
