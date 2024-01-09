@@ -1,7 +1,5 @@
 import {
-  Box,
   Button,
-  Center,
   Flex,
   Hide,
   Image,
@@ -12,7 +10,7 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Error = () => {
+const PageNotFound = () => {
   return (
     <>
       <Flex overflowX={'hidden'} alignItems={"center"} justifyContent={"center"}>
@@ -81,4 +79,4 @@ const Error = () => {
   );
 };
 
-export default Error;
+export default PageNotFound;

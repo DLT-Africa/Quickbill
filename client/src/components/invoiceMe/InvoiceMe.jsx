@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import userAtom from "../atoms/userAtom";
-import { encodePayload } from "../utils/tokenUtils";
+import userAtom from "../../atoms/userAtom";
+import { encodePayload } from "../../utils/tokenUtils";
 
 const InvoiceMe = () => {
   const user = useRecoilValue(userAtom);
@@ -23,19 +23,16 @@ const InvoiceMe = () => {
     `https://quickbillpay.onrender.com/invoices/create/${encodedToken}`
   );
   const { hasCopied, onCopy } = useClipboard(inputValue);
-  // console.log('Decoded Token:', decodedToken);
-  // const decodedToken = decodeToken(encodedToken);
-
-  // console.log('Encoded Token:', encodedToken);
+ 
 
   return (
     <>
       <Flex
-        mx={{ base: 0, md: 10 }}
-        mt={{ base: 2, md: 30 }}
-        overflowX={"hidden"}
-        borderRadius={10}
-        className="bill"
+        h={'90vh'}
+        position={'fixed'}
+        p={{base: 2, lg: 10}}
+        justifyContent={'center'}
+        alignItems={'center'}
       >
         <Flex
           bg={"#fff"}
@@ -79,7 +76,7 @@ const InvoiceMe = () => {
             gap={{ base: 4, md: 10 }}
           >
             <Box w={{ base: "full", md: 250, lg: 630 }}>
-              <FormControl>
+              <FormControl width={{base: 350, lg: '100%'}} >
                 <FormLabel fontSize={{ base: "lg", md: "xl", lg: "2xl" }}>
                   Select your invitation link
                 </FormLabel>

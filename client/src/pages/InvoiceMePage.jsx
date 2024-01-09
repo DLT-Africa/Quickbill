@@ -1,4 +1,4 @@
-import InvoiceMe from '../components/InvoiceMe'
+import InvoiceMe from '../components/invoiceMe/InvoiceMe'
 import SidebarWithHeader from '../components/SidebarWithHeader'
 
 const InvoiceMePage = () => {

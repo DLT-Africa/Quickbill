@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {
-	CaretSortIcon,
 	ChevronDownIcon,
-	DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
 import {
 	flexRender,
@@ -14,7 +12,6 @@ import {
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { downloadToExcel } from "@/lib/bills_xlsx";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -29,8 +26,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Button as Chakrabutton, Flex, Select, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { Flex, Select, Text } from "@chakra-ui/react";
 
 export function DataTable({ columns, data }) {
 	const [sorting, setSorting] = useState([]);
@@ -62,15 +59,12 @@ export function DataTable({ columns, data }) {
 
 	return (
 		<div className="w-full p-8">
-			
 			<div className="flex items-center py-4">
 				<Input
 					placeholder="Filter names..."
 					value={table.getColumn("name")?.getFilterValue() || ""}
 					onChange={(event) =>
-						table
-							.getColumn("name")
-							?.setFilterValue(event.target.value)
+						table.getColumn("name")?.setFilterValue(event.target.value)
 					}
 					className="max-w-sm mr-4"
 				/>
@@ -149,28 +143,7 @@ export function DataTable({ columns, data }) {
 				</Table>
 			</div>
 			<div className="flex items-center justify-end space-x-2 py-4">
-				{/* <div className="flex-1 text-sm text-muted-foreground">
-					{table.getFilteredSelectedRowModel().rows.length} of{" "}
-					{table.getFilteredRowModel().rows.length} row(s) selected.
-				</div> */}
 				<div className="space-x-2">
-					{/* <Button
-						variant="outline"
-						size="sm"
-						onClick={() => table.previousPage()}
-						disabled={!table.getCanPreviousPage()}
-					>
-						Previous
-					</Button>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => table.nextPage()}
-						disabled={!table.getCanNextPage()}
-					>
-						Next
-					</Button> */}
-
 					<div className="flex gap-2">
 						<Button
 							onClick={() => table.setPageIndex(0)}

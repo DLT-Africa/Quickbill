@@ -13,7 +13,7 @@ import { CheckIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {  useAxiosInstance } from "../../api/axios";
+import {  useAxiosInstance } from "../../../api/axios";
 import axios from "axios";
 
 const ActivatePage = () => {

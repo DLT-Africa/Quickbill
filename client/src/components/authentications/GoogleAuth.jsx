@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useAxiosInstance } from "../../api/axios";
+import { useAxiosInstance } from "../../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Flex, Spinner, Text } from "@chakra-ui/react";
-import useShowToast from "../hooks/useShowToast";
+import useShowToast from "../../hooks/useShowToast";
 import { useRecoilState } from "recoil";
-import { prevPathAtom } from "../atoms/prevPathAtom";
-import userAtom from "../atoms/userAtom";
+import { prevPathAtom } from "../../atoms/prevPathAtom";
+import userAtom from "../../atoms/userAtom";
 import tokenAtom from "@/atoms/tokenAtom";
 
 const GoogleAuth = () => {
@@ -15,7 +15,6 @@ const GoogleAuth = () => {
 	const queryParams = new URLSearchParams(location.search);
 	const receivedToken = queryParams.get("token");
 	const [user, setUser] = useRecoilState(userAtom);
-	// const [token, setToken] = useState("");
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const axiosInstance = useAxiosInstance();
 	const [token, setToken] = useRecoilState(tokenAtom);
@@ -23,13 +22,6 @@ const GoogleAuth = () => {
 	setToken(receivedToken);
 	
 	localStorage.setItem("token", receivedToken);
-	// console.log(encodedEmail)
-
-	// useEffect(() => {
-	// 	if (token) {
-	// 		localStorage.setItem('token', token)
-	// 	}
-	// }, [token]);
 
 	useEffect(() => {
 		const verifyDetails = async () => {

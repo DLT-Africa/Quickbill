@@ -70,8 +70,6 @@ export function DataTable({ columns, data }) {
 					bg={"green.400"}
 					color={"white"}
 					_hover={{bg: 'green.500'}}
-
-					// className=" bg-green-600 hover:bg-green-800 "
 				>
 					Export as Excel
 				</Chakrabutton>

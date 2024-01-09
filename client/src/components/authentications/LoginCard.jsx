@@ -21,12 +21,12 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import authScreenAtom from "../atoms/authAtom";
+import authScreenAtom from "../../atoms/authAtom";
 import { useState } from "react";
 // import { axiosInstance } from "../../api/axios";
-import userAtom from "../atoms/userAtom";
-import { prevPathAtom } from "../atoms/prevPathAtom";
-import useShowToast from "../hooks/useShowToast";
+import userAtom from "../../atoms/userAtom";
+import { prevPathAtom } from "../../atoms/prevPathAtom";
+import useShowToast from "../../hooks/useShowToast";
 import { useAxiosInstance } from "/api/axios";
 import tokenAtom from "@/atoms/tokenAtom";
 

@@ -22,11 +22,11 @@ import {
 import { GoDownload } from "react-icons/go";
 import InvoicePerRow from "./InvoicePerRow";
 import { useEffect } from "react";
-import {  useAxiosInstance } from "../../api/axios";
-import useLogout from "../hooks/useLogout";
+import {  useAxiosInstance } from "../../../api/axios";
+import useLogout from "../../hooks/useLogout";
 import { useRecoilState } from "recoil";
-import { prevPathAtom } from "../atoms/prevPathAtom";
-import { downloadCSV } from "../utils/downloadInvoiceCSV";
+import { prevPathAtom } from "../../atoms/prevPathAtom";
+import { downloadCSV } from "../../utils/downloadInvoiceCSV";
 
 const SentInvoice = () => {
 	const [allSentInvoices, setAllSentInvoices] = useState([]);

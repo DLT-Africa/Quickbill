@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { calcPayments } from '../utils/calcInvoicePayments';
-import { convertCurrency } from '../utils/currencyConverter';
+import { calcPayments } from '../../utils/calcInvoicePayments';
+import { convertCurrency } from '../../utils/currencyConverter';
 
 function BarChart({ invoiceData }) {
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
