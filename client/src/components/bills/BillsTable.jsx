@@ -99,7 +99,7 @@ const BillsTable = () => {
 
 	return (
 		<>
-			<Flex justifyContent={"space-between"} p={8} flexDir={"row"}>
+			<Flex justifyContent={"space-between"} p={7} flexDir={"row"}>
 				<Box>
 					<Text
 						fontSize={{ base: "2xl", md: "3xl" }}
@@ -108,7 +108,7 @@ const BillsTable = () => {
 					>
 						Bills
 					</Text>
-					<Text as={"p"} fontSize={"xl"} fontWeight={300}>
+					<Text as={"p"} fontSize={{base: 'md', lg: 'xl'}} fontWeight={300}>
 						Manage all the invoices you received from vendors
 					</Text>
 				</Box>
@@ -131,19 +131,19 @@ const BillsTable = () => {
 			<Box px={{ sm: 2, md: 4 }}>
 				<Tabs align="end">
 					<TabList>
-						<Tab onClick={() => setInvoiceToDownl(allReceivedInvoices)}>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>
 							All ({allReceivedInvoices.length})
 						</Tab>
-						<Tab onClick={() => setInvoiceToDownl(allPaidInvoices)}>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>
 							Paid ({allPaidInvoices.length})
 						</Tab>
-						<Tab onClick={() => setInvoiceToDownl(allAwaitingPaymentInvoices)}>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>
 							Awaiting Payment ({allAwaitingPaymentInvoices.length})
 						</Tab>
-						<Tab onClick={() => setInvoiceToDownl(allRejectedInvoices)}>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>
 							Rejected ({allRejectedInvoices.length})
 						</Tab>
-						<Tab onClick={() => setInvoiceToDownl(allOverdueInvoices)}>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>
 							Overdue ({allOverdueInvoices.length})
 						</Tab>
 					</TabList>

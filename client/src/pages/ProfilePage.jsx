@@ -1,4 +1,4 @@
-import Profile from '../components/Profile'
+import Profile from '../components/profile/Profile'
 import SidebarWithHeader from '../components/SidebarWithHeader'
 
 const ProfilePage = () => {

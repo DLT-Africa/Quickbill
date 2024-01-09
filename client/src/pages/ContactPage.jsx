@@ -1,14 +1,11 @@
 import {
-	AbsoluteCenter,
 	Box,
 	Button,
 	Flex,
 	Image,
 	Input,
 	Textarea,
-	Text,
 	VStack,
-	Container,
 	useColorModeValue,
 } from "@chakra-ui/react";
 import NavBar from "../components/NavBar";
@@ -122,7 +119,7 @@ const ContactPage = () => {
 							}}
 							color={"#f5f5f5"}
 						>
-							Sign up
+							Send Message
 						</Button>
 					</Box>
 				</Flex>

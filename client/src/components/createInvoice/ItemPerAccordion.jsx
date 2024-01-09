@@ -5,8 +5,6 @@ import {
 	AccordionIcon,
 	AccordionButton,
 	Card,
-	CardHeader,
-	Heading,
 	CardBody,
 	Text,
 	Box,
@@ -42,10 +40,8 @@ const ItemPerAccordion = ({
 								<FormLabel fontSize={"sm"}>Item Description</FormLabel>
 
 								<Input
-									// p={2}
 									fontSize={{ base: "sm", xl: "md" }}
 									minW={"150px"}
-									// size={"sm"}
 									placeholder="Item name or description"
 									type="text"
 									required
@@ -69,12 +65,7 @@ const ItemPerAccordion = ({
 							<Box w={"50%"}>
 								<FormLabel fontSize={"sm"}>Quantity</FormLabel>
 								<Input
-									// borderRadius={5}
 									fontSize={{ base: "sm", xl: "md" }}
-									// p={2}
-									// size={"sm"}
-									// minW={"40px"}
-									// textAlign={'center'}
 									placeholder="0"
 									required
 									type="number"
@@ -87,10 +78,8 @@ const ItemPerAccordion = ({
 							<Box w={"50%"}>
 								<FormLabel fontSize={"sm"}>Unit Price</FormLabel>
 								<Input
-									// p={2}
 									fontSize={{ base: "sm", xl: "md" }}
-									// size={"sm"}
-									// minW={"120px"}
+									
 									placeholder="0"
 									required
 									type="number"
@@ -106,8 +95,7 @@ const ItemPerAccordion = ({
 							<Box w={'50%'}>
 								<FormLabel fontSize={"sm"}>Discount (%)</FormLabel>
 								<Input
-									// maxW={{ base: "70px", xl: "90%" }}
-									// size={"sm"}
+								
 									placeholder="0"
 									type="number"
 									fontSize={{ base: "sm", xl: "md" }}

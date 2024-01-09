@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {
-	CaretSortIcon,
 	ChevronDownIcon,
-	DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
 import {
 	flexRender,
@@ -14,7 +12,6 @@ import {
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { downloadToExcel } from "@/lib/bills_xlsx";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -30,14 +27,12 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Flex, Select, Text } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 
 export function DataTable({ columns, data }) {
 	const [sorting, setSorting] = useState([]);
 	const [columnFilters, setColumnFilters] = useState([]);
 	const [columnVisibility, setColumnVisibility] = useState({});
 	const [rowSelection, setRowSelection] = useState({});
-	const navigate = useNavigate();
 
 	const table = useReactTable({
 		data,

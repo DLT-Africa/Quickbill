@@ -1,69 +1,40 @@
 import React, { useEffect, useState } from "react";
 import {
-	Box,
 	Button,
 	ButtonGroup,
-	Flex,
-	FormControl,
-	FormLabel,
 	IconButton,
-	Input,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuList,
-	Modal,
-	ModalBody,
-	ModalCloseButton,
-	ModalContent,
-	ModalFooter,
-	ModalHeader,
-	ModalOverlay,
 	Popover,
-	PopoverArrow,
-	PopoverBody,
 	PopoverCloseButton,
 	PopoverContent,
 	PopoverFooter,
-	PopoverHeader,
 	PopoverTrigger,
-	Text,
 	useDisclosure,
 } from "@chakra-ui/react";
 import useLogout from "@/hooks/useLogout";
-import useShowToast from "@/hooks/useShowToast";
-import useErrorHandler from "@/hooks/useErrorHandler";
 import { useAxiosInstance } from "/api/axios";
 import { prevPathAtom } from "@/atoms/prevPathAtom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete, MdOutlinePaid } from "react-icons/md";
-import allEmployeesAtom from "@/atoms/allEmployeesAtom";
-import { useNavigate } from "react-router-dom";
-import userAtom from "@/atoms/userAtom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import allPayrollsAtom from "@/atoms/allPayrollsAtom";
 import { GrTransaction } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi";
 
 const Actions = ({ singlePayroll }) => {
-	const navigate = useNavigate();
-	const user = useRecoilValue(userAtom);
-	// const [statusColor, setStatusColor] = useState("#E0BF00");
-	// const [salaryAmount, setSalaryAmount] = useState(0);
 	const setAllPayrolls = useSetRecoilState(allPayrollsAtom);
 	const [isActionDisabled, setIsActionDisabled] = useState(false);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const axiosInstance = useAxiosInstance();
 	const logout = useLogout();
-	// const initialFocusRef = React.useRef();
 	const { onOpen, onClose, isOpen } = useDisclosure();
 	const [paying, setPaying] = useState(false);
 	const [voiding, setVoiding] = useState(false);
 
 	useEffect(() => {
-		if (singlePayroll?.paymentStatus === "Paid" || singlePayroll?.paymentStatus === "Voided") {
+		if (
+			singlePayroll?.paymentStatus === "Paid" ||
+			singlePayroll?.paymentStatus === "Voided"
+		) {
 			setIsActionDisabled(true);
-		} 
+		}
 	}, []);
 
 	const handleSalaryStatus = async (e) => {
@@ -93,11 +64,7 @@ const Actions = ({ singlePayroll }) => {
 			);
 
 			setAllPayrolls(response.data);
-			// status === "pay" ? setStatusColor("green") : setStatusColor("red");
-			// window.location.reload();
 			setIsActionDisabled(true);
-
-			// console.log(response.data);
 		} catch (error) {
 			console.log(error);
 			const errorData = error.response?.data;
@@ -119,34 +86,7 @@ const Actions = ({ singlePayroll }) => {
 
 	return (
 		<>
-			{/* <Menu cursor={"pointer"}>
-				<MenuButton
-					isDisabled={isActionDisabled}
-					as={IconButton}
-					aria-label="Options"
-					icon={<GrTransaction />}
-					variant="outline"
-				/>
-				<MenuList>
-					<MenuItem
-						icon={<MdOutlinePaid />}
-						name="pay"
-						onClick={handleSalaryStatus}
-					>
-						Pay Now
-					</MenuItem>
-					<MenuItem
-						icon={<GiCancel />}
-						name="void"
-						onClick={handleSalaryStatus}
-					>
-						Void Salary
-					</MenuItem>
-				</MenuList>
-			</Menu> */}
-
 			<Popover
-				// initialFocusRef={initialFocusRef}
 				placement="left"
 				isOpen={isOpen}
 				onOpen={onOpen}
@@ -167,7 +107,7 @@ const Actions = ({ singlePayroll }) => {
 					bg="blue.800"
 					borderColor="blue.800"
 				>
-					            <PopoverCloseButton />
+					<PopoverCloseButton />
 
 					<PopoverFooter
 						border="0"

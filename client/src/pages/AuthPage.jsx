@@ -1,6 +1,6 @@
 import { useRecoilValue } from "recoil";
-import LoginCard from "../components/LoginCard";
-import SignUpCard from "../components/SignUpCard";
+import LoginCard from "../components/authentications/LoginCard";
+import SignUpCard from "../components/authentications/SignUpCard";
 import { Box } from "@chakra-ui/react";
 import authScreenAtom from "../atoms/authAtom";
 import { useEffect } from "react";
@@ -11,8 +11,6 @@ const AuthPage = () => {
 	const logout = useLogout();
 
 	useEffect(() => {
-		// localStorage.removeItem("user-quickBill");
-		// localStorage.removeItem("clients-quickBill");
 		logout();
 	}, []);
 

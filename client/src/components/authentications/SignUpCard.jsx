@@ -10,23 +10,19 @@ import {
 	Image,
 	Link,
 	Box,
-	IconButton,
-	Divider,
 	AbsoluteCenter,
 	InputGroup,
 	InputRightElement,
-	HStack,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useSetRecoilState } from "recoil";
-import authScreenAtom from "../atoms/authAtom";
+import authScreenAtom from "../../atoms/authAtom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAxiosInstance } from "../../api/axios";
-import userAtom from "../atoms/userAtom";
-import useShowToast from "../hooks/useShowToast";
+import { useAxiosInstance } from "../../../api/axios";
+import userAtom from "../../atoms/userAtom";
+import useShowToast from "../../hooks/useShowToast";
 
 export default function SplitScreen() {
 	const setAuthScreen = useSetRecoilState(authScreenAtom);
@@ -77,10 +73,8 @@ export default function SplitScreen() {
 
 	return (
 		<Stack
-			// overflowX={'hidden'}
 			minH={"100vh"}
 			direction={{ base: "column", md: "row" }}
-			// className="loginSignup"
 		>
 			<Flex
 				flexDir={{ base: "column-reverse", md: "column" }}

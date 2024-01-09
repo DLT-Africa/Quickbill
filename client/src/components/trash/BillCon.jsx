@@ -22,12 +22,12 @@ import {
 import { GoDownload } from "react-icons/go";
 import InvoicePerRow from "./InvoicePerRow";
 import { useEffect } from "react";
-import {  useAxiosInstance } from "../../api/axios";
-import { prevPathAtom } from "../atoms/prevPathAtom";
+import {  useAxiosInstance } from "../../../api/axios";
+import { prevPathAtom } from "../../atoms/prevPathAtom";
 import { useRecoilState } from "recoil";
-import useLogout from "../hooks/useLogout";
-import { downloadCSV } from "../utils/downloadInvoiceCSV";
-import useErrorHandler from "../hooks/useErrorHandler";
+import useLogout from "../../hooks/useLogout";
+import { downloadCSV } from "../../utils/downloadInvoiceCSV";
+import useErrorHandler from "../../hooks/useErrorHandler";
 
 const BillCon = () => {
 	const [allReceivedInvoices, setAllReceivedInvoices] = useState([]);
