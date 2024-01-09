@@ -57,6 +57,8 @@ import { prevPathAtom } from "../atoms/prevPathAtom";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import ItemPerInvSummary from "./ItemPerInvSummary";
+import domtoimage from "dom-to-image";
+import html2pdf from "html2pdf.js";
 
 const InvoiceSummary = () => {
 	const { invoiceId } = useParams();
@@ -341,23 +343,53 @@ const InvoiceSummary = () => {
 		setFormData((prevData) => ({ ...prevData, [name]: value }));
 	};
 
-	const downloadPDF = () => {
-		const input = document.getElementById("invoice-container");
+	// Function to capture and convert page sections
+	const captureAndConvertPage = async (pageElement) => {
+		return await domtoimage.toPng(pageElement);
+	};
+
+	// Function to process image data and add to PDF
+	const processImageData = async (doc, image, currentY) => {
+		doc.addImage(image, "PNG", 10, currentY);
+		return doc;
+	};
+
+	const downloadPDF = async () => {
+		const invoiceContainer = document.getElementById("invoice-container");
 		const scaleFactor = 1.5; // Adjust this value as needed
+		const imageQuality = 0.3; // Adjust this value (0.0 to 1.0) for image quality
 
-		setTimeout(() => {
-			html2canvas(input, { scale: scaleFactor }).then((canvas) => {
-				const pdf = new jsPDF("p", "mm", "a4");
+		// PDF document
+		const pdf = new jsPDF({
+			unit: "mm",
+			format: "a4",
+			orientation: "portrait",
+			compress: true, // Enable text compression
+		});
 
-				const imgWidth = pdf.internal.pageSize.getWidth();
-				const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-				const imgData = canvas.toDataURL("image/jpeg", 0.8); // Adjust compression quality (0.0 to 1.0)
-
-				pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
-				pdf.save("invoice.pdf");
-			});
-		}, 500);
+		// Capture the entire content as an image
+		setTimeout(async() => {
+			try {
+				const img = await domtoimage.toPng(invoiceContainer, {
+					width: invoiceContainer.clientWidth * scaleFactor,
+					quality: imageQuality,
+					dpi: 72,
+				});
+				pdf.addImage(
+					img,
+					"PNG",
+					0,
+					0,
+					pdf.internal.pageSize.width,
+					pdf.internal.pageSize.height
+				);
+			} catch (error) {
+				console.error(error);
+			}
+	
+			// Save PDF
+			pdf.save("invoice.pdf");
+		}, 200);
 	};
 
 	return (
@@ -648,7 +680,7 @@ const InvoiceSummary = () => {
 								</Text>
 							</Box>
 						</Box>
-						<Box maxW={{ base: "100%"}}>
+						<Box maxW={{ base: "100%" }}>
 							<Text
 								as={"h2"}
 								fontSize={{ base: "md", lg: "xl" }}
