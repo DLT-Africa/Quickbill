@@ -20,13 +20,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-import {  useAxiosInstance } from "../../api/axios";
-import useLogout from "../hooks/useLogout";
-import { prevPathAtom } from "../atoms/prevPathAtom";
+import {  useAxiosInstance } from "../../../api/axios";
+import useLogout from "../../hooks/useLogout";
+import { prevPathAtom } from "../../atoms/prevPathAtom";
 import { useRecoilState } from "recoil";
 import PayrollRow from "./PayrollRow";
-import allPayrollsAtom from "../atoms/allPayrollsAtom";
-import { calcPayrollData } from "../utils/calcPayrollData";
+import allPayrollsAtom from "../../atoms/allPayrollsAtom";
+import { calcPayrollData } from "../../utils/calcPayrollData";
 
 const Payroll = () => {
 	const navigate = useNavigate();

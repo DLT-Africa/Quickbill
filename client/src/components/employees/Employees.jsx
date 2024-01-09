@@ -1,7 +1,6 @@
 import { prevPathAtom } from "@/atoms/prevPathAtom";
 import useLogout from "@/hooks/useLogout";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { columns } from "./columns";
 import { useAxiosInstance } from "../../../api/axios";
@@ -13,11 +12,7 @@ import {
 	Text,
 	useColorModeValue,
 } from "@chakra-ui/react";
-import useErrorHandler from "@/hooks/useErrorHandler";
 import addClientModalOpenAtom from "@/atoms/addClientModalOpenAtom";
-import AddClientModal from "../AddClientModal";
-import allClientsAtom from "@/atoms/allClientsAtom";
-import SidebarWithHeader from "../SidebarWithHeader";
 import allEmployeesAtom from "@/atoms/allEmployeesAtom";
 import DataTable from "./DataTable";
 import AddEmployeeModal from "../AddEmployeeModal";
@@ -76,7 +71,7 @@ const Employees = () => {
 	return (
 		<>
 			<Flex
-				px={{ base: 0, md: 8 }}
+				px={7}
 				mt={4}
 				justifyContent={"space-between"}
 				alignItems={"center"}

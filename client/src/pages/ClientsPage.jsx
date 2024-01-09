@@ -1,7 +1,6 @@
 import React from 'react'
 import SidebarWithHeader from '../components/SidebarWithHeader'
 import Clients from '@/components/clients/Clients'
-// import Clients from '../components/Clients'
 
 const ClientsPage = () => {
   return (

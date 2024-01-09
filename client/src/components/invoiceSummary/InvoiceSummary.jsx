@@ -1,9 +1,7 @@
-import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useAxiosInstance } from "../../api/axios";
+import { useAxiosInstance } from "../../../api/axios";
 import { useParams } from "react-router-dom";
-import { format, set } from "date-fns";
-import ItemRow from "./ItemRow";
+import { format } from "date-fns";
 import {
 	Accordion,
 	AccordionButton,
@@ -38,27 +36,19 @@ import {
 	Tr,
 } from "@chakra-ui/react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import userAtom from "../atoms/userAtom";
+import userAtom from "../../atoms/userAtom";
 import InvSummaryItemRow from "./InvSummaryItemRow";
-import {
-	AddIcon,
-	EditIcon,
-	ExternalLinkIcon,
-	HamburgerIcon,
-	RepeatIcon,
-} from "@chakra-ui/icons";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import { FaStarHalfAlt } from "react-icons/fa";
 import { ImStarFull } from "react-icons/im";
 import { FaDownload } from "react-icons/fa6";
 import { FcCancel } from "react-icons/fc";
-import useShowToast from "../hooks/useShowToast";
-import useLogout from "../hooks/useLogout";
-import { prevPathAtom } from "../atoms/prevPathAtom";
-import html2canvas from "html2canvas";
+import useShowToast from "../../hooks/useShowToast";
+import useLogout from "../../hooks/useLogout";
+import { prevPathAtom } from "../../atoms/prevPathAtom";
 import jsPDF from "jspdf";
 import ItemPerInvSummary from "./ItemPerInvSummary";
 import domtoimage from "dom-to-image";
-import html2pdf from "html2pdf.js";
 
 const InvoiceSummary = () => {
 	const { invoiceId } = useParams();
@@ -92,7 +82,6 @@ const InvoiceSummary = () => {
 
 	const showToast = useShowToast();
 
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		console.log(paymentRecords);
@@ -368,7 +357,7 @@ const InvoiceSummary = () => {
 		});
 
 		// Capture the entire content as an image
-		setTimeout(async() => {
+		setTimeout(async () => {
 			try {
 				const img = await domtoimage.toPng(invoiceContainer, {
 					width: invoiceContainer.clientWidth * scaleFactor,
@@ -386,7 +375,7 @@ const InvoiceSummary = () => {
 			} catch (error) {
 				console.error(error);
 			}
-	
+
 			// Save PDF
 			pdf.save("invoice.pdf");
 		}, 200);

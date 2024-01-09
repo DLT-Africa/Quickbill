@@ -1,7 +1,6 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
-// import Clients from "./components/Clients";
 import SentInvoicesPage from "./pages/SentInvoicesPage";
 import InvoiceMePage from "./pages/InvoiceMePage";
 import BillPage from "./pages/BillPage";
@@ -9,26 +8,18 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import CreateInvoicePage from "./pages/CreateInvoicePage";
 import EmployeesPage from "./pages/EmployeesPage";
-import NotFoundPage from "./pages/NotFoundPage";
 import PayrollPage from "./pages/PayrollPage";
-import { useRecoilValue } from "recoil";
-import userAtom from "./atoms/userAtom";
 import InvoiceSummaryPage from "./pages/InvoiceSummaryPage";
-import ActivatePage from "./components/ActivatePage";
+import ActivatePage from "./components/authentications/ActivatePage";
 import ProfilePage from "./pages/ProfilePage";
 import CreatePayrollPage from "./pages/CreatePayrollPage";
-import AccountConfirmation from "./components/AccountConfirmation";
-import LinkExpired from "./components/LinkExpired";
+import AccountConfirmation from "./components/authentications/AccountConfirmation";
+import LinkExpired from "./components/authentications/LinkExpired";
 import DashboardPage from "./pages/DashboardPage";
 import ClientsPage from "./pages/ClientsPage";
-import GoogleAuth from "./components/GoogleAuth";
-import { DataTableDemo } from "./components/DataTableDemo";
-import SentInvoiceTable from "./components/sentIvoices/SentInvoices";
-import BillsTable from "./components/bills/BillsTable";
-import Clients from "./components/clients/Clients";
-import Employees from "./components/employees/Employees";
+import GoogleAuth from "./components/authentications/GoogleAuth";
 import Payrolls from "./components/payrolls/Payrolls";
-// import Clients from "./components/clients/Clients"
+import PageNotFound from "./pages/PageNotFound";
 
 
 
@@ -37,10 +28,7 @@ function App() {
 		<>
 			<Routes>
 				<Route path="/" element={<HomePage />} />
-
 				<Route path="/test" element={<Payrolls />} />
-
-
 				<Route path="/auth" element={<AuthPage />} />
 				<Route path="/auth/google-verify" element={<GoogleAuth />} />
 				<Route path="/confirm-email" element={<AccountConfirmation />} />
@@ -63,7 +51,7 @@ function App() {
 				<Route path="/payrolls/create" element={<CreatePayrollPage />} />
 				<Route path="/profile" element={<ProfilePage />} />
 				<Route path="/invoice-me" element={<InvoiceMePage />} />
-				<Route path="*" element={<NotFoundPage />} />
+				<Route path="*" element={<PageNotFound />} />
 			</Routes>
 		</>
 	);
