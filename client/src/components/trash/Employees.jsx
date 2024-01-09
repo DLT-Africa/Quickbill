@@ -13,18 +13,18 @@ import {
 	Tr,
 } from "@chakra-ui/react";
 import React from "react";
-import SidebarWithHeader from "./SidebarWithHeader";
-import AddClientModal from "./AddClientModal";
-import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
+import SidebarWithHeader from "../SidebarWithHeader";
+import AddClientModal from "../AddClientModal";
+import addClientModalOpenAtom from "../../atoms/addClientModalOpenAtom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import ClientPerRow from "./ClientPerRow";
-import {  useAxiosInstance } from "../../api/axios";
-import allClientsAtom from "../atoms/allClientsAtom";
-import { prevPathAtom } from "../atoms/prevPathAtom";
-import useLogout from "../hooks/useLogout";
-import AddEmployeeModal from "./AddEmployeeModal";
+import {  useAxiosInstance } from "../../../api/axios";
+import allClientsAtom from "../../atoms/allClientsAtom";
+import { prevPathAtom } from "../../atoms/prevPathAtom";
+import useLogout from "../../hooks/useLogout";
+import AddEmployeeModal from "../AddEmployeeModal";
 import EmployeePerRow from "./EmployeePerRow";
-import allEmployeesAtom from "../atoms/allEmployeesAtom";
+import allEmployeesAtom from "../../atoms/allEmployeesAtom";
 
 const Employees = () => {
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);

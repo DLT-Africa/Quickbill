@@ -1,14 +1,13 @@
-import React from 'react'
-import Dashboard from '../components/Dashboard'
-import SidebarWithHeader from '../components/SidebarWithHeader'
+import React from "react";
+import Dashboard from "../components/dashboard/Dashboard";
+import SidebarWithHeader from "../components/SidebarWithHeader";
 
 const DashboardPage = () => {
-  return (
-    <SidebarWithHeader>
+	return (
+		<SidebarWithHeader>
+			<Dashboard />
+		</SidebarWithHeader>
+	);
+};
 
-    <Dashboard />
-    </SidebarWithHeader>
-  )
-}
-
-export default DashboardPage
+export default DashboardPage;

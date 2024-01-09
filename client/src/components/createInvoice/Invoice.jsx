@@ -22,20 +22,20 @@ import {
 	Accordion,
 } from "@chakra-ui/react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import invoiceAtom from "../atoms/invoiceAtom";
-import userAtom from "../atoms/userAtom";
-import { useAxiosInstance } from "../../api/axios";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
-import AddClientModal from "./AddClientModal";
-import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
-import allClientsAtom from "../atoms/allClientsAtom";
+import invoiceAtom from "../../atoms/invoiceAtom";
+import userAtom from "../../atoms/userAtom";
+import { useAxiosInstance } from "../../../api/axios";
+import {  useNavigate, useParams } from "react-router-dom";
+import AddClientModal from "../AddClientModal";
+import addClientModalOpenAtom from "../../atoms/addClientModalOpenAtom";
+import allClientsAtom from "../../atoms/allClientsAtom";
 import { MdOutlineCancel } from "react-icons/md";
-import currencies from "../utils/currencies.json";
+import currencies from "../../utils/currencies.json";
 import ItemRow from "./ItemRow";
-import useShowToast from "../hooks/useShowToast";
-import useLogout from "../hooks/useLogout";
-import { prevPathAtom } from "../atoms/prevPathAtom";
-import { encodePayload, decodeToken } from "../utils/tokenUtils";
+import useShowToast from "../../hooks/useShowToast";
+import useLogout from "../../hooks/useLogout";
+import { prevPathAtom } from "../../atoms/prevPathAtom";
+import {  decodeToken } from "../../utils/tokenUtils";
 import ItemPerAccordion from "./ItemPerAccordion";
 
 const todayDate = new Date();

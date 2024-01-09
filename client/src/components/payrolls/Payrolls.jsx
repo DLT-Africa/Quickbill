@@ -43,7 +43,7 @@ const Payrolls = () => {
 				const allPayrollsAPI = response.data;
 
 				setAllPayrolls(allPayrollsAPI);
-				console.log(allPayrollsAPI);
+				// console.log(allPayrollsAPI);
 
 				// console.log(allPayrolls);
 			} catch (error) {
@@ -137,31 +137,31 @@ const Payrolls = () => {
 						borderRadius={10}
 						border={"1px solid #fff"}
 					>
-						<Text fontSize={"2xl"} fontWeight={700}>
+						<Text fontSize={{base: 'lg', lg: "2xl"}} fontWeight={700}>
 							{payrollSummary.totalPaid}
 						</Text>
-						<Text fontSize={"xl"} fontWeight={500} color={"#8E8E8E"}>
+						<Text fontSize={{base: 'md', lg: "xl"}} fontWeight={500} color={"#8E8E8E"}>
 							Paid in total
 						</Text>
 					</Flex>
 					<Flex flexDir={"column"} py={2} px={6} bg={"#fff"} borderRadius={10}>
-						<Text fontSize={"2xl"} fontWeight={700}>
+						<Text  fontSize={{base: 'lg', lg: "2xl"}} fontWeight={700}>
 							{payrollSummary.totalAwaitingBalance}
 						</Text>
-						<Text fontSize={"xl"} fontWeight={500} color={"#8E8E8E"}>
+						<Text fontSize={{base: 'md', lg: "xl"}} fontWeight={500} color={"#8E8E8E"}>
 							Left to be paid
 						</Text>
 					</Flex>
 				</Flex>
 			</Flex>
 
-			<Box>
+			<Box mt={5}>
 				<Tabs align="end">
-					<TabList>
-						<Tab>All ({allPayrolls.length})</Tab>
-						<Tab>Paid ({paidPayrolls.length})</Tab>
-						<Tab>Awaiting Payment ({pendingPayrolls.length})</Tab>
-						<Tab>Voided ({voidedPayrolls.length})</Tab>
+					<TabList >
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>All ({allPayrolls.length})</Tab>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>Paid ({paidPayrolls.length})</Tab>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>Awaiting Payment ({pendingPayrolls.length})</Tab>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>Voided ({voidedPayrolls.length})</Tab>
 					</TabList>
 					<TabPanels>
 						<TabPanel>

@@ -13,17 +13,17 @@ import {
 	Icon,
 } from "@chakra-ui/react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import {  useAxiosInstance } from "../../api/axios";
+import { useAxiosInstance } from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
-import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
+import addClientModalOpenAtom from "../../atoms/addClientModalOpenAtom";
 import { MdOutlineCancel } from "react-icons/md";
-import useShowToast from "../hooks/useShowToast";
+import useShowToast from "../../hooks/useShowToast";
 import { format } from "date-fns";
-import AddEmployeeModal from "./AddEmployeeModal";
-import allEmployeesAtom from "../atoms/allEmployeesAtom";
-import { prevPathAtom } from "../atoms/prevPathAtom";
-import useLogout from "../hooks/useLogout";
-import allPayrollsAtom from "../atoms/allPayrollsAtom";
+import AddEmployeeModal from "../AddEmployeeModal";
+import allEmployeesAtom from "../../atoms/allEmployeesAtom";
+import { prevPathAtom } from "../../atoms/prevPathAtom";
+import useLogout from "../../hooks/useLogout";
+import allPayrollsAtom from "../../atoms/allPayrollsAtom";
 
 const todayDate = new Date();
 
@@ -61,7 +61,6 @@ function CreatePayroll() {
 				const newInvNo = totalPayrolls + 1;
 				const formattedPayrollNumber = newInvNo.toString().padStart(3, "0");
 				setcurrentPayrollNumber(formattedPayrollNumber);
-				// setInvoice({ ...invoice, invoiceNumber: formattedInvoiceNumber });
 			} catch (error) {
 				console.log(error.response);
 				const errorData = error.response?.data;
@@ -135,7 +134,6 @@ function CreatePayroll() {
 		activeButton.name === "payNow" ? setLoading(true) : null;
 		activeButton.name === "payLater" ? setLoadingPayLater(true) : null;
 
-
 		if (!isSelectedEmployee) {
 			showToast("Error", "Please select a employee before submitting", "error");
 			return;
@@ -170,7 +168,7 @@ function CreatePayroll() {
 			activeButton.name === "payNow"
 				? showToast("Success", "Salary Paid Successfully", "success")
 				: showToast("Success", "Payroll Saved to Pay Later", "success");
-			// navigate(`/invoices/${newInvoice._id}`);
+				navigate("/payrolls");
 		} catch (error) {
 			const errorData = error.response?.data;
 			if (errorData?.error?.startsWith("Internal")) {
@@ -183,8 +181,8 @@ function CreatePayroll() {
 				logout();
 			}
 		} finally {
-			setLoading(false)
-			setLoadingPayLater(false)
+			setLoading(false);
+			setLoadingPayLater(false);
 		}
 	};
 
@@ -319,10 +317,6 @@ function CreatePayroll() {
 									onChange={(e) => setSalary(e.target.value)}
 								/>
 							</FormControl>
-							{/* <FormControl isRequired>
-					<FormLabel>First name</FormLabel>
-					<Input  bg={'white'}  placeholder="First name" />
-				</FormControl> */}
 						</Flex>
 
 						<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"}>

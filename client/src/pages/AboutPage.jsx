@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "../components/NavBar";
-import AboutUsHero from "../components/AboutUsHero";
-import AboutUsTeam from "../components/AboutUsTeam";
+import AboutUsHero from "../components/aboutUs/AboutUsHero";
+import AboutUsTeam from "../components/aboutUs/AboutUsTeam";
 import Footer from "../components/Footer";
 
 

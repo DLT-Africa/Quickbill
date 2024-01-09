@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { addDays, format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import userAtom from "../atoms/userAtom";
+import userAtom from "../../atoms/userAtom";
 
 const InvoicePerRow = ({ singleInvoice }) => {
 	const navigate = useNavigate();

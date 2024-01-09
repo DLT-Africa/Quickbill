@@ -19,11 +19,11 @@ import React, { useState } from "react";
 
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import {  useAxiosInstance } from "../../api/axios";
-import useShowToast from "../hooks/useShowToast";
+import {  useAxiosInstance } from "../../../api/axios";
+import useShowToast from "../../hooks/useShowToast";
 import { set } from "date-fns";
-import { prevPathAtom } from "../atoms/prevPathAtom";
-import useLogout from "../hooks/useLogout";
+import { prevPathAtom } from "../../atoms/prevPathAtom";
+import useLogout from "../../hooks/useLogout";
 import { useRecoilState } from "recoil";
 
 const EmployeePerRow = ({ employee, setEmployees }) => {

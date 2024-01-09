@@ -80,7 +80,7 @@ export const columns = [
 					statusColor = "text-red-700";
 					break;
 			}
-			console.log(statusColor);
+			// console.log(statusColor);
 			return (
 				<div className={`${statusColor} font-medium text-left`}>{status}</div>
 			);

@@ -1,24 +1,19 @@
 import { prevPathAtom } from "@/atoms/prevPathAtom";
 import useLogout from "@/hooks/useLogout";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import DataTable from "./DataTable";
 import { columns } from "./columns";
 import { useAxiosInstance } from "../../../api/axios";
 import {
-	Box,
 	Button,
 	Flex,
 	Spinner,
 	Text,
-	useColorModeValue,
 } from "@chakra-ui/react";
-import useErrorHandler from "@/hooks/useErrorHandler";
 import addClientModalOpenAtom from "@/atoms/addClientModalOpenAtom";
 import AddClientModal from "../AddClientModal";
 import allClientsAtom from "@/atoms/allClientsAtom";
-import SidebarWithHeader from "../SidebarWithHeader";
 
 const Clients = () => {
 	const setAddClientModalOpen = useSetRecoilState(addClientModalOpenAtom);
@@ -75,7 +70,7 @@ const Clients = () => {
 	return (
 		<>
 			<Flex
-				px={8}
+				px={7}
 				mt={4}
 				justifyContent={"space-between"}
 				alignItems={"center"}

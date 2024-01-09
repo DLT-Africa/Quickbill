@@ -1,4 +1,3 @@
-// EmailCheckModal.jsx
 import { useState } from "react";
 import {
 	Modal,
@@ -16,9 +15,8 @@ import {
 import { useRecoilState } from "recoil";
 import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import sendInviteModalOpenAtom from "../atoms/sendInviteModalOpenAtom";
-import {  useAxiosInstance } from "../../api/axios";
+import { useAxiosInstance } from "../../api/axios";
 import useShowToast from "../hooks/useShowToast";
-import { set } from "date-fns";
 import allClientsAtom from "../atoms/allClientsAtom";
 import useErrorHandler from "../hooks/useErrorHandler";
 
@@ -73,7 +71,7 @@ const AddClientModal = () => {
 				setAddClientModalOpen(false);
 				setSendInviteModalOpen(true);
 				setLoadingAddClientBtn(false);
-			}  else {
+			} else {
 				errorHandler(error);
 			}
 		}

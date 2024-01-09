@@ -17,7 +17,6 @@ import addClientModalOpenAtom from "../atoms/addClientModalOpenAtom";
 import sendInviteModalOpenAtom from "../atoms/sendInviteModalOpenAtom";
 import {  useAxiosInstance } from "../../api/axios";
 import useShowToast from "../hooks/useShowToast";
-import allClientsAtom from "../atoms/allClientsAtom";
 import allEmployeesAtom from "../atoms/allEmployeesAtom";
 import useLogout from "../hooks/useLogout";
 import { prevPathAtom } from "../atoms/prevPathAtom";
