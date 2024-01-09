@@ -168,7 +168,7 @@ function CreatePayroll() {
       activeButton.name === "payNow"
         ? showToast("Success", "Salary Paid Successfully", "success")
         : showToast("Success", "Payroll Saved to Pay Later", "success");
-      // navigate(/invoices/${newInvoice._id});
+       navigate("/payrolls");
     } catch (error) {
       const errorData = error.response?.data;
       if (errorData?.error?.startsWith("Internal")) {
