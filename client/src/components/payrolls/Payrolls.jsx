@@ -43,6 +43,7 @@ const Payrolls = () => {
 				const allPayrollsAPI = response.data;
 
 				setAllPayrolls(allPayrollsAPI);
+				console.log(allPayrollsAPI)
 				// console.log(allPayrollsAPI);
 
 				// console.log(allPayrolls);
