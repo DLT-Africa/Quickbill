@@ -36,7 +36,7 @@ const Faq = () => {
                         flex="1"
                         textAlign="left"
                         pr={{ base: 8, md: 15 }}
-                        fontWeight={{ base: 400, md: 500 }}
+                        fontWeight={{ base: 500, md: 500 }}
                         fontSize={{ base: "md", md: "lg", lg: "xl" }}
                       >
                         How can I set up automated reminders for overdue
@@ -79,7 +79,7 @@ const Faq = () => {
                         flex="1"
                         textAlign="left"
                         pr={{ base: 8, md: 15 }}
-                        fontWeight={{ base: 400, md: 500 }}
+                        fontWeight={{ base: 500, md: 500 }}
                         fontSize={{ base: "md", md: "lg", lg: "xl" }}
                       >
                         How can I address common user queries or issues

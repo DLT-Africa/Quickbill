@@ -18,6 +18,9 @@ export default function Dashboard() {
 	const [allAwaitingPaymentInvoices, setAllAwaitingPaymentInvoices] = useState(
 		[]
 	);
+	const [allPartiallyPaidInvoices, setAllPartiallyPaidInvoices] = useState(
+		[]
+	);
 	const [paymentSummary, setPaymentSummary] = useState(null);
 	const [isFetching, setIsFetching] = useState(true);
 	const [settingUpChart, isSettingUpChart] = useState(true);
@@ -63,11 +66,17 @@ export default function Dashboard() {
 					(invoice) => invoice.invoiceStatus === "Awaiting Payment"
 				);
 
+				//filter partially paid invoices
+				const filteredPartiallyPaid = invoicesSent.filter(
+					(invoice) => invoice.invoiceStatus === "Partially Paid"
+				)
+
 				setAllSentInvoices(invoicesSent);
 				setAllPaidInvoices(filteredPaidInvoices);
 				setAllRejectedInvoices(filteredRejectedInvoices);
 				setAllOverdueInvoices(filteredOverdueInvoices);
 				setAllAwaitingPaymentInvoices(filteredAwaitingPaymentInvoices);
+				setAllPartiallyPaidInvoices(filteredPartiallyPaid);
 			} catch (error) {
 				errorHandler(error);
 			} finally {
@@ -216,6 +225,7 @@ export default function Dashboard() {
 					<PieChart
 						paidInvoices={allPaidInvoices}
 						awaitingPayment={allAwaitingPaymentInvoices}
+						partiallyPaid={allPartiallyPaidInvoices}
 						rejectedInvoices={allRejectedInvoices}
 						overdueInvoices={allOverdueInvoices}
 					/>
