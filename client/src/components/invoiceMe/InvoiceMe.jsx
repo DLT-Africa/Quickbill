@@ -89,7 +89,8 @@ const InvoiceMe = () => {
                   value={inputValue}
                   border={"1px solid black"}
                   py={6}
-                  onChange={(e) => setInputValue(e.target.value)}
+                  disabled
+                  // onChange={(e) => setInputValue(e.target.value)}
                 />
               </FormControl>
             </Box>

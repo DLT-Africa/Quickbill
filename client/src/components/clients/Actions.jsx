@@ -75,17 +75,16 @@ const Actions = ({ client }) => {
 
 	return (
 		<>
-			
-
 			<Flex gap={6}>
 				<FaEdit
-                size={25}
+					size={25}
+					color="blue"
 					cursor={"pointer"}
 					onClick={() => setUpdateClientModalOpen(true)}
 				/>
 				<MdDelete
-                                size={25}
-
+					size={25}
+					color="red"
 					cursor={"pointer"}
 					onClick={() => setDeleteClientModalOpen(true)}
 				/>

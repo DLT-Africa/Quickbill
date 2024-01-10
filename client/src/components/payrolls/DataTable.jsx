@@ -25,7 +25,12 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Button as Chakrabutton, Flex, Select, Text } from "@chakra-ui/react";
+import {
+	Button as Chakrabutton,
+	Flex,
+	Select,
+	Text,
+} from "@chakra-ui/react";
 
 export function DataTable({ columns, data }) {
 	const [sorting, setSorting] = useState([]);
@@ -139,20 +144,22 @@ export function DataTable({ columns, data }) {
 					<TableBody>
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
-								<TableRow
-									key={row.id}
-									className="cursor-pointer"
-									data-state={row.getIsSelected() && "selected"}
-								>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
-											{flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext()
-											)}
-										</TableCell>
-									))}
-								</TableRow>
+							
+									<TableRow
+										key={row.id}
+										className="cursor-pointer"
+										data-state={row.getIsSelected() && "selected"}
+									>
+										{row.getVisibleCells().map((cell) => (
+											<TableCell key={cell.id}>
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext()
+												)}
+											</TableCell>
+										))}
+									</TableRow>
+							
 							))
 						) : (
 							<TableRow>
