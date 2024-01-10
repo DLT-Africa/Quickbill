@@ -31,6 +31,7 @@ const HeroSec = () => {
           </Text>
           <Hide above="md">
             <Image
+            my={6}
               objectFit={'cover'}
               display={{ md: "none" }}
               src="/Moneyverse Business Balance.svg"
@@ -49,6 +50,7 @@ const HeroSec = () => {
             <Button
               bg={"#2970FF"}
               color={"#F6F6F6"}
+              mt={5}
               size={{ base: "md", md: "lg" }}
               h={{ base: "35px", md: "50px" }}
               w={{ base: 200, md: 220 }}
@@ -65,6 +67,7 @@ const HeroSec = () => {
 
         <Show above="md">
           <Image
+          
             objectFit={'cover'}
             w={{ md: 320, lg: 420 }}
             src="/Moneyverse Business Balance.svg"

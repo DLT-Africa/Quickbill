@@ -65,6 +65,7 @@ const InvoiceMe = () => {
               as={"h2"}
               fontSize={{ base: "md", md: "xl", lg: "2xl" }}
               fontWeight={400}
+              textAlign={'center'}
             >
               You can now easily share your personal or business information
               with your friends or suppliers, to invoice you easily.
@@ -77,7 +78,7 @@ const InvoiceMe = () => {
           >
             <Box w={{ base: "full", md: 250, lg: 630 }}>
               <FormControl width={{base: 350, lg: '100%'}} >
-                <FormLabel fontSize={{ base: "lg", md: "xl", lg: "2xl" }}>
+                <FormLabel fontSize={{ base: "lg", md: "xl", lg: "2xl" }} textAlign={'center'}>
                   Select your invitation link
                 </FormLabel>
                 <Input
@@ -97,6 +98,7 @@ const InvoiceMe = () => {
             <Button
               bg={"#2970FF"}
               color={"#F6F6F6"}
+              mx={'auto'}
               size={{ base: "md", md: "lg" }}
               transition={"all 1s"}
               fontSize={{ base: "sm", md: "lg", lg: "xl" }}
