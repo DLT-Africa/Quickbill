@@ -2,14 +2,26 @@ import React, { useEffect, useState } from "react";
 import {
 	Button,
 	ButtonGroup,
+	Flex,
 	IconButton,
+	Modal,
+	ModalBody,
+	ModalCloseButton,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
 	Popover,
+	PopoverArrow,
 	PopoverCloseButton,
 	PopoverContent,
 	PopoverFooter,
 	PopoverTrigger,
+	Text,
 	useDisclosure,
 } from "@chakra-ui/react";
+import { BsInfoCircle } from "react-icons/bs";
+
 import useLogout from "@/hooks/useLogout";
 import { useAxiosInstance } from "/api/axios";
 import { prevPathAtom } from "@/atoms/prevPathAtom";
@@ -27,6 +39,8 @@ const Actions = ({ singlePayroll }) => {
 	const { onOpen, onClose, isOpen } = useDisclosure();
 	const [paying, setPaying] = useState(false);
 	const [voiding, setVoiding] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isModalClose, setIsModalClose] = useState(false);
 
 	useEffect(() => {
 		if (
@@ -85,7 +99,13 @@ const Actions = ({ singlePayroll }) => {
 	};
 
 	return (
-		<>
+		<Flex gap={3}>
+			<Button
+				as={IconButton}
+				icon={<BsInfoCircle />}
+				onClick={() => setIsModalOpen(true)}
+			></Button>
+
 			<Popover
 				placement="left"
 				isOpen={isOpen}
@@ -107,6 +127,7 @@ const Actions = ({ singlePayroll }) => {
 					bg="blue.800"
 					borderColor="blue.800"
 				>
+					<PopoverArrow bg="blue.800" />
 					<PopoverCloseButton />
 
 					<PopoverFooter
@@ -144,7 +165,28 @@ const Actions = ({ singlePayroll }) => {
 					</PopoverFooter>
 				</PopoverContent>
 			</Popover>
-		</>
+
+			<Modal onClose={onClose} isOpen={isModalOpen} isCentered>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Payroll No: {singlePayroll.payrollNumber}</ModalHeader>
+					<ModalCloseButton
+						onClick={(e) => {
+							e.preventDefault();
+							setIsModalOpen(false);
+						}}
+					/>
+					<ModalBody>
+						<Text><strong>Bank Name: </strong>{singlePayroll.bankName}</Text>
+						<Text><strong>Account Name: </strong>{singlePayroll.accountName}</Text>
+						<Text><strong>Account Number: </strong>{singlePayroll.accountNumber}</Text>
+					</ModalBody>
+					<ModalFooter>
+						<Button onClick={() => setIsModalOpen(false)}>Close</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+		</Flex>
 	);
 };
 
