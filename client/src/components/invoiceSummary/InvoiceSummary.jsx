@@ -26,6 +26,7 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
+	Spinner,
 	Table,
 	Tbody,
 	Td,
@@ -79,6 +80,7 @@ const InvoiceSummary = () => {
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const logout = useLogout();
 	const axiosInstance = useAxiosInstance();
+	const [isFetching, setIsFetching] = useState(true)
 
 	const showToast = useShowToast();
 
@@ -192,7 +194,10 @@ const InvoiceSummary = () => {
 			const date = invoiceDetails.issueDate;
 			setInvoiceDueDate(format(dueDate, "PP"));
 			setInvoiceDate(format(date, "PP"));
+			
+			setIsFetching(false)
 		}
+
 	}, [invoiceDetails]);
 
 	const handlePartialPayment = async (e) => {
@@ -346,7 +351,7 @@ const InvoiceSummary = () => {
 	const downloadPDF = async () => {
 		const invoiceContainer = document.getElementById("invoice-container");
 		const scaleFactor = 1.5; // Adjust this value as needed
-		const imageQuality = 0.3; // Adjust this value (0.0 to 1.0) for image quality
+		const imageQuality = 0.8; // Adjust this value (0.0 to 1.0) for image quality
 
 		// PDF document
 		const pdf = new jsPDF({
@@ -380,6 +385,20 @@ const InvoiceSummary = () => {
 			pdf.save("invoice.pdf");
 		}, 200);
 	};
+
+	if (isFetching) {
+		return (
+			<Flex
+				justifyContent={"center"}
+				flexDir={"column"}
+				gap={2}
+				alignItems={"center"}
+				minH={"100vh"}
+			>
+				<Spinner size={"xl"} />
+			</Flex>
+		);
+	}
 
 	return (
 		<div id="invoice-container">

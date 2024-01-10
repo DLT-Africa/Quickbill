@@ -12,7 +12,7 @@ const ItemPerInvSummary = ({ row, index, invoiceDetails }) => {
 	console.log(invoiceDetails);
 	return (
 		<>
-			<Card border={"solid 1px"} variant={"elevated"} mt={5}>
+			<Card  variant={"elevated"} mt={5}>
 				<CardHeader>
 					<Heading size="md" textAlign={'center'} color={'gray'} fontSize={{ base: "md", md: "lg" }}>
 						{row.itemName}
