@@ -365,7 +365,7 @@ function Invoice() {
 						pb={"2"}
 						px={{ base: 4, lg: 10 }}
 					>
-						<Box>
+						<Box   w={{base: '60%', lg: 'full'}}>
 							<Text
 								as={"h2"}
 								fontSize={{ base: "md", lg: "xl" }}
@@ -374,7 +374,7 @@ function Invoice() {
 								Bill To
 							</Text>
 							{encodedToken ? (
-								<Box>
+								<Box  w={{base: '80%', lg: 'full'}}>
 									<Text fontSize={{ base: "sm", lg: "lg" }}>
 										{decodedTokenDetails?.name}
 									</Text>
@@ -405,7 +405,7 @@ function Invoice() {
 								</Flex>
 							) : (
 								<Flex gap={4}>
-									<Box>
+									<Box  w={{base: '80%', lg: '40%'}}>
 										<Text fontSize={{ base: "sm", lg: "lg" }}>
 											{selectedClientDetails?.name}
 										</Text>
@@ -481,7 +481,6 @@ function Invoice() {
 							</Flex>
 						</Box>
 
-						<AddClientModal />
 
 						<Box>
 							<Text
@@ -519,6 +518,8 @@ function Invoice() {
 							</Text>
 						</Box>
 					</Flex>
+					<AddClientModal />
+
 					{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
 
 					<Box mt={8} display={{ base: "none", lg: "block" }}>
@@ -584,7 +585,8 @@ function Invoice() {
 							fontSize={"20px"}
 							fontWeight={500}
 							color={"gray"}
-							w={{ base: "60%", lg: "45%" }}
+							mr={2}
+							w={{ base: "70%", lg: "45%" }}
 						>
 							<Thead pl={2} fontSize={{ base: "sm", lg: "lg" }}>
 								<Tr bg="#F4F4F4">

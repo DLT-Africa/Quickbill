@@ -667,10 +667,11 @@ const InvoiceSummary = () => {
 					justifyContent={"space-between"}
 					pt={"27"}
 					pb={"2"}
-					px={{ base: 4, lg: 10 }}
+					w={'full'}
+					px={{ base: 2, lg: 10 }}
 				>
-					<Flex flexDir={"column"} gap={5}>
-						<Box>
+					<Flex flexDir={"column"} maxW={{base:'70%', lg: 'full'}}  gap={5}>
+						<Box >
 							<Text
 								as={"h2"}
 								fontSize={{ base: "md", lg: "xl" }}
@@ -679,7 +680,7 @@ const InvoiceSummary = () => {
 								FROM
 							</Text>
 
-							<Box>
+							<Box  >
 								<Text fontSize={{ base: "sm", lg: "lg" }}>
 									{invoiceDetails?.creatorId?.name}
 								</Text>
@@ -688,7 +689,7 @@ const InvoiceSummary = () => {
 								</Text>
 							</Box>
 						</Box>
-						<Box maxW={{ base: "100%" }}>
+						<Box>
 							<Text
 								as={"h2"}
 								fontSize={{ base: "md", lg: "xl" }}
@@ -697,7 +698,7 @@ const InvoiceSummary = () => {
 								BILLED TO
 							</Text>
 
-							<Box>
+							<Box   >
 								<Text fontSize={{ base: "sm", lg: "lg" }}>{client?.name}</Text>
 								<Text fontSize={{ base: "sm", lg: "lg" }}>{client?.email}</Text>
 								<Text fontSize={{ base: "sm", lg: "lg" }}>
@@ -707,7 +708,7 @@ const InvoiceSummary = () => {
 						</Box>
 
 						<Box>
-							<Text fontSize={{ base: "md", lg: "lg" }} fontWeight={600} mt={2}>
+							<Text fontSize={{ base: "md",md:'full', lg: "lg" }} fontWeight={600} mt={2}>
 								Payment Details:
 							</Text>
 							<Text fontSize={{ base: "sm", lg: "md" }}>
@@ -725,7 +726,7 @@ const InvoiceSummary = () => {
 						</Box>
 					</Flex>
 
-					<Box>
+					<Box >
 						<Text
 							as={"h2"}
 							fontWeight={500}
@@ -813,7 +814,7 @@ const InvoiceSummary = () => {
 						fontWeight={500}
 						color={"gray"}
 						w={{ base: "75%", lg: "60%" }}
-						mr={5}
+						mr={2}
 					>
 						<Thead fontSize={{ base: "sm", lg: "lg" }}>
 							<Tr bg="#F4F4F4">
