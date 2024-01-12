@@ -27,7 +27,7 @@ const ItemPerInvSummary = ({ row, index, invoiceDetails }) => {
 					</Flex>
 					<Flex justifyContent={'space-between'}>
 						<Text fontSize={{ base: "sm", md: "md" }}>
-							<strong>Discount:</strong> {row?.discPercent || "--"}
+							<strong>Discount: </strong> {`${row?.discPercent}%` || "--"}
 						</Text>
 						<Text fontSize={{ base: "sm", md: "md" }}>
 							<strong>Amount:</strong> {invoiceDetails?.currency}{" "}

@@ -60,7 +60,7 @@ export const columns = [
 		cell: ({ row }) => {
 			const paymentDate = row.getValue("paymentDate");
 			let formatted;
-			if (paymentDate) formatted = format(paymentDate, "dd/MM/yyyy");
+			if (paymentDate) formatted = format(paymentDate, "dd/MM/yyyy p");
 			return <div className="font-medium text-left">{formatted || "--"}</div>;
 		},
 	},

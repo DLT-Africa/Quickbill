@@ -342,7 +342,7 @@ function Invoice() {
 	return (
 		<>
 			<Box
-				m={{ base: 3, md: 5, lg: 10 }}
+				m={{ base: 1, md: 5, lg: 10 }}
 				py={{ base: 5, md: 10 }}
 				border={"1px solid black"}
 				bg={"#fff"}
@@ -365,7 +365,8 @@ function Invoice() {
 						pb={"2"}
 						px={{ base: 4, lg: 10 }}
 					>
-						<Box   w={{base: '60%', lg: 'full'}}>
+						<Box   w={{base: '60%', lg: 'full'}}
+						maxW={{md: '400px'}}>
 							<Text
 								as={"h2"}
 								fontSize={{ base: "md", lg: "xl" }}
@@ -405,7 +406,7 @@ function Invoice() {
 								</Flex>
 							) : (
 								<Flex gap={4}>
-									<Box  w={{base: '80%', lg: '40%'}}>
+									<Box  w={{base: '80%', lg: '100%'}}>
 										<Text fontSize={{ base: "sm", lg: "lg" }}>
 											{selectedClientDetails?.name}
 										</Text>
@@ -642,7 +643,7 @@ function Invoice() {
 						mt={10}
 					>
 						<Flex flexDir={"column"} gap={2}>
-							<Text color={"gray"} fontSize={{ base: "sm", lg: "lg" }}>
+							<Text w={{ base: '85px', md: "75px", lg: '100%' }} color={"gray"} fontSize={{ base: "sm", lg: "lg" }}>
 								Tax Rate(%){" "}
 							</Text>
 							<Input
@@ -651,7 +652,7 @@ function Invoice() {
 								type="number"
 								value={vatRate}
 								fontSize={{ base: "sm", lg: "md" }}
-								w={{ base: 20, md: "100%" }}
+								w={{ base: '60px', md: "100%" }}
 								onChange={(e) => setVatRate(e.target.value)}
 							/>
 						</Flex>
@@ -664,7 +665,10 @@ function Invoice() {
 							<Input
 								placeholder="Select Date and Time"
 								// size={{base: 'sm', lg: 'md'}}
+								w={{ base:'110px', md: "100%" }}
 								type="date"
+								px={{base:1, md: '3'}}
+								gap={0}
 								fontSize={{ base: "sm", md: "md" }}
 								value={format(selectedDueDate, "yyyy-MM-dd")}
 								onChange={handleDueDateChange}
