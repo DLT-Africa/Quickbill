@@ -76,7 +76,7 @@ const ItemPerAccordion = ({
 								/>
 							</Box>
 							<Box w={"50%"}>
-								<FormLabel fontSize={"sm"}>Unit Price</FormLabel>
+								<FormLabel fontSize={"sm"}>Unit Price ({selectedCurrency})</FormLabel>
 								<Input
 									fontSize={{ base: "sm", xl: "md" }}
 									

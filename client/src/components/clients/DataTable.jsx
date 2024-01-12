@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import {
-	ChevronDownIcon,
-} from "@radix-ui/react-icons";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
 import {
 	flexRender,
 	getCoreRowModel,
@@ -146,18 +144,21 @@ export function DataTable({ columns, data }) {
 				<div className="space-x-2">
 					<div className="flex gap-2">
 						<Button
+							size="sm"
 							onClick={() => table.setPageIndex(0)}
 							disabled={!table.getCanPreviousPage()}
 						>
 							{"<<"}
 						</Button>
 						<Button
+							size="sm"
 							onClick={() => table.previousPage()}
 							disabled={!table.getCanPreviousPage()}
 						>
 							Prev
 						</Button>
 						<Button
+							size="sm"
 							onClick={(e) =>
 								table.setPageIndex(Number(e.target.innerText) - 1)
 							}
@@ -167,6 +168,7 @@ export function DataTable({ columns, data }) {
 							{currentPage < 4 ? 1 : currentPage - 1}
 						</Button>
 						<Button
+							size="sm"
 							onClick={(e) =>
 								table.setPageIndex(Number(e.target.innerText) - 1)
 							}
@@ -180,6 +182,7 @@ export function DataTable({ columns, data }) {
 							{currentPage < 4 ? 2 : currentPage}
 						</Button>
 						<Button
+							size="sm"
 							onClick={(e) =>
 								table.setPageIndex(Number(e.target.innerText) - 1)
 							}
@@ -189,12 +192,14 @@ export function DataTable({ columns, data }) {
 							{currentPage < 4 ? 3 : currentPage + 1}
 						</Button>
 						<Button
+							size="sm"
 							onClick={() => table.nextPage()}
 							disabled={!table.getCanNextPage()}
 						>
 							Next
 						</Button>
 						<Button
+							size="sm"
 							onClick={() => table.setPageIndex(table.getPageCount() - 1)}
 							disabled={!table.getCanNextPage()}
 						>
