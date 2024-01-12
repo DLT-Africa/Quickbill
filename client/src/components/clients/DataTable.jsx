@@ -56,7 +56,7 @@ export function DataTable({ columns, data }) {
 	if (!data?.length) return null;
 
 	return (
-		<div className="w-full p-8">
+		<div className="w-full p-3">
 			<div className="flex items-center py-4">
 				<Input
 					placeholder="Filter names..."

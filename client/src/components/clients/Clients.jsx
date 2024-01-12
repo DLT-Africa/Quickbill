@@ -70,7 +70,7 @@ const Clients = () => {
 	return (
 		<>
 			<Flex
-				px={7}
+				px={3}
 				mt={4}
 				justifyContent={"space-between"}
 				alignItems={"center"}
