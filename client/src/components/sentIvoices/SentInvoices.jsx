@@ -106,7 +106,7 @@ const SentInvoices = () => {
 		<>
 			<Flex
 				justifyContent={"space-between"}
-				p={7}
+				p={3}
 				flexDir={"row"}
 			>
 				<Text
@@ -133,7 +133,7 @@ const SentInvoices = () => {
 				</Flex>
 			</Flex>
 
-			<Box px={{ sm: 2, md: 4 }}>
+			<Box px={{ sm: 1 }}>
 				<Tabs align="end">
 					<TabList>
 						<Tab fontSize={{base: 'sm', lg: 'md'}}>All ({allSentInvoices.length})</Tab>

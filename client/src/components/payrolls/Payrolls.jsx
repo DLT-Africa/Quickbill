@@ -101,8 +101,8 @@ const Payrolls = () => {
 	}
 
 	return (
-		<div className="p-6">
-			<Flex flexDir={"column"} gap={8}>
+		<div >
+			<Flex flexDir={"column"} p={3} gap={8}>
 				<Flex mt={4} justifyContent={"space-between"}>
 					<Flex flexDir={"column"}>
 						<Text fontSize={36} textAlign={"left"} fontWeight={700}>
@@ -156,7 +156,7 @@ const Payrolls = () => {
 				</Flex>
 			</Flex>
 
-			<Box mt={5}>
+			<Box  mt={5}>
 				<Tabs align="end">
 					<TabList >
 						<Tab fontSize={{base: 'sm', lg: 'md'}}>All ({allPayrolls.length})</Tab>

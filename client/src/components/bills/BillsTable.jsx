@@ -99,7 +99,7 @@ const BillsTable = () => {
 
 	return (
 		<>
-			<Flex justifyContent={"space-between"} p={7} flexDir={"row"}>
+			<Flex justifyContent={"space-between"} p={3} flexDir={"row"}>
 				<Box>
 					<Text
 						fontSize={{ base: "2xl", md: "3xl" }}
