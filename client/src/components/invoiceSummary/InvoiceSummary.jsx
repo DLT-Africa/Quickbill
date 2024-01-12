@@ -411,7 +411,7 @@ const InvoiceSummary = () => {
 					INVOICE INFORMATION
 				</Text>
 
-				<Flex justifyContent={"flex-end"} pr={10}>
+				<Flex justifyContent={"flex-end"} pr={{base: 3, md: 5, lg:10}}>
 					<Menu>
 						<MenuButton
 							as={IconButton}
@@ -635,7 +635,7 @@ const InvoiceSummary = () => {
 								<Tbody>
 									{[...paymentRecords]?.reverse().map((record, index) => (
 										<Tr key={index} _hover={{ bg: "#EFEFEF" }}>
-											<Td>{format(record?.paymentDate, "dd/MM/yyyy")}</Td>
+											<Td>{format(record?.paymentDate, "dd/MM/yyyy p")}</Td>
 
 											<Td>{record?.amountPaid}</Td>
 											<Td>{record?.note || "--"}</Td>
@@ -649,7 +649,9 @@ const InvoiceSummary = () => {
 			</Box>
 			<Box
 				my={10}
-				mx={8}
+				// mx={8}
+				mx={{ base: 2, md: 5, lg: 10 }}
+
 				py={10}
 				border={"1px solid black"}
 				bg={"#fff"}
@@ -813,7 +815,7 @@ const InvoiceSummary = () => {
 						fontSize={"20px"}
 						fontWeight={500}
 						color={"gray"}
-						w={{ base: "75%", lg: "60%" }}
+						w={{ base: "70%", lg: "45%" }}
 						mr={2}
 					>
 						<Thead fontSize={{ base: "sm", lg: "lg" }}>
