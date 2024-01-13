@@ -191,19 +191,17 @@ function CreatePayroll() {
 	return (
 		<>
 			<Box
-				as="section"
 				m={10}
 				py={{ base: 2, md: 5, lg: 10 }}
 				border={"1px solid black"}
 				bg={"#fff"}
 				borderRadius={10}
-				overflowX={'hidden'}
 			>
 				<Box textAlign={"right"} px={10}>
 					<Text fontSize={{ base: 'xl', md: '3xl', lg: "4xl" }} fontWeight={700}>
 						SALARY{" "}
 					</Text>
-					<Text fontWeight={400} fontSize={{ base: 'lg', md: '2xl', lg: "3xl" }}>
+					<Text fontWeight={400} fontSize={{ base: 'lg', md: '2xl', lg: '3xl' }}>
 						Salary #: {currentPayrollNumber}
 					</Text>
 				</Box>
@@ -211,15 +209,15 @@ function CreatePayroll() {
 
 				<Flex
 					flexDir={"column"}
-					w={"60%"}
+					w={{ base: '85%', lg: "60%" }}
 					m={"auto"}
-					px={30}
+					px={{ base: 1, lg: 30 }}
 					bg={"#F3F3F3"}
 					borderRadius={15}
 				>
-					<Flex gap={5} pt={"27"} flexDir={"column"} pb={"2"} px={10}>
-						<Box mt={8}>
-							<Text fontWeight={500} fontSize={"2xl"}>
+					<Flex gap={{ base: 2, md: 5 }} pt={"27"} flexDir={"column"} pb={"2"} px={{ base: 5, md: 10 }}>
+						<Box mt={{ base: 0, md: 8 }}>
+							<Text fontWeight={500} fontSize={{ base: 'lg', md: 'xl', lg: "2xl" }}>
 								DATE: {format(todayDate, "PP")}
 							</Text>
 						</Box>
@@ -231,12 +229,12 @@ function CreatePayroll() {
 							}}
 						>
 							<Box>
-								<Text as={"h2"} fontSize={"xl"} fontWeight={600}>
+								<Text as={"h2"} fontSize={{ base: 'md', md: 'lg', lg: "xl" }} fontWeight={600}>
 									Employer Details
 								</Text>
 								{!isSelectedEmployee ? (
 									<Flex gap={2} flexDir={"column"}>
-										<Box w={250}>
+										<Box w={{ base: '', md: 250 }}>
 											<ReactSelect
 												onChange={handleSelectedEmployee}
 												options={employeeSelectOption}
@@ -247,6 +245,8 @@ function CreatePayroll() {
 											bg={"#2970FF"}
 											color={"#F6F6F6"}
 											w={150}
+											fontSize={{ base: 'xs', md: 'md' }}
+											size={{ base: 'sm', md: 'md', lg: 'lg' }}
 											_hover={{ bg: "blue" }}
 											type="submit"
 										>
@@ -275,50 +275,61 @@ function CreatePayroll() {
 
 						<AddEmployeeModal />
 					</Flex>
-					{/* <Flex justifyContent={"space-between"} alignItems={"center"}></Flex> */}
 					<form onSubmit={handleSubmit}>
-						<Flex gap={6} flexDir={"column"} p={10}>
+						<Flex gap={{ base: 2, md: 6 }} flexDir={"column"} p={{ base: 4, md: 10 }} >
 							<FormControl isRequired colorScheme="red">
-								<FormLabel>Bank Name</FormLabel>
+								<FormLabel fontSize={{ base: 'sm' }}>Bank Name</FormLabel>
 								<Input
 									bg={"white"}
-									py={6}
+									py={{ base: '', md: 6 }}
 									placeholder="Bank Name"
 									value={bankName}
 									onChange={(e) => setBankName(e.target.value)}
+									_placeholder={{
+										fontSize: 'sm'
+									}}
 								/>
 							</FormControl>
 							<FormControl isRequired>
-								<FormLabel>Account Name</FormLabel>
+								<FormLabel fontSize={{ base: 'sm' }}>Account Name</FormLabel>
 								<Input
 									bg={"white"}
 									placeholder="Account Name"
 									value={accountName}
 									onChange={(e) => setAccountName(e.target.value)}
+									_placeholder={{
+										fontSize: 'sm'
+									}}
 								/>
 							</FormControl>
 							<FormControl isRequired>
-								<FormLabel>Account Number</FormLabel>
+								<FormLabel fontSize={{ base: 'sm' }}>Account Number</FormLabel>
 								<Input
 									bg={"white"}
 									type="number"
 									placeholder="Account Number"
 									value={accountNumber}
 									onChange={(e) => setAccountNumber(e.target.value)}
+									_placeholder={{
+										fontSize: 'sm'
+									}}
 								/>
 							</FormControl>
 							<FormControl>
-								<FormLabel>Salary Currency</FormLabel>
-								<Text>US Dollar</Text>
+								<FormLabel fontSize={{ base: 'sm' }}>Salary Currency</FormLabel>
+								<Text fontSize={{ base: 'sm' }}>US Dollar</Text>
 							</FormControl>
 							<FormControl isRequired>
-								<FormLabel>Salary Amount ({selectedCurrency})</FormLabel>
+								<FormLabel fontSize={{ base: 'sm' }}>Salary Amount ({selectedCurrency})</FormLabel>
 								<Input
 									bg={"white"}
 									placeholder="Salary"
 									type="number"
 									value={salary}
 									onChange={(e) => setSalary(e.target.value)}
+									_placeholder={{
+										fontSize: 'sm'
+									}}
 								/>
 							</FormControl>
 							{/* <FormControl isRequired>
@@ -327,25 +338,31 @@ function CreatePayroll() {
 				</FormControl> */}
 						</Flex>
 
-						<Flex pb={"30px"} flexDir={"column"} px={10} pt={"17px"}>
-							<Text>Note/Additional Information</Text>
+						<Flex pb={"30px"} flexDir={"column"} px={{ base: 2, md: 10 }} pt={"17px"}>
+							<Text fontSize={{ base: 'sm' }}>Note/Additional Information</Text>
 							<Box>
 								<Textarea
 									bg={"white"}
-									placeholder="Kindly provide additional details or terms of service "
+									placeholder="Kindly provide additional details or terms of service"
 									value={payrollNote}
 									onChange={(e) => setPayrollNote(e.target.value)}
+									_placeholder={{
+										fontSize: 'sm'
+									}}
 								/>
 							</Box>
 						</Flex>
 
-						<Box mt={8}>
-							<Flex justifyContent="center" gap={8} pb={5}>
+						<Box mt={{ base: '', md: 8 }}>
+							<Flex justifyContent="center" gap={{ base: 2, sm: 5, md: 8 }} pb={5}
+								flexDir={{ base: 'column', sm: 'row', md: 'row' }} px={{ base: 2 }}>
 								<Button
 									type="submit"
 									_hover={{ bg: "blue" }}
 									color={"white"}
 									bg={"#2970FF"}
+									fontSize={{ base: 'xs', md: 'md' }}
+									size={{ base: 'sm', sm: 'md', md: 'lg' }}
 									name="payLater"
 									isLoading={loadingPayLater}
 									loadingText={"Saving as draft"}
@@ -357,6 +374,8 @@ function CreatePayroll() {
 									_hover={{ bg: "blue" }}
 									color={"white"}
 									bg={"#2970FF"}
+									fontSize={{ base: 'xs', md: 'md' }}
+									size={{ base: 'sm', sm: 'md', md: 'lg' }}
 									name="payNow"
 									isLoading={loading}
 									loadingText={loading ? "Paying..." : "Pay Now"}

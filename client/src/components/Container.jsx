@@ -9,29 +9,38 @@ const Container = () => {
         bg={"#EBF5FE"}
         py={70}
         px={30}
-        flexDir={'column'}
+        flexDir={"column"}
         w={{ base: "full" }}
-        justifyContent={'center'}
-        alignItems={'center'}
+        justifyContent={"center"}
+        alignItems={"center"}
         gap={10}
       >
         <Text fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }} fontWeight={600}>
           Time saving, efficient, compliant, less stressful... and much more!
         </Text>
         <SimpleGrid
-          templateColumns={{ base: "1fr", sm: 'repeat(2, minmax(50px, 1fr))', md: "repeat(2, minmax(50px, 1fr))", lg: "repeat(3, minmax(50px, 1fr))", }}
+          templateColumns={{
+            base: "1fr",
+            sm: "repeat(2, minmax(50px, 1fr))",
+            md: "repeat(2, minmax(50px, 1fr))",
+            lg: "repeat(4, minmax(50px, 1fr))",
+          }}
           gap={{ base: 8, md: 15 }}
-          alignItems={'center'}
+          alignItems={"center"}
           spacing={5}
-          justifyContent={'center'}
+          justifyContent={"center"}
         >
           <Card
-            width={{ base: '100%', md: 320, lg: 'full' }} py={4} px={3} boxShadow={"lg"}
+            width={{ base: "100%", md: 320, lg: "full" }}
+            h={{ lg: 500 }}
+            py={4}
+            px={3}
+            boxShadow={"lg"}
           >
             <Text
               fontSize={{ base: "xl", md: "3xl", lg: "3xl" }}
               fontWeight={600}
-              textAlign={"center"}
+              // textAlign={"center"}
             >
               Accounts <span className="landingPageSpan">Payable</span>
             </Text>
@@ -39,16 +48,20 @@ const Container = () => {
 
             <Text
               fontSize={{ base: "md", md: "lg", lg: "xl" }}
-              textAlign={"center"}
+              // textAlign={"center"}
               fontWeight={400}
             >
-              Corem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero et velit interdum, ac aliquet odio mattis.
+              Effortlessly manage your web3 business payments in one place,
+              whether you have 1 or 10,000 transactions a month.
             </Text>
           </Card>
           <Card
-            width={{ base: '100%', md: 320, lg: 'full' }} py={4} px={3} boxShadow={"lg"}
-            textAlign={"center"}
+            width={{ base: "100%", md: 320, lg: "full" }}
+            h={{ lg: 500 }}
+            py={4}
+            px={3}
+            boxShadow={"lg"}
+            // textAlign={"center"}
           >
             <Text
               fontSize={{ base: "xl", md: "3xl", lg: "4xl" }}
@@ -62,12 +75,15 @@ const Container = () => {
               fontSize={{ base: "md", md: "lg", lg: "xl" }}
               fontWeight={400}
             >
-              Worem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero et velit interdum, ac aliquet odio mattis.
+              Generate invoices and receive lawful payments using cryptocurrency.
             </Text>
           </Card>
           <Card
-            width={{ base: '100%', md: 320, lg: 'full' }} py={4} px={3} boxShadow={"lg"}
+            width={{ base: "100%", md: 320, lg: "full" }}
+            h={{ lg: 500 }}
+            py={4}
+            px={3}
+            boxShadow={"lg"}
             textAlign={"center"}
           >
             <Text
@@ -87,7 +103,11 @@ const Container = () => {
             </Text>
           </Card>
           <Card
-            width={{ base: '100%', md: 320, lg: 'full' }} py={4} px={3} boxShadow={"lg"}
+            width={{ base: "100%", md: 320, lg: "full" }}
+            h={{ lg: 500 }}
+            py={4}
+            px={3}
+            boxShadow={"lg"}
             textAlign={"center"}
           >
             <Text
