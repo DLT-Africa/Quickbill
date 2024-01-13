@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
-	Box,
 	Button,
 	ButtonGroup,
 	Flex,
-	FormControl,
-	FormLabel,
 	IconButton,
-	Input,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuList,
 	Modal,
 	ModalBody,
 	ModalCloseButton,
@@ -21,49 +13,42 @@ import {
 	ModalOverlay,
 	Popover,
 	PopoverArrow,
-	PopoverBody,
 	PopoverCloseButton,
 	PopoverContent,
 	PopoverFooter,
-	PopoverHeader,
 	PopoverTrigger,
 	Text,
 	useDisclosure,
 } from "@chakra-ui/react";
+import { BsInfoCircle } from "react-icons/bs";
+
 import useLogout from "@/hooks/useLogout";
-import useShowToast from "@/hooks/useShowToast";
-import useErrorHandler from "@/hooks/useErrorHandler";
 import { useAxiosInstance } from "/api/axios";
 import { prevPathAtom } from "@/atoms/prevPathAtom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete, MdOutlinePaid } from "react-icons/md";
-import allEmployeesAtom from "@/atoms/allEmployeesAtom";
-import { useNavigate } from "react-router-dom";
-import userAtom from "@/atoms/userAtom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import allPayrollsAtom from "@/atoms/allPayrollsAtom";
 import { GrTransaction } from "react-icons/gr";
 import { GiCancel } from "react-icons/gi";
 
 const Actions = ({ singlePayroll }) => {
-	const navigate = useNavigate();
-	const user = useRecoilValue(userAtom);
-	// const [statusColor, setStatusColor] = useState("#E0BF00");
-	// const [salaryAmount, setSalaryAmount] = useState(0);
 	const setAllPayrolls = useSetRecoilState(allPayrollsAtom);
 	const [isActionDisabled, setIsActionDisabled] = useState(false);
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
 	const axiosInstance = useAxiosInstance();
 	const logout = useLogout();
-	// const initialFocusRef = React.useRef();
 	const { onOpen, onClose, isOpen } = useDisclosure();
 	const [paying, setPaying] = useState(false);
 	const [voiding, setVoiding] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isModalClose, setIsModalClose] = useState(false);
 
 	useEffect(() => {
-		if (singlePayroll?.paymentStatus === "Paid" || singlePayroll?.paymentStatus === "Voided") {
+		if (
+			singlePayroll?.paymentStatus === "Paid" ||
+			singlePayroll?.paymentStatus === "Voided"
+		) {
 			setIsActionDisabled(true);
-		} 
+		}
 	}, []);
 
 	const handleSalaryStatus = async (e) => {
@@ -93,11 +78,7 @@ const Actions = ({ singlePayroll }) => {
 			);
 
 			setAllPayrolls(response.data);
-			// status === "pay" ? setStatusColor("green") : setStatusColor("red");
-			// window.location.reload();
 			setIsActionDisabled(true);
-
-			// console.log(response.data);
 		} catch (error) {
 			console.log(error);
 			const errorData = error.response?.data;
@@ -118,35 +99,14 @@ const Actions = ({ singlePayroll }) => {
 	};
 
 	return (
-		<>
-			{/* <Menu cursor={"pointer"}>
-				<MenuButton
-					isDisabled={isActionDisabled}
-					as={IconButton}
-					aria-label="Options"
-					icon={<GrTransaction />}
-					variant="outline"
-				/>
-				<MenuList>
-					<MenuItem
-						icon={<MdOutlinePaid />}
-						name="pay"
-						onClick={handleSalaryStatus}
-					>
-						Pay Now
-					</MenuItem>
-					<MenuItem
-						icon={<GiCancel />}
-						name="void"
-						onClick={handleSalaryStatus}
-					>
-						Void Salary
-					</MenuItem>
-				</MenuList>
-			</Menu> */}
+		<Flex gap={3}>
+			<Button
+				as={IconButton}
+				icon={<BsInfoCircle />}
+				onClick={() => setIsModalOpen(true)}
+			></Button>
 
 			<Popover
-				// initialFocusRef={initialFocusRef}
 				placement="left"
 				isOpen={isOpen}
 				onOpen={onOpen}
@@ -167,7 +127,8 @@ const Actions = ({ singlePayroll }) => {
 					bg="blue.800"
 					borderColor="blue.800"
 				>
-					            <PopoverCloseButton />
+					<PopoverArrow bg="blue.800" />
+					<PopoverCloseButton />
 
 					<PopoverFooter
 						border="0"
@@ -204,7 +165,28 @@ const Actions = ({ singlePayroll }) => {
 					</PopoverFooter>
 				</PopoverContent>
 			</Popover>
-		</>
+
+			<Modal onClose={onClose} isOpen={isModalOpen} isCentered>
+				<ModalOverlay />
+				<ModalContent>
+					<ModalHeader>Payroll No: {singlePayroll.payrollNumber}</ModalHeader>
+					<ModalCloseButton
+						onClick={(e) => {
+							e.preventDefault();
+							setIsModalOpen(false);
+						}}
+					/>
+					<ModalBody>
+						<Text><strong>Bank Name: </strong>{singlePayroll.bankName}</Text>
+						<Text><strong>Account Name: </strong>{singlePayroll.accountName}</Text>
+						<Text><strong>Account Number: </strong>{singlePayroll.accountNumber}</Text>
+					</ModalBody>
+					<ModalFooter>
+						<Button onClick={() => setIsModalOpen(false)}>Close</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
+		</Flex>
 	);
 };
 

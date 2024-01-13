@@ -1,5 +1,5 @@
 import React from "react";
-import Clients from "../components/Clients";
+import Clients from "../components/trash/Clients";
 import SidebarWithHeader from "../components/SidebarWithHeader";
 
 const AddNewClients = () => {

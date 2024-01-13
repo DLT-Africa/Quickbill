@@ -25,8 +25,8 @@ import { MdDelete } from "react-icons/md";
 import allEmployeesAtom from "@/atoms/allEmployeesAtom";
 
 const Actions = ({ employee }) => {
-	console.log(employee)
-	
+	console.log(employee);
+
 	const [updateClientModalOpen, setUpdateClientModalOpen] = useState(false);
 	const setEmployees = useSetRecoilState(allEmployeesAtom);
 	const [formData, setFormData] = useState({
@@ -40,7 +40,7 @@ const Actions = ({ employee }) => {
 	const axiosInstance = useAxiosInstance();
 
 	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-  const logout = useLogout()
+	const logout = useLogout();
 	const showToast = useShowToast();
 
 	const handleChange = (e) => {
@@ -57,53 +57,57 @@ const Actions = ({ employee }) => {
 			);
 			setLoading(false);
 			setUpdateClientModalOpen(false);
-            setEmployees(response.data);
-			localStorage.setItem("employees-quickBill", JSON.stringify(response.data));
+			setEmployees(response.data);
+			localStorage.setItem(
+				"employees-quickBill",
+				JSON.stringify(response.data)
+			);
 			showToast("Success", "Employee details updated successfully", "success");
 			console.log(response.data);
 		} catch (error) {
 			console.error(error);
-            const errorData = error.response?.data;
-            if (errorData?.error?.startsWith("Internal")) {
-                console.log("Internal Server Error");
-            } else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
+			const errorData = error.response?.data;
+			if (errorData?.error?.startsWith("Internal")) {
+				console.log("Internal Server Error");
+			} else if (errorData?.error?.startsWith("jwt" || "Unauthorized")) {
 				setPrevPath(window.location.pathname);
 
-				logout()
-            } else if (error.response.status === 401) {
+				logout();
+			} else if (error.response.status === 401) {
 				setPrevPath(window.location.pathname);
 				logout();
 			}
 		}
 	};
 
-    const handleDeleteEmployee = async () => {
-        try {
-            const response = await axiosInstance.delete(`/employees/${employee._id}`);
-            setEmployees(response.data);
-            setDeleteClientModalOpen(false);
-            showToast("Success", "Employee deleted successfully", "success");
-            localStorage.setItem("employees-quickBill", JSON.stringify(response.data));
-            console.log(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-    
-    }
+	const handleDeleteEmployee = async () => {
+		try {
+			const response = await axiosInstance.delete(`/employees/${employee._id}`);
+			setEmployees(response.data);
+			setDeleteClientModalOpen(false);
+			showToast("Success", "Employee deleted successfully", "success");
+			localStorage.setItem(
+				"employees-quickBill",
+				JSON.stringify(response.data)
+			);
+			console.log(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	return (
 		<>
-			
-
 			<Flex gap={6}>
 				<FaEdit
-                size={25}
+					size={25}
 					cursor={"pointer"}
+					color={"blue"}
 					onClick={() => setUpdateClientModalOpen(true)}
 				/>
 				<MdDelete
-                                size={25}
-
+					size={25}
+					color="red"
 					cursor={"pointer"}
 					onClick={() => setDeleteClientModalOpen(true)}
 				/>

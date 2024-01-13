@@ -6,7 +6,6 @@ import { useRecoilState } from "recoil";
 import DataTable from "./DataTable";
 import { columns } from "./columns";
 import { useAxiosInstance } from "../../../api/axios";
-import SidebarWithHeader from "../SidebarWithHeader";
 import {
 	Box,
 	Button,
@@ -18,7 +17,6 @@ import {
 	TabPanels,
 	Tabs,
 	Text,
-	useColorModeValue,
 } from "@chakra-ui/react";
 
 const SentInvoices = () => {
@@ -108,7 +106,7 @@ const SentInvoices = () => {
 		<>
 			<Flex
 				justifyContent={"space-between"}
-				p={8}
+				p={3}
 				flexDir={"row"}
 			>
 				<Text
@@ -135,14 +133,14 @@ const SentInvoices = () => {
 				</Flex>
 			</Flex>
 
-			<Box px={{ sm: 2, md: 4 }}>
+			<Box px={{ sm: 1 }}>
 				<Tabs align="end">
 					<TabList>
-						<Tab>All ({allSentInvoices.length})</Tab>
-						<Tab>Paid ({allPaidInvoices.length})</Tab>
-						<Tab>Awaiting Payment ({allAwaitingPaymentInvoices.length})</Tab>
-						<Tab>Rejected ({allRejectedInvoices.length})</Tab>
-						<Tab>Overdue ({allOverdueInvoices.length})</Tab>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>All ({allSentInvoices.length})</Tab>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>Paid ({allPaidInvoices.length})</Tab>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>Awaiting Payment ({allAwaitingPaymentInvoices.length})</Tab>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>Rejected ({allRejectedInvoices.length})</Tab>
+						<Tab fontSize={{base: 'sm', lg: 'md'}}>Overdue ({allOverdueInvoices.length})</Tab>
 					</TabList>
 					<TabPanels>
 						<TabPanel>

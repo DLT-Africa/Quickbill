@@ -5,11 +5,6 @@ import {
 	FormControl,
 	FormLabel,
 	Input,
-	Menu,
-	MenuButton,
-	MenuGroup,
-	MenuItem,
-	MenuList,
 	Modal,
 	ModalBody,
 	ModalCloseButton,
@@ -17,30 +12,13 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	Td,
 	Text,
-	Tr,
 } from "@chakra-ui/react";
-import useLogout from "@/hooks/useLogout";
 import useShowToast from "@/hooks/useShowToast";
 import useErrorHandler from "@/hooks/useErrorHandler";
 import { useAxiosInstance } from "/api/axios";
-import { prevPathAtom } from "@/atoms/prevPathAtom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import allClientsAtom from "@/atoms/allClientsAtom";
-// import { Button } from "@/components/ui/button";
-
-import { CaretSortIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
@@ -54,8 +32,6 @@ const Actions = ({ client }) => {
 	});
 	const [loading, setLoading] = useState(false);
 	const [deleteClientModalOpen, setDeleteClientModalOpen] = useState(false);
-	const [prevPath, setPrevPath] = useRecoilState(prevPathAtom);
-	const logout = useLogout();
 	const showToast = useShowToast();
 	const errorHandler = useErrorHandler();
 	const axiosInstance = useAxiosInstance();
@@ -99,17 +75,16 @@ const Actions = ({ client }) => {
 
 	return (
 		<>
-			
-
 			<Flex gap={6}>
 				<FaEdit
-                size={25}
+					size={25}
+					color="blue"
 					cursor={"pointer"}
 					onClick={() => setUpdateClientModalOpen(true)}
 				/>
 				<MdDelete
-                                size={25}
-
+					size={25}
+					color="red"
 					cursor={"pointer"}
 					onClick={() => setDeleteClientModalOpen(true)}
 				/>

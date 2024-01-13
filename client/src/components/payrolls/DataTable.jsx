@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-	CaretSortIcon,
-	ChevronDownIcon,
-	DotsHorizontalIcon,
-} from "@radix-ui/react-icons";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
 import {
 	flexRender,
 	getCoreRowModel,
@@ -30,14 +26,12 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Button as Chakrabutton, Flex, Select, Text } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 
 export function DataTable({ columns, data }) {
 	const [sorting, setSorting] = useState([]);
 	const [columnFilters, setColumnFilters] = useState([]);
 	const [columnVisibility, setColumnVisibility] = useState({});
 	const [rowSelection, setRowSelection] = useState({});
-	const navigate = useNavigate();
 
 	const table = useReactTable({
 		data,
@@ -63,15 +57,13 @@ export function DataTable({ columns, data }) {
 	return (
 		<div className="w-full">
 			<div className="flex justify-end">
-			<Chakrabutton
+				<Chakrabutton
 					onClick={() => downloadToExcel(data)}
 					fontSize={"xs"}
 					size={{ base: "sm", md: "md" }}
 					bg={"green.400"}
 					color={"white"}
-					_hover={{bg: 'green.500'}}
-
-					// className=" bg-green-600 hover:bg-green-800 "
+					_hover={{ bg: "green.500" }}
 				>
 					Export as Excel
 				</Chakrabutton>
@@ -81,7 +73,9 @@ export function DataTable({ columns, data }) {
 					placeholder="Filter names..."
 					value={table.getColumn("employeeId_name")?.getFilterValue() || ""}
 					onChange={(event) =>
-						table.getColumn("employeeId_name")?.setFilterValue(event.target.value)
+						table
+							.getColumn("employeeId_name")
+							?.setFilterValue(event.target.value)
 					}
 					className="max-w-sm mr-4"
 				/>
@@ -174,24 +168,24 @@ export function DataTable({ columns, data }) {
 				</Table>
 			</div>
 			<div className="flex items-center justify-end space-x-2 py-4">
-			
 				<div className="space-x-2">
-			
-
-<div className="flex gap-2">
+					<div className="flex gap-2">
 						<Button
+							size="sm"
 							onClick={() => table.setPageIndex(0)}
 							disabled={!table.getCanPreviousPage()}
 						>
 							{"<<"}
 						</Button>
 						<Button
+							size="sm"
 							onClick={() => table.previousPage()}
 							disabled={!table.getCanPreviousPage()}
 						>
 							Prev
 						</Button>
 						<Button
+							size="sm"
 							onClick={(e) =>
 								table.setPageIndex(Number(e.target.innerText) - 1)
 							}
@@ -201,6 +195,7 @@ export function DataTable({ columns, data }) {
 							{currentPage < 4 ? 1 : currentPage - 1}
 						</Button>
 						<Button
+							size="sm"
 							onClick={(e) =>
 								table.setPageIndex(Number(e.target.innerText) - 1)
 							}
@@ -214,6 +209,7 @@ export function DataTable({ columns, data }) {
 							{currentPage < 4 ? 2 : currentPage}
 						</Button>
 						<Button
+							size="sm"
 							onClick={(e) =>
 								table.setPageIndex(Number(e.target.innerText) - 1)
 							}
@@ -223,12 +219,14 @@ export function DataTable({ columns, data }) {
 							{currentPage < 4 ? 3 : currentPage + 1}
 						</Button>
 						<Button
+							size="sm"
 							onClick={() => table.nextPage()}
 							disabled={!table.getCanNextPage()}
 						>
 							Next
 						</Button>
 						<Button
+							size="sm"
 							onClick={() => table.setPageIndex(table.getPageCount() - 1)}
 							disabled={!table.getCanNextPage()}
 						>
@@ -254,7 +252,6 @@ export function DataTable({ columns, data }) {
 							})}
 						</Select>
 					</Flex>
-		
 				</div>
 			</div>
 		</div>

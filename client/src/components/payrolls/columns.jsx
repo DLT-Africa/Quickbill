@@ -60,7 +60,7 @@ export const columns = [
 		cell: ({ row }) => {
 			const paymentDate = row.getValue("paymentDate");
 			let formatted;
-			if (paymentDate) formatted = format(paymentDate, "dd/MM/yyyy");
+			if (paymentDate) formatted = format(paymentDate, "dd/MM/yyyy p");
 			return <div className="font-medium text-left">{formatted || "--"}</div>;
 		},
 	},
@@ -80,7 +80,7 @@ export const columns = [
 					statusColor = "text-red-700";
 					break;
 			}
-			console.log(statusColor);
+			// console.log(statusColor);
 			return (
 				<div className={`${statusColor} font-medium text-left`}>{status}</div>
 			);

@@ -1,6 +1,6 @@
 import React from 'react'
 import SidebarWithHeader from '../components/SidebarWithHeader'
-import CreatePayroll from '../components/CreatePayroll'
+import CreatePayroll from '../components/createPayroll/CreatePayroll'
 
 const CreatePayrollPage = () => {
   return (
