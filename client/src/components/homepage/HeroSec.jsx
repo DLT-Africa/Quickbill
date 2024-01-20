@@ -43,7 +43,7 @@ const HeroSec = () => {
             color={"#434E58"}
           >
             Behind every successful business is a thriving team. Hire, pay,
-            insure, and support your employees with Payoll's all-in-one people
+            insure, and support your employees with Payroll's all-in-one people
             platform.
           </Text>
           <Link to={"/auth"}>

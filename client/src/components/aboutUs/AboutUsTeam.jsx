@@ -14,7 +14,9 @@ const AboutUsTeam = () => {
     <>
       <Flex
         overflowY={"hidden"}
-        py={15}
+        // py={{ base: 8, md: 15 }}
+        py={50}
+        px={30}
         flexDir={{ base: "column", md: "column" }}
         templateColumns={{ sm: "2, 1fr" }}
         justifyContent={"center"}
@@ -33,13 +35,29 @@ const AboutUsTeam = () => {
 
         <SimpleGrid
           spacing={10}
-          templateColumns={{ base: "1fr", lg: "repeat(3, minmax(50px, 1fr))", md: "repeat(2, minmax(50px, 1fr))" }}
+          gap={{ base: 4, sm: 4 }}
+          templateColumns={{
+            base: "1fr",
+            sm: "repeat(2, minmax(50px, 1fr))",
+            md: "repeat(3, minmax(50px, 1fr))",
+            lg: "repeat(4, minmax(50px, 1fr))",
+          }}
           my={8}
+          alignItems={'center'}
         >
-     
-          <Card width={250} height={400} px={3} boxShadow={"lg"}>
+          <Card
+            width={{ base: "100%", sm: "80%", md: "100%", lg: "full" }}
+            height={360}
+            px={3}
+            boxShadow={"lg"}
+            align={"center"}
+          >
             <CardHeader>
-              <Image src="/Ola.jpg" width={200} height={200} />
+              <Image
+                src="/Ola.jpg"
+                width={{ base: "100%", sm: 150, md: "100%" }}
+                height={{ base: 200, sm: 150, md: 200 }}
+              />
             </CardHeader>
 
             <Text
@@ -57,9 +75,20 @@ const AboutUsTeam = () => {
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
             </Text>
           </Card>
-          <Card width={250} height={400} px={3} boxShadow={"lg"}>
+          <Card
+            // width={{ base: 250, sm: 200, md: 250 }}
+            width={{ base: "100%", sm: "80%", md: "100%", lg: "full" }}
+            height={360}
+            px={3}
+            boxShadow={"lg"}
+            align={"center"}
+          >
             <CardHeader>
-              <Image src="/Rocco.jpg" width={200} height={200} />
+              <Image
+                src="/Rocco.jpg"
+                width={{ base: "100%", sm: 150, md: "100%" }}
+                height={{ base: 200, sm: 150, md: 200 }}
+              />
             </CardHeader>
 
             <Text
@@ -77,9 +106,20 @@ const AboutUsTeam = () => {
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
             </Text>
           </Card>
-          <Card width={250} height={400} px={3} boxShadow={"lg"}>
+          <Card
+            // width={{ base: 250, sm: 200, md: 250 }}
+            width={{ base: "100%", sm: "80%", md: "100%", lg: "full" }}
+            height={360}
+            px={3}
+            boxShadow={"lg"}
+            align={"center"}
+          >
             <CardHeader>
-              <Image src="/kenny.jpg" width={200} height={200} />
+              <Image
+                src="/kenny.jpg"
+                width={{ base: "100%", sm: 150, md: "100%" }}
+                height={{ base: 200, sm: 150, md: 200 }}
+              />
             </CardHeader>
 
             <Text
@@ -97,9 +137,20 @@ const AboutUsTeam = () => {
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
             </Text>
           </Card>
-          <Card width={250} height={400} px={3} boxShadow={"lg"}>
+          <Card
+            // width={{ base: 250, sm: 200, md: 250 }}
+            width={{ base: "100%", sm: "80%", md: "100%", lg: "full" }}
+            height={360}
+            px={3}
+            boxShadow={"lg"}
+            align={"center"}
+          >
             <CardHeader>
-              <Image src="/Muhammed.jpg" width={200} height={200} />
+              <Image
+                src="/Muhammed.jpg"
+                width={{ base: "100%", sm: 150, md: "100%" }}
+                height={{ base: 200, sm: 150, md: 200 }}
+              />
             </CardHeader>
 
             <Text
@@ -117,9 +168,20 @@ const AboutUsTeam = () => {
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
             </Text>
           </Card>
-          <Card width={250} height={400} px={3} boxShadow={"lg"}>
+          <Card
+            // width={{ base: 250, sm: 200, md: 250 }}
+            width={{ base: "100%", sm: "80%", md: "100%", lg: "full" }}
+            height={360}
+            px={3}
+            boxShadow={"lg"}
+            align={"center"}
+          >
             <CardHeader>
-              <Image src="/Mua'z.jpg" width={200} height={200} />
+              <Image
+                src="/Mua'z.jpg"
+                width={{ base: "100%", sm: 150, md: "100%" }}
+                height={{ base: 200, sm: 150, md: 200 }}
+              />
             </CardHeader>
 
             <Text
@@ -137,9 +199,20 @@ const AboutUsTeam = () => {
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
             </Text>
           </Card>
-          <Card width={250} height={400} px={3} boxShadow={"lg"}>
+          <Card
+            // width={{ base: 250, sm: 200, md: 250 }}
+            width={{ base: "100%", sm: "80%", md: "100%", lg: "full" }}
+            height={360}
+            px={3}
+            boxShadow={"lg"}
+            align={"center"}
+          >
             <CardHeader>
-              <Image src="/Nasiudeen.jpg" width={200} height={200} />
+              <Image
+                src="/Nasiudeen.jpg"
+                width={{ base: "100%", sm: 150, md: "100%" }}
+                height={{ base: 200, sm: 150, md: 200 }}
+              />
             </CardHeader>
 
             <Text
@@ -157,16 +230,21 @@ const AboutUsTeam = () => {
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
             </Text>
           </Card>
-        </SimpleGrid>
 
-        <SimpleGrid
-          spacing={10}
-          templateColumns={{ base: "1fr", md: "repeat(2, minmax(50px, 1fr))" }}
-          my={8}
-        >
-          <Card width={250} height={400} px={3} boxShadow={"lg"}>
+          <Card
+            // width={{ base: 250, sm: 200, md: 250 }}
+            width={{ base: "100%", sm: "80%", md: "100%", lg: "full" }}
+            height={360}
+            px={3}
+            boxShadow={"lg"}
+            align={"center"}
+          >
             <CardHeader>
-              <Image src="/pupsyAlia.jpg" width={200} height={200} />
+              <Image
+                src="/pupsyAlia.jpg"
+                width={{ base: "100%", sm: 150, md: "100%" }}
+                height={{ base: 200, sm: 150, md: 200 }}
+              />
             </CardHeader>
 
             <Text
@@ -185,9 +263,20 @@ const AboutUsTeam = () => {
             </Text>
           </Card>
 
-          <Card width={250} height={400} px={3} boxShadow={"lg"}>
+          <Card
+            // width={{ base: 250, sm: 200, md: 250 }}
+            width={{ base: "100%", sm: "80%", md: "100%", lg: "full" }}
+            height={360}
+            px={3}
+            boxShadow={"lg"}
+            align={"center"}
+          >
             <CardHeader>
-              <Image src="/supreme.jpg" width={200} height={200} />
+              <Image
+                src="/supreme.jpg"
+                width={{ base: "100%", sm: 150, md: "100%" }}
+                height={{ base: 200, sm: 150, md: 200 }}
+              />
             </CardHeader>
 
             <Text

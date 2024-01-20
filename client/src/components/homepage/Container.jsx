@@ -21,8 +21,9 @@ const Container = () => {
 				<SimpleGrid
 					templateColumns={{
 						base: "1fr",
+						sm: 'repeat(2, minmax(50px, 1fr))',
 						md: "repeat(2, minmax(50px, 1fr))",
-						lg: "repeat(3, minmax(50px, 1fr))",
+						lg: "repeat(4, minmax(50px, 1fr))",
 					}}
 					gap={{ base: 8, md: 15 }}
 					alignItems={"center"}
@@ -36,7 +37,7 @@ const Container = () => {
 						boxShadow={"lg"}
 					>
 						<Text
-							fontSize={{ base: "xl", md: "3xl", lg: "3xl" }}
+							fontSize={{ base: "xl", md: "3xl", lg: "xl" }}
 							fontWeight={600}
 							textAlign={"center"}
 						>
@@ -45,7 +46,7 @@ const Container = () => {
 						<Image src="/payable.svg" alt="Payable" />
 
 						<Text
-							fontSize={{ base: "md", md: "lg", lg: "xl" }}
+							fontSize={{ base: "md", md: "lg", lg: "lg" }}
 							textAlign={"center"}
 							fontWeight={400}
 						>
@@ -61,7 +62,7 @@ const Container = () => {
 						textAlign={"center"}
 					>
 						<Text
-							fontSize={{ base: "xl", md: "3xl", lg: "4xl" }}
+							fontSize={{ base: "xl", md: "3xl", lg: "xl" }}
 							fontWeight={600}
 						>
 							Send <span className="landingPageSpan">invoices</span>
@@ -69,7 +70,7 @@ const Container = () => {
 						<Image src="/invoices.svg" alt="Send invoises" />
 
 						<Text
-							fontSize={{ base: "md", md: "lg", lg: "xl" }}
+							fontSize={{ base: "md", md: "lg", lg: "lg" }}
 							fontWeight={400}
 						>
 							Worem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
@@ -84,15 +85,15 @@ const Container = () => {
 						textAlign={"center"}
 					>
 						<Text
-							fontSize={{ base: "xl", md: "3xl", lg: "3xl" }}
+							fontSize={{ base: "xl", md: "3xl", lg: "xl" }}
 							fontWeight={600}
 						>
-							Account Receivable
+							Account <span className="landingPageSpan">Receivable</span>
 						</Text>
 						<Image src="/receive.svg" alt="Receive payment" />
 
 						<Text
-							fontSize={{ base: "md", md: "lg", lg: "xl" }}
+							fontSize={{ base: "md", md: "lg", lg: "lg" }}
 							fontWeight={400}
 						>
 							Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
@@ -107,7 +108,7 @@ const Container = () => {
 						textAlign={"center"}
 					>
 						<Text
-							fontSize={{ base: "xl", md: "3xl", lg: "4xl" }}
+							fontSize={{ base: "xl", md: "3xl", lg: "xl" }}
 							fontWeight={600}
 						>
 							Expenses
@@ -115,7 +116,7 @@ const Container = () => {
 						<Image src="/expenses.svg" alt="expenses" />
 
 						<Text
-							fontSize={{ base: "md", md: "lg", lg: "xl" }}
+							fontSize={{ base: "md", md: "lg", lg: "lg" }}
 							fontWeight={400}
 						>
 							Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
